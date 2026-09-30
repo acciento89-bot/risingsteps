@@ -23,11 +23,13 @@ local function emit(name: string, passed: boolean, fields: any?)
 		Passed = passed,
 		Fields = fields or {},
 	}
-	print(("[RisingStepsQA] %s %s %s"):format(
-		if passed then "PASS" else "FAIL",
-		name,
-		HttpService:JSONEncode(fields or {})
-	))
+	print(
+		("[RisingStepsQA] %s %s %s"):format(
+			if passed then "PASS" else "FAIL",
+			name,
+			HttpService:JSONEncode(fields or {})
+		)
+	)
 end
 
 local function check(name: string, condition: boolean, fields: any?)
@@ -60,10 +62,14 @@ local function run(player: Player)
 
 	check("course_ready", waitReady(player))
 	local initial = StepCourseService.qaSnapshot(player)
-	check("lane_part_budget", type(initial.BaseParts) == "number" and initial.BaseParts <= CourseConfig.MaxLaneBaseParts, {
-		BaseParts = initial.BaseParts,
-		Budget = CourseConfig.MaxLaneBaseParts,
-	})
+	check(
+		"lane_part_budget",
+		type(initial.BaseParts) == "number" and initial.BaseParts <= CourseConfig.MaxLaneBaseParts,
+		{
+			BaseParts = initial.BaseParts,
+			Budget = CourseConfig.MaxLaneBaseParts,
+		}
+	)
 	check(
 		"lane_beam_light_budget",
 		type(initial.BeamsAndLights) == "number" and initial.BeamsAndLights <= CourseConfig.MaxLaneBeamsAndLights,
@@ -79,7 +85,11 @@ local function run(player: Player)
 	local climbed = StepCourseService.qaSnapshot(player)
 	check("climb_twelve_steps", climbed.Height == 12, { Height = climbed.Height })
 	check("perfect_streak_builds", climbed.Streak == 12, { Streak = climbed.Streak, Grades = grades })
-	check("pb_updates", (player:GetAttribute("RisingStepsPB") or 0) >= 12, { PB = player:GetAttribute("RisingStepsPB") })
+	check(
+		"pb_updates",
+		(player:GetAttribute("RisingStepsPB") or 0) >= 12,
+		{ PB = player:GetAttribute("RisingStepsPB") }
+	)
 
 	local expiryObserved = waitUntil(function()
 		local snapshot = StepCourseService.qaSnapshot(player)
@@ -132,9 +142,12 @@ local function run(player: Player)
 	})
 
 	StepCourseService.qaFail(player, "StudioQAFailure")
-	check("failure_state", waitUntil(function()
-		return player:GetAttribute("RisingStepsRunFailed") == true
-	end, 2))
+	check(
+		"failure_state",
+		waitUntil(function()
+			return player:GetAttribute("RisingStepsRunFailed") == true
+		end, 2)
+	)
 	local reviveStarted = StepCourseService.qaUseRevive(player)
 	check("revive_command", reviveStarted)
 	check("revive_respawn_ready", waitReady(player))
@@ -145,9 +158,12 @@ local function run(player: Player)
 	})
 
 	StepCourseService.qaFail(player, "StudioQARetry")
-	check("second_failure_state", waitUntil(function()
-		return player:GetAttribute("RisingStepsRunFailed") == true
-	end, 2))
+	check(
+		"second_failure_state",
+		waitUntil(function()
+			return player:GetAttribute("RisingStepsRunFailed") == true
+		end, 2)
+	)
 	StepCourseService.qaRetry(player)
 	check("retry_respawn_ready", waitReady(player))
 	local retried = StepCourseService.qaSnapshot(player)
@@ -164,19 +180,25 @@ local function run(player: Player)
 	})
 
 	local persistent = PlayerProfileService.qaPersistentPayload(player)
-	check("persistent_payload", persistent.PB >= 12 and persistent.Equipped.Trails == "ion"
-		and persistent.Equipped.EnvironmentThemes == "dusk", {
-		PB = persistent.PB,
-		Trail = persistent.Equipped.Trails,
-		Environment = persistent.Equipped.EnvironmentThemes,
-		Coins = persistent.Coins,
-	})
+	check(
+		"persistent_payload",
+		persistent.PB >= 12 and persistent.Equipped.Trails == "ion" and persistent.Equipped.EnvironmentThemes == "dusk",
+		{
+			PB = persistent.PB,
+			Trail = persistent.Equipped.Trails,
+			Environment = persistent.Equipped.EnvironmentThemes,
+			Coins = persistent.Coins,
+		}
+	)
 	check("profile_flush", PlayerProfileService.flushPlayer(player))
 
 	StepCourseService.qaSetInvalidPosition(player)
-	check("invalid_position_rejected", waitUntil(function()
-		return player:GetAttribute("RisingStepsRunFailed") == true
-	end, 2))
+	check(
+		"invalid_position_rejected",
+		waitUntil(function()
+			return player:GetAttribute("RisingStepsRunFailed") == true
+		end, 2)
+	)
 
 	print("[RisingStepsQA] COMPLETE " .. HttpService:JSONEncode(results))
 end
