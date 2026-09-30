@@ -125,6 +125,13 @@ local function applyStepTheme()
 end
 
 local function classifyEnvironmentPart(part: BasePart, theme: any)
+	local baseColor = part:GetAttribute("RisingStepsBaseColor")
+	if typeof(baseColor) ~= "Color3" then
+		baseColor = part.Color
+		part:SetAttribute("RisingStepsBaseColor", baseColor)
+	end
+	part.Color = baseColor
+
 	local name = part.Name
 	if string.find(name, "Beacon") or string.find(name, "Lamp") or string.find(name, "Guide") then
 		part.Color = theme.Accent
@@ -133,7 +140,7 @@ local function classifyEnvironmentPart(part: BasePart, theme: any)
 	elseif string.find(name, "Spine") or string.find(name, "Mast") or string.find(name, "Arm") or string.find(name, "Rib") then
 		part.Color = theme.Steel
 	elseif part.Material == Enum.Material.Metal or part.Material == Enum.Material.Concrete then
-		part.Color = part.Color:Lerp(theme.Foundation, 0.46)
+		part.Color = (baseColor :: Color3):Lerp(theme.Foundation, 0.46)
 	end
 end
 
@@ -227,6 +234,12 @@ function CosmeticPresentationController.start()
 		local character = LOCAL_PLAYER.Character
 		if character then
 			applyTrail(character)
+		end
+	end)
+	LOCAL_PLAYER:GetAttributeChangedSignal("RisingStepsHeight"):Connect(function()
+		local height = LOCAL_PLAYER:GetAttribute("RisingStepsHeight")
+		if height == 0 then
+			task.delay(0.08, applyStepTheme)
 		end
 	end)
 
