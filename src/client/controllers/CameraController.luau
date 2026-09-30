@@ -91,11 +91,7 @@ local function forwardDirection(height: number, rootPart: BasePart): Vector3
 	return horizontalUnit(rootPart.CFrame.LookVector, Vector3.new(0, 0, -1))
 end
 
-local function obstructionAdjustedPosition(
-	focus: Vector3,
-	desiredPosition: Vector3,
-	character: Model
-): Vector3
+local function obstructionAdjustedPosition(focus: Vector3, desiredPosition: Vector3, character: Model): Vector3
 	local direction = desiredPosition - focus
 	if direction.Magnitude <= MIN_CAMERA_DISTANCE then
 		return desiredPosition
@@ -115,12 +111,7 @@ local function obstructionAdjustedPosition(
 	return focus + direction.Unit * safeDistance
 end
 
-local function desiredCameraCFrame(
-	camera: Camera,
-	character: Model,
-	rootPart: BasePart,
-	height: number
-): CFrame
+local function desiredCameraCFrame(camera: Camera, character: Model, rootPart: BasePart, height: number): CFrame
 	local compact = camera.ViewportSize.X <= 760
 	camera.FieldOfView = if compact then COMPACT_FOV else DEFAULT_FOV
 
@@ -130,8 +121,10 @@ local function desiredCameraCFrame(
 	local vertical = if compact then 6.4 else 7.2
 	local sideOffset = if compact then 0.35 else 0.55
 
-	local desiredPosition =
-		focus - forward * distance + Vector3.new(0, vertical, 0) + rootPart.CFrame.RightVector * sideOffset
+	local desiredPosition = focus
+		- forward * distance
+		+ Vector3.new(0, vertical, 0)
+		+ rootPart.CFrame.RightVector * sideOffset
 	desiredPosition = obstructionAdjustedPosition(focus, desiredPosition, character)
 
 	return CFrame.lookAt(desiredPosition, focus, Vector3.yAxis)
