@@ -74,10 +74,13 @@ function StepSequence.generate(seed: number, count: number, startY: number, vari
 		local verticalRise = lerp(band.VerticalMin, band.VerticalMax, verticalAlpha)
 		local directionIndex = math.floor(directionAlpha * #DIRECTIONS) + 1
 
-		if id == 1 then
-			-- The onboarding step is intentionally straight ahead and clear of the spawn capsule.
-			horizontalDistance = band.HorizontalMax
-			verticalRise = math.min(band.VerticalMax, band.VerticalMin + 0.2)
+		if id <= 3 then
+			-- The opening run is an authored staircase straight away from the spawn deck.
+			-- Random turns begin only after the player has visually understood the climb direction.
+			horizontalDistance = if id == 1
+				then band.HorizontalMax
+				else math.min(band.HorizontalMax, band.HorizontalMin + 0.65 + id * 0.12)
+			verticalRise = math.min(band.VerticalMax, band.VerticalMin + 0.14 + (id - 1) * 0.10)
 			directionIndex = 7
 		elseif directionIndex == previousDirection then
 			directionIndex = (directionIndex % #DIRECTIONS) + 1
