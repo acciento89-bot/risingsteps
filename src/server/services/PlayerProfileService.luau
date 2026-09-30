@@ -471,7 +471,6 @@ local function removePlayer(player: Player)
 	profiles[player] = nil
 end
 
-
 function PlayerProfileService.qaGrantCoins(player: Player, amount: number)
 	assert(RunService:IsStudio(), "QA helpers are Studio-only")
 	local profile = ensureProfile(player)
