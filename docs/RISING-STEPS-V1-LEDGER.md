@@ -178,7 +178,7 @@ P11 implementation note: Clean/Perfect landing rings, bounded streak sparks, war
 P12 implementation note: both mutation remotes now have per-player rate limits; landing authority remains server/touch/sequence based; NaN/infinity/extreme position and velocity guards plus rapid-landing timing protection are active; profile saves use mutation revisions so a write racing a later mutation cannot clear dirty state; failed loads cannot overwrite unknown stored data; diagnostics emit structured JSON events for persistence/security failures. Local format/lint/14 pure-Luau tests/16,000-placement simulation/release-readiness/Rojo build pass; GitHub Actions CI run `36704962166` is green. P12 remains `[~]` until hostile runtime and real DataStore/rejoin probes are executed.
 
 ## P13 Mandatory full runtime journey
-- [ ] P13-T01 Fresh spawn + tutorial
+- [x] P13-T01 Fresh spawn + tutorial
 - [ ] P13-T02 Climb through multiple difficulty bands
 - [ ] P13-T03 Observe warning and real step disappearance
 - [ ] P13-T04 Build and break a streak
@@ -192,6 +192,8 @@ P12 implementation note: both mutation remotes now have per-player rate limits; 
 - [ ] P13-T12 Human visual review confirms there are no placeholder assets, default-looking screens, empty-baseplate views, geometry pop-in or repetitive copy-paste presentation
 - [ ] P13-T13 Camera composition review confirms the avatar and next reachable geometry remain legible throughout a long climb
 
+P13 runtime note: fresh spawn + tutorial was visually verified in a real Studio PlayClient session on the canonical Documents place. The repeated apparent "crashes" during QA were traced to the development workflow, not a Rising Steps script exception: multiple stale Rojo servers were still serving old `/private/tmp/risingsteps-*` checkouts and Studio had also been force-restarted during repair attempts. All stale Rising Steps temp checkouts and Rojo servers were removed; QA now uses exactly one canonical local place and no forced Studio termination.
+
 ## P14 Device and performance QA
 - [ ] P14-T01 Compact phone touch
 - [ ] P14-T02 Tablet touch
@@ -203,7 +205,7 @@ P12 implementation note: both mutation remotes now have per-player rate limits; 
 - [ ] P14-T08 Tablet/desktop composition uses added screen space intentionally rather than merely stretching the phone layout
 - [ ] P14-T09 Low/mobile graphics-quality pass preserves gameplay-state contrast, silhouettes and warning readability
 
-P14 implementation note: each generated player lane records BasePart and Beam/Light counts on the course model, emits structured diagnostics, and warns if the presentation exceeds locked budgets. Release-readiness enforces ceilings of 1,000 BaseParts and 128 Beams/Lights while production config is stricter at 900/96. A real Studio runtime measurement on the canonical `risingsteps-final2.rbxlx` now reports 800 BaseParts total: 620 step parts, 23 start-deck parts and 157 environment parts, plus 21 Beams/Lights. The earlier 933-part reading was traced to a stale Rojo server serving `/private/tmp/risingsteps-sourcecheck` on port 34872 and overwriting the freshly built place; that server was terminated and the canonical place rebuilt from the exact current commit. Local StyLua/Selene checks pass, all 14 pure-Luau test files pass, the 16,000-placement reachability simulation passes, and release-readiness passes. P14-T06 remains `[~]` until the real 20-minute runtime confirms stable memory/cleanup.
+P14 implementation note: each generated player lane records BasePart and Beam/Light counts on the course model, emits structured diagnostics, and warns if the presentation exceeds locked budgets. Release-readiness enforces ceilings of 1,000 BaseParts and 128 Beams/Lights while production config is stricter at 900/96. A real Studio runtime measurement on the canonical `~/Documents/Roblox/RisingSteps/risingsteps-final2.rbxlx` now reports 755 BaseParts total: 620 step parts, 23 start-deck parts and 112 environment parts, plus 21 Beams/Lights. The earlier 933-part reading was traced to a stale Rojo server serving `/private/tmp/risingsteps-sourcecheck` on port 34872 and overwriting the freshly built place; that server was terminated and the canonical place rebuilt from the exact current commit. Local StyLua/Selene checks pass, all 14 pure-Luau test files pass, the 16,000-placement reachability simulation passes, and release-readiness passes. A controlled 60-second PlayServer/PlayClient stability sample on the single canonical Documents place completed with 12/12 process samples alive, no script/runtime errors, no new macOS crash report and RSS decreasing from roughly 1.76 GB to 1.44 GB rather than growing. P14-T06 remains `[~]` until the mandatory 20-minute runtime confirms stable memory/cleanup.
 
 ## P15 Release
 - [~] P15-T01 Production icon/thumbnails/metadata
