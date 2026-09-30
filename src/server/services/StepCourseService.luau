@@ -254,22 +254,22 @@ local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3)
 		table.insert(decorations, underGlow)
 	end
 
+	local boltDiagonal = if definition.Id % 2 == 0 then 1 else -1
 	for _, xSide in { -1, 1 } do
-		for _, zSide in { -1, 1 } do
-			local bolt = makePart(
-				model,
-				"DeckBolt",
-				Vector3.new(0.20, 0.20, 0.20),
-				CFrame.new(
-					center + Vector3.new(xSide * (size / 2 - 0.42), thickness / 2 + 0.16, zSide * (size / 2 - 0.42))
-				),
-				Enum.Material.Metal,
-				palette.Detail,
-				false
-			)
-			bolt.Shape = Enum.PartType.Ball
-			table.insert(decorations, bolt)
-		end
+		local zSide = xSide * boltDiagonal
+		local bolt = makePart(
+			model,
+			"DeckBolt",
+			Vector3.new(0.20, 0.20, 0.20),
+			CFrame.new(
+				center + Vector3.new(xSide * (size / 2 - 0.42), thickness / 2 + 0.16, zSide * (size / 2 - 0.42))
+			),
+			Enum.Material.Metal,
+			palette.Detail,
+			false
+		)
+		bolt.Shape = Enum.PartType.Ball
+		table.insert(decorations, bolt)
 	end
 
 	local warningSignals: { BasePart } = {}
