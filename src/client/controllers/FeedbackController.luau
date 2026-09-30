@@ -126,8 +126,7 @@ local function sparkBurst(color: Color3, count: number)
 		shard.CastShadow = false
 		shard.Material = Enum.Material.Neon
 		shard.Color = color
-		shard.AssemblyLinearVelocity =
-			Vector3.new(math.cos(angle) * 4.5, 5.5 + (index % 3), math.sin(angle) * 4.5)
+		shard.AssemblyLinearVelocity = Vector3.new(math.cos(angle) * 4.5, 5.5 + (index % 3), math.sin(angle) * 4.5)
 		shard.Parent = Workspace
 		Debris:AddItem(shard, 0.8)
 	end
@@ -214,7 +213,9 @@ local function onSnapshot(snapshot: any)
 			makeRing(COLORS.Warm, 5.0, 0.34)
 		end
 
-		if snapshot.NewPB == true or (type(snapshot.AchievementCoins) == "number" and snapshot.AchievementCoins > 0) then
+		if
+			snapshot.NewPB == true or (type(snapshot.AchievementCoins) == "number" and snapshot.AchievementCoins > 0)
+		then
 			task.delay(0.10, function()
 				playTone(AudioConfig.Celebration.Pitch, AudioConfig.Celebration.Volume)
 			end)
