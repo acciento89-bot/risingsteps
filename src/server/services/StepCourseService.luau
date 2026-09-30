@@ -907,7 +907,6 @@ local function checkFalls()
 	end
 end
 
-
 local function requireStudioCourse(player: Player): Course
 	assert(RunService:IsStudio(), "QA helpers are Studio-only")
 	local course = courses[player]
@@ -957,15 +956,17 @@ function StepCourseService.qaLand(player: Player, stepId: number, landingOffsetR
 	course.LastLandingAt = -math.huge
 	onLanding(course, runtime, rootPart)
 
-	return if course.Height == stepId then ScoreRules.gradeLanding(
-		rootPart.Position.X,
-		rootPart.Position.Z,
-		runtime.Collision.Position.X,
-		runtime.Collision.Position.Z,
-		GameConfig.Step.BaseFootprint,
-		GameConfig.Score.PerfectToleranceRatio,
-		GameConfig.Score.CleanToleranceRatio
-	) else "Rejected"
+	return if course.Height == stepId
+		then ScoreRules.gradeLanding(
+			rootPart.Position.X,
+			rootPart.Position.Z,
+			runtime.Collision.Position.X,
+			runtime.Collision.Position.Z,
+			GameConfig.Step.BaseFootprint,
+			GameConfig.Score.PerfectToleranceRatio,
+			GameConfig.Score.CleanToleranceRatio
+		)
+		else "Rejected"
 end
 
 function StepCourseService.qaFail(player: Player, reason: string?)
