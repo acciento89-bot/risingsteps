@@ -15,6 +15,13 @@ assert(#first == 120, "generator returned the wrong number of steps")
 assert(#second == #first, "deterministic replay changed step count")
 assert(math.abs(first[1].X) < 0.001, "tutorial step must remain centered on the forward axis")
 assert(first[1].Z <= -5.9, "tutorial step must remain clear of the spawn capsule")
+for index = 1, 3 do
+	assert(math.abs(first[index].X) < 0.001, "opening staircase must stay on the authored forward axis")
+	if index > 1 then
+		assert(first[index].Z < first[index - 1].Z, "opening staircase must progress away from the spawn deck")
+		assert(first[index].Y > first[index - 1].Y, "opening staircase must visibly climb")
+	end
+end
 
 local previous = { X = 0, Y = 4.6, Z = 0 }
 for index, step in first do
