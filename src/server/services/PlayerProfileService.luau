@@ -471,6 +471,30 @@ local function removePlayer(player: Player)
 	profiles[player] = nil
 end
 
+
+function PlayerProfileService.qaGrantCoins(player: Player, amount: number)
+	assert(RunService:IsStudio(), "QA helpers are Studio-only")
+	local profile = ensureProfile(player)
+	assert(profile.Loaded, "QA profile not loaded")
+	profile.Coins += math.max(0, math.floor(amount))
+	markDirty(profile)
+	syncAttributes(player, profile)
+end
+
+function PlayerProfileService.qaPersistentPayload(player: Player)
+	assert(RunService:IsStudio(), "QA helpers are Studio-only")
+	local profile = ensureProfile(player)
+	return persistentPayload(profile)
+end
+
+function PlayerProfileService.qaSetPersistenceHealthy(player: Player, healthy: boolean)
+	assert(RunService:IsStudio(), "QA helpers are Studio-only")
+	local profile = ensureProfile(player)
+	profile.Loaded = true
+	profile.PersistenceHealthy = healthy
+	syncAttributes(player, profile)
+end
+
 function PlayerProfileService.start()
 	for _, player in Players:GetPlayers() do
 		ensureProfile(player)
