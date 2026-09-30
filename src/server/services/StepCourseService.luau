@@ -441,7 +441,8 @@ local function buildCourse(player: Player): Course
 
 	local startY = WorldConfig.StartDeck.CenterY + WorldConfig.StartDeck.DeckThickness / 2
 	local seed = math.max(1, math.abs(player.UserId))
-	local definitions =\n\t\tStepSequence.generate(seed, CourseConfig.InitialStepCount, startY, CourseConfig.VisualVariantCount)
+	local definitions =
+		StepSequence.generate(seed, CourseConfig.InitialStepCount, startY, CourseConfig.VisualVariantCount)
 
 	local course: Course = {
 		Player = player,
