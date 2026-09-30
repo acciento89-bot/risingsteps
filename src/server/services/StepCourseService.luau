@@ -320,7 +320,7 @@ local function scheduleExpiry(course: Course, stepId: number)
 	end)
 end
 
-local function sendSnapshot(course: Course, kind: string, grade: string?)
+local function sendSnapshot(course: Course, kind: string, grade: string?, rewardCoins: number?)
 	local remoteFolder = root:FindFirstChild("Remotes")
 	if not remoteFolder then
 		return
@@ -332,7 +332,9 @@ local function sendSnapshot(course: Course, kind: string, grade: string?)
 			Height = course.Height,
 			Streak = course.Streak,
 			PB = PlayerProfileService.getPB(course.Player),
+			Coins = course.Player:GetAttribute("RisingStepsCoins") or 0,
 			Grade = grade,
+			RewardCoins = rewardCoins or 0,
 			Failed = course.Failed,
 		})
 	end
@@ -417,8 +419,8 @@ local function onLanding(course: Course, runtime: StepRuntime, hit: BasePart)
 	course.HighestY = math.max(course.HighestY, stepTopY)
 	course.Player:SetAttribute("RisingStepsHeight", course.Height)
 	course.Player:SetAttribute("RisingStepsStreak", course.Streak)
-	PlayerProfileService.recordHeight(course.Player, course.Height)
-	sendSnapshot(course, "Progress", grade)
+	local rewardCoins = PlayerProfileService.awardLanding(course.Player, grade, course.Streak, course.Height)
+	sendSnapshot(course, "Progress", grade, rewardCoins)
 
 	local expiryStepId = course.Height - CourseConfig.ExpiryBehindCurrent
 	if expiryStepId >= 1 then

@@ -1,6 +1,11 @@
 --!strict
 
 local EconomyConfig = {
+	ProfileVersion = 2,
+	DataStoreName = "RisingStepsProfileV1",
+	AutosaveSeconds = 60,
+	LoadAttempts = 3,
+	LoadRetrySeconds = 1.5,
 	CompetitiveHeightPurchasable = false,
 	PaidMovementAdvantageAllowed = false,
 	PromptOnSpawnAllowed = false,
@@ -17,6 +22,12 @@ local EconomyConfig = {
 	Currency = {
 		Name = "Coins",
 		Persistent = true,
+		CleanLanding = 2,
+		PerfectLanding = 4,
+		StreakEvery = 5,
+		StreakBonus = 2,
+		HeightMilestoneEvery = 10,
+		HeightMilestoneBonus = 6,
 	},
 }
 
