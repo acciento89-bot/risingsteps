@@ -36,5 +36,10 @@ assert(CourseConfig.VisualVariantCount >= 6, "step kit must expose at least six 
 assert(CourseConfig.ExpiryBehindCurrent >= 2, "expiry must not remove the player's current/next support too early")
 assert(CourseConfig.MaxLaneBaseParts <= 1000, "per-lane base-part budget exceeds release target")
 assert(CourseConfig.MaxLaneBeamsAndLights <= 128, "per-lane beam/light budget exceeds release target")
+assert(
+	CourseConfig.ClientVisibleStepsAhead >= GameConfig.Camera.MinimumUpcomingTargetsVisible + 2,
+	"client visibility window must preserve fair upcoming-step readability"
+)
+assert(CourseConfig.ClientVisibleStepsAhead <= 10, "future-step visibility window is too visually dense")
 
 print("Rising Steps release-readiness static rules passed")
