@@ -947,12 +947,12 @@ function StepCourseService.qaLand(player: Player, stepId: number, landingOffsetR
 
 	local ratio = math.clamp(landingOffsetRatio or 0, -0.48, 0.48)
 	local topY = runtime.Collision.Position.Y + runtime.Collision.Size.Y / 2
-	rootPart.AssemblyLinearVelocity = Vector3.new(0, -1, 0)
 	rootPart.CFrame = CFrame.new(
 		runtime.Collision.Position.X + GameConfig.Step.BaseFootprint * ratio,
 		topY + 2.9,
 		runtime.Collision.Position.Z
 	)
+	rootPart.AssemblyLinearVelocity = Vector3.new(0, -1, 0)
 	course.LastLandingAt = -math.huge
 	onLanding(course, runtime, rootPart)
 
