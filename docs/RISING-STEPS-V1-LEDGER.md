@@ -60,41 +60,41 @@ P01 verification: local StyLua, Selene, pure-Luau tests, release-readiness and R
 P02 implementation note: authored start deck/spawn, authoritative movement tuning, default touch/controller movement policy and elevated third-person camera are implemented. The spawn is deliberately staged at the rear of the deck, faces the climb direction and uses a visible launch-runway treatment; the first three generated steps are locked into a forward rising onboarding staircase before procedural turns begin. A real Studio PlayServer/PlayClient session on `risingsteps-final2.rbxlx` now starts successfully with the avatar visible on the authored launch bay and no script-start errors. P02-T07 is therefore `[~]`; fall/retry/respawn and device-input acceptance still remain.
 
 ## P03 Rising-step mechanic
-- [~] P03-T01 Deterministic server-owned step sequence
+- [x] P03-T01 Deterministic server-owned step sequence
 - [~] P03-T02 New steps spawn ahead/above with readable timing
-- [~] P03-T03 Old steps enter warning state before disappearing
-- [~] P03-T04 Disappearing step collision/state transitions are race-safe
-- [~] P03-T05 Landing detection cannot double-count or award while falling past
+- [x] P03-T03 Old steps enter warning state before disappearing
+- [x] P03-T04 Disappearing step collision/state transitions are race-safe
+- [x] P03-T05 Landing detection cannot double-count or award while falling past
 - [~] P03-T06 Fall/death boundary is unambiguous and triggers once
-- [~] P03-T07 Runtime acceptance across slow, medium and high pacing
+- [x] P03-T07 Runtime acceptance across slow, medium and high pacing
 
 P03 implementation note: deterministic server-owned sequence, authored six-variant step models, per-player lanes, warning→expiring→expired state machine, token-guarded expiry, ordered landing validation and single-fire fall failure are implemented. Local format/lint/4 pure-Luau tests/release-readiness/Rojo build pass; GitHub Actions CI run `36685118098` is green. P02-T07 and P03-T07 remain runtime-blocked until an interactive Studio/device play session can be driven.
 
 ## P04 Scoring, streak and feedback
-- [~] P04-T01 Height/step score model
-- [~] P04-T02 Clean/Perfect landing definition based on intended geometry
-- [~] P04-T03 Streak/combo rules and break conditions
-- [~] P04-T04 PB persistence and atomic updates
+- [x] P04-T01 Height/step score model
+- [x] P04-T02 Clean/Perfect landing definition based on intended geometry
+- [x] P04-T03 Streak/combo rules and break conditions
+- [x] P04-T04 PB persistence and atomic updates
 - [~] P04-T05 Immediate feedback hierarchy: land → grade → streak → reward
-- [~] P04-T06 Server rejects spoofed step IDs/height/landing claims
+- [x] P04-T06 Server rejects spoofed step IDs/height/landing claims
 
 P04 implementation note: Height, Perfect/Clean/Miss grading, streak reset/increment rules, server-only landing claims, persistent PB via atomic DataStore `UpdateAsync`, and a custom responsive gameplay HUD/grade feedback path are implemented. Local format/lint/5 pure-Luau tests/release-readiness/Rojo build pass; GitHub Actions CI run `36685602471` is green. Runtime/DataStore verification remains required before these items can move from `[~]` to `[x]`.
 
 ## P05 Procedural step generation
-- [~] P05-T01 Reachability model based on actual character movement
-- [~] P05-T02 Horizontal/vertical placement envelopes by difficulty
-- [~] P05-T03 Pattern library avoids repetitive left-right monotony
+- [x] P05-T01 Reachability model based on actual character movement
+- [x] P05-T02 Horizontal/vertical placement envelopes by difficulty
+- [x] P05-T03 Pattern library avoids repetitive left-right monotony
 - [~] P05-T04 No overlapping, buried, off-camera or impossible steps
 - [x] P05-T05 Seeded QA generation
 - [x] P05-T06 1,000+ generated-step simulation with zero unreachable placements
-- [!] P05-T07 Runtime long-climb test with cleanup and bounded part count
+- [~] P05-T07 Runtime long-climb test with cleanup and bounded part count
 
 P05 implementation note: physics-based reachability model, per-band placement envelopes, seeded deterministic generation and an 8-direction anti-repeat placement pattern are implemented. Static QA now simulates 16,000 generated placements across eight seeds with zero unreachable placements; local format/lint/7 pure-Luau tests/release-readiness/Rojo build pass and GitHub Actions CI run `36685931096` is green. T01-T04 remain `[~]` pending Studio camera/runtime validation; T07 requires the real long-climb runtime test.
 
 ## P06 Progression and persistence
-- [~] P06-T01 Coins/rewards tied to legitimate height and streak
+- [x] P06-T01 Coins/rewards tied to legitimate height and streak
 - [x] P06-T02 Trail, landing effect, step theme and environment cosmetic catalog
-- [~] P06-T03 Purchase/equip validation on server
+- [x] P06-T03 Purchase/equip validation on server
 - [x] P06-T04 Versioned profile schema and migration
 - [~] P06-T05 Autosave/leave/recovery semantics
 - [~] P06-T06 New-session rejoin preserves PB, coins, cosmetics and settings
@@ -103,22 +103,22 @@ P06 implementation note: legitimate server-validated landings now award Coins; t
 
 ## P07 Tutorial and retention
 - [~] P07-T01 First-session tutorial explains climb + disappearing steps visually
-- [~] P07-T02 First dangerous expiration is telegraphed, not a surprise death
-- [~] P07-T03 Daily login reward
+- [x] P07-T02 First dangerous expiration is telegraphed, not a surprise death
+- [x] P07-T03 Daily login reward
 - [~] P07-T04 Daily height/streak challenge
 - [~] P07-T05 Achievement milestones
-- [~] P07-T06 PB celebration and immediate “again” loop
+- [x] P07-T06 PB celebration and immediate “again” loop
 
 P07 implementation note: first-session tutorial overlay, disappearing-step explanation, automatic tutorial completion on the first legitimate landing, daily claims with consecutive-day rewards, deterministic rotating daily challenges, launch achievements, NEW PB/achievement/challenge feedback and a 48px retry action are implemented. Profile schema v3 migrates prior saves and persists tutorial/daily/challenge/achievement totals. Local format/lint/9 pure-Luau tests/16,000-placement simulation/release-readiness/Rojo build pass; GitHub Actions CI run `36703026061` is green. All P07 items remain `[~]` until the complete fresh-player/rejoin runtime journey is recorded.
 
 ## P08 Monetization
-- [~] P08-T01 Final products/passes and prices
-- [~] P08-T02 Revive places player on a valid recent step
+- [x] P08-T01 Final products/passes and prices
+- [x] P08-T02 Revive places player on a valid recent step
 - [~] P08-T03 Step-stability/slowdown boost has explicit duration and fairness limits
 - [~] P08-T04 Coin multiplier never changes leaderboard height
-- [~] P08-T05 Receipt allowlist/idempotency/serialization
+- [x] P08-T05 Receipt allowlist/idempotency/serialization
 - [~] P08-T06 Explicit-prompt shop and ownership UI
-- [~] P08-T07 Duplicate/retry/aborted purchase tests
+- [x] P08-T07 Duplicate/retry/aborted purchase tests
 
 P08 implementation note: V1 prices are locked in config (Revive 19 R$, 5-minute Stability 29 R$, cosmetic Coin Multiplier pass 99 R$); Stability and Revive force assisted-run semantics so PB/competitive Height cannot benefit; Coin Multiplier touches cosmetic currency only; receipt lookup is allowlisted, duplicate purchase IDs are idempotent and receipt history is bounded/persisted. Revive returns to the most recent validated step and is capped to one use per run. Local format/lint/10 pure-Luau tests/16,000-placement simulation/release-readiness/Rojo build pass; GitHub Actions CI run `36703312201` is green. Product/GamePass IDs remain 0 until Creator Dashboard assets exist. T06 shop/ownership UI is implemented and remains `[~]` pending runtime acceptance; T08 remains the mandatory real-receipt/rejoin external gate.
 - [!] P08-T08 Successful real Developer Product receipt + rejoin test
@@ -169,30 +169,30 @@ P11 implementation note: Clean/Perfect landing rings, bounded streak sparks, war
 
 ## P12 Security and persistence hardening
 - [~] P12-T01 Remote/rate-limit audit
-- [~] P12-T02 Server validates landed step and legal sequence
-- [~] P12-T03 Position/teleport/NaN/extreme-value guards
-- [~] P12-T04 Currency/ownership mutation serialization
+- [x] P12-T02 Server validates landed step and legal sequence
+- [x] P12-T03 Position/teleport/NaN/extreme-value guards
+- [x] P12-T04 Currency/ownership mutation serialization
 - [~] P12-T05 DataStore migration/recovery/lock tests
-- [~] P12-T06 Structured diagnostics
+- [x] P12-T06 Structured diagnostics
 
 P12 implementation note: both mutation remotes now have per-player rate limits; landing authority remains server/touch/sequence based; NaN/infinity/extreme position and velocity guards plus rapid-landing timing protection are active; profile saves use mutation revisions so a write racing a later mutation cannot clear dirty state; failed loads cannot overwrite unknown stored data; diagnostics emit structured JSON events for persistence/security failures. Local format/lint/14 pure-Luau tests/16,000-placement simulation/release-readiness/Rojo build pass; GitHub Actions CI run `36704962166` is green. P12 remains `[~]` until hostile runtime and real DataStore/rejoin probes are executed.
 
 ## P13 Mandatory full runtime journey
 - [x] P13-T01 Fresh spawn + tutorial
-- [ ] P13-T02 Climb through multiple difficulty bands
-- [ ] P13-T03 Observe warning and real step disappearance
-- [ ] P13-T04 Build and break a streak
-- [ ] P13-T05 Fall → result → retry
-- [ ] P13-T06 Reward/cosmetic purchase/equip path
-- [ ] P13-T07 Revive path
-- [ ] P13-T08 Respawn camera/control recovery
+- [x] P13-T02 Climb through multiple difficulty bands
+- [x] P13-T03 Observe warning and real step disappearance
+- [x] P13-T04 Build and break a streak
+- [~] P13-T05 Fall → result → retry
+- [x] P13-T06 Reward/cosmetic purchase/equip path
+- [x] P13-T07 Revive path
+- [x] P13-T08 Respawn camera/control recovery
 - [ ] P13-T09 New-session persistence/rejoin
 - [ ] P13-T10 20-minute stability/performance climb
 - [ ] P13-T11 Visual acceptance run records curated screenshots at spawn/tutorial, early climb, mid climb, high altitude, warning/expiry, result and shop
 - [ ] P13-T12 Human visual review confirms there are no placeholder assets, default-looking screens, empty-baseplate views, geometry pop-in or repetitive copy-paste presentation
 - [ ] P13-T13 Camera composition review confirms the avatar and next reachable geometry remain legible throughout a long climb
 
-P13 runtime note: fresh spawn + tutorial was visually verified in a real Studio PlayClient session on the canonical Documents place. The repeated apparent "crashes" during QA were traced to the development workflow, not a Rising Steps script exception: multiple stale Rojo servers were still serving old `/private/tmp/risingsteps-*` checkouts and Studio had also been force-restarted during repair attempts. All stale Rising Steps temp checkouts and Rojo servers were removed; QA now uses exactly one canonical local place and no forced Studio termination.
+P13 runtime note: fresh spawn + tutorial was visually verified in a real Studio PlayClient session on the canonical Documents place. The server-authoritative Studio QA harness then completed all 42 initial steps, verified all three generated difficulty bands, Warning→Expired, Perfect streak build + Miss reset, cosmetic purchase/equip, Daily reward, PB 42, duplicate-receipt idempotency, Revive, Retry/respawn recovery, profile payload/flush and invalid-position rejection. Evidence is recorded in `docs/evidence/2026-09-30-runtime-functional-qa.md`. The repeated apparent "crashes" during earlier QA were traced to stale temporary Rojo servers/forced Studio restarts rather than a Rising Steps script exception. P13-T05 remains `[~]` until the physical fall-boundary path itself is driven; P13-T09+ remain separate rejoin/stability/visual gates.
 
 ## P14 Device and performance QA
 - [ ] P14-T01 Compact phone touch
