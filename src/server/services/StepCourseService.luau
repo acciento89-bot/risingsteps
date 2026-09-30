@@ -261,12 +261,7 @@ local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3)
 				"DeckBolt",
 				Vector3.new(0.20, 0.20, 0.20),
 				CFrame.new(
-					center
-						+ Vector3.new(
-							xSide * (size / 2 - 0.42),
-							thickness / 2 + 0.16,
-							zSide * (size / 2 - 0.42)
-						)
+					center + Vector3.new(xSide * (size / 2 - 0.42), thickness / 2 + 0.16, zSide * (size / 2 - 0.42))
 				),
 				Enum.Material.Metal,
 				palette.Detail,
