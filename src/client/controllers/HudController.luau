@@ -129,6 +129,83 @@ local function makeButton(
 	return button
 end
 
+local function makePreviewArt(parent: Frame, category: string, itemId: string)
+	local accent = PREVIEW_COLORS[itemId] or COLORS.Active
+	local inset = Instance.new("Frame")
+	inset.Name = "Artwork"
+	inset.Position = UDim2.fromOffset(5, 5)
+	inset.Size = UDim2.new(1, -10, 1, -10)
+	inset.BackgroundColor3 = COLORS.Foundation
+	inset.BackgroundTransparency = 0.18
+	inset.BorderSizePixel = 0
+	inset.ZIndex = parent.ZIndex + 1
+	inset.Parent = parent
+	addCorner(inset, 9)
+	addGradient(inset, COLORS.Foundation, COLORS.Steel, 135)
+
+	local function bar(name: string, size: UDim2, position: UDim2, rotation: number, transparency: number)
+		local frame = Instance.new("Frame")
+		frame.Name = name
+		frame.Size = size
+		frame.Position = position
+		frame.AnchorPoint = Vector2.new(0.5, 0.5)
+		frame.BackgroundColor3 = accent
+		frame.BackgroundTransparency = transparency
+		frame.BorderSizePixel = 0
+		frame.Rotation = rotation
+		frame.ZIndex = inset.ZIndex + 1
+		frame.Parent = inset
+		addCorner(frame, 6)
+		return frame
+	end
+
+	if category == "Trails" then
+		bar("TrailBack", UDim2.fromOffset(26, 4), UDim2.fromScale(0.43, 0.68), -18, 0.58)
+		bar("TrailMid", UDim2.fromOffset(30, 5), UDim2.fromScale(0.46, 0.54), -18, 0.32)
+		bar("TrailFront", UDim2.fromOffset(24, 6), UDim2.fromScale(0.52, 0.39), -18, 0.08)
+		local orb = bar("TrailHead", UDim2.fromOffset(12, 12), UDim2.fromScale(0.72, 0.28), 0, 0)
+		addCorner(orb, 99)
+	elseif category == "LandingEffects" then
+		for index, diameter in { 32, 23, 14 } do
+			local ring = Instance.new("Frame")
+			ring.Name = ("Ring%02d"):format(index)
+			ring.AnchorPoint = Vector2.new(0.5, 0.5)
+			ring.Position = UDim2.fromScale(0.5, 0.54)
+			ring.Size = UDim2.fromOffset(diameter, diameter * 0.48)
+			ring.BackgroundTransparency = 1
+			ring.BorderSizePixel = 0
+			ring.ZIndex = inset.ZIndex + 1
+			ring.Parent = inset
+			addCorner(ring, 99)
+			addStroke(ring, accent, 0.12 + index * 0.14, 2)
+		end
+		bar("ImpactCore", UDim2.fromOffset(9, 9), UDim2.fromScale(0.5, 0.52), 0, 0.02)
+	elseif category == "StepThemes" then
+		bar("Deck", UDim2.fromOffset(34, 15), UDim2.fromScale(0.5, 0.54), 0, 0.05)
+		local surface = bar("Surface", UDim2.fromOffset(27, 7), UDim2.fromScale(0.5, 0.43), 0, 0.44)
+		surface.BackgroundColor3 = COLORS.Text
+		bar("SupportLeft", UDim2.fromOffset(5, 18), UDim2.fromScale(0.37, 0.71), 12, 0.18)
+		bar("SupportRight", UDim2.fromOffset(5, 18), UDim2.fromScale(0.63, 0.71), -12, 0.18)
+	elseif category == "EnvironmentThemes" then
+		local heights = { 15, 24, 19, 31, 21 }
+		for index, height in heights do
+			local tower = bar(
+				("Tower%02d"):format(index),
+				UDim2.fromOffset(5, height),
+				UDim2.fromScale(0.24 + (index - 1) * 0.13, 0.70 - height / 180),
+				0,
+				0.20 + index * 0.05
+			)
+			tower.AnchorPoint = Vector2.new(0.5, 1)
+		end
+		local horizon = bar("Horizon", UDim2.fromOffset(34, 2), UDim2.fromScale(0.5, 0.76), 0, 0.25)
+		horizon.BackgroundColor3 = COLORS.Text
+	else
+		bar("MarkA", UDim2.fromOffset(28, 6), UDim2.fromScale(0.5, 0.42), 25, 0.05)
+		bar("MarkB", UDim2.fromOffset(28, 6), UDim2.fromScale(0.5, 0.60), -25, 0.35)
+	end
+end
+
 local function createHud()
 	local playerGui = LOCAL_PLAYER:WaitForChild("PlayerGui")
 	local existing = playerGui:FindFirstChild("RisingStepsHUD")
@@ -707,7 +784,9 @@ local function createHud()
 			preview.ZIndex = 54
 			preview.Parent = row
 			addCorner(preview, 12)
-			addStroke(preview, COLORS.Text, 0.72)
+			addStroke(preview, COLORS.Text, 0.68)
+			addGradient(preview, PREVIEW_COLORS[itemId] or COLORS.Active, COLORS.Foundation, 135)
+			makePreviewArt(preview, category.Key, itemId)
 
 			local title = makeLabel(
 				row,
