@@ -10,6 +10,8 @@ local WorldConfig = {
 		LandingInsetSize = 7,
 		LandingInsetThickness = 0.28,
 		SpawnHeightAboveDeck = 3.25,
+		SpawnBackOffset = 3.2,
+		OnboardingGuideCount = 3,
 	},
 	Palette = {
 		Foundation = "#121722",
