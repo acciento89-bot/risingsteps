@@ -1,3 +1,4 @@
+local CourseConfig = require("../src/shared/config/CourseConfig")
 local GameConfig = require("../src/shared/config/GameConfig")
 local ReachabilityRules = require("../src/shared/rules/ReachabilityRules")
 
@@ -16,7 +17,7 @@ local reachable = ReachabilityRules.isReachable(
 	GameConfig.Movement.Gravity,
 	GameConfig.Step.BaseFootprint,
 	GameConfig.Step.BaseFootprint,
-	0.55
+	CourseConfig.ReachabilityControlSafetyFactor
 )
 assert(reachable, "hard-cap step must remain reachable with the conservative control factor")
 
@@ -30,7 +31,7 @@ assert(
 		GameConfig.Movement.Gravity,
 		GameConfig.Step.BaseFootprint,
 		GameConfig.Step.BaseFootprint,
-		0.55
+		CourseConfig.ReachabilityControlSafetyFactor
 	),
 	"step above the physical jump apex was accepted"
 )
