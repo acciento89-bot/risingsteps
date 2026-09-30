@@ -195,7 +195,7 @@ local function buildServiceDecks(parent: Instance, origin: Vector3)
 	local amber = hex("#FFB454")
 
 	for side in { -1, 1 } do
-		local spineX = origin.X + side * 27
+		local spineX = origin.X + side * (if side < 0 then 27 else 30)
 		decorativePart(
 			folder,
 			"ServiceSpine",
@@ -206,11 +206,12 @@ local function buildServiceDecks(parent: Instance, origin: Vector3)
 		)
 
 		for y = 8, 48, 10 do
+			local stagger = if side < 0 then (y % 20) * 0.08 else ((y + 10) % 20) * 0.08
 			decorativePart(
 				folder,
 				"ServiceCrossbeam",
-				Vector3.new(8.2, 0.7, 0.8),
-				CFrame.new(origin.X + side * 23.4, y, origin.Z + 2),
+				Vector3.new(7.4 + stagger, 0.7, 0.8),
+				CFrame.new(origin.X + side * (23.0 + stagger), y, origin.Z + 2 + side * stagger),
 				Enum.Material.Metal,
 				foundation
 			)
@@ -218,12 +219,12 @@ local function buildServiceDecks(parent: Instance, origin: Vector3)
 	end
 
 	for index = 1, 9 do
-		local x = origin.X - 54 + index * 12
-		local height = 18 + (index % 5) * 7
+		local x = origin.X - 56 + index * 12 + (index % 2) * 2.5
+		local height = 18 + ((index * 3) % 5) * 7
 		addBuilding(
 			folder,
-			Vector3.new(x, -18, origin.Z - 72 - (index % 3) * 8),
-			Vector3.new(9 + (index % 2) * 4, height, 10 + (index % 3) * 2),
+			Vector3.new(x, -18, origin.Z - 70 - ((index * 2) % 4) * 7),
+			Vector3.new(9 + ((index + 1) % 3) * 2.5, height, 10 + ((index * 2) % 3) * 2),
 			34 + index
 		)
 	end
@@ -269,7 +270,7 @@ local function buildCloudline(parent: Instance, origin: Vector3)
 	local glass = Color3.fromRGB(116, 148, 168)
 
 	for side in { -1, 1 } do
-		local x = origin.X + side * 34
+		local x = origin.X + side * (if side < 0 then 33 else 36)
 		decorativePart(
 			folder,
 			"CloudlineMast",
@@ -280,11 +281,12 @@ local function buildCloudline(parent: Instance, origin: Vector3)
 		)
 
 		for y = 62, 112, 12 do
+			local armShift = if side < 0 then (y % 24) * 0.06 else ((y + 12) % 24) * 0.06
 			decorativePart(
 				folder,
 				"CloudlineArm",
-				Vector3.new(8.5, 0.42, 0.58),
-				CFrame.new(origin.X + side * 29.5, y, origin.Z - 3),
+				Vector3.new(8.1 + armShift, 0.42, 0.58),
+				CFrame.new(origin.X + side * (29.2 + armShift), y, origin.Z - 3 + side * armShift),
 				Enum.Material.Metal,
 				steel
 			)
