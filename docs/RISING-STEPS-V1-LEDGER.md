@@ -39,12 +39,14 @@ Mandatory V1 rules:
 - [x] P00-T09 Lock altitude-art progression with at least three visually distinct but coherent world bands so a long climb never looks like repeated blocks
 
 ## P01 Technical foundation
-- [ ] P01-T01 Rojo client/server/shared layout
-- [ ] P01-T02 Shared movement/generation/scoring/economy config
-- [ ] P01-T03 Remote schemas and authority boundaries
-- [ ] P01-T04 Lint/format/tests/build tooling
-- [ ] P01-T05 CI and release-readiness gates
-- [ ] P01-T06 Dev/prod place documentation and canonical build policy
+- [x] P01-T01 Rojo client/server/shared layout
+- [x] P01-T02 Shared movement/generation/scoring/economy config
+- [x] P01-T03 Remote schemas and authority boundaries
+- [x] P01-T04 Lint/format/tests/build tooling
+- [x] P01-T05 CI and release-readiness gates
+- [x] P01-T06 Dev/prod place documentation and canonical build policy
+
+P01 verification: local StyLua, Selene, pure-Luau tests, release-readiness and Rojo build passed; GitHub Actions CI run `36683819750` completed successfully.
 
 ## P02 Character, controls and camera
 - [ ] P02-T01 Reliable spawn on safe starting platform
