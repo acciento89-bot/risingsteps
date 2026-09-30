@@ -187,7 +187,7 @@ P12 implementation note: both mutation remotes now have per-player rate limits; 
 - [x] P13-T07 Revive path
 - [x] P13-T08 Respawn camera/control recovery
 - [ ] P13-T09 New-session persistence/rejoin
-- [ ] P13-T10 20-minute stability/performance climb
+- [x] P13-T10 20-minute stability/performance climb
 - [ ] P13-T11 Visual acceptance run records curated screenshots at spawn/tutorial, early climb, mid climb, high altitude, warning/expiry, result and shop
 - [ ] P13-T12 Human visual review confirms there are no placeholder assets, default-looking screens, empty-baseplate views, geometry pop-in or repetitive copy-paste presentation
 - [ ] P13-T13 Camera composition review confirms the avatar and next reachable geometry remain legible throughout a long climb
@@ -200,12 +200,12 @@ P13 runtime note: fresh spawn + tutorial was visually verified in a real Studio 
 - [ ] P14-T03 Desktop keyboard/mouse
 - [ ] P14-T04 Controller
 - [ ] P14-T05 Camera/readability at low/high altitude on each viewport
-- [~] P14-T06 Generator/cleanup performance and bounded memory/part count
+- [x] P14-T06 Generator/cleanup performance and bounded memory/part count
 - [ ] P14-T07 Compact-phone screenshot review at low/mid/high altitude; art density and HUD must remain readable without shrinking critical controls
 - [ ] P14-T08 Tablet/desktop composition uses added screen space intentionally rather than merely stretching the phone layout
 - [ ] P14-T09 Low/mobile graphics-quality pass preserves gameplay-state contrast, silhouettes and warning readability
 
-P14 implementation note: each generated player lane records BasePart and Beam/Light counts on the course model, emits structured diagnostics, and warns if the presentation exceeds locked budgets. Release-readiness enforces ceilings of 1,000 BaseParts and 128 Beams/Lights while production config is stricter at 900/96. A real Studio runtime measurement on the canonical `~/Documents/Roblox/RisingSteps/risingsteps-final2.rbxlx` now reports 755 BaseParts total: 620 step parts, 23 start-deck parts and 112 environment parts, plus 21 Beams/Lights. The earlier 933-part reading was traced to a stale Rojo server serving `/private/tmp/risingsteps-sourcecheck` on port 34872 and overwriting the freshly built place; that server was terminated and the canonical place rebuilt from the exact current commit. Local StyLua/Selene checks pass, all 14 pure-Luau test files pass, the 16,000-placement reachability simulation passes, and release-readiness passes. A controlled 60-second PlayServer/PlayClient stability sample on the single canonical Documents place completed with 12/12 process samples alive, no script/runtime errors, no new macOS crash report and RSS decreasing from roughly 1.76 GB to 1.44 GB rather than growing. P14-T06 remains `[~]` until the mandatory 20-minute soak finishes. Functional long-climb runtime and part-count stability are already verified at 755 BaseParts / 21 Beams+Lights.
+P14 implementation note: each generated player lane records BasePart and Beam/Light counts on the course model, emits structured diagnostics, and warns if the presentation exceeds locked budgets. Release-readiness enforces ceilings of 1,000 BaseParts and 128 Beams/Lights while production config is stricter at 900/96. A real Studio runtime measurement on the canonical `~/Documents/Roblox/RisingSteps/risingsteps-final2.rbxlx` now reports 755 BaseParts total: 620 step parts, 23 start-deck parts and 112 environment parts, plus 21 Beams/Lights. The earlier 933-part reading was traced to a stale Rojo server serving `/private/tmp/risingsteps-sourcecheck` on port 34872 and overwriting the freshly built place; that server was terminated and the canonical place rebuilt from the exact current commit. Local StyLua/Selene checks pass, all 14 pure-Luau test files pass, the 16,000-placement reachability simulation passes, and release-readiness passes. A controlled 60-second PlayServer/PlayClient stability sample on the single canonical Documents place completed with 12/12 process samples alive, no script/runtime errors, no new macOS crash report and RSS decreasing from roughly 1.76 GB to 1.44 GB rather than growing. P14-T06 is verified `[x]`: the mandatory Studio soak completed for 1201.4 seconds across 164 complete 42-step climb → fall → retry cycles. Every periodic report remained at 755 BaseParts and 21 Beams/Lights; no relevant runtime ScriptContext error or macOS crash report occurred. External Studio RSS fluctuated during the run rather than growing monotonically.
 
 ## P15 Release
 - [~] P15-T01 Production icon/thumbnails/metadata
