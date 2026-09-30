@@ -23,10 +23,7 @@ assert(
 	RetentionRules.challengeProgress(heightChallenge, 8, { Height = 13 }) == 13,
 	"height challenge did not track max height"
 )
-assert(
-	RetentionRules.challengeProgress(heightChallenge, 13, { Height = 9 }) == 13,
-	"height challenge regressed"
-)
+assert(RetentionRules.challengeProgress(heightChallenge, 13, { Height = 9 }) == 13, "height challenge regressed")
 
 local perfectChallenge = { Kind = "Perfect", Target = 5, RewardCoins = 55 }
 assert(
