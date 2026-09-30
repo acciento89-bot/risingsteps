@@ -201,7 +201,7 @@ local function buildServiceDecks(parent: Instance, origin: Vector3)
 	local amber = hex("#FFB454")
 
 	for side in { -1, 1 } do
-		local spineX = origin.X + side * (if side < 0 then 27 else 30)
+		local spineX = origin.X + side * (if side < 0 then 32 else 35)
 		decorativePart(
 			folder,
 			"ServiceSpine",
@@ -217,7 +217,7 @@ local function buildServiceDecks(parent: Instance, origin: Vector3)
 				folder,
 				"ServiceCrossbeam",
 				Vector3.new(7.4 + stagger, 0.7, 0.8),
-				CFrame.new(origin.X + side * (23.0 + stagger), y, origin.Z + 2 + side * stagger),
+				CFrame.new(origin.X + side * (28.0 + stagger), y, origin.Z + 2 + side * stagger),
 				Enum.Material.Metal,
 				foundation
 			)
@@ -229,9 +229,9 @@ local function buildServiceDecks(parent: Instance, origin: Vector3)
 		local height = 18 + ((index * 3) % 5) * 7
 		addBuilding(
 			folder,
-			Vector3.new(x, -18, origin.Z - 70 - ((index * 2) % 4) * 7),
+			Vector3.new(x, -18, origin.Z - 98 - ((index * 2) % 4) * 8),
 			Vector3.new(9 + ((index + 1) % 3) * 2.5, height, 10 + ((index * 2) % 3) * 2),
-			34 + index
+			44 + index
 		)
 	end
 
@@ -250,16 +250,16 @@ local function buildServiceDecks(parent: Instance, origin: Vector3)
 		addCable(
 			folder,
 			"ServiceCable",
-			Vector3.new(origin.X - 27, y, origin.Z + 2),
-			Vector3.new(origin.X - 36, y - 5, origin.Z + 22),
+			Vector3.new(origin.X - 32, y, origin.Z + 2),
+			Vector3.new(origin.X - 43, y - 5, origin.Z + 24),
 			Color3.fromRGB(84, 98, 116),
 			0.055
 		)
 		addCable(
 			folder,
 			"ServiceCable",
-			Vector3.new(origin.X + 27, y, origin.Z + 2),
-			Vector3.new(origin.X + 36, y - 5, origin.Z + 22),
+			Vector3.new(origin.X + 35, y, origin.Z + 2),
+			Vector3.new(origin.X + 46, y - 5, origin.Z + 24),
 			Color3.fromRGB(84, 98, 116),
 			0.055
 		)
