@@ -156,17 +156,31 @@ local function addBuilding(parent: Instance, position: Vector3, size: Vector3, s
 
 	local bands = math.clamp(math.floor(size.Y / 11), 2, 6)
 	for row = 1, bands do
-		local window = decorativePart(
-			parent,
-			"WindowBand",
-			Vector3.new(math.max(4, size.X - 1.8), 0.18, 0.08),
-			CFrame.new(position + Vector3.new(0, row * (size.Y / (bands + 1)), -size.Z / 2 - 0.05)),
-			Enum.Material.Neon,
-			if row % 2 == 0 then Color3.fromRGB(255, 180, 96) else Color3.fromRGB(103, 155, 184),
-			0.28
-		)
-		window.CastShadow = false
+		local bandColor = if row % 2 == 0 then Color3.fromRGB(255, 180, 96) else Color3.fromRGB(103, 155, 184)
+		for zSide in { -1, 1 } do
+			local window = decorativePart(
+				parent,
+				"WindowBand",
+				Vector3.new(math.max(4, size.X - 1.8), 0.18, 0.08),
+				CFrame.new(position + Vector3.new(0, row * (size.Y / (bands + 1)), zSide * (size.Z / 2 + 0.05))),
+				Enum.Material.Neon,
+				bandColor,
+				0.28
+			)
+			window.CastShadow = false
+		end
 	end
+
+	local roofLight = decorativePart(
+		parent,
+		"RoofBeacon",
+		Vector3.new(math.max(2.2, size.X - 2.8), 0.12, 0.22),
+		CFrame.new(position + Vector3.new(0, size.Y + 0.10, 0)),
+		Enum.Material.Neon,
+		Color3.fromRGB(91, 196, 220),
+		0.32
+	)
+	roofLight.CastShadow = false
 
 	return building
 end
