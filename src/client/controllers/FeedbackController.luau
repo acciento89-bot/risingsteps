@@ -201,16 +201,36 @@ local function onSnapshot(snapshot: any)
 	if snapshot.Kind == "Progress" then
 		local grade = snapshot.Grade
 		local streak = if type(snapshot.Streak) == "number" then snapshot.Streak else 0
+		local landingEffect = LOCAL_PLAYER:GetAttribute("RisingStepsLandingEffect")
+		local effectId = if type(landingEffect) == "string" then landingEffect else "basic"
+
 		if grade == "Perfect" then
 			playTone(AudioConfig.Landing.PerfectPitch, AudioConfig.Landing.BaseVolume)
-			makeRing(COLORS.Perfect, 7.2, 0.44)
-			makeRing(COLORS.Active, 5.4, 0.34)
-			if streak >= 5 then
+			if effectId == "spark" then
+				makeRing(COLORS.Warm, 5.8, 0.30)
+				sparkBurst(COLORS.Warm, 8 + math.floor(streak / 4))
+			elseif effectId == "pulse" then
+				makeRing(COLORS.Active, 8.4, 0.50)
+				makeRing(COLORS.Perfect, 6.5, 0.38)
+				makeRing(COLORS.Active, 4.4, 0.28)
+			else
+				makeRing(COLORS.Perfect, 7.2, 0.44)
+				makeRing(COLORS.Active, 5.4, 0.34)
+			end
+			if streak >= 5 and effectId ~= "spark" then
 				sparkBurst(COLORS.Active, 4 + math.floor(streak / 5))
 			end
 		elseif grade == "Clean" then
 			playTone(AudioConfig.Landing.CleanPitch, AudioConfig.Landing.BaseVolume * 0.85)
-			makeRing(COLORS.Warm, 5.0, 0.34)
+			if effectId == "spark" then
+				sparkBurst(COLORS.Warm, 5)
+				makeRing(COLORS.Warm, 4.5, 0.28)
+			elseif effectId == "pulse" then
+				makeRing(COLORS.Active, 5.8, 0.38)
+				makeRing(COLORS.Perfect, 4.2, 0.27)
+			else
+				makeRing(COLORS.Warm, 5.0, 0.34)
+			end
 		end
 
 		if
