@@ -147,13 +147,20 @@ local function run(player: Player)
 		After = player:GetAttribute("RisingStepsRevives"),
 	})
 
-	StepCourseService.qaFail(player, "StudioQAFailure")
+	local fallBoundaryTriggered = StepCourseService.qaTriggerFallBoundary(player)
+	check("fall_boundary_triggered", fallBoundaryTriggered)
 	check(
 		"failure_state",
 		waitUntil(function()
 			return player:GetAttribute("RisingStepsRunFailed") == true
 		end, 2)
 	)
+	local failedSnapshot = StepCourseService.qaSnapshot(player)
+	check("fall_boundary_single_failure", failedSnapshot.Failed == true and failedSnapshot.Ready == false, {
+		Failed = failedSnapshot.Failed,
+		Ready = failedSnapshot.Ready,
+		Height = failedSnapshot.Height,
+	})
 	local reviveStarted = StepCourseService.qaUseRevive(player)
 	check("revive_command", reviveStarted)
 	check("revive_respawn_ready", waitReady(player))
