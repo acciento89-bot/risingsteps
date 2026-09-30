@@ -16,6 +16,7 @@ local StepSequence = require(root.rules.StepSequence)
 
 local PlayerProfileService = require(script.Parent.PlayerProfileService)
 local StartDeckService = require(script.Parent.StartDeckService)
+local WorldArtService = require(script.Parent.WorldArtService)
 
 type StepRuntime = {
 	Model: Model,
@@ -23,6 +24,7 @@ type StepRuntime = {
 	Inset: Part,
 	Accents: { BasePart },
 	Decorations: { BasePart },
+	WarningSignals: { BasePart },
 	Definition: any,
 	State: string,
 }
@@ -185,6 +187,34 @@ local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3)
 	)
 	table.insert(decorations, support)
 
+	local landingMark = makePart(
+		model,
+		"LandingMark",
+		Vector3.new(1.55, 0.04, 1.55),
+		CFrame.new(center + Vector3.new(0, thickness / 2 + 0.18, 0)),
+		Enum.Material.SmoothPlastic,
+		COLORS.Active,
+		false
+	)
+	landingMark.Transparency = 0.62
+	table.insert(decorations, landingMark)
+
+	local warningSignals: { BasePart } = {}
+	for _, side in { -1, 1 } do
+		local fin = makePart(
+			model,
+			"WarningFin",
+			Vector3.new(0.20, 0.76, 1.5),
+			CFrame.new(center + Vector3.new(side * (size / 2 - 0.12), 0.62, 0)),
+			Enum.Material.Metal,
+			COLORS.Warning,
+			false
+		)
+		fin.Transparency = 1
+		table.insert(warningSignals, fin)
+		table.insert(decorations, fin)
+	end
+
 	if definition.Variant == 2 or definition.Variant == 5 then
 		local brace = makeWedge(
 			model,
@@ -216,6 +246,45 @@ local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3)
 		table.insert(decorations, crossbar)
 	end
 
+	if definition.Variant == 4 then
+		for _, side in { -1, 1 } do
+			local rail = makePart(
+				model,
+				"RailFragment",
+				Vector3.new(0.18, 0.68, 2.1),
+				CFrame.new(center + Vector3.new(side * (size / 2 + 0.16), 0.10, 0)),
+				Enum.Material.Metal,
+				COLORS.Foundation,
+				false
+			)
+			table.insert(decorations, rail)
+		end
+	elseif definition.Variant == 5 then
+		for _, side in { -1, 1 } do
+			local anchor = makePart(
+				model,
+				"CableAnchor",
+				Vector3.new(0.38, 1.15, 0.38),
+				CFrame.new(center + Vector3.new(side * 2.35, -0.18, -2.35)),
+				Enum.Material.Metal,
+				COLORS.Foundation,
+				false
+			)
+			table.insert(decorations, anchor)
+		end
+	elseif definition.Variant == 6 then
+		local nose = makePart(
+			model,
+			"CantileverNose",
+			Vector3.new(2.8, 0.34, 0.72),
+			CFrame.new(center + Vector3.new(0, -0.42, -size / 2 - 0.36)),
+			Enum.Material.Metal,
+			COLORS.Foundation,
+			false
+		)
+		table.insert(decorations, nose)
+	end
+
 	if definition.Variant >= 4 then
 		local marker = makePart(
 			model,
@@ -237,6 +306,7 @@ local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3)
 		Inset = inset,
 		Accents = accents,
 		Decorations = decorations,
+		WarningSignals = warningSignals,
 		Definition = definition,
 		State = StepRules.State.Active,
 	}
@@ -266,17 +336,31 @@ local function setStepState(runtime: StepRuntime, nextState: string)
 			part.Color = COLORS.Active
 		end
 		for _, part in runtime.Decorations do
-			if not table.find(runtime.Accents, part) and part ~= runtime.Inset then
+			if
+				not table.find(runtime.Accents, part)
+				and not table.find(runtime.WarningSignals, part)
+				and part ~= runtime.Inset
+			then
 				part.Transparency = 0
 			end
+		end
+		for _, signal in runtime.WarningSignals do
+			signal.Transparency = 1
+			signal.Color = COLORS.Warning
 		end
 	elseif nextState == StepRules.State.Warning then
 		for _, part in runtime.Accents do
 			part.Color = COLORS.Warning
 		end
+		for _, signal in runtime.WarningSignals do
+			signal.Transparency = 0.04
+		end
 	elseif nextState == StepRules.State.Expiring then
 		for _, part in runtime.Accents do
 			part.Color = COLORS.Expiring
+		end
+		for _, signal in runtime.WarningSignals do
+			signal.Color = COLORS.Expiring
 		end
 		for _, part in runtime.Decorations do
 			TweenService:Create(part, TweenInfo.new(GameConfig.Step.ExpiryTransitionSeconds), {
@@ -492,6 +576,7 @@ local function buildCourse(player: Player): Course
 
 	local spawn = StartDeckService.create(courseModel, player, laneOrigin)
 	player.RespawnLocation = spawn
+	WorldArtService.createLane(courseModel, laneOrigin)
 
 	local stepFolder = Instance.new("Folder")
 	stepFolder.Name = "Steps"

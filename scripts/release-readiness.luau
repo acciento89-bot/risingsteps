@@ -1,3 +1,4 @@
+local ArtConfig = require("../src/shared/config/ArtConfig")
 local GameConfig = require("../src/shared/config/GameConfig")
 local DifficultyConfig = require("../src/shared/config/DifficultyConfig")
 local EconomyConfig = require("../src/shared/config/EconomyConfig")
@@ -7,6 +8,7 @@ local RemoteConfig = require("../src/shared/config/RemoteConfig")
 local CourseConfig = require("../src/shared/config/CourseConfig")
 
 assert(GameConfig.Name == "Rising Steps", "product name changed")
+assert(#ArtConfig.Bands >= 3, "production art requires three altitude bands")
 assert(
 	GameConfig.Score.PerfectToleranceRatio < GameConfig.Score.CleanToleranceRatio,
 	"landing grade tolerances invalid"
