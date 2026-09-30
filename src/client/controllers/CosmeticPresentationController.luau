@@ -96,7 +96,12 @@ local function recolorStepModel(step: Model, theme: any)
 	end
 	for _, descendant in step:GetDescendants() do
 		if descendant:IsA("BasePart") then
-			if descendant.Name == "AccentA" or descendant.Name == "AccentB" or descendant.Name == "UnderGlow" or descendant.Name == "LandingMark" then
+			if
+				descendant.Name == "AccentA"
+				or descendant.Name == "AccentB"
+				or descendant.Name == "UnderGlow"
+				or descendant.Name == "LandingMark"
+			then
 				descendant.Color = theme.Accent
 			elseif descendant.Name == "DeckBolt" or descendant.Name == "WarmMarker" then
 				descendant.Color = theme.Detail
@@ -137,7 +142,12 @@ local function classifyEnvironmentPart(part: BasePart, theme: any)
 		part.Color = theme.Accent
 	elseif string.find(name, "Window") or string.find(name, "Practical") then
 		part.Color = theme.Warm
-	elseif string.find(name, "Spine") or string.find(name, "Mast") or string.find(name, "Arm") or string.find(name, "Rib") then
+	elseif
+		string.find(name, "Spine")
+		or string.find(name, "Mast")
+		or string.find(name, "Arm")
+		or string.find(name, "Rib")
+	then
 		part.Color = theme.Steel
 	elseif part.Material == Enum.Material.Metal or part.Material == Enum.Material.Concrete then
 		part.Color = (baseColor :: Color3):Lerp(theme.Foundation, 0.46)
@@ -155,7 +165,8 @@ local function applyEnvironmentTheme()
 	end
 
 	local themeId = LOCAL_PLAYER:GetAttribute("RisingStepsEnvironmentTheme")
-	local theme = ENVIRONMENT_THEMES[if type(themeId) == "string" then themeId else "default"] or ENVIRONMENT_THEMES.default
+	local theme = ENVIRONMENT_THEMES[if type(themeId) == "string" then themeId else "default"]
+		or ENVIRONMENT_THEMES.default
 	for _, descendant in environment:GetDescendants() do
 		if descendant:IsA("BasePart") then
 			classifyEnvironmentPart(descendant, theme)
@@ -169,7 +180,11 @@ end
 
 local function clearTrail(character: Model)
 	for _, descendant in character:GetDescendants() do
-		if descendant.Name == "RisingStepsTrail" or descendant.Name == "RisingStepsTrailA" or descendant.Name == "RisingStepsTrailB" then
+		if
+			descendant.Name == "RisingStepsTrail"
+			or descendant.Name == "RisingStepsTrailA"
+			or descendant.Name == "RisingStepsTrailB"
+		then
 			descendant:Destroy()
 		end
 	end
