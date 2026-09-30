@@ -1026,6 +1026,25 @@ function StepCourseService.qaStepBand(player: Player, stepId: number): string
 	return runtime.Definition.BandId
 end
 
+function StepCourseService.qaTriggerFallBoundary(player: Player): boolean
+	local course = requireStudioCourse(player)
+	assert(course.Ready and not course.Failed, "QA course not ready")
+	local character = player.Character
+	assert(character, "QA character unavailable")
+	local rootPart = character:FindFirstChild("HumanoidRootPart")
+	assert(rootPart and rootPart:IsA("BasePart"), "QA root unavailable")
+
+	local failY = course.HighestY - GameConfig.Failure.FallDistanceBelowHighestValidated
+	local wasAnchored = rootPart.Anchored
+	rootPart.Anchored = true
+	rootPart.CFrame = CFrame.new(rootPart.Position.X, failY - 2, rootPart.Position.Z)
+	checkFalls()
+	if rootPart.Parent then
+		rootPart.Anchored = wasAnchored
+	end
+	return course.Failed
+end
+
 function StepCourseService.qaFail(player: Player, reason: string?)
 	local course = requireStudioCourse(player)
 	failCourse(course, reason or "StudioQA")
