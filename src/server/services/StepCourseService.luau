@@ -857,6 +857,20 @@ local function bindCharacter(course: Course, character: Model)
 	end)
 end
 
+local function reloadCharacter(player: Player)
+	task.spawn(function()
+		local ok, err = pcall(function()
+			player:LoadCharacterAsync()
+		end)
+		if not ok then
+			DiagnosticsService.warn("CharacterReloadFailed", {
+				UserId = player.UserId,
+				Error = tostring(err),
+			})
+		end
+	end)
+end
+
 local function bindPlayer(player: Player)
 	local course = buildCourse(player)
 
@@ -1013,7 +1027,7 @@ function StepCourseService.qaRetry(player: Player)
 	local course = requireStudioCourse(player)
 	assert(course.Failed, "QA retry requires failed course")
 	course.RunToken += 1
-	player:LoadCharacter()
+	reloadCharacter(player)
 end
 
 function StepCourseService.qaUseRevive(player: Player): boolean
@@ -1031,7 +1045,7 @@ function StepCourseService.qaUseRevive(player: Player): boolean
 	course.RevivesUsed += 1
 	course.PendingRevive = true
 	player:SetAttribute("RisingStepsRunFailed", false)
-	player:LoadCharacter()
+	reloadCharacter(player)
 	return true
 end
 
@@ -1093,7 +1107,7 @@ function StepCourseService.start()
 
 		if payload.Action == "Retry" then
 			course.RunToken += 1
-			player:LoadCharacter()
+			reloadCharacter(player)
 		elseif payload.Action == "UseRevive" then
 			if course.RevivesUsed >= GameConfig.Failure.MaxPaidRevivesPerRun or course.Height < 1 then
 				return
@@ -1108,7 +1122,7 @@ function StepCourseService.start()
 			course.RevivesUsed += 1
 			course.PendingRevive = true
 			player:SetAttribute("RisingStepsRunFailed", false)
-			player:LoadCharacter()
+			reloadCharacter(player)
 		end
 	end)
 
