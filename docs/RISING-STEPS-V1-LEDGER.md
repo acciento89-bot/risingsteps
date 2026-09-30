@@ -155,15 +155,17 @@ P09 implementation note: the gameplay HUD is now a coherent custom component sys
 P10 implementation note: production world art now includes a city-depth Service Decks band, Cloudline scaffold/cloud/glass band and Stratosphere spine/antenna band; global Atmosphere/Clouds/Bloom/ColorCorrection/soft shadows are authored; the step kit now has six structural variants, landing target detailing, braces/rails/anchors/cantilever pieces and warning fins so danger changes shape as well as color. Local format/lint/11 pure-Luau tests/16,000-placement simulation/release-readiness/Rojo build pass; GitHub Actions CI run `36704215763` is green. T10 cosmetic environment reskin, T11 visual cleanup and T12 screenshot approval remain open/runtime dependent.
 
 ## P11 Audio and VFX
-- [ ] P11-T01 Landing feedback
-- [ ] P11-T02 Clean/Perfect streak escalation
-- [ ] P11-T03 Expiry warning and disappear cues
-- [ ] P11-T04 Fall/failure/retry cues
-- [ ] P11-T05 Height/PB/reward feedback
-- [ ] P11-T06 Owned/Roblox-safe assets and reduced-motion runtime QA
+- [~] P11-T01 Landing feedback
+- [~] P11-T02 Clean/Perfect streak escalation
+- [~] P11-T03 Expiry warning and disappear cues
+- [~] P11-T04 Fall/failure/retry cues
+- [~] P11-T05 Height/PB/reward feedback
+- [~] P11-T06 Owned/Roblox-safe assets and reduced-motion runtime QA
 - [ ] P11-T07 Character movement/landing presentation has coherent animation timing and no abrupt camera/VFX conflict
-- [ ] P11-T08 VFX budget keeps the avatar, current step and next target readable during high streaks
-- [ ] P11-T09 Audio mix pass prevents stacked landing/warning/reward cues from clipping or becoming fatiguing on mobile speakers
+- [~] P11-T08 VFX budget keeps the avatar, current step and next target readable during high streaks
+- [~] P11-T09 Audio mix pass prevents stacked landing/warning/reward cues from clipping or becoming fatiguing on mobile speakers
+
+P11 implementation note: Clean/Perfect landing rings, bounded streak sparks, warning-step Highlight, failure camera cue, Revive/PB/Achievement tones and reduced-motion suppression are implemented. Transient audio uses Roblox runtime-owned assets only, volumes are deliberately low and concurrency is capped at six. Local format/lint/12 pure-Luau tests/16,000-placement simulation/release-readiness/Rojo build pass; GitHub Actions CI run `36704562322` is green. T07 character-animation polish and full mobile audio/VFX runtime QA remain open.
 
 ## P12 Security and persistence hardening
 - [ ] P12-T01 Remote/rate-limit audit
