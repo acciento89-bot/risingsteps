@@ -57,8 +57,11 @@ end
 
 local function run(player: Player)
 	task.wait(RuntimeQaConfig.StartupDelaySeconds)
+	check("profile_loaded", waitUntil(function()
+		return player:GetAttribute("RisingStepsProfileLoaded") == true
+	end, 8))
 	PlayerProfileService.qaSetPersistenceHealthy(player, true)
-	check("profile_loaded", player:GetAttribute("RisingStepsProfileLoaded") == true)
+	check("profile_healthy", player:GetAttribute("RisingStepsPersistenceHealthy") == true)
 
 	check("course_ready", waitReady(player))
 	local initial = StepCourseService.qaSnapshot(player)
@@ -109,6 +112,25 @@ local function run(player: Player)
 	check("miss_breaks_streak", missGrade == "Miss" and missed.Streak == 0, {
 		Grade = missGrade,
 		Streak = missed.Streak,
+	})
+
+	for stepId = 14, 42 do
+		local grade = StepCourseService.qaLand(player, stepId, 0)
+		check(("climb_step_%02d"):format(stepId), grade == "Perfect", {
+			StepId = stepId,
+			Grade = grade,
+		})
+		task.wait(0.02)
+	end
+	local fullClimb = StepCourseService.qaSnapshot(player)
+	check("all_difficulty_bands_runtime", fullClimb.Height == 42, {
+		Height = fullClimb.Height,
+		ServiceDecks = "1-12",
+		CloudlineWorks = "13-30",
+		StratosphereSpine = "31-42",
+	})
+	check("high_band_pb_updates", (player:GetAttribute("RisingStepsPB") or 0) >= 42, {
+		PB = player:GetAttribute("RisingStepsPB"),
 	})
 
 	PlayerProfileService.qaGrantCoins(player, 2500)
