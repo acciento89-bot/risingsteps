@@ -13,6 +13,8 @@ local second = StepSequence.generate(123456, 120, 4.6, CourseConfig.VisualVarian
 
 assert(#first == 120, "generator returned the wrong number of steps")
 assert(#second == #first, "deterministic replay changed step count")
+assert(math.abs(first[1].X) < 0.001, "tutorial step must remain centered on the forward axis")
+assert(first[1].Z <= -5.9, "tutorial step must remain clear of the spawn capsule")
 
 local previous = { X = 0, Y = 4.6, Z = 0 }
 for index, step in first do
