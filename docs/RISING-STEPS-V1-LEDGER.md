@@ -71,12 +71,14 @@ P02 implementation note: authored start deck/spawn, authoritative movement tunin
 P03 implementation note: deterministic server-owned sequence, authored six-variant step models, per-player lanes, warning→expiring→expired state machine, token-guarded expiry, ordered landing validation and single-fire fall failure are implemented. Local format/lint/4 pure-Luau tests/release-readiness/Rojo build pass; GitHub Actions CI run `36685118098` is green. P02-T07 and P03-T07 remain runtime-blocked until an interactive Studio/device play session can be driven.
 
 ## P04 Scoring, streak and feedback
-- [ ] P04-T01 Height/step score model
-- [ ] P04-T02 Clean/Perfect landing definition based on intended geometry
-- [ ] P04-T03 Streak/combo rules and break conditions
-- [ ] P04-T04 PB persistence and atomic updates
-- [ ] P04-T05 Immediate feedback hierarchy: land → grade → streak → reward
-- [ ] P04-T06 Server rejects spoofed step IDs/height/landing claims
+- [~] P04-T01 Height/step score model
+- [~] P04-T02 Clean/Perfect landing definition based on intended geometry
+- [~] P04-T03 Streak/combo rules and break conditions
+- [~] P04-T04 PB persistence and atomic updates
+- [~] P04-T05 Immediate feedback hierarchy: land → grade → streak → reward
+- [~] P04-T06 Server rejects spoofed step IDs/height/landing claims
+
+P04 implementation note: Height, Perfect/Clean/Miss grading, streak reset/increment rules, server-only landing claims, persistent PB via atomic DataStore `UpdateAsync`, and a custom responsive gameplay HUD/grade feedback path are implemented. Local format/lint/5 pure-Luau tests/release-readiness/Rojo build pass; GitHub Actions CI run `36685602471` is green. Runtime/DataStore verification remains required before these items can move from `[~]` to `[x]`.
 
 ## P05 Procedural step generation
 - [ ] P05-T01 Reachability model based on actual character movement
