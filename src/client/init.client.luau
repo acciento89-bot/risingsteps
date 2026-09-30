@@ -13,6 +13,7 @@ local CosmeticPresentationController = require(controllersFolder.CosmeticPresent
 local CourseVisibilityController = require(controllersFolder.CourseVisibilityController)
 local FeedbackController = require(controllersFolder.FeedbackController)
 local HudController = require(controllersFolder.HudController)
+local InputQaController = require(controllersFolder.InputQaController)
 
 for remoteName in RemoteConfig.Definitions do
 	remoteFolder:WaitForChild(remoteName)
@@ -24,3 +25,4 @@ CosmeticPresentationController.start()
 CourseVisibilityController.start()
 FeedbackController.start()
 HudController.start()
+InputQaController.start()
