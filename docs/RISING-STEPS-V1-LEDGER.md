@@ -120,7 +120,7 @@ P07 implementation note: first-session tutorial overlay, disappearing-step expla
 - [~] P08-T06 Explicit-prompt shop and ownership UI
 - [~] P08-T07 Duplicate/retry/aborted purchase tests
 
-P08 implementation note: V1 prices are locked in config (Revive 19 R$, 5-minute Stability 29 R$, cosmetic Coin Multiplier pass 99 R$); Stability and Revive force assisted-run semantics so PB/competitive Height cannot benefit; Coin Multiplier touches cosmetic currency only; receipt lookup is allowlisted, duplicate purchase IDs are idempotent and receipt history is bounded/persisted. Revive returns to the most recent validated step and is capped to one use per run. Local format/lint/10 pure-Luau tests/16,000-placement simulation/release-readiness/Rojo build pass; GitHub Actions CI run `36703312201` is green. Product/GamePass IDs remain 0 until Creator Dashboard assets exist, T06 shop UI is still open, and T08 remains the mandatory real-receipt/rejoin external gate.
+P08 implementation note: V1 prices are locked in config (Revive 19 R$, 5-minute Stability 29 R$, cosmetic Coin Multiplier pass 99 R$); Stability and Revive force assisted-run semantics so PB/competitive Height cannot benefit; Coin Multiplier touches cosmetic currency only; receipt lookup is allowlisted, duplicate purchase IDs are idempotent and receipt history is bounded/persisted. Revive returns to the most recent validated step and is capped to one use per run. Local format/lint/10 pure-Luau tests/16,000-placement simulation/release-readiness/Rojo build pass; GitHub Actions CI run `36703312201` is green. Product/GamePass IDs remain 0 until Creator Dashboard assets exist. T06 shop/ownership UI is implemented and remains `[~]` pending runtime acceptance; T08 remains the mandatory real-receipt/rejoin external gate.
 - [!] P08-T08 Successful real Developer Product receipt + rejoin test
 
 ## P09 Production UI/UX
@@ -206,14 +206,16 @@ P12 implementation note: both mutation remotes now have per-player rate limits; 
 P14 implementation note: each generated player lane now records its BasePart and Beam/Light counts on the course model, emits structured diagnostics, and warns if the presentation exceeds locked budgets. Release-readiness enforces ceilings of 1,000 BaseParts and 128 Beams/Lights while production config is stricter at 900/96. Local StyLua/Selene checks pass, all 14 pure-Luau test files pass, the 16,000-placement reachability simulation passes, and release-readiness passes. P14-T06 remains `[~]` until the real 20-minute runtime confirms stable memory/cleanup and observes the counters under play.
 
 ## P15 Release
-- [ ] P15-T01 Production icon/thumbnails/metadata
-- [ ] P15-T02 Privacy/content questionnaire
+- [~] P15-T01 Production icon/thumbnails/metadata
+- [~] P15-T02 Privacy/content questionnaire
 - [ ] P15-T03 Publish canonical build privately
 - [ ] P15-T04 Repeat complete P13 journey in published private place
-- [ ] P15-T05 Record build hash/place version/rollback
+- [~] P15-T05 Record build hash/place version/rollback
 - [ ] P15-T05A Final store screenshots must be captured from the actual accepted build and accurately represent the shipped art/UI
 - [ ] P15-T05B Final “looks finished” sign-off: no placeholder icon/text/material/model, no default UI styling, no debug overlays, no known visual P0/P1/P2 defect
 - [!] P15-T06 Controlled public release after paid receipt/rejoin evidence and zero P0/P1 defects
+
+P15 implementation note: production title/short/full description, genre/audience copy, icon/thumbnail art direction and screenshot-truth rules are locked in `docs/RELEASE-METADATA.md`. Canonical privacy/content questionnaire answers are locked in `docs/PRIVACY-CONTENT.md`, and the full P13/P14 execution script is locked in `docs/RUNTIME-QA.md`. P15-T01 remains `[~]` because final icon/thumbnails/screenshots still need accepted runtime captures/assets. P15-T02 remains `[~]` because Creator Dashboard submission itself is not recorded. P15-T05 remains `[~]` because commit SHA can be recorded now but no Roblox place/version/rollback ID exists in the repository yet. Repository search found no PlaceId/UniverseId/ProductId/GamePassId values suitable for completing private publish or real-receipt verification.
 
 ## P16 Post-launch
 - [!] P16-T01 First telemetry review
