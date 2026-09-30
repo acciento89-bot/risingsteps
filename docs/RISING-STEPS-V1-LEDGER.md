@@ -55,9 +55,9 @@ P01 verification: local StyLua, Selene, pure-Luau tests, release-readiness and R
 - [~] P02-T04 Camera exposes enough upcoming geometry for fair decisions
 - [~] P02-T05 Touch movement/jump targets meet mobile ergonomics
 - [~] P02-T06 Controller and keyboard parity
-- [!] P02-T07 Runtime spawn → climb → fall → retry → respawn verification
+- [~] P02-T07 Runtime spawn → climb → fall → retry → respawn verification
 
-P02 implementation note: authored start deck/spawn, authoritative movement tuning, default touch/controller movement policy and elevated third-person camera are implemented. The spawn is now deliberately staged at the rear of the deck, faces the climb direction and uses a visible launch-runway treatment; the first three generated steps are locked into a forward rising onboarding staircase before procedural turns begin. Static tests lock this composition. T01-T06 remain `[~]` until Studio/device runtime verifies spawn safety, camera framing, sticky-edge behavior and input parity.
+P02 implementation note: authored start deck/spawn, authoritative movement tuning, default touch/controller movement policy and elevated third-person camera are implemented. The spawn is deliberately staged at the rear of the deck, faces the climb direction and uses a visible launch-runway treatment; the first three generated steps are locked into a forward rising onboarding staircase before procedural turns begin. A real Studio PlayServer/PlayClient session on `risingsteps-final2.rbxlx` now starts successfully with the avatar visible on the authored launch bay and no script-start errors. P02-T07 is therefore `[~]`; fall/retry/respawn and device-input acceptance still remain.
 
 ## P03 Rising-step mechanic
 - [~] P03-T01 Deterministic server-owned step sequence
@@ -66,7 +66,7 @@ P02 implementation note: authored start deck/spawn, authoritative movement tunin
 - [~] P03-T04 Disappearing step collision/state transitions are race-safe
 - [~] P03-T05 Landing detection cannot double-count or award while falling past
 - [~] P03-T06 Fall/death boundary is unambiguous and triggers once
-- [!] P03-T07 Runtime acceptance across slow, medium and high pacing
+- [~] P03-T07 Runtime acceptance across slow, medium and high pacing
 
 P03 implementation note: deterministic server-owned sequence, authored six-variant step models, per-player lanes, warning→expiring→expired state machine, token-guarded expiry, ordered landing validation and single-fire fall failure are implemented. Local format/lint/4 pure-Luau tests/release-readiness/Rojo build pass; GitHub Actions CI run `36685118098` is green. P02-T07 and P03-T07 remain runtime-blocked until an interactive Studio/device play session can be driven.
 
@@ -203,7 +203,7 @@ P12 implementation note: both mutation remotes now have per-player rate limits; 
 - [ ] P14-T08 Tablet/desktop composition uses added screen space intentionally rather than merely stretching the phone layout
 - [ ] P14-T09 Low/mobile graphics-quality pass preserves gameplay-state contrast, silhouettes and warning readability
 
-P14 implementation note: each generated player lane now records its BasePart and Beam/Light counts on the course model, emits structured diagnostics, and warns if the presentation exceeds locked budgets. Release-readiness enforces ceilings of 1,000 BaseParts and 128 Beams/Lights while production config is stricter at 900/96. Local StyLua/Selene checks pass, all 14 pure-Luau test files pass, the 16,000-placement reachability simulation passes, and release-readiness passes. P14-T06 remains `[~]` until the real 20-minute runtime confirms stable memory/cleanup and observes the counters under play.
+P14 implementation note: each generated player lane records BasePart and Beam/Light counts on the course model, emits structured diagnostics, and warns if the presentation exceeds locked budgets. Release-readiness enforces ceilings of 1,000 BaseParts and 128 Beams/Lights while production config is stricter at 900/96. A real Studio runtime measurement on the canonical `risingsteps-final2.rbxlx` now reports 800 BaseParts total: 620 step parts, 23 start-deck parts and 157 environment parts, plus 21 Beams/Lights. The earlier 933-part reading was traced to a stale Rojo server serving `/private/tmp/risingsteps-sourcecheck` on port 34872 and overwriting the freshly built place; that server was terminated and the canonical place rebuilt from the exact current commit. Local StyLua/Selene checks pass, all 14 pure-Luau test files pass, the 16,000-placement reachability simulation passes, and release-readiness passes. P14-T06 remains `[~]` until the real 20-minute runtime confirms stable memory/cleanup.
 
 ## P15 Release
 - [~] P15-T01 Production icon/thumbnails/metadata
