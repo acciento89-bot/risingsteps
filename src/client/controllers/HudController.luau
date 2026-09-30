@@ -1196,6 +1196,9 @@ local function createHud()
 			local view = LOCAL_PLAYER:GetAttribute("RisingStepsQaView")
 			if view == "Shop" then
 				setShopVisible(true)
+				tutorial.Visible = false
+				warning.Visible = false
+				result.Visible = false
 				task.spawn(function()
 					local ok, bootstrap = pcall(function()
 						return requestBootstrap:InvokeServer()
@@ -1204,8 +1207,27 @@ local function createHud()
 						refreshShop(bootstrap)
 					end
 				end)
-			elseif view == "Gameplay" or view == "Result" then
+			elseif view == "Tutorial" then
 				setShopVisible(false)
+				result.Visible = false
+				warning.Visible = false
+				tutorial.Visible = true
+			elseif view == "Warning" then
+				setShopVisible(false)
+				result.Visible = false
+				tutorial.Visible = false
+				warning.Visible = true
+				warningText.TextTransparency = 0
+				warning.BackgroundTransparency = 0.05
+			elseif view == "Result" then
+				setShopVisible(false)
+				tutorial.Visible = false
+				warning.Visible = false
+				result.Visible = true
+			elseif view == "Gameplay" then
+				setShopVisible(false)
+				tutorial.Visible = false
+				warning.Visible = false
 			end
 		end
 		LOCAL_PLAYER:GetAttributeChangedSignal("RisingStepsQaView"):Connect(applyQaView)
