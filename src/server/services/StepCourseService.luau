@@ -1120,6 +1120,14 @@ function StepCourseService.qaShowWarning(player: Player, stepId: number)
 	sendSnapshot(course, "StepWarning")
 end
 
+function StepCourseService.qaShowResult(player: Player)
+	local course = requireStudioCourse(player)
+	course.Failed = true
+	course.Ready = false
+	course.Player:SetAttribute("RisingStepsRunFailed", true)
+	sendSnapshot(course, "FallBoundary")
+end
+
 function StepCourseService.start()
 	local remoteFolder = root:WaitForChild("Remotes")
 	local playerCommand = remoteFolder:WaitForChild("PlayerCommand")
