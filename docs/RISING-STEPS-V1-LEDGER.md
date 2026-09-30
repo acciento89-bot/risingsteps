@@ -112,13 +112,15 @@ P06 implementation note: legitimate server-validated landings now award Coins; t
 P07 implementation note: first-session tutorial overlay, disappearing-step explanation, automatic tutorial completion on the first legitimate landing, daily claims with consecutive-day rewards, deterministic rotating daily challenges, launch achievements, NEW PB/achievement/challenge feedback and a 48px retry action are implemented. Profile schema v3 migrates prior saves and persists tutorial/daily/challenge/achievement totals. Local format/lint/9 pure-Luau tests/16,000-placement simulation/release-readiness/Rojo build pass; GitHub Actions CI run `36703026061` is green. All P07 items remain `[~]` until the complete fresh-player/rejoin runtime journey is recorded.
 
 ## P08 Monetization
-- [ ] P08-T01 Final products/passes and prices
-- [ ] P08-T02 Revive places player on a valid recent step
-- [ ] P08-T03 Step-stability/slowdown boost has explicit duration and fairness limits
-- [ ] P08-T04 Coin multiplier never changes leaderboard height
-- [ ] P08-T05 Receipt allowlist/idempotency/serialization
+- [~] P08-T01 Final products/passes and prices
+- [~] P08-T02 Revive places player on a valid recent step
+- [~] P08-T03 Step-stability/slowdown boost has explicit duration and fairness limits
+- [~] P08-T04 Coin multiplier never changes leaderboard height
+- [~] P08-T05 Receipt allowlist/idempotency/serialization
 - [ ] P08-T06 Explicit-prompt shop and ownership UI
-- [ ] P08-T07 Duplicate/retry/aborted purchase tests
+- [~] P08-T07 Duplicate/retry/aborted purchase tests
+
+P08 implementation note: V1 prices are locked in config (Revive 19 R$, 5-minute Stability 29 R$, cosmetic Coin Multiplier pass 99 R$); Stability and Revive force assisted-run semantics so PB/competitive Height cannot benefit; Coin Multiplier touches cosmetic currency only; receipt lookup is allowlisted, duplicate purchase IDs are idempotent and receipt history is bounded/persisted. Revive returns to the most recent validated step and is capped to one use per run. Local format/lint/10 pure-Luau tests/16,000-placement simulation/release-readiness/Rojo build pass; GitHub Actions CI run `36703312201` is green. Product/GamePass IDs remain 0 until Creator Dashboard assets exist, T06 shop UI is still open, and T08 remains the mandatory real-receipt/rejoin external gate.
 - [!] P08-T08 Successful real Developer Product receipt + rejoin test
 
 ## P09 Production UI/UX
