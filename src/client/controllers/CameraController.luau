@@ -71,11 +71,7 @@ local function horizontalDirection(from: Vector3, to: Vector3): Vector3
 	return delta.Unit
 end
 
-local function obstructionAdjustedPosition(
-	focus: Vector3,
-	desiredPosition: Vector3,
-	character: Model?
-): Vector3
+local function obstructionAdjustedPosition(focus: Vector3, desiredPosition: Vector3, character: Model?): Vector3
 	local direction = desiredPosition - focus
 	if direction.Magnitude <= MIN_CAMERA_DISTANCE then
 		return desiredPosition
@@ -128,8 +124,9 @@ local function startRenderLoop()
 		local steps = course and course:FindFirstChild("Steps")
 		local nextStep = steps and steps:FindFirstChild(("Step_%03d"):format(height + 1))
 		local nextCollision = nextStep and nextStep:FindFirstChild("Collision")
-		local nextPosition =
-			if nextCollision and nextCollision:IsA("BasePart") then nextCollision.Position else focus + Vector3.new(0, 0, -8)
+		local nextPosition = if nextCollision and nextCollision:IsA("BasePart")
+			then nextCollision.Position
+			else focus + Vector3.new(0, 0, -8)
 		local forward = horizontalDirection(rootPosition, nextPosition)
 
 		local compact = camera.ViewportSize.X <= 760
