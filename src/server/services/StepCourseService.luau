@@ -1000,7 +1000,8 @@ function StepCourseService.qaLand(player: Player, stepId: number, landingOffsetR
 			GameConfig.Score.PerfectToleranceRatio,
 			GameConfig.Score.CleanToleranceRatio
 		)
-		else "Rejected"), probe
+		else "Rejected"),
+		probe
 end
 
 function StepCourseService.qaFail(player: Player, reason: string?)
