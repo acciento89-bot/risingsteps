@@ -90,13 +90,7 @@ local function makePart(
 	return part
 end
 
-local function makeWedge(
-	parent: Instance,
-	name: string,
-	size: Vector3,
-	cframe: CFrame,
-	color: Color3
-): WedgePart
+local function makeWedge(parent: Instance, name: string, size: Vector3, cframe: CFrame, color: Color3): WedgePart
 	local part = Instance.new("WedgePart")
 	part.Name = name
 	part.Anchored = true
@@ -387,13 +381,15 @@ local function onLanding(course: Course, runtime: StepRuntime, hit: BasePart)
 	local definition = runtime.Definition
 	local expectedStepId = course.Height + 1
 	local stepTopY = runtime.Collision.Position.Y + runtime.Collision.Size.Y / 2
-	if not StepRules.isExpectedLanding(
-		expectedStepId,
-		definition.Id,
-		rootPart.Position.Y,
-		stepTopY,
-		rootPart.AssemblyLinearVelocity.Y
-	) then
+	if
+		not StepRules.isExpectedLanding(
+			expectedStepId,
+			definition.Id,
+			rootPart.Position.Y,
+			stepTopY,
+			rootPart.AssemblyLinearVelocity.Y
+		)
+	then
 		return
 	end
 
@@ -445,7 +441,7 @@ local function buildCourse(player: Player): Course
 
 	local startY = WorldConfig.StartDeck.CenterY + WorldConfig.StartDeck.DeckThickness / 2
 	local seed = math.max(1, math.abs(player.UserId))
-	local definitions = StepSequence.generate(seed, CourseConfig.InitialStepCount, startY, CourseConfig.VisualVariantCount)
+	local definitions =\n\t\tStepSequence.generate(seed, CourseConfig.InitialStepCount, startY, CourseConfig.VisualVariantCount)
 
 	local course: Course = {
 		Player = player,
