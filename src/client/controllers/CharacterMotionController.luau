@@ -47,6 +47,14 @@ local function findPresentationMotor(character: Model): Motor6D?
 end
 
 local function clearPresentation()
+	if stateConnection then
+		stateConnection:Disconnect()
+		stateConnection = nil
+	end
+	if renderConnection then
+		renderConnection:Disconnect()
+		renderConnection = nil
+	end
 	if activeMotor then
 		activeMotor.Transform = CFrame.identity
 	end
@@ -89,10 +97,6 @@ local function bindCharacter(character: Model)
 			end
 		end
 	end)
-
-	if renderConnection then
-		renderConnection:Disconnect()
-	end
 
 	renderConnection = RunService.RenderStepped:Connect(function(deltaTime)
 		if not character.Parent or LOCAL_PLAYER.Character ~= character or not activeMotor then
