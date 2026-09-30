@@ -535,11 +535,10 @@ local function onLanding(course: Course, runtime: StepRuntime, hit: BasePart)
 	end
 
 	local now = os.clock()
-	if course.Height > 0 and not SecurityRules.intervalAllowed(
-		course.LastLandingAt,
-		now,
-		SecurityConfig.MinimumLandingIntervalSeconds
-	) then
+	if
+		course.Height > 0
+		and not SecurityRules.intervalAllowed(course.LastLandingAt, now, SecurityConfig.MinimumLandingIntervalSeconds)
+	then
 		return
 	end
 
