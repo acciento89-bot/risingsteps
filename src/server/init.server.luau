@@ -5,6 +5,11 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local root = ReplicatedStorage:WaitForChild("RisingSteps")
 local RemoteConfig = require(root.config.RemoteConfig)
 
+local servicesFolder = script:WaitForChild("services")
+local StartDeckService = require(servicesFolder.StartDeckService)
+
+StartDeckService.start()
+
 local remoteFolder = root:FindFirstChild(RemoteConfig.FolderName)
 if not remoteFolder then
 	remoteFolder = Instance.new("Folder")
