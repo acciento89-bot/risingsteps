@@ -314,6 +314,20 @@ local function scheduleExpiry(course: Course, stepId: number)
 	end
 	setStepState(runtime, StepRules.State.Warning)
 
+	local remoteFolder = root:FindFirstChild("Remotes")
+	local snapshotRemote = remoteFolder and remoteFolder:FindFirstChild("StateSnapshot")
+	if snapshotRemote and snapshotRemote:IsA("RemoteEvent") then
+		snapshotRemote:FireClient(course.Player, {
+			Kind = "StepWarning",
+			Height = course.Height,
+			Streak = course.Streak,
+			PB = PlayerProfileService.getPB(course.Player),
+			Coins = course.Player:GetAttribute("RisingStepsCoins") or 0,
+			Assisted = course.Assisted,
+			Failed = course.Failed,
+		})
+	end
+
 	task.delay(warningSeconds, function()
 		if course.RunToken ~= token or runtime.State ~= StepRules.State.Warning then
 			return
