@@ -40,7 +40,10 @@ end
 
 function CameraController.start()
 	assert(ControlConfig.AllowCameraOrbit == true, "Rising Steps V1 requires orbit-capable third-person camera")
-	assert(GameConfig.Camera.MinimumUpcomingTargetsVisible >= 2, "camera product lock requires upcoming target visibility")
+	assert(
+		GameConfig.Camera.MinimumUpcomingTargetsVisible >= 2,
+		"camera product lock requires upcoming target visibility"
+	)
 
 	configureCamera()
 	if LOCAL_PLAYER.Character then
