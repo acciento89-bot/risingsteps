@@ -57,7 +57,7 @@ P01 verification: local StyLua, Selene, pure-Luau tests, release-readiness and R
 - [~] P02-T06 Controller and keyboard parity
 - [!] P02-T07 Runtime spawn → climb → fall → retry → respawn verification
 
-P02 implementation note: authored start deck/spawn, authoritative movement tuning, default touch/controller movement policy and elevated third-person camera are implemented and pass local format/lint/tests/build. GitHub Actions CI run `36684305304` is green. T01-T06 remain `[~]` until Studio/device runtime verifies spawn safety, camera framing, sticky-edge behavior and input parity.
+P02 implementation note: authored start deck/spawn, authoritative movement tuning, default touch/controller movement policy and elevated third-person camera are implemented. The spawn is now deliberately staged at the rear of the deck, faces the climb direction and uses a visible launch-runway treatment; the first three generated steps are locked into a forward rising onboarding staircase before procedural turns begin. Static tests lock this composition. T01-T06 remain `[~]` until Studio/device runtime verifies spawn safety, camera framing, sticky-edge behavior and input parity.
 
 ## P03 Rising-step mechanic
 - [~] P03-T01 Deterministic server-owned step sequence
@@ -117,7 +117,7 @@ P07 implementation note: first-session tutorial overlay, disappearing-step expla
 - [~] P08-T03 Step-stability/slowdown boost has explicit duration and fairness limits
 - [~] P08-T04 Coin multiplier never changes leaderboard height
 - [~] P08-T05 Receipt allowlist/idempotency/serialization
-- [ ] P08-T06 Explicit-prompt shop and ownership UI
+- [~] P08-T06 Explicit-prompt shop and ownership UI
 - [~] P08-T07 Duplicate/retry/aborted purchase tests
 
 P08 implementation note: V1 prices are locked in config (Revive 19 R$, 5-minute Stability 29 R$, cosmetic Coin Multiplier pass 99 R$); Stability and Revive force assisted-run semantics so PB/competitive Height cannot benefit; Coin Multiplier touches cosmetic currency only; receipt lookup is allowlisted, duplicate purchase IDs are idempotent and receipt history is bounded/persisted. Revive returns to the most recent validated step and is capped to one use per run. Local format/lint/10 pure-Luau tests/16,000-placement simulation/release-readiness/Rojo build pass; GitHub Actions CI run `36703312201` is green. Product/GamePass IDs remain 0 until Creator Dashboard assets exist, T06 shop UI is still open, and T08 remains the mandatory real-receipt/rejoin external gate.
@@ -136,7 +136,7 @@ P08 implementation note: V1 prices are locked in config (Revive 19 R$, 5-minute 
 - [!] P09-T10 Runtime visual-state pass for idle, active climb, warning, Perfect/Good, failure, result, shop and first-session tutorial
 - [!] P09-T11 Screenshot gate: HUD and shop must look intentionally designed at native phone and desktop viewport sizes
 
-P09 implementation note: the gameplay HUD is now a coherent custom component system with Height/PB/Streak hierarchy, Coins/Shop controls, non-color-only retract warning, result panel, 48px Retry/Revive actions, Daily/Challenge/shop surfaces, cosmetic previews, reduced-motion behavior and controller focus handoff. Compact-width layout rules preserve the central gameplay region. Local format/lint/10 pure-Luau tests/16,000-placement simulation/release-readiness/Rojo build pass; GitHub Actions CI run `36703794105` is green. T01-T09 remain `[~]` and T10-T11 remain runtime/screenshot gates.
+P09 implementation note: the gameplay HUD is now a coherent custom component system with Height/PB/Streak hierarchy, Coins/Shop controls, non-color-only retract warning, result panel, 48px Retry/Revive actions, Daily/Challenge/shop surfaces, reduced-motion behavior and controller focus handoff. Cosmetic rows no longer use empty color swatches: Trails, Landing Effects, Step Themes and Environment Themes render authored category-specific mini-previews inside the UI. Compact-width layout rules preserve the central gameplay region. T01-T09 remain `[~]` and T10-T11 remain runtime/screenshot gates.
 
 ## P10 Production art — non-negotiable ship-quality gate
 - [~] P10-T01 Build a distinct vertical-world identity with authored foreground, mid-ground and distant depth; no empty baseplate or generic floating-block presentation
