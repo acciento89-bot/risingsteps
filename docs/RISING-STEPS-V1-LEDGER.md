@@ -124,31 +124,35 @@ P08 implementation note: V1 prices are locked in config (Revive 19 R$, 5-minute 
 - [!] P08-T08 Successful real Developer Product receipt + rejoin test
 
 ## P09 Production UI/UX
-- [ ] P09-T01 HUD prioritizes height, streak, warning state and PB
-- [ ] P09-T02 Danger/expiring-step feedback is readable without color alone
-- [ ] P09-T03 Result/retry path is immediate
-- [ ] P09-T04 Cosmetic/shop previews are production-ready
-- [ ] P09-T05 Compact phone/tablet/desktop responsive pass
-- [ ] P09-T06 Controller focus/navigation
-- [ ] P09-T07 Reduced-motion/accessibility settings
-- [ ] P09-T08 Replace all placeholder/default-looking interface surfaces with a coherent production component kit: typography, spacing grid, panels, buttons, icons and interaction states
-- [ ] P09-T09 HUD must preserve gameplay visibility on compact phones; no control or metric may cover the avatar, current landing step or next reachable step
-- [ ] P09-T10 Runtime visual-state pass for idle, active climb, warning, Perfect/Good, failure, result, shop and first-session tutorial
-- [ ] P09-T11 Screenshot gate: HUD and shop must look intentionally designed at native phone and desktop viewport sizes
+- [~] P09-T01 HUD prioritizes height, streak, warning state and PB
+- [~] P09-T02 Danger/expiring-step feedback is readable without color alone
+- [~] P09-T03 Result/retry path is immediate
+- [~] P09-T04 Cosmetic/shop previews are production-ready
+- [~] P09-T05 Compact phone/tablet/desktop responsive pass
+- [~] P09-T06 Controller focus/navigation
+- [~] P09-T07 Reduced-motion/accessibility settings
+- [~] P09-T08 Replace all placeholder/default-looking interface surfaces with a coherent production component kit: typography, spacing grid, panels, buttons, icons and interaction states
+- [~] P09-T09 HUD must preserve gameplay visibility on compact phones; no control or metric may cover the avatar, current landing step or next reachable step
+- [!] P09-T10 Runtime visual-state pass for idle, active climb, warning, Perfect/Good, failure, result, shop and first-session tutorial
+- [!] P09-T11 Screenshot gate: HUD and shop must look intentionally designed at native phone and desktop viewport sizes
+
+P09 implementation note: the gameplay HUD is now a coherent custom component system with Height/PB/Streak hierarchy, Coins/Shop controls, non-color-only retract warning, result panel, 48px Retry/Revive actions, Daily/Challenge/shop surfaces, cosmetic previews, reduced-motion behavior and controller focus handoff. Compact-width layout rules preserve the central gameplay region. Local format/lint/10 pure-Luau tests/16,000-placement simulation/release-readiness/Rojo build pass; GitHub Actions CI run `36703794105` is green. T01-T09 remain `[~]` and T10-T11 remain runtime/screenshot gates.
 
 ## P10 Production art — non-negotiable ship-quality gate
-- [ ] P10-T01 Build a distinct vertical-world identity with authored foreground, mid-ground and distant depth; no empty baseplate or generic floating-block presentation
-- [ ] P10-T02 Create a production step kit with at least six authored visible silhouette/trim variants; collision truth may stay simple but rendered geometry must not look like untouched Roblox Parts
-- [ ] P10-T03 Add believable structural language beneath/around steps — supports, brackets, rails, anchors, cables, architectural fragments or equivalent world-specific detail
-- [ ] P10-T04 Safe/active/warning/expiring states use shape/material/motion/VFX as well as color, and remain readable for color-vision deficiencies
-- [ ] P10-T05 Build at least three coherent altitude bands with visible progression in environment, atmosphere and set dressing
-- [ ] P10-T06 Background/parallax/fog/cloud/depth treatment reinforces height and motion without hiding the next 2–3 reachable steps
-- [ ] P10-T07 Lighting/material pass has deliberate key/fill/accent balance, soft readable shadows and no crushed-black or blown-out gameplay surfaces
-- [ ] P10-T08 Avatar silhouette remains separated from every supported environment/theme at normal and compact-phone camera distances
-- [ ] P10-T09 Add authored landing-zone detail, edge treatment and surface breakup so platforms read as finished game assets instead of colored boxes
+- [~] P10-T01 Build a distinct vertical-world identity with authored foreground, mid-ground and distant depth; no empty baseplate or generic floating-block presentation
+- [~] P10-T02 Create a production step kit with at least six authored visible silhouette/trim variants; collision truth may stay simple but rendered geometry must not look like untouched Roblox Parts
+- [~] P10-T03 Add believable structural language beneath/around steps — supports, brackets, rails, anchors, cables, architectural fragments or equivalent world-specific detail
+- [~] P10-T04 Safe/active/warning/expiring states use shape/material/motion/VFX as well as color, and remain readable for color-vision deficiencies
+- [~] P10-T05 Build at least three coherent altitude bands with visible progression in environment, atmosphere and set dressing
+- [~] P10-T06 Background/parallax/fog/cloud/depth treatment reinforces height and motion without hiding the next 2–3 reachable steps
+- [~] P10-T07 Lighting/material pass has deliberate key/fill/accent balance, soft readable shadows and no crushed-black or blown-out gameplay surfaces
+- [~] P10-T08 Avatar silhouette remains separated from every supported environment/theme at normal and compact-phone camera distances
+- [~] P10-T09 Add authored landing-zone detail, edge treatment and surface breakup so platforms read as finished game assets instead of colored boxes
 - [ ] P10-T10 Cosmetic themes change presentation substantially while preserving identical collision, reachability and competitive truth
 - [ ] P10-T11 Visual polish pass removes z-fighting, seams, floating props, texture stretching, visible generation pop, clipping and debug/helper geometry
-- [ ] P10-T12 Screenshot-quality gate at early, mid and high altitude on compact phone and desktop; any frame that still reads as prototype blocks P15
+- [!] P10-T12 Screenshot-quality gate at early, mid and high altitude on compact phone and desktop; any frame that still reads as prototype blocks P15
+
+P10 implementation note: production world art now includes a city-depth Service Decks band, Cloudline scaffold/cloud/glass band and Stratosphere spine/antenna band; global Atmosphere/Clouds/Bloom/ColorCorrection/soft shadows are authored; the step kit now has six structural variants, landing target detailing, braces/rails/anchors/cantilever pieces and warning fins so danger changes shape as well as color. Local format/lint/11 pure-Luau tests/16,000-placement simulation/release-readiness/Rojo build pass; GitHub Actions CI run `36704215763` is green. T10 cosmetic environment reskin, T11 visual cleanup and T12 screenshot approval remain open/runtime dependent.
 
 ## P11 Audio and VFX
 - [ ] P11-T01 Landing feedback
