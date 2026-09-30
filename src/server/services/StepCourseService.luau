@@ -758,6 +758,33 @@ local function buildCourse(player: Player): Course
 		end)
 	end
 
+	local basePartCount = 0
+	local beamAndLightCount = 0
+	for _, descendant in courseModel:GetDescendants() do
+		if descendant:IsA("BasePart") then
+			basePartCount += 1
+		elseif descendant:IsA("Beam") or descendant:IsA("Light") then
+			beamAndLightCount += 1
+		end
+	end
+	courseModel:SetAttribute("BasePartCount", basePartCount)
+	courseModel:SetAttribute("BeamAndLightCount", beamAndLightCount)
+	if basePartCount > CourseConfig.MaxLaneBaseParts or beamAndLightCount > CourseConfig.MaxLaneBeamsAndLights then
+		DiagnosticsService.warn("LanePresentationBudgetExceeded", {
+			UserId = player.UserId,
+			BaseParts = basePartCount,
+			BasePartBudget = CourseConfig.MaxLaneBaseParts,
+			BeamsAndLights = beamAndLightCount,
+			BeamAndLightBudget = CourseConfig.MaxLaneBeamsAndLights,
+		})
+	else
+		DiagnosticsService.info("LanePresentationBudget", {
+			UserId = player.UserId,
+			BaseParts = basePartCount,
+			BeamsAndLights = beamAndLightCount,
+		})
+	end
+
 	courses[player] = course
 	resetCourse(course)
 	return course
