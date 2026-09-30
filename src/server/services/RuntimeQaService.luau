@@ -79,6 +79,11 @@ local function run(player: Player)
 	local grades = {}
 	for stepId = 1, 12 do
 		local grade = StepCourseService.qaLand(player, stepId, 0)
+		check(("landing_step_%02d"):format(stepId), grade ~= "Rejected", {
+			StepId = stepId,
+			Grade = grade,
+			Height = StepCourseService.qaSnapshot(player).Height,
+		})
 		table.insert(grades, grade)
 		task.wait(0.03)
 	end
