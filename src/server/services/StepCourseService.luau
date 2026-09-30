@@ -696,7 +696,7 @@ local function bindPlayer(player: Player)
 		local character = player.Character
 		task.defer(function()
 			if character.Parent and courses[player] == course then
-				character:PivotTo(course.Spawn.CFrame + Vector3.new(0, 3, 0))
+				character:PivotTo(course.Spawn.CFrame)
 				bindCharacter(course, character)
 			end
 		end)
