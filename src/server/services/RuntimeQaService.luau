@@ -74,7 +74,7 @@ local function run(player: Player)
 	check("profile_healthy", player:GetAttribute("RisingStepsPersistenceHealthy") == true)
 
 	check("course_ready", waitReady(player))
-	visualHold(player, "tutorial", "Gameplay")
+	visualHold(player, "tutorial", "Tutorial")
 	local initial = StepCourseService.qaSnapshot(player)
 	check(
 		"lane_part_budget",
@@ -325,7 +325,7 @@ local function run(player: Player)
 	visualHold(player, "high", "Gameplay")
 
 	StepCourseService.qaShowWarning(player, 39)
-	visualHold(player, "warning", "Gameplay")
+	visualHold(player, "warning", "Warning")
 
 	StepCourseService.qaShowResult(player)
 	visualHold(player, "result", "Result")
