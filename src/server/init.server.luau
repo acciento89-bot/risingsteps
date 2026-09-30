@@ -24,7 +24,9 @@ end
 
 local servicesFolder = script:WaitForChild("services")
 local PlayerMovementService = require(servicesFolder.PlayerMovementService)
+local PlayerProfileService = require(servicesFolder.PlayerProfileService)
 local StepCourseService = require(servicesFolder.StepCourseService)
 
+PlayerProfileService.start()
 PlayerMovementService.start()
 StepCourseService.start()
