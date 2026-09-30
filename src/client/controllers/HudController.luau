@@ -1196,6 +1196,14 @@ local function createHud()
 			local view = LOCAL_PLAYER:GetAttribute("RisingStepsQaView")
 			if view == "Shop" then
 				setShopVisible(true)
+				task.spawn(function()
+					local ok, bootstrap = pcall(function()
+						return requestBootstrap:InvokeServer()
+					end)
+					if ok and type(bootstrap) == "table" then
+						refreshShop(bootstrap)
+					end
+				end)
 			elseif view == "Gameplay" or view == "Result" then
 				setShopVisible(false)
 			end
