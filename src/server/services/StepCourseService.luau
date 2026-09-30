@@ -43,6 +43,7 @@ type Course = {
 	Streak: number,
 	HighestY: number,
 	Failed: boolean,
+	Ready: boolean,
 	Assisted: boolean,
 	RevivesUsed: number,
 	PendingRevive: boolean,
@@ -481,7 +482,7 @@ local function resetCourse(course: Course)
 end
 
 local function failCourse(course: Course, reason: string)
-	if course.Failed then
+	if course.Failed or not course.Ready then
 		return
 	end
 
@@ -635,6 +636,7 @@ local function buildCourse(player: Player): Course
 		Streak = 0,
 		HighestY = startY,
 		Failed = false,
+		Ready = false,
 		Assisted = false,
 		RevivesUsed = 0,
 		PendingRevive = false,
@@ -659,6 +661,7 @@ local function buildCourse(player: Player): Course
 end
 
 local function bindCharacter(course: Course, character: Model)
+	course.Ready = false
 	if course.CharacterDiedConnection then
 		course.CharacterDiedConnection:Disconnect()
 		course.CharacterDiedConnection = nil
@@ -687,6 +690,12 @@ local function bindCharacter(course: Course, character: Model)
 			failCourse(course, "HumanoidDied")
 		end)
 	end
+
+	task.delay(0.20, function()
+		if courses[course.Player] == course and character.Parent and not course.Failed then
+			course.Ready = true
+		end
+	end)
 end
 
 local function bindPlayer(player: Player)
