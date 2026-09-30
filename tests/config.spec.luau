@@ -22,10 +22,7 @@ for _, band in DifficultyConfig.Bands do
 	assert(band.HorizontalMin <= band.HorizontalMax, "horizontal band bounds are inverted")
 	assert(band.VerticalMin <= band.VerticalMax, "vertical band bounds are inverted")
 	assert(band.WarningSeconds <= previousWarning, "warning time must not increase with difficulty")
-	assert(
-		band.WarningSeconds >= GameConfig.Step.MinimumWarningSeconds,
-		"difficulty band warning is below the minimum"
-	)
+	assert(band.WarningSeconds >= GameConfig.Step.MinimumWarningSeconds, "difficulty band warning is below the minimum")
 	assert(
 		band.HorizontalMax <= GameConfig.Step.MaxHorizontalCenterDistance,
 		"difficulty band exceeds horizontal hard cap"
