@@ -934,7 +934,7 @@ function StepCourseService.qaSnapshot(player: Player)
 	}
 end
 
-function StepCourseService.qaLand(player: Player, stepId: number, landingOffsetRatio: number?): string
+function StepCourseService.qaLand(player: Player, stepId: number, landingOffsetRatio: number?): (string, any)
 	local course = requireStudioCourse(player)
 	local runtime = course.Steps[stepId]
 	assert(runtime, ("QA step %d unavailable"):format(stepId))
@@ -956,10 +956,41 @@ function StepCourseService.qaLand(player: Player, stepId: number, landingOffsetR
 	)
 	rootPart.AssemblyLinearVelocity = Vector3.zero
 	course.LastLandingAt = -math.huge
+	local probe = {
+		CourseHeightBefore = course.Height,
+		ExpectedStepId = course.Height + 1,
+		TouchedStepId = stepId,
+		Ready = course.Ready,
+		Failed = course.Failed,
+		State = runtime.State,
+		HitDescendant = rootPart:IsDescendantOf(character),
+		RootY = rootPart.Position.Y,
+		StepTopY = topY,
+		VelocityY = rootPart.AssemblyLinearVelocity.Y,
+		PositionWithinLimit = SecurityRules.componentsWithinLimit(
+			rootPart.Position.X,
+			rootPart.Position.Y,
+			rootPart.Position.Z,
+			SecurityConfig.MaxAbsPosition
+		),
+		VelocityWithinLimit = SecurityRules.componentsWithinLimit(
+			rootPart.AssemblyLinearVelocity.X,
+			rootPart.AssemblyLinearVelocity.Y,
+			rootPart.AssemblyLinearVelocity.Z,
+			SecurityConfig.MaxAbsVelocity
+		),
+		ExpectedLanding = StepRules.isExpectedLanding(
+			course.Height + 1,
+			stepId,
+			rootPart.Position.Y,
+			topY,
+			rootPart.AssemblyLinearVelocity.Y
+		),
+	}
 	onLanding(course, runtime, rootPart)
 	rootPart.Anchored = wasAnchored
 
-	return if course.Height == stepId
+	return (if course.Height == stepId
 		then ScoreRules.gradeLanding(
 			rootPart.Position.X,
 			rootPart.Position.Z,
@@ -969,7 +1000,7 @@ function StepCourseService.qaLand(player: Player, stepId: number, landingOffsetR
 			GameConfig.Score.PerfectToleranceRatio,
 			GameConfig.Score.CleanToleranceRatio
 		)
-		else "Rejected"
+		else "Rejected"), probe
 end
 
 function StepCourseService.qaFail(player: Player, reason: string?)
