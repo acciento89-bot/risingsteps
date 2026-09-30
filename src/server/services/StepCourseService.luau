@@ -371,6 +371,47 @@ local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3)
 		table.insert(decorations, marker)
 	end
 
+	-- Break the square generated silhouette with deterministic authored edge hardware.
+	local cornerSignX = if definition.Variant % 2 == 0 then 1 else -1
+	local cornerSignZ = if definition.Variant <= 3 then -1 else 1
+	local cornerPlate = makePart(
+		model,
+		"CornerPlate",
+		Vector3.new(1.15, 0.16, 1.15),
+		CFrame.new(
+			center
+				+ Vector3.new(
+					cornerSignX * (size / 2 - 0.58),
+					thickness / 2 + 0.12,
+					cornerSignZ * (size / 2 - 0.58)
+				)
+		)
+			* CFrame.Angles(0, math.rad(45), 0),
+		Enum.Material.Metal,
+		palette.Detail,
+		false
+	)
+	cornerPlate.Transparency = 0.08
+	table.insert(decorations, cornerPlate)
+
+	local hangingBracket = makePart(
+		model,
+		"HangingBracket",
+		Vector3.new(0.28, 1.5 + (definition.Variant % 3) * 0.32, 0.72),
+		CFrame.new(
+			center
+				+ Vector3.new(
+					-cornerSignX * (size / 2 - 0.52),
+					-thickness / 2 - 0.82,
+					cornerSignZ * 0.9
+				)
+		),
+		Enum.Material.Metal,
+		COLORS.Foundation,
+		false
+	)
+	table.insert(decorations, hangingBracket)
+
 	for _, part in decorations do
 		part:SetAttribute("BaseTransparency", part.Transparency)
 	end
