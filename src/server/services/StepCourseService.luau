@@ -10,9 +10,11 @@ local root = ReplicatedStorage:WaitForChild("RisingSteps")
 local CourseConfig = require(root.config.CourseConfig)
 local GameConfig = require(root.config.GameConfig)
 local WorldConfig = require(root.config.WorldConfig)
+local ScoreRules = require(root.rules.ScoreRules)
 local StepRules = require(root.rules.StepRules)
 local StepSequence = require(root.rules.StepSequence)
 
+local PlayerProfileService = require(script.Parent.PlayerProfileService)
 local StartDeckService = require(script.Parent.StartDeckService)
 
 type StepRuntime = {
@@ -33,6 +35,7 @@ type Course = {
 	Origin: Vector3,
 	Steps: { [number]: StepRuntime },
 	Height: number,
+	Streak: number,
 	HighestY: number,
 	Failed: boolean,
 	RunToken: number,
@@ -317,7 +320,7 @@ local function scheduleExpiry(course: Course, stepId: number)
 	end)
 end
 
-local function sendSnapshot(course: Course, kind: string)
+local function sendSnapshot(course: Course, kind: string, grade: string?)
 	local remoteFolder = root:FindFirstChild("Remotes")
 	if not remoteFolder then
 		return
@@ -327,6 +330,9 @@ local function sendSnapshot(course: Course, kind: string)
 		snapshot:FireClient(course.Player, {
 			Kind = kind,
 			Height = course.Height,
+			Streak = course.Streak,
+			PB = PlayerProfileService.getPB(course.Player),
+			Grade = grade,
 			Failed = course.Failed,
 		})
 	end
@@ -335,9 +341,11 @@ end
 local function resetCourse(course: Course)
 	course.RunToken += 1
 	course.Height = 0
+	course.Streak = 0
 	course.Failed = false
 	course.HighestY = WorldConfig.StartDeck.CenterY + WorldConfig.StartDeck.DeckThickness / 2
 	course.Player:SetAttribute("RisingStepsHeight", 0)
+	course.Player:SetAttribute("RisingStepsStreak", 0)
 	course.Player:SetAttribute("RisingStepsRunFailed", false)
 
 	for _, runtime in course.Steps do
@@ -354,6 +362,7 @@ local function failCourse(course: Course, reason: string)
 
 	course.Failed = true
 	course.Player:SetAttribute("RisingStepsRunFailed", true)
+	task.spawn(PlayerProfileService.flushPlayer, course.Player)
 	sendSnapshot(course, reason)
 
 	local character = course.Player.Character
@@ -393,10 +402,23 @@ local function onLanding(course: Course, runtime: StepRuntime, hit: BasePart)
 		return
 	end
 
+	local grade = ScoreRules.gradeLanding(
+		rootPart.Position.X,
+		rootPart.Position.Z,
+		runtime.Collision.Position.X,
+		runtime.Collision.Position.Z,
+		GameConfig.Step.BaseFootprint,
+		GameConfig.Score.PerfectToleranceRatio,
+		GameConfig.Score.CleanToleranceRatio
+	)
+
 	course.Height = definition.Id
+	course.Streak = ScoreRules.nextStreak(course.Streak, grade)
 	course.HighestY = math.max(course.HighestY, stepTopY)
 	course.Player:SetAttribute("RisingStepsHeight", course.Height)
-	sendSnapshot(course, "Progress")
+	course.Player:SetAttribute("RisingStepsStreak", course.Streak)
+	PlayerProfileService.recordHeight(course.Player, course.Height)
+	sendSnapshot(course, "Progress", grade)
 
 	local expiryStepId = course.Height - CourseConfig.ExpiryBehindCurrent
 	if expiryStepId >= 1 then
@@ -452,6 +474,7 @@ local function buildCourse(player: Player): Course
 		Origin = laneOrigin,
 		Steps = {},
 		Height = 0,
+		Streak = 0,
 		HighestY = startY,
 		Failed = false,
 		RunToken = 1,
