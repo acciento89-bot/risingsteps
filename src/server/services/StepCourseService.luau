@@ -1019,6 +1019,13 @@ function StepCourseService.qaLand(player: Player, stepId: number, landingOffsetR
 		probe
 end
 
+function StepCourseService.qaStepBand(player: Player, stepId: number): string
+	local course = requireStudioCourse(player)
+	local runtime = course.Steps[stepId]
+	assert(runtime, ("QA step %d unavailable"):format(stepId))
+	return runtime.Definition.BandId
+end
+
 function StepCourseService.qaFail(player: Player, reason: string?)
 	local course = requireStudioCourse(player)
 	failCourse(course, reason or "StudioQA")
