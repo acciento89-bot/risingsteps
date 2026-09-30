@@ -38,6 +38,9 @@ type Course = {
 	Streak: number,
 	HighestY: number,
 	Failed: boolean,
+	Assisted: boolean,
+	RevivesUsed: number,
+	PendingRevive: boolean,
 	RunToken: number,
 	CharacterDiedConnection: RBXScriptConnection?,
 }
@@ -303,9 +306,15 @@ local function scheduleExpiry(course: Course, stepId: number)
 
 	local token = course.RunToken
 	local band = StepSequence.bandForHeight(stepId - 1)
+	local warningSeconds = band.WarningSeconds
+	local stabilityUntil = course.Player:GetAttribute("RisingStepsStabilityUntil")
+	if type(stabilityUntil) == "number" and stabilityUntil > os.time() then
+		course.Assisted = true
+		warningSeconds *= 1.35
+	end
 	setStepState(runtime, StepRules.State.Warning)
 
-	task.delay(band.WarningSeconds, function()
+	task.delay(warningSeconds, function()
 		if course.RunToken ~= token or runtime.State ~= StepRules.State.Warning then
 			return
 		end
@@ -339,6 +348,9 @@ local function sendSnapshot(course: Course, kind: string, grade: string?, reward
 			AchievementCoins = if reward then reward.AchievementCoins or 0 else 0,
 			NewPB = if reward then reward.NewPB == true else false,
 			UnlockedAchievements = if reward then reward.UnlockedAchievements or {} else {},
+			Assisted = course.Assisted,
+			Revives = course.Player:GetAttribute("RisingStepsRevives") or 0,
+			RevivesUsed = course.RevivesUsed,
 			Failed = course.Failed,
 		})
 	end
@@ -349,6 +361,9 @@ local function resetCourse(course: Course)
 	course.Height = 0
 	course.Streak = 0
 	course.Failed = false
+	course.Assisted = false
+	course.RevivesUsed = 0
+	course.PendingRevive = false
 	course.HighestY = WorldConfig.StartDeck.CenterY + WorldConfig.StartDeck.DeckThickness / 2
 	course.Player:SetAttribute("RisingStepsHeight", 0)
 	course.Player:SetAttribute("RisingStepsStreak", 0)
@@ -423,7 +438,8 @@ local function onLanding(course: Course, runtime: StepRuntime, hit: BasePart)
 	course.HighestY = math.max(course.HighestY, stepTopY)
 	course.Player:SetAttribute("RisingStepsHeight", course.Height)
 	course.Player:SetAttribute("RisingStepsStreak", course.Streak)
-	local reward = PlayerProfileService.awardLanding(course.Player, grade, course.Streak, course.Height)
+	local reward =
+		PlayerProfileService.awardLanding(course.Player, grade, course.Streak, course.Height, not course.Assisted)
 	sendSnapshot(course, "Progress", grade, reward)
 
 	local expiryStepId = course.Height - CourseConfig.ExpiryBehindCurrent
@@ -483,6 +499,9 @@ local function buildCourse(player: Player): Course
 		Streak = 0,
 		HighestY = startY,
 		Failed = false,
+		Assisted = false,
+		RevivesUsed = 0,
+		PendingRevive = false,
 		RunToken = 1,
 		CharacterDiedConnection = nil,
 	}
@@ -508,7 +527,16 @@ local function bindCharacter(course: Course, character: Model)
 		course.CharacterDiedConnection = nil
 	end
 
-	if course.Failed then
+	if course.PendingRevive then
+		course.PendingRevive = false
+		task.defer(function()
+			local safeStep = course.Steps[math.max(1, course.Height)]
+			if character.Parent and safeStep then
+				character:PivotTo(safeStep.Collision.CFrame + Vector3.new(0, 4, 0))
+			end
+			sendSnapshot(course, "Revived")
+		end)
+	elseif course.Failed then
 		task.delay(CourseConfig.RespawnResetDelaySeconds, function()
 			if courses[course.Player] == course then
 				resetCourse(course)
@@ -578,15 +606,33 @@ function StepCourseService.start()
 	local playerCommand = remoteFolder:WaitForChild("PlayerCommand")
 	assert(playerCommand:IsA("RemoteEvent"), "PlayerCommand must be a RemoteEvent")
 	playerCommand.OnServerEvent:Connect(function(player, payload)
-		if type(payload) ~= "table" or payload.Action ~= "Retry" then
+		if type(payload) ~= "table" then
 			return
 		end
 		local course = courses[player]
 		if not course or not course.Failed then
 			return
 		end
-		course.RunToken += 1
-		player:LoadCharacter()
+
+		if payload.Action == "Retry" then
+			course.RunToken += 1
+			player:LoadCharacter()
+		elseif payload.Action == "UseRevive" then
+			if course.RevivesUsed >= GameConfig.Failure.MaxPaidRevivesPerRun or course.Height < 1 then
+				return
+			end
+			if not PlayerProfileService.consumeRevive(player) then
+				return
+			end
+			course.RunToken += 1
+			course.Failed = false
+			course.Streak = 0
+			course.Assisted = true
+			course.RevivesUsed += 1
+			course.PendingRevive = true
+			player:SetAttribute("RisingStepsRunFailed", false)
+			player:LoadCharacter()
+		end
 	end)
 
 	for _, player in Players:GetPlayers() do

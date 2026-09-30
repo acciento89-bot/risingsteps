@@ -9,6 +9,9 @@ assert(fresh.Owned.StepThemes.steel == true, "default step theme must be owned")
 assert(fresh.TutorialComplete == false, "fresh profile must require the first-session tutorial")
 assert(fresh.Daily.LastClaimDay == -1, "fresh profile must not have a daily claim")
 assert(fresh.Totals.Perfect == 0, "fresh profile Perfect total must start at zero")
+assert(fresh.Inventory.Revives == 0, "fresh profile must not invent revives")
+assert(fresh.Boosts.StabilityUntil == 0, "fresh profile must not invent boosts")
+assert(#fresh.ProcessedReceipts == 0, "fresh profile must not invent receipts")
 assert(fresh.Equipped.StepThemes == "steel", "default step theme must be equipped")
 
 local migratedV1 = ProfileRules.migrate({

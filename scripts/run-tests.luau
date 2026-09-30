@@ -2,6 +2,7 @@ local tests = {
 	require("../tests/config.spec"),
 	require("../tests/profile-rules.spec"),
 	require("../tests/reachability.spec"),
+	require("../tests/receipt-rules.spec"),
 	require("../tests/remote-authority.spec"),
 	require("../tests/retention-rules.spec"),
 	require("../tests/simulation.spec"),

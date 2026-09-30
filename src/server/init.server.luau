@@ -23,12 +23,14 @@ for remoteName, definition in RemoteConfig.Definitions do
 end
 
 local servicesFolder = script:WaitForChild("services")
+local MonetizationService = require(servicesFolder.MonetizationService)
 local PlayerMovementService = require(servicesFolder.PlayerMovementService)
 local PlayerProfileService = require(servicesFolder.PlayerProfileService)
 local ProgressionService = require(servicesFolder.ProgressionService)
 local StepCourseService = require(servicesFolder.StepCourseService)
 
 PlayerProfileService.start()
+MonetizationService.start()
 ProgressionService.start(remoteFolder)
 PlayerMovementService.start()
 StepCourseService.start()

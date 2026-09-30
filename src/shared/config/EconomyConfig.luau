@@ -1,7 +1,7 @@
 --!strict
 
 local EconomyConfig = {
-	ProfileVersion = 3,
+	ProfileVersion = 4,
 	DataStoreName = "RisingStepsProfileV1",
 	AutosaveSeconds = 60,
 	LoadAttempts = 3,

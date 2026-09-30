@@ -77,6 +77,13 @@ function ProfileRules.defaultProfile()
 			Perfect = 0,
 			Clean = 0,
 		},
+		Inventory = {
+			Revives = 0,
+		},
+		Boosts = {
+			StabilityUntil = 0,
+		},
+		ProcessedReceipts = {},
 	}
 end
 
@@ -146,6 +153,23 @@ function ProfileRules.migrate(raw: any)
 	if type(raw.Totals) == "table" then
 		profile.Totals.Perfect = nonNegativeInteger(raw.Totals.Perfect, 0)
 		profile.Totals.Clean = nonNegativeInteger(raw.Totals.Clean, 0)
+	end
+
+	if type(raw.Inventory) == "table" then
+		profile.Inventory.Revives = nonNegativeInteger(raw.Inventory.Revives, 0)
+	end
+	if type(raw.Boosts) == "table" then
+		profile.Boosts.StabilityUntil = nonNegativeInteger(raw.Boosts.StabilityUntil, 0)
+	end
+	if type(raw.ProcessedReceipts) == "table" then
+		for _, purchaseId in raw.ProcessedReceipts do
+			if type(purchaseId) == "string" and #purchaseId >= 1 and #purchaseId <= 128 then
+				table.insert(profile.ProcessedReceipts, purchaseId)
+				if #profile.ProcessedReceipts >= 50 then
+					break
+				end
+			end
+		end
 	end
 
 	return profile

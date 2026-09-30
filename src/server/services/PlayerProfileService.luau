@@ -6,8 +6,10 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local root = ReplicatedStorage:WaitForChild("RisingSteps")
 local EconomyConfig = require(root.config.EconomyConfig)
+local MonetizationConfig = require(root.config.MonetizationConfig)
 local RetentionConfig = require(root.config.RetentionConfig)
 local ProfileRules = require(root.rules.ProfileRules)
+local ReceiptRules = require(root.rules.ReceiptRules)
 local RetentionRules = require(root.rules.RetentionRules)
 
 type RuntimeProfile = any
@@ -32,6 +34,8 @@ local function syncAttributes(player: Player, profile: RuntimeProfile)
 	player:SetAttribute("RisingStepsTutorialComplete", profile.TutorialComplete)
 	player:SetAttribute("RisingStepsProfileLoaded", profile.Loaded)
 	player:SetAttribute("RisingStepsPersistenceHealthy", profile.PersistenceHealthy)
+	player:SetAttribute("RisingStepsRevives", profile.Inventory.Revives)
+	player:SetAttribute("RisingStepsStabilityUntil", profile.Boosts.StabilityUntil)
 end
 
 local function runtimeFromData(data: any): RuntimeProfile
@@ -67,6 +71,9 @@ local function persistentPayload(profile: RuntimeProfile)
 		Challenge = profile.Challenge,
 		Achievements = profile.Achievements,
 		Totals = profile.Totals,
+		Inventory = profile.Inventory,
+		Boosts = profile.Boosts,
+		ProcessedReceipts = profile.ProcessedReceipts,
 	}
 end
 
@@ -176,6 +183,8 @@ function PlayerProfileService.getSnapshot(player: Player)
 		},
 		Challenge = challengeSnapshot(profile),
 		Achievements = profile.Achievements,
+		Inventory = profile.Inventory,
+		Boosts = profile.Boosts,
 		Loaded = profile.Loaded,
 		PersistenceHealthy = profile.PersistenceHealthy,
 	}
@@ -194,13 +203,21 @@ function PlayerProfileService.recordHeight(player: Player, height: number): (num
 	return profile.PB, true
 end
 
-function PlayerProfileService.awardLanding(player: Player, grade: string, streak: number, height: number)
+function PlayerProfileService.awardLanding(
+	player: Player,
+	grade: string,
+	streak: number,
+	height: number,
+	competitive: boolean?
+)
 	local profile = ensureProfile(player)
 	ensureCurrentChallenge(profile)
 
 	local oldPB = profile.PB
 	local normalizedHeight = math.max(0, math.floor(height))
-	profile.PB = math.max(profile.PB, normalizedHeight)
+	if competitive ~= false then
+		profile.PB = math.max(profile.PB, normalizedHeight)
+	end
 	local newPB = profile.PB > oldPB
 
 	if grade == "Perfect" then
@@ -210,6 +227,10 @@ function PlayerProfileService.awardLanding(player: Player, grade: string, streak
 	end
 
 	local landingCoins = ProfileRules.rewardForLanding(grade, streak, normalizedHeight)
+	local multiplier = player:GetAttribute("RisingStepsCoinMultiplier")
+	if type(multiplier) == "number" then
+		landingCoins *= math.max(1, math.floor(multiplier))
+	end
 	profile.Coins += landingCoins
 
 	local event = {
@@ -323,6 +344,51 @@ function PlayerProfileService.setReducedMotion(player: Player, enabled: boolean)
 	end
 
 	profile.Settings.ReducedMotion = enabled
+	profile.Dirty = true
+	syncAttributes(player, profile)
+	return true
+end
+
+function PlayerProfileService.grantDeveloperProduct(
+	player: Player,
+	productKey: string,
+	purchaseId: string
+): (boolean, string)
+	local profile = ensureProfile(player)
+	if not profile.Loaded or not profile.PersistenceHealthy then
+		return false, "profile_unavailable"
+	end
+	if ReceiptRules.contains(profile.ProcessedReceipts, purchaseId) then
+		return true, "already_processed"
+	end
+
+	local product = MonetizationConfig.DeveloperProducts[productKey]
+	if not product then
+		return false, "unknown_product"
+	end
+
+	if product.Grant == "Revive" then
+		profile.Inventory.Revives = math.min(product.MaxInventory, profile.Inventory.Revives + 1)
+	elseif product.Grant == "Stability" then
+		local startAt = math.max(os.time(), profile.Boosts.StabilityUntil)
+		profile.Boosts.StabilityUntil = startAt + product.DurationSeconds
+	else
+		return false, "unknown_grant"
+	end
+
+	profile.ProcessedReceipts = ReceiptRules.append(profile.ProcessedReceipts, purchaseId)
+	profile.Dirty = true
+	syncAttributes(player, profile)
+	return true, "ok"
+end
+
+function PlayerProfileService.consumeRevive(player: Player): boolean
+	local profile = ensureProfile(player)
+	if profile.Inventory.Revives <= 0 then
+		return false
+	end
+
+	profile.Inventory.Revives -= 1
 	profile.Dirty = true
 	syncAttributes(player, profile)
 	return true
