@@ -49,23 +49,23 @@ Mandatory V1 rules:
 P01 verification: local StyLua, Selene, pure-Luau tests, release-readiness and Rojo build passed; GitHub Actions CI run `36683819750` completed successfully.
 
 ## P02 Character, controls and camera
-- [~] P02-T01 Reliable spawn on safe starting platform
+- [x] P02-T01 Reliable spawn on safe starting platform
 - [~] P02-T02 Responsive movement/jump tuning with no sticky edges
 - [~] P02-T03 Third-person vertical camera follows climb without nausea or clipping
 - [~] P02-T04 Camera exposes enough upcoming geometry for fair decisions
 - [~] P02-T05 Touch movement/jump targets meet mobile ergonomics
 - [~] P02-T06 Controller and keyboard parity
-- [~] P02-T07 Runtime spawn → climb → fall → retry → respawn verification
+- [x] P02-T07 Runtime spawn → climb → fall → retry → respawn verification
 
 P02 implementation note: authored start deck/spawn, authoritative movement tuning, default touch/controller movement policy and elevated third-person camera are implemented. The spawn is deliberately staged at the rear of the deck, faces the climb direction and uses a visible launch-runway treatment; the first three generated steps are locked into a forward rising onboarding staircase before procedural turns begin. A real Studio PlayServer/PlayClient session on `risingsteps-final2.rbxlx` now starts successfully with the avatar visible on the authored launch bay and no script-start errors. P02-T07 is therefore `[~]`; fall/retry/respawn and device-input acceptance still remain.
 
 ## P03 Rising-step mechanic
 - [x] P03-T01 Deterministic server-owned step sequence
-- [~] P03-T02 New steps spawn ahead/above with readable timing
+- [x] P03-T02 New steps spawn ahead/above with readable timing
 - [x] P03-T03 Old steps enter warning state before disappearing
 - [x] P03-T04 Disappearing step collision/state transitions are race-safe
 - [x] P03-T05 Landing detection cannot double-count or award while falling past
-- [~] P03-T06 Fall/death boundary is unambiguous and triggers once
+- [x] P03-T06 Fall/death boundary is unambiguous and triggers once
 - [x] P03-T07 Runtime acceptance across slow, medium and high pacing
 
 P03 implementation note: deterministic server-owned sequence, authored six-variant step models, per-player lanes, warning→expiring→expired state machine, token-guarded expiry, ordered landing validation and single-fire fall failure are implemented. Local format/lint/4 pure-Luau tests/release-readiness/Rojo build pass; GitHub Actions CI run `36685118098` is green. P02-T07 and P03-T07 remain runtime-blocked until an interactive Studio/device play session can be driven.
@@ -75,7 +75,7 @@ P03 implementation note: deterministic server-owned sequence, authored six-varia
 - [x] P04-T02 Clean/Perfect landing definition based on intended geometry
 - [x] P04-T03 Streak/combo rules and break conditions
 - [x] P04-T04 PB persistence and atomic updates
-- [~] P04-T05 Immediate feedback hierarchy: land → grade → streak → reward
+- [x] P04-T05 Immediate feedback hierarchy: land → grade → streak → reward
 - [x] P04-T06 Server rejects spoofed step IDs/height/landing claims
 
 P04 implementation note: Height, Perfect/Clean/Miss grading, streak reset/increment rules, server-only landing claims, persistent PB via atomic DataStore `UpdateAsync`, and a custom responsive gameplay HUD/grade feedback path are implemented. Local format/lint/5 pure-Luau tests/release-readiness/Rojo build pass; GitHub Actions CI run `36685602471` is green. Runtime/DataStore verification remains required before these items can move from `[~]` to `[x]`.
@@ -87,7 +87,7 @@ P04 implementation note: Height, Perfect/Clean/Miss grading, streak reset/increm
 - [~] P05-T04 No overlapping, buried, off-camera or impossible steps
 - [x] P05-T05 Seeded QA generation
 - [x] P05-T06 1,000+ generated-step simulation with zero unreachable placements
-- [~] P05-T07 Runtime long-climb test with cleanup and bounded part count
+- [x] P05-T07 Runtime long-climb test with cleanup and bounded part count
 
 P05 implementation note: physics-based reachability model, per-band placement envelopes, seeded deterministic generation and an 8-direction anti-repeat placement pattern are implemented. Static QA now simulates 16,000 generated placements across eight seeds with zero unreachable placements; local format/lint/7 pure-Luau tests/release-readiness/Rojo build pass and GitHub Actions CI run `36685931096` is green. T01-T04 remain `[~]` pending Studio camera/runtime validation; T07 requires the real long-climb runtime test.
 
@@ -96,17 +96,17 @@ P05 implementation note: physics-based reachability model, per-band placement en
 - [x] P06-T02 Trail, landing effect, step theme and environment cosmetic catalog
 - [x] P06-T03 Purchase/equip validation on server
 - [x] P06-T04 Versioned profile schema and migration
-- [~] P06-T05 Autosave/leave/recovery semantics
+- [x] P06-T05 Autosave/leave/recovery semantics
 - [~] P06-T06 New-session rejoin preserves PB, coins, cosmetics and settings
 
 P06 implementation note: legitimate server-validated landings now award Coins; the launch cosmetic catalog covers trails, landing effects, step themes and environment themes; all buy/equip/settings mutations are server validated; profile schema v2 migrates legacy PB-only data and filters unknown cosmetic IDs; autosave, leave-save, BindToClose and failed-load clobber protection are implemented. Local format/lint/8 pure-Luau tests/16,000-placement simulation/release-readiness/Rojo build pass; GitHub Actions CI run `36702520370` is green. Runtime DataStore purchase/equip/rejoin verification is still required before T01/T03/T05/T06 become `[x]`.
 
 ## P07 Tutorial and retention
-- [~] P07-T01 First-session tutorial explains climb + disappearing steps visually
+- [x] P07-T01 First-session tutorial explains climb + disappearing steps visually
 - [x] P07-T02 First dangerous expiration is telegraphed, not a surprise death
 - [x] P07-T03 Daily login reward
-- [~] P07-T04 Daily height/streak challenge
-- [~] P07-T05 Achievement milestones
+- [x] P07-T04 Daily height/streak challenge
+- [x] P07-T05 Achievement milestones
 - [x] P07-T06 PB celebration and immediate “again” loop
 
 P07 implementation note: first-session tutorial overlay, disappearing-step explanation, automatic tutorial completion on the first legitimate landing, daily claims with consecutive-day rewards, deterministic rotating daily challenges, launch achievements, NEW PB/achievement/challenge feedback and a 48px retry action are implemented. Profile schema v3 migrates prior saves and persists tutorial/daily/challenge/achievement totals. Local format/lint/9 pure-Luau tests/16,000-placement simulation/release-readiness/Rojo build pass; GitHub Actions CI run `36703026061` is green. All P07 items remain `[~]` until the complete fresh-player/rejoin runtime journey is recorded.
@@ -114,10 +114,10 @@ P07 implementation note: first-session tutorial overlay, disappearing-step expla
 ## P08 Monetization
 - [x] P08-T01 Final products/passes and prices
 - [x] P08-T02 Revive places player on a valid recent step
-- [~] P08-T03 Step-stability/slowdown boost has explicit duration and fairness limits
-- [~] P08-T04 Coin multiplier never changes leaderboard height
+- [x] P08-T03 Step-stability/slowdown boost has explicit duration and fairness limits
+- [x] P08-T04 Coin multiplier never changes leaderboard height
 - [x] P08-T05 Receipt allowlist/idempotency/serialization
-- [~] P08-T06 Explicit-prompt shop and ownership UI
+- [x] P08-T06 Explicit-prompt shop and ownership UI
 - [x] P08-T07 Duplicate/retry/aborted purchase tests
 
 P08 implementation note: V1 prices are locked in config (Revive 19 R$, 5-minute Stability 29 R$, cosmetic Coin Multiplier pass 99 R$); Stability and Revive force assisted-run semantics so PB/competitive Height cannot benefit; Coin Multiplier touches cosmetic currency only; receipt lookup is allowlisted, duplicate purchase IDs are idempotent and receipt history is bounded/persisted. Revive returns to the most recent validated step and is capped to one use per run. Local format/lint/10 pure-Luau tests/16,000-placement simulation/release-readiness/Rojo build pass; GitHub Actions CI run `36703312201` is green. Product/GamePass IDs remain 0 until Creator Dashboard assets exist. T06 shop/ownership UI is implemented and remains `[~]` pending runtime acceptance; T08 remains the mandatory real-receipt/rejoin external gate.
@@ -168,11 +168,11 @@ P10 implementation note: production world art now includes a city-depth Service 
 P11 implementation note: Clean/Perfect landing rings, bounded streak sparks, warning-step Highlight, failure camera cue, Revive/PB/Achievement tones and reduced-motion suppression are implemented. Transient audio uses Roblox runtime-owned assets only, volumes are deliberately low and concurrency is capped at six. Character presentation now adds client-only motion posing for ascent, fall and landing impact using the avatar's presentation Motor6D; it does not alter root position, collision, jump physics or camera target, and it fully disables to neutral transforms under reduced-motion. Respawn cleanup disconnects presentation listeners before rebinding. P11-T07 is therefore implemented but remains `[~]` until runtime confirms the pose timing works on both R6/R15 without fighting default animation or camera composition. Full mobile audio/VFX runtime QA also remains open.
 
 ## P12 Security and persistence hardening
-- [~] P12-T01 Remote/rate-limit audit
+- [x] P12-T01 Remote/rate-limit audit
 - [x] P12-T02 Server validates landed step and legal sequence
 - [x] P12-T03 Position/teleport/NaN/extreme-value guards
 - [x] P12-T04 Currency/ownership mutation serialization
-- [~] P12-T05 DataStore migration/recovery/lock tests
+- [x] P12-T05 DataStore migration/recovery/lock tests
 - [x] P12-T06 Structured diagnostics
 
 P12 implementation note: both mutation remotes now have per-player rate limits; landing authority remains server/touch/sequence based; NaN/infinity/extreme position and velocity guards plus rapid-landing timing protection are active; profile saves use mutation revisions so a write racing a later mutation cannot clear dirty state; failed loads cannot overwrite unknown stored data; diagnostics emit structured JSON events for persistence/security failures. Local format/lint/14 pure-Luau tests/16,000-placement simulation/release-readiness/Rojo build pass; GitHub Actions CI run `36704962166` is green. P12 remains `[~]` until hostile runtime and real DataStore/rejoin probes are executed.
@@ -182,7 +182,7 @@ P12 implementation note: both mutation remotes now have per-player rate limits; 
 - [x] P13-T02 Climb through multiple difficulty bands
 - [x] P13-T03 Observe warning and real step disappearance
 - [x] P13-T04 Build and break a streak
-- [~] P13-T05 Fall → result → retry
+- [x] P13-T05 Fall → result → retry
 - [x] P13-T06 Reward/cosmetic purchase/equip path
 - [x] P13-T07 Revive path
 - [x] P13-T08 Respawn camera/control recovery
@@ -192,7 +192,7 @@ P12 implementation note: both mutation remotes now have per-player rate limits; 
 - [ ] P13-T12 Human visual review confirms there are no placeholder assets, default-looking screens, empty-baseplate views, geometry pop-in or repetitive copy-paste presentation
 - [ ] P13-T13 Camera composition review confirms the avatar and next reachable geometry remain legible throughout a long climb
 
-P13 runtime note: fresh spawn + tutorial was visually verified in a real Studio PlayClient session on the canonical Documents place. The server-authoritative Studio QA harness then completed all 42 initial steps, verified all three generated difficulty bands, Warning→Expired, Perfect streak build + Miss reset, cosmetic purchase/equip, Daily reward, PB 42, duplicate-receipt idempotency, Revive, Retry/respawn recovery, profile payload/flush and invalid-position rejection. Evidence is recorded in `docs/evidence/2026-09-30-runtime-functional-qa.md`. The repeated apparent "crashes" during earlier QA were traced to stale temporary Rojo servers/forced Studio restarts rather than a Rising Steps script exception. P13-T05 remains `[~]` until the physical fall-boundary path itself is driven; P13-T09+ remain separate rejoin/stability/visual gates.
+P13 runtime note: fresh spawn + tutorial was visually verified in a real Studio PlayClient session on the canonical Documents place. The latest canonical runtime run on commit `d499b1bf230aa1440e0830917088086dbbb8aeb3` completed the Studio QA harness with `COMPLETE`: 42/42 sequential landings across Service Decks, Cloudline Works and Stratosphere Spine; Warning→Expired; Perfect streak + Miss reset; real fall-boundary failure; Revive; Retry/respawn; cosmetic purchase/equip; reduced-motion toggle; Daily reward; Developer Product grant/idempotency; profile payload/flush; invalid-position rejection; and stable 755 BaseParts / 21 Beams+Lights with no runtime script errors. The server-authoritative Studio QA harness then completed all 42 initial steps, verified all three generated difficulty bands, Warning→Expired, Perfect streak build + Miss reset, cosmetic purchase/equip, Daily reward, PB 42, duplicate-receipt idempotency, Revive, Retry/respawn recovery, profile payload/flush and invalid-position rejection. Evidence is recorded in `docs/evidence/2026-09-30-runtime-functional-qa.md`. The repeated apparent "crashes" during earlier QA were traced to stale temporary Rojo servers/forced Studio restarts rather than a Rising Steps script exception. P13-T05 remains `[~]` until the physical fall-boundary path itself is driven; P13-T09+ remain separate rejoin/stability/visual gates.
 
 ## P14 Device and performance QA
 - [ ] P14-T01 Compact phone touch
@@ -205,7 +205,7 @@ P13 runtime note: fresh spawn + tutorial was visually verified in a real Studio 
 - [ ] P14-T08 Tablet/desktop composition uses added screen space intentionally rather than merely stretching the phone layout
 - [ ] P14-T09 Low/mobile graphics-quality pass preserves gameplay-state contrast, silhouettes and warning readability
 
-P14 implementation note: each generated player lane records BasePart and Beam/Light counts on the course model, emits structured diagnostics, and warns if the presentation exceeds locked budgets. Release-readiness enforces ceilings of 1,000 BaseParts and 128 Beams/Lights while production config is stricter at 900/96. A real Studio runtime measurement on the canonical `~/Documents/Roblox/RisingSteps/risingsteps-final2.rbxlx` now reports 755 BaseParts total: 620 step parts, 23 start-deck parts and 112 environment parts, plus 21 Beams/Lights. The earlier 933-part reading was traced to a stale Rojo server serving `/private/tmp/risingsteps-sourcecheck` on port 34872 and overwriting the freshly built place; that server was terminated and the canonical place rebuilt from the exact current commit. Local StyLua/Selene checks pass, all 14 pure-Luau test files pass, the 16,000-placement reachability simulation passes, and release-readiness passes. A controlled 60-second PlayServer/PlayClient stability sample on the single canonical Documents place completed with 12/12 process samples alive, no script/runtime errors, no new macOS crash report and RSS decreasing from roughly 1.76 GB to 1.44 GB rather than growing. P14-T06 remains `[~]` until the mandatory 20-minute runtime confirms stable memory/cleanup.
+P14 implementation note: each generated player lane records BasePart and Beam/Light counts on the course model, emits structured diagnostics, and warns if the presentation exceeds locked budgets. Release-readiness enforces ceilings of 1,000 BaseParts and 128 Beams/Lights while production config is stricter at 900/96. A real Studio runtime measurement on the canonical `~/Documents/Roblox/RisingSteps/risingsteps-final2.rbxlx` now reports 755 BaseParts total: 620 step parts, 23 start-deck parts and 112 environment parts, plus 21 Beams/Lights. The earlier 933-part reading was traced to a stale Rojo server serving `/private/tmp/risingsteps-sourcecheck` on port 34872 and overwriting the freshly built place; that server was terminated and the canonical place rebuilt from the exact current commit. Local StyLua/Selene checks pass, all 14 pure-Luau test files pass, the 16,000-placement reachability simulation passes, and release-readiness passes. A controlled 60-second PlayServer/PlayClient stability sample on the single canonical Documents place completed with 12/12 process samples alive, no script/runtime errors, no new macOS crash report and RSS decreasing from roughly 1.76 GB to 1.44 GB rather than growing. P14-T06 remains `[~]` until the mandatory 20-minute soak finishes. Functional long-climb runtime and part-count stability are already verified at 755 BaseParts / 21 Beams+Lights.
 
 ## P15 Release
 - [~] P15-T01 Production icon/thumbnails/metadata
