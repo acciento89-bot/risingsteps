@@ -1,0 +1,568 @@
+--!strict
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
+local Workspace = game:GetService("Workspace")
+
+local root = ReplicatedStorage:WaitForChild("RisingSteps")
+local CourseConfig = require(root.config.CourseConfig)
+local GameConfig = require(root.config.GameConfig)
+local WorldConfig = require(root.config.WorldConfig)
+local StepRules = require(root.rules.StepRules)
+local StepSequence = require(root.rules.StepSequence)
+
+local StartDeckService = require(script.Parent.StartDeckService)
+
+type StepRuntime = {
+	Model: Model,
+	Collision: Part,
+	Inset: Part,
+	Accents: { BasePart },
+	Decorations: { BasePart },
+	Definition: any,
+	State: string,
+}
+
+type Course = {
+	Player: Player,
+	Model: Model,
+	Spawn: SpawnLocation,
+	LaneIndex: number,
+	Origin: Vector3,
+	Steps: { [number]: StepRuntime },
+	Height: number,
+	HighestY: number,
+	Failed: boolean,
+	RunToken: number,
+	CharacterDiedConnection: RBXScriptConnection?,
+}
+
+local StepCourseService = {}
+
+local courses: { [Player]: Course } = {}
+local freeLaneIndices: { number } = {}
+local nextLaneIndex = 0
+local fallAccumulator = 0
+
+local function hex(hexColor: string): Color3
+	local value = hexColor:gsub("#", "")
+	local r = tonumber(value:sub(1, 2), 16)
+	local g = tonumber(value:sub(3, 4), 16)
+	local b = tonumber(value:sub(5, 6), 16)
+	assert(r and g and b, "invalid configured hex color")
+	return Color3.fromRGB(r, g, b)
+end
+
+local COLORS = {
+	Foundation = hex(WorldConfig.Palette.Foundation),
+	Steel = hex(WorldConfig.Palette.Steel),
+	Concrete = hex(WorldConfig.Palette.Concrete),
+	Warm = hex(WorldConfig.Palette.WarmAccent),
+	Active = hex(WorldConfig.Palette.GameplayAccent),
+	Warning = Color3.fromRGB(255, 159, 67),
+	Expiring = Color3.fromRGB(255, 93, 108),
+}
+
+local function makePart(
+	parent: Instance,
+	name: string,
+	size: Vector3,
+	cframe: CFrame,
+	material: Enum.Material,
+	color: Color3,
+	canCollide: boolean
+): Part
+	local part = Instance.new("Part")
+	part.Name = name
+	part.Anchored = true
+	part.CanCollide = canCollide
+	part.CanTouch = canCollide
+	part.CanQuery = true
+	part.Material = material
+	part.Color = color
+	part.Size = size
+	part.CFrame = cframe
+	part.TopSurface = Enum.SurfaceType.Smooth
+	part.BottomSurface = Enum.SurfaceType.Smooth
+	part.Parent = parent
+	return part
+end
+
+local function makeWedge(
+	parent: Instance,
+	name: string,
+	size: Vector3,
+	cframe: CFrame,
+	color: Color3
+): WedgePart
+	local part = Instance.new("WedgePart")
+	part.Name = name
+	part.Anchored = true
+	part.CanCollide = false
+	part.CanTouch = false
+	part.CanQuery = true
+	part.Material = Enum.Material.Metal
+	part.Color = color
+	part.Size = size
+	part.CFrame = cframe
+	part.Parent = parent
+	return part
+end
+
+local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3): StepRuntime
+	local model = Instance.new("Model")
+	model.Name = ("Step_%03d"):format(definition.Id)
+	model:SetAttribute("StepId", definition.Id)
+	model:SetAttribute("BandId", definition.BandId)
+	model:SetAttribute("Variant", definition.Variant)
+	model:SetAttribute("State", StepRules.State.Active)
+	model.Parent = parent
+
+	local center = laneOrigin + Vector3.new(definition.X, definition.Y, definition.Z)
+	local size = GameConfig.Step.BaseFootprint
+	local thickness = GameConfig.Step.CollisionThickness
+
+	local collision = makePart(
+		model,
+		"Collision",
+		Vector3.new(size, thickness, size),
+		CFrame.new(center),
+		Enum.Material.Metal,
+		COLORS.Steel,
+		true
+	)
+	collision:SetAttribute("StepId", definition.Id)
+
+	local inset = makePart(
+		model,
+		"LandingInset",
+		Vector3.new(size - 0.72, 0.16, size - 0.72),
+		CFrame.new(center + Vector3.new(0, thickness / 2 + 0.08, 0)),
+		Enum.Material.Rubber,
+		COLORS.Concrete,
+		false
+	)
+
+	local accents: { BasePart } = {}
+	local decorations: { BasePart } = { inset }
+	local edgeY = center.Y + thickness / 2 + 0.13
+	local edgeOffset = size / 2 - 0.14
+	local edgeThickness = 0.20
+
+	local accentA = makePart(
+		model,
+		"AccentA",
+		Vector3.new(size - 0.5, 0.12, edgeThickness),
+		CFrame.new(center.X, edgeY, center.Z - edgeOffset),
+		Enum.Material.Metal,
+		COLORS.Active,
+		false
+	)
+	local accentB = makePart(
+		model,
+		"AccentB",
+		Vector3.new(size - 0.5, 0.12, edgeThickness),
+		CFrame.new(center.X, edgeY, center.Z + edgeOffset),
+		Enum.Material.Metal,
+		COLORS.Active,
+		false
+	)
+	table.insert(accents, accentA)
+	table.insert(accents, accentB)
+	table.insert(decorations, accentA)
+	table.insert(decorations, accentB)
+
+	local support = makePart(
+		model,
+		"SupportSpine",
+		Vector3.new(0.55, 1.45, size - 1.0),
+		CFrame.new(center + Vector3.new(0, -thickness / 2 - 0.72, 0)),
+		Enum.Material.Metal,
+		COLORS.Foundation,
+		false
+	)
+	table.insert(decorations, support)
+
+	if definition.Variant == 2 or definition.Variant == 5 then
+		local brace = makeWedge(
+			model,
+			"SideBrace",
+			Vector3.new(1.2, 1.0, 3.2),
+			CFrame.new(center + Vector3.new(size / 2 + 0.6, -0.55, 0)) * CFrame.Angles(0, math.rad(90), 0),
+			COLORS.Foundation
+		)
+		table.insert(decorations, brace)
+	elseif definition.Variant == 3 or definition.Variant == 6 then
+		local brace = makeWedge(
+			model,
+			"SideBrace",
+			Vector3.new(1.2, 1.0, 3.2),
+			CFrame.new(center + Vector3.new(-size / 2 - 0.6, -0.55, 0)) * CFrame.Angles(0, math.rad(-90), 0),
+			COLORS.Foundation
+		)
+		table.insert(decorations, brace)
+	else
+		local crossbar = makePart(
+			model,
+			"Crossbar",
+			Vector3.new(size - 1.4, 0.28, 0.45),
+			CFrame.new(center + Vector3.new(0, -thickness / 2 - 0.48, 0)),
+			Enum.Material.Metal,
+			COLORS.Foundation,
+			false
+		)
+		table.insert(decorations, crossbar)
+	end
+
+	if definition.Variant >= 4 then
+		local marker = makePart(
+			model,
+			"WarmMarker",
+			Vector3.new(0.28, 0.18, 1.65),
+			CFrame.new(center.X, edgeY + 0.03, center.Z),
+			Enum.Material.Metal,
+			COLORS.Warm,
+			false
+		)
+		table.insert(decorations, marker)
+	end
+
+	model.PrimaryPart = collision
+
+	return {
+		Model = model,
+		Collision = collision,
+		Inset = inset,
+		Accents = accents,
+		Decorations = decorations,
+		Definition = definition,
+		State = StepRules.State.Active,
+	}
+end
+
+local function setStepState(runtime: StepRuntime, nextState: string)
+	if runtime.State == nextState then
+		return
+	end
+
+	if nextState ~= StepRules.State.Active then
+		assert(StepRules.canTransition(runtime.State, nextState), "illegal step-state transition")
+	end
+
+	runtime.State = nextState
+	runtime.Model:SetAttribute("State", nextState)
+
+	if nextState == StepRules.State.Active then
+		runtime.Collision.CanCollide = true
+		runtime.Collision.CanTouch = true
+		runtime.Collision.Transparency = 0
+		runtime.Collision.Color = COLORS.Steel
+		runtime.Inset.Transparency = 0
+		runtime.Inset.Color = COLORS.Concrete
+		for _, part in runtime.Accents do
+			part.Transparency = 0
+			part.Color = COLORS.Active
+		end
+		for _, part in runtime.Decorations do
+			if not table.find(runtime.Accents, part) and part ~= runtime.Inset then
+				part.Transparency = 0
+			end
+		end
+	elseif nextState == StepRules.State.Warning then
+		for _, part in runtime.Accents do
+			part.Color = COLORS.Warning
+		end
+	elseif nextState == StepRules.State.Expiring then
+		for _, part in runtime.Accents do
+			part.Color = COLORS.Expiring
+		end
+		for _, part in runtime.Decorations do
+			TweenService:Create(part, TweenInfo.new(GameConfig.Step.ExpiryTransitionSeconds), {
+				Transparency = math.max(part.Transparency, 0.55),
+			}):Play()
+		end
+	elseif nextState == StepRules.State.Expired then
+		runtime.Collision.CanCollide = false
+		runtime.Collision.CanTouch = false
+		runtime.Collision.Transparency = 1
+		for _, part in runtime.Decorations do
+			part.Transparency = 1
+		end
+	end
+end
+
+local function restoreStep(runtime: StepRuntime)
+	runtime.State = StepRules.State.Expired
+	setStepState(runtime, StepRules.State.Active)
+end
+
+local function scheduleExpiry(course: Course, stepId: number)
+	local runtime = course.Steps[stepId]
+	if not runtime or runtime.State ~= StepRules.State.Active then
+		return
+	end
+
+	local token = course.RunToken
+	local band = StepSequence.bandForHeight(stepId - 1)
+	setStepState(runtime, StepRules.State.Warning)
+
+	task.delay(band.WarningSeconds, function()
+		if course.RunToken ~= token or runtime.State ~= StepRules.State.Warning then
+			return
+		end
+		setStepState(runtime, StepRules.State.Expiring)
+
+		task.delay(GameConfig.Step.ExpiryTransitionSeconds, function()
+			if course.RunToken ~= token or runtime.State ~= StepRules.State.Expiring then
+				return
+			end
+			setStepState(runtime, StepRules.State.Expired)
+		end)
+	end)
+end
+
+local function sendSnapshot(course: Course, kind: string)
+	local remoteFolder = root:FindFirstChild("Remotes")
+	if not remoteFolder then
+		return
+	end
+	local snapshot = remoteFolder:FindFirstChild("StateSnapshot")
+	if snapshot and snapshot:IsA("RemoteEvent") then
+		snapshot:FireClient(course.Player, {
+			Kind = kind,
+			Height = course.Height,
+			Failed = course.Failed,
+		})
+	end
+end
+
+local function resetCourse(course: Course)
+	course.RunToken += 1
+	course.Height = 0
+	course.Failed = false
+	course.HighestY = WorldConfig.StartDeck.CenterY + WorldConfig.StartDeck.DeckThickness / 2
+	course.Player:SetAttribute("RisingStepsHeight", 0)
+	course.Player:SetAttribute("RisingStepsRunFailed", false)
+
+	for _, runtime in course.Steps do
+		restoreStep(runtime)
+	end
+
+	sendSnapshot(course, "RunReset")
+end
+
+local function failCourse(course: Course, reason: string)
+	if course.Failed then
+		return
+	end
+
+	course.Failed = true
+	course.Player:SetAttribute("RisingStepsRunFailed", true)
+	sendSnapshot(course, reason)
+
+	local character = course.Player.Character
+	local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+	if humanoid and humanoid.Health > 0 then
+		humanoid.Health = 0
+	end
+end
+
+local function onLanding(course: Course, runtime: StepRuntime, hit: BasePart)
+	if course.Failed then
+		return
+	end
+
+	local character = course.Player.Character
+	if not character or not hit:IsDescendantOf(character) then
+		return
+	end
+
+	local rootPart = character:FindFirstChild("HumanoidRootPart")
+	if not rootPart or not rootPart:IsA("BasePart") then
+		return
+	end
+
+	local definition = runtime.Definition
+	local expectedStepId = course.Height + 1
+	local stepTopY = runtime.Collision.Position.Y + runtime.Collision.Size.Y / 2
+	if not StepRules.isExpectedLanding(
+		expectedStepId,
+		definition.Id,
+		rootPart.Position.Y,
+		stepTopY,
+		rootPart.AssemblyLinearVelocity.Y
+	) then
+		return
+	end
+
+	course.Height = definition.Id
+	course.HighestY = math.max(course.HighestY, stepTopY)
+	course.Player:SetAttribute("RisingStepsHeight", course.Height)
+	sendSnapshot(course, "Progress")
+
+	local expiryStepId = course.Height - CourseConfig.ExpiryBehindCurrent
+	if expiryStepId >= 1 then
+		scheduleExpiry(course, expiryStepId)
+	end
+end
+
+local function laneIndexForJoin(): number
+	if #freeLaneIndices > 0 then
+		return table.remove(freeLaneIndices) :: number
+	end
+
+	local laneIndex = nextLaneIndex
+	nextLaneIndex += 1
+	return laneIndex
+end
+
+local function buildCourse(player: Player): Course
+	local worldFolder = Workspace:FindFirstChild(WorldConfig.WorldFolderName)
+	if not worldFolder then
+		worldFolder = Instance.new("Folder")
+		worldFolder.Name = WorldConfig.WorldFolderName
+		worldFolder.Parent = Workspace
+	end
+	assert(worldFolder:IsA("Folder"), "RisingStepsWorld must be a Folder")
+
+	local laneIndex = laneIndexForJoin()
+	local laneOrigin = Vector3.new(laneIndex * CourseConfig.LaneSpacing, 0, 0)
+
+	local courseModel = Instance.new("Model")
+	courseModel.Name = ("Course_%d"):format(player.UserId)
+	courseModel:SetAttribute("OwnerUserId", player.UserId)
+	courseModel:SetAttribute("LaneIndex", laneIndex)
+	courseModel.Parent = worldFolder
+
+	local spawn = StartDeckService.create(courseModel, player, laneOrigin)
+	player.RespawnLocation = spawn
+
+	local stepFolder = Instance.new("Folder")
+	stepFolder.Name = "Steps"
+	stepFolder.Parent = courseModel
+
+	local startY = WorldConfig.StartDeck.CenterY + WorldConfig.StartDeck.DeckThickness / 2
+	local seed = math.max(1, math.abs(player.UserId))
+	local definitions = StepSequence.generate(seed, CourseConfig.InitialStepCount, startY, CourseConfig.VisualVariantCount)
+
+	local course: Course = {
+		Player = player,
+		Model = courseModel,
+		Spawn = spawn,
+		LaneIndex = laneIndex,
+		Origin = laneOrigin,
+		Steps = {},
+		Height = 0,
+		HighestY = startY,
+		Failed = false,
+		RunToken = 1,
+		CharacterDiedConnection = nil,
+	}
+
+	for _, definition in definitions do
+		local runtime = buildStep(stepFolder, definition, laneOrigin)
+		course.Steps[definition.Id] = runtime
+		runtime.Collision.Touched:Connect(function(hit)
+			if hit:IsA("BasePart") then
+				onLanding(course, runtime, hit)
+			end
+		end)
+	end
+
+	courses[player] = course
+	resetCourse(course)
+	return course
+end
+
+local function bindCharacter(course: Course, character: Model)
+	if course.CharacterDiedConnection then
+		course.CharacterDiedConnection:Disconnect()
+		course.CharacterDiedConnection = nil
+	end
+
+	if course.Failed then
+		task.delay(CourseConfig.RespawnResetDelaySeconds, function()
+			if courses[course.Player] == course then
+				resetCourse(course)
+			end
+		end)
+	end
+
+	local humanoid = character:WaitForChild("Humanoid", 10)
+	if humanoid and humanoid:IsA("Humanoid") then
+		course.CharacterDiedConnection = humanoid.Died:Connect(function()
+			failCourse(course, "HumanoidDied")
+		end)
+	end
+end
+
+local function bindPlayer(player: Player)
+	local course = buildCourse(player)
+
+	if player.Character then
+		local character = player.Character
+		task.defer(function()
+			if character.Parent and courses[player] == course then
+				character:PivotTo(course.Spawn.CFrame + Vector3.new(0, 3, 0))
+				bindCharacter(course, character)
+			end
+		end)
+	end
+
+	player.CharacterAdded:Connect(function(character)
+		bindCharacter(course, character)
+	end)
+end
+
+local function unbindPlayer(player: Player)
+	local course = courses[player]
+	if not course then
+		return
+	end
+
+	if course.CharacterDiedConnection then
+		course.CharacterDiedConnection:Disconnect()
+	end
+	course.Model:Destroy()
+	table.insert(freeLaneIndices, course.LaneIndex)
+	courses[player] = nil
+end
+
+local function checkFalls()
+	for player, course in courses do
+		if course.Failed then
+			continue
+		end
+
+		local character = player.Character
+		local rootPart = character and character:FindFirstChild("HumanoidRootPart")
+		if rootPart and rootPart:IsA("BasePart") then
+			local failY = course.HighestY - GameConfig.Failure.FallDistanceBelowHighestValidated
+			if rootPart.Position.Y < failY then
+				failCourse(course, "FallBoundary")
+			end
+		end
+	end
+end
+
+function StepCourseService.start()
+	for _, player in Players:GetPlayers() do
+		bindPlayer(player)
+	end
+
+	Players.PlayerAdded:Connect(bindPlayer)
+	Players.PlayerRemoving:Connect(unbindPlayer)
+
+	RunService.Heartbeat:Connect(function(deltaTime)
+		fallAccumulator += deltaTime
+		if fallAccumulator < CourseConfig.FallCheckIntervalSeconds then
+			return
+		end
+		fallAccumulator = 0
+		checkFalls()
+	end)
+end
+
+return StepCourseService
