@@ -49,13 +49,15 @@ Mandatory V1 rules:
 P01 verification: local StyLua, Selene, pure-Luau tests, release-readiness and Rojo build passed; GitHub Actions CI run `36683819750` completed successfully.
 
 ## P02 Character, controls and camera
-- [ ] P02-T01 Reliable spawn on safe starting platform
-- [ ] P02-T02 Responsive movement/jump tuning with no sticky edges
-- [ ] P02-T03 Third-person vertical camera follows climb without nausea or clipping
-- [ ] P02-T04 Camera exposes enough upcoming geometry for fair decisions
-- [ ] P02-T05 Touch movement/jump targets meet mobile ergonomics
-- [ ] P02-T06 Controller and keyboard parity
+- [~] P02-T01 Reliable spawn on safe starting platform
+- [~] P02-T02 Responsive movement/jump tuning with no sticky edges
+- [~] P02-T03 Third-person vertical camera follows climb without nausea or clipping
+- [~] P02-T04 Camera exposes enough upcoming geometry for fair decisions
+- [~] P02-T05 Touch movement/jump targets meet mobile ergonomics
+- [~] P02-T06 Controller and keyboard parity
 - [ ] P02-T07 Runtime spawn → climb → fall → retry → respawn verification
+
+P02 implementation note: authored start deck/spawn, authoritative movement tuning, default touch/controller movement policy and elevated third-person camera are implemented and pass local format/lint/tests/build. GitHub Actions CI run `36684305304` is green. T01-T06 remain `[~]` until Studio/device runtime verifies spawn safety, camera framing, sticky-edge behavior and input parity.
 
 ## P03 Rising-step mechanic
 - [ ] P03-T01 Deterministic server-owned step sequence
