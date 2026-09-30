@@ -221,8 +221,7 @@ function PlayerProfileService.awardLanding(player: Player, grade: string, streak
 
 	local challengeCoins = 0
 	local challenge = RetentionRules.challengeForDay(profile.Challenge.Day)
-	profile.Challenge.Progress =
-		RetentionRules.challengeProgress(challenge, profile.Challenge.Progress, event)
+	profile.Challenge.Progress = RetentionRules.challengeProgress(challenge, profile.Challenge.Progress, event)
 	if profile.Challenge.Progress >= challenge.Target and not profile.Challenge.Claimed then
 		profile.Challenge.Claimed = true
 		challengeCoins = challenge.RewardCoins
