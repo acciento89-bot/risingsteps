@@ -10,6 +10,7 @@ local CourseConfig = {
 	ReachabilityControlSafetyFactor = 0.55,
 	MaxLaneBaseParts = 900,
 	MaxLaneBeamsAndLights = 96,
+	ClientVisibleStepsAhead = 7,
 }
 
 return table.freeze(CourseConfig)
