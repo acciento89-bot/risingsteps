@@ -261,15 +261,12 @@ local function createHud()
 		gradeLabel.TextTransparency = 0
 		gradeLabel.TextStrokeTransparency = 0.72
 
-		gradeTween = TweenService:Create(
-			gradeLabel,
-			TweenInfo.new(0.62, Enum.EasingStyle.Quint, Enum.EasingDirection.Out),
-			{
+		gradeTween =
+			TweenService:Create(gradeLabel, TweenInfo.new(0.62, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
 				Position = UDim2.fromScale(0.5, 0.325),
 				TextTransparency = 1,
 				TextStrokeTransparency = 1,
-			}
-		)
+			})
 		gradeTween:Play()
 	end
 
