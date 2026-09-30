@@ -376,6 +376,10 @@ local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3)
 		table.insert(decorations, marker)
 	end
 
+	for _, part in decorations do
+		part:SetAttribute("BaseTransparency", part.Transparency)
+	end
+
 	model.PrimaryPart = collision
 
 	return {
@@ -422,7 +426,8 @@ local function setStepState(runtime: StepRuntime, nextState: string)
 				and not table.find(runtime.WarningSignals, part)
 				and part ~= runtime.Inset
 			then
-				part.Transparency = 0
+				local baseTransparency = part:GetAttribute("BaseTransparency")
+				part.Transparency = if type(baseTransparency) == "number" then baseTransparency else 0
 			end
 		end
 		for _, signal in runtime.WarningSignals do
