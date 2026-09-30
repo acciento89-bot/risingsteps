@@ -34,5 +34,7 @@ assert(SecurityConfig.MaxAbsVelocity < 1000, "velocity guard is too permissive")
 assert(#DifficultyConfig.Bands >= 3, "altitude progression requires at least three bands")
 assert(CourseConfig.VisualVariantCount >= 6, "step kit must expose at least six visual variants")
 assert(CourseConfig.ExpiryBehindCurrent >= 2, "expiry must not remove the player's current/next support too early")
+assert(CourseConfig.MaxLaneBaseParts <= 1000, "per-lane base-part budget exceeds release target")
+assert(CourseConfig.MaxLaneBeamsAndLights <= 128, "per-lane beam/light budget exceeds release target")
 
 print("Rising Steps release-readiness static rules passed")
