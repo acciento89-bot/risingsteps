@@ -57,9 +57,12 @@ end
 
 local function run(player: Player)
 	task.wait(RuntimeQaConfig.StartupDelaySeconds)
-	check("profile_loaded", waitUntil(function()
-		return player:GetAttribute("RisingStepsProfileLoaded") == true
-	end, 8))
+	check(
+		"profile_loaded",
+		waitUntil(function()
+			return player:GetAttribute("RisingStepsProfileLoaded") == true
+		end, 8)
+	)
 	PlayerProfileService.qaSetPersistenceHealthy(player, true)
 	check("profile_healthy", player:GetAttribute("RisingStepsPersistenceHealthy") == true)
 
