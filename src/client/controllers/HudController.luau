@@ -822,7 +822,7 @@ local function createHud()
 			tutorial.Size = UDim2.new(1, -28, 0, 94)
 		else
 			metrics.Position = UDim2.fromOffset(18, 18)
-			topRight.Position = UDim2.new(1, -18, 0, 18)
+			topRight.Position = UDim2.new(1, -18, 0, 132)
 			tutorial.Size = UDim2.fromOffset(370, 94)
 		end
 	end
