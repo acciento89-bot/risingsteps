@@ -1,9 +1,9 @@
 --!strict
 
 local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Workspace = game:GetService("Workspace")
 
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local root = ReplicatedStorage:WaitForChild("RisingSteps")
 local WorldConfig = require(root.config.WorldConfig)
 
@@ -45,6 +45,19 @@ local function makePart(
 	return part
 end
 
+local function makeDecoration(
+	parent: Instance,
+	name: string,
+	size: Vector3,
+	cframe: CFrame,
+	material: Enum.Material,
+	color: Color3
+): Part
+	local part = makePart(parent, name, size, cframe, material, color)
+	part.CanCollide = false
+	return part
+end
+
 local function buildVisualDeck(worldFolder: Folder): SpawnLocation
 	local existing = worldFolder:FindFirstChild(WorldConfig.StartDeck.Name)
 	if existing then
@@ -69,7 +82,7 @@ local function buildVisualDeck(worldFolder: Folder): SpawnLocation
 		hex(WorldConfig.Palette.Steel)
 	)
 
-	local inset = makePart(
+	makeDecoration(
 		model,
 		"LandingInset",
 		Vector3.new(
@@ -81,48 +94,48 @@ local function buildVisualDeck(worldFolder: Folder): SpawnLocation
 		Enum.Material.Rubber,
 		hex(WorldConfig.Palette.Concrete)
 	)
-	inset.CanCollide = false
 
 	local trimThickness = 0.24
 	local trimHeight = 0.18
 	local trimOffset = deckSize / 2 - trimThickness / 2
 	local trimY = y + deckThickness / 2 + trimHeight / 2
+	local accent = hex(WorldConfig.Palette.WarmAccent)
 
-	makePart(
+	makeDecoration(
 		model,
 		"TrimNorth",
 		Vector3.new(deckSize, trimHeight, trimThickness),
 		CFrame.new(0, trimY, -trimOffset),
 		Enum.Material.Metal,
-		hex(WorldConfig.Palette.WarmAccent)
-	).CanCollide = false
-	makePart(
+		accent
+	)
+	makeDecoration(
 		model,
 		"TrimSouth",
 		Vector3.new(deckSize, trimHeight, trimThickness),
 		CFrame.new(0, trimY, trimOffset),
 		Enum.Material.Metal,
-		hex(WorldConfig.Palette.WarmAccent)
-	).CanCollide = false
-	makePart(
+		accent
+	)
+	makeDecoration(
 		model,
 		"TrimWest",
 		Vector3.new(trimThickness, trimHeight, deckSize),
 		CFrame.new(-trimOffset, trimY, 0),
 		Enum.Material.Metal,
-		hex(WorldConfig.Palette.WarmAccent)
-	).CanCollide = false
-	makePart(
+		accent
+	)
+	makeDecoration(
 		model,
 		"TrimEast",
 		Vector3.new(trimThickness, trimHeight, deckSize),
 		CFrame.new(trimOffset, trimY, 0),
 		Enum.Material.Metal,
-		hex(WorldConfig.Palette.WarmAccent)
-	).CanCollide = false
+		accent
+	)
 
 	for index, x in { -4.4, -1.5, 1.5, 4.4 } do
-		local rib = makePart(
+		makeDecoration(
 			model,
 			("UndersideRib%02d"):format(index),
 			Vector3.new(0.34, 1.2, 9.6),
@@ -130,7 +143,6 @@ local function buildVisualDeck(worldFolder: Folder): SpawnLocation
 			Enum.Material.Metal,
 			hex(WorldConfig.Palette.Foundation)
 		)
-		rib.CanCollide = false
 	end
 
 	local spawn = Instance.new("SpawnLocation")
@@ -143,11 +155,7 @@ local function buildVisualDeck(worldFolder: Folder): SpawnLocation
 	spawn.Neutral = true
 	spawn.Duration = 0
 	spawn.Size = Vector3.new(5, 1, 5)
-	spawn.CFrame = CFrame.new(
-		0,
-		y + deckThickness / 2 + WorldConfig.StartDeck.SpawnHeightAboveDeck,
-		0
-	)
+	spawn.CFrame = CFrame.new(0, y + deckThickness / 2 + WorldConfig.StartDeck.SpawnHeightAboveDeck, 0)
 	spawn.Parent = model
 
 	model.PrimaryPart = base
