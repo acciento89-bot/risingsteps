@@ -2,6 +2,7 @@
 
 local DataStoreService = game:GetService("DataStoreService")
 local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local root = ReplicatedStorage:WaitForChild("RisingSteps")
@@ -19,7 +20,18 @@ local DiagnosticsService = require(script.Parent.DiagnosticsService)
 
 local PlayerProfileService = {}
 
-local STORE = DataStoreService:GetDataStore(EconomyConfig.DataStoreName)
+local STORE: any = nil
+local storeAvailable = false
+local storeOk, storeResult = pcall(function()
+	return DataStoreService:GetDataStore(EconomyConfig.DataStoreName)
+end)
+if storeOk then
+	STORE = storeResult
+	storeAvailable = true
+elseif not RunService:IsStudio() then
+	DiagnosticsService.warn("DataStoreUnavailable", {})
+end
+
 local profiles: { [Player]: RuntimeProfile } = {}
 
 local function keyFor(player: Player): string
@@ -129,17 +141,22 @@ local function loadPlayer(player: Player)
 	local loadedValue = nil
 	local success = false
 
-	for attempt = 1, EconomyConfig.LoadAttempts do
-		local ok, result = pcall(function()
-			return STORE:GetAsync(keyFor(player))
-		end)
-		if ok then
-			success = true
-			loadedValue = result
-			break
-		end
-		if attempt < EconomyConfig.LoadAttempts then
-			task.wait(EconomyConfig.LoadRetrySeconds * attempt)
+	if not storeAvailable and RunService:IsStudio() then
+		success = true
+		loadedValue = nil
+	else
+		for attempt = 1, EconomyConfig.LoadAttempts do
+			local ok, result = pcall(function()
+				return STORE:GetAsync(keyFor(player))
+			end)
+			if ok then
+				success = true
+				loadedValue = result
+				break
+			end
+			if attempt < EconomyConfig.LoadAttempts then
+				task.wait(EconomyConfig.LoadRetrySeconds * attempt)
+			end
 		end
 	end
 
@@ -411,6 +428,15 @@ function PlayerProfileService.flushPlayer(player: Player): boolean
 		return true
 	end
 	if not profile.PersistenceHealthy then
+		return false
+	end
+
+	if not storeAvailable and RunService:IsStudio() then
+		profile.Dirty = false
+		syncAttributes(player, profile)
+		return true
+	end
+	if not storeAvailable then
 		return false
 	end
 
