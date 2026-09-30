@@ -81,13 +81,15 @@ P03 implementation note: deterministic server-owned sequence, authored six-varia
 P04 implementation note: Height, Perfect/Clean/Miss grading, streak reset/increment rules, server-only landing claims, persistent PB via atomic DataStore `UpdateAsync`, and a custom responsive gameplay HUD/grade feedback path are implemented. Local format/lint/5 pure-Luau tests/release-readiness/Rojo build pass; GitHub Actions CI run `36685602471` is green. Runtime/DataStore verification remains required before these items can move from `[~]` to `[x]`.
 
 ## P05 Procedural step generation
-- [ ] P05-T01 Reachability model based on actual character movement
-- [ ] P05-T02 Horizontal/vertical placement envelopes by difficulty
-- [ ] P05-T03 Pattern library avoids repetitive left-right monotony
-- [ ] P05-T04 No overlapping, buried, off-camera or impossible steps
-- [ ] P05-T05 Seeded QA generation
-- [ ] P05-T06 1,000+ generated-step simulation with zero unreachable placements
-- [ ] P05-T07 Runtime long-climb test with cleanup and bounded part count
+- [~] P05-T01 Reachability model based on actual character movement
+- [~] P05-T02 Horizontal/vertical placement envelopes by difficulty
+- [~] P05-T03 Pattern library avoids repetitive left-right monotony
+- [~] P05-T04 No overlapping, buried, off-camera or impossible steps
+- [x] P05-T05 Seeded QA generation
+- [x] P05-T06 1,000+ generated-step simulation with zero unreachable placements
+- [!] P05-T07 Runtime long-climb test with cleanup and bounded part count
+
+P05 implementation note: physics-based reachability model, per-band placement envelopes, seeded deterministic generation and an 8-direction anti-repeat placement pattern are implemented. Static QA now simulates 16,000 generated placements across eight seeds with zero unreachable placements; local format/lint/7 pure-Luau tests/release-readiness/Rojo build pass and GitHub Actions CI run `36685931096` is green. T01-T04 remain `[~]` pending Studio camera/runtime validation; T07 requires the real long-climb runtime test.
 
 ## P06 Progression and persistence
 - [ ] P06-T01 Coins/rewards tied to legitimate height and streak
