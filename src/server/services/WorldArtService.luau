@@ -48,6 +48,75 @@ local function decorativePart(
 	return part
 end
 
+local function addRod(
+	parent: Instance,
+	name: string,
+	fromPosition: Vector3,
+	toPosition: Vector3,
+	thickness: number,
+	color: Color3
+)
+	local delta = toPosition - fromPosition
+	if delta.Magnitude < 0.01 then
+		return
+	end
+
+	decorativePart(
+		parent,
+		name,
+		Vector3.new(thickness, thickness, delta.Magnitude),
+		CFrame.lookAt((fromPosition + toPosition) / 2, toPosition),
+		Enum.Material.Metal,
+		color
+	)
+end
+
+local function addCable(
+	parent: Instance,
+	name: string,
+	fromPosition: Vector3,
+	toPosition: Vector3,
+	color: Color3,
+	width: number
+)
+	local anchorA = decorativePart(
+		parent,
+		name .. "AnchorA",
+		Vector3.new(0.08, 0.08, 0.08),
+		CFrame.new(fromPosition),
+		Enum.Material.SmoothPlastic,
+		color,
+		1
+	)
+	local anchorB = decorativePart(
+		parent,
+		name .. "AnchorB",
+		Vector3.new(0.08, 0.08, 0.08),
+		CFrame.new(toPosition),
+		Enum.Material.SmoothPlastic,
+		color,
+		1
+	)
+
+	local attachmentA = Instance.new("Attachment")
+	attachmentA.Parent = anchorA
+	local attachmentB = Instance.new("Attachment")
+	attachmentB.Parent = anchorB
+
+	local beam = Instance.new("Beam")
+	beam.Name = name
+	beam.Attachment0 = attachmentA
+	beam.Attachment1 = attachmentB
+	beam.Color = ColorSequence.new(color)
+	beam.Width0 = width
+	beam.Width1 = width
+	beam.Transparency = NumberSequence.new(0.28)
+	beam.LightEmission = 0.25
+	beam.FaceCamera = true
+	beam.Segments = 6
+	beam.Parent = anchorA
+end
+
 local function addPracticalLight(parent: Instance, position: Vector3, color: Color3)
 	local post = decorativePart(
 		parent,
@@ -112,7 +181,7 @@ local function buildServiceDecks(parent: Instance, origin: Vector3)
 	local amber = hex("#FFB454")
 
 	for side in { -1, 1 } do
-		local spineX = origin.X + side * 19
+		local spineX = origin.X + side * 27
 		decorativePart(
 			folder,
 			"ServiceSpine",
@@ -126,8 +195,8 @@ local function buildServiceDecks(parent: Instance, origin: Vector3)
 			decorativePart(
 				folder,
 				"ServiceCrossbeam",
-				Vector3.new(7.4, 0.7, 0.8),
-				CFrame.new(origin.X + side * 16.3, y, origin.Z + 2),
+				Vector3.new(8.2, 0.7, 0.8),
+				CFrame.new(origin.X + side * 23.4, y, origin.Z + 2),
 				Enum.Material.Metal,
 				foundation
 			)
@@ -155,6 +224,25 @@ local function buildServiceDecks(parent: Instance, origin: Vector3)
 	do
 		addPracticalLight(folder, origin + offset, amber)
 	end
+
+	for _, y in { 13, 29, 45 } do
+		addCable(
+			folder,
+			"ServiceCable",
+			Vector3.new(origin.X - 27, y, origin.Z + 2),
+			Vector3.new(origin.X - 36, y - 5, origin.Z + 22),
+			Color3.fromRGB(84, 98, 116),
+			0.055
+		)
+		addCable(
+			folder,
+			"ServiceCable",
+			Vector3.new(origin.X + 27, y, origin.Z + 2),
+			Vector3.new(origin.X + 36, y - 5, origin.Z + 22),
+			Color3.fromRGB(84, 98, 116),
+			0.055
+		)
+	end
 end
 
 local function buildCloudline(parent: Instance, origin: Vector3)
@@ -167,7 +255,7 @@ local function buildCloudline(parent: Instance, origin: Vector3)
 	local glass = Color3.fromRGB(116, 148, 168)
 
 	for side in { -1, 1 } do
-		local x = origin.X + side * 24
+		local x = origin.X + side * 34
 		decorativePart(
 			folder,
 			"CloudlineMast",
@@ -182,28 +270,11 @@ local function buildCloudline(parent: Instance, origin: Vector3)
 				folder,
 				"CloudlineArm",
 				Vector3.new(8.5, 0.42, 0.58),
-				CFrame.new(origin.X + side * 20.5, y, origin.Z - 3),
+				CFrame.new(origin.X + side * 29.5, y, origin.Z - 3),
 				Enum.Material.Metal,
 				steel
 			)
 		end
-	end
-
-	for index = 1, 6 do
-		local angle = index / 6 * math.pi * 2
-		local radius = 29 + (index % 2) * 6
-		local position = origin + Vector3.new(math.cos(angle) * radius, 78 + index * 6, math.sin(angle) * radius)
-
-		local wisp = decorativePart(
-			folder,
-			"CloudWisp",
-			Vector3.new(18 + index, 4.5, 9 + index * 0.7),
-			CFrame.new(position) * CFrame.Angles(0, angle, 0),
-			Enum.Material.SmoothPlastic,
-			Color3.fromRGB(221, 231, 237),
-			0.84
-		)
-		wisp.CastShadow = false
 	end
 
 	for index = 1, 4 do
@@ -211,7 +282,11 @@ local function buildCloudline(parent: Instance, origin: Vector3)
 			folder,
 			"GlassServicePanel",
 			Vector3.new(7, 0.24, 3.2),
-			CFrame.new(origin.X + (if index % 2 == 0 then -21 else 21), 70 + index * 12, origin.Z + (index - 2.5) * 8),
+			CFrame.new(
+				origin.X + (if index % 2 == 0 then -27 else 27),
+				70 + index * 12,
+				origin.Z + (index - 2.5) * 8
+			),
 			Enum.Material.Glass,
 			glass,
 			0.54
@@ -226,8 +301,18 @@ local function buildCloudline(parent: Instance, origin: Vector3)
 			Enum.Material.Neon,
 			cyan,
 			0.12
-		).CastShadow =
-			false
+		).CastShadow = false
+	end
+
+	for _, y in { 70, 88, 106 } do
+		addCable(
+			folder,
+			"CloudlineTensionCable",
+			Vector3.new(origin.X - 34, y, origin.Z - 3),
+			Vector3.new(origin.X + 34, y + 4, origin.Z + 17),
+			Color3.fromRGB(116, 203, 220),
+			0.05
+		)
 	end
 end
 
@@ -244,7 +329,7 @@ local function buildStratosphere(parent: Instance, origin: Vector3)
 		folder,
 		"HighSpine",
 		Vector3.new(3.0, 78, 3.0),
-		CFrame.new(origin.X - 22, 145, origin.Z + 6),
+		CFrame.new(origin.X - 36, 145, origin.Z + 10),
 		Enum.Material.Metal,
 		deepSteel
 	)
@@ -256,7 +341,7 @@ local function buildStratosphere(parent: Instance, origin: Vector3)
 			folder,
 			"AntennaRib",
 			Vector3.new(11, 0.48, 0.62),
-			CFrame.new(origin.X - 22 + side * 4.3, y, origin.Z + 6) * CFrame.Angles(0, 0, math.rad(side * 12)),
+			CFrame.new(origin.X - 36 + side * 4.3, y, origin.Z + 10) * CFrame.Angles(0, 0, math.rad(side * 12)),
 			Enum.Material.Metal,
 			foundation
 		)
@@ -268,7 +353,7 @@ local function buildStratosphere(parent: Instance, origin: Vector3)
 			folder,
 			"HighBeacon",
 			Vector3.new(0.48, 0.48, 0.48),
-			CFrame.new(origin.X + 24, y, origin.Z - 8 + (index % 2) * 12),
+			CFrame.new(origin.X + 32, y, origin.Z - 10 + (index % 2) * 14),
 			Enum.Material.Neon,
 			pale,
 			0.08
@@ -281,6 +366,30 @@ local function buildStratosphere(parent: Instance, origin: Vector3)
 		light.Range = 8
 		light.Shadows = false
 		light.Parent = beacon
+	end
+
+	local ringCenter = origin + Vector3.new(0, 151, 2)
+	local ringRadius = 31
+	local ringSegments = 14
+	for index = 1, ringSegments do
+		local a = (index - 1) / ringSegments * math.pi * 2
+		local b = index / ringSegments * math.pi * 2
+		local fromPosition = ringCenter + Vector3.new(math.cos(a) * ringRadius, math.sin(a) * 8, math.sin(a) * ringRadius)
+		local toPosition = ringCenter + Vector3.new(math.cos(b) * ringRadius, math.sin(b) * 8, math.sin(b) * ringRadius)
+		addRod(folder, "StratosphereRing", fromPosition, toPosition, 0.34, deepSteel)
+	end
+
+	for _, angle in { 0, math.pi * 0.66, math.pi * 1.33 } do
+		local ringPoint =
+			ringCenter + Vector3.new(math.cos(angle) * ringRadius, math.sin(angle) * 8, math.sin(angle) * ringRadius)
+		addCable(
+			folder,
+			"HighTensionCable",
+			ringPoint,
+			ringPoint + Vector3.new(0, 36, 0),
+			pale,
+			0.045
+		)
 	end
 end
 
