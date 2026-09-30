@@ -246,7 +246,7 @@ local function createHud()
 	local topRight = Instance.new("Frame")
 	topRight.Name = "TopRight"
 	topRight.AnchorPoint = Vector2.new(1, 0)
-	topRight.Position = UDim2.new(1, -18, 0, 18)
+	topRight.Position = UDim2.new(1, -18, 0, 76)
 	topRight.Size = UDim2.fromOffset(212, 48)
 	topRight.BackgroundTransparency = 1
 	topRight.Parent = gui
@@ -818,7 +818,7 @@ local function createHud()
 		scale.Scale = math.clamp(width / 900, 0.82, 1.08)
 		if width <= 760 then
 			metrics.Position = UDim2.fromOffset(12, 12)
-			topRight.Position = UDim2.new(1, -12, 0, 12)
+			topRight.Position = UDim2.new(1, -12, 0, 70)
 			tutorial.Size = UDim2.new(1, -28, 0, 94)
 		else
 			metrics.Position = UDim2.fromOffset(18, 18)
