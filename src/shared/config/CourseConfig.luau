@@ -8,6 +8,8 @@ local CourseConfig = {
 	FallCheckIntervalSeconds = 0.10,
 	RespawnResetDelaySeconds = 0.15,
 	ReachabilityControlSafetyFactor = 0.55,
+	MaxLaneBaseParts = 900,
+	MaxLaneBeamsAndLights = 96,
 }
 
 return table.freeze(CourseConfig)
