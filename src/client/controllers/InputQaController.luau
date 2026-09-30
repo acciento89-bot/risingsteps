@@ -12,11 +12,13 @@ local InputQaController = {}
 local LOCAL_PLAYER = Players.LocalPlayer
 
 local function emit(name: string, passed: boolean, detail: string?)
-	print(("[RisingStepsInputQA] %s %s%s"):format(
-		if passed then "PASS" else "FAIL",
-		name,
-		if detail then " " .. detail else ""
-	))
+	print(
+		("[RisingStepsInputQA] %s %s%s"):format(
+			if passed then "PASS" else "FAIL",
+			name,
+			if detail then " " .. detail else ""
+		)
+	)
 end
 
 local function buttonCenter(button: GuiObject): Vector2
