@@ -2,7 +2,11 @@
 
 local PersistenceRules = {}
 
-function PersistenceRules.shouldClearDirty(saveSucceeded: boolean, revisionAtStart: number, currentRevision: number): boolean
+function PersistenceRules.shouldClearDirty(
+	saveSucceeded: boolean,
+	revisionAtStart: number,
+	currentRevision: number
+): boolean
 	return saveSucceeded and revisionAtStart == currentRevision
 end
 
