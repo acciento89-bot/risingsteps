@@ -1,5 +1,6 @@
 local tests = {
 	require("../tests/art-config.spec"),
+	require("../tests/audio-config.spec"),
 	require("../tests/config.spec"),
 	require("../tests/profile-rules.spec"),
 	require("../tests/reachability.spec"),

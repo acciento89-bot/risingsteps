@@ -1,4 +1,5 @@
 local ArtConfig = require("../src/shared/config/ArtConfig")
+local AudioConfig = require("../src/shared/config/AudioConfig")
 local GameConfig = require("../src/shared/config/GameConfig")
 local DifficultyConfig = require("../src/shared/config/DifficultyConfig")
 local EconomyConfig = require("../src/shared/config/EconomyConfig")
@@ -9,6 +10,7 @@ local CourseConfig = require("../src/shared/config/CourseConfig")
 
 assert(GameConfig.Name == "Rising Steps", "product name changed")
 assert(#ArtConfig.Bands >= 3, "production art requires three altitude bands")
+assert(AudioConfig.MaxConcurrentTransientSounds <= 8, "audio concurrency budget is too high")
 assert(
 	GameConfig.Score.PerfectToleranceRatio < GameConfig.Score.CleanToleranceRatio,
 	"landing grade tolerances invalid"

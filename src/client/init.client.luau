@@ -8,6 +8,7 @@ local remoteFolder = root:WaitForChild(RemoteConfig.FolderName)
 
 local controllersFolder = script:WaitForChild("controllers")
 local CameraController = require(controllersFolder.CameraController)
+local FeedbackController = require(controllersFolder.FeedbackController)
 local HudController = require(controllersFolder.HudController)
 
 for remoteName in RemoteConfig.Definitions do
@@ -15,4 +16,5 @@ for remoteName in RemoteConfig.Definitions do
 end
 
 CameraController.start()
+FeedbackController.start()
 HudController.start()

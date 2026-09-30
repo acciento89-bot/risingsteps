@@ -403,6 +403,7 @@ local function scheduleExpiry(course: Course, stepId: number)
 	if snapshotRemote and snapshotRemote:IsA("RemoteEvent") then
 		snapshotRemote:FireClient(course.Player, {
 			Kind = "StepWarning",
+			StepId = stepId,
 			Height = course.Height,
 			Streak = course.Streak,
 			PB = PlayerProfileService.getPB(course.Player),
