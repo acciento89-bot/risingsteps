@@ -2,6 +2,14 @@
 
 This is the execution script for P13/P14. A green CI run is not a substitute for this runtime pass.
 
+## Canonical local runtime workflow
+- Use exactly one local place: `~/Documents/Roblox/RisingSteps/risingsteps-final2.rbxlx`.
+- Do not launch QA from `/tmp` or generate parallel `QA`, `final2-copy`, `mainQA` or similar place files.
+- Before runtime QA, verify there is no stale `rojo serve` process rooted in an old temporary checkout.
+- Runtime acceptance is performed from the canonical place only.
+- Do not force-terminate Roblox Studio during QA. Stop play normally and close Studio normally only when required.
+- A process restart caused by the QA harness is not evidence of a game crash; real crash acceptance requires a script/runtime error, crash report or unexplained process exit while the canonical session is otherwise untouched.
+
 ## Fresh-session journey
 1. Join with a fresh profile.
 2. Confirm spawn is on the rear of the authored launch bay and faces the first three guided steps.
