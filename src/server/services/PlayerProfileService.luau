@@ -63,7 +63,7 @@ local function ensureProfile(player: Player): RuntimeProfile
 end
 
 local function markDirty(profile: RuntimeProfile)
-	markDirty(profile)
+	profile.Dirty = true
 	profile.Revision += 1
 end
 
