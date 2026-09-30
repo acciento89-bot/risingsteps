@@ -379,14 +379,8 @@ local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3)
 		"CornerPlate",
 		Vector3.new(1.15, 0.16, 1.15),
 		CFrame.new(
-			center
-				+ Vector3.new(
-					cornerSignX * (size / 2 - 0.58),
-					thickness / 2 + 0.12,
-					cornerSignZ * (size / 2 - 0.58)
-				)
-		)
-			* CFrame.Angles(0, math.rad(45), 0),
+			center + Vector3.new(cornerSignX * (size / 2 - 0.58), thickness / 2 + 0.12, cornerSignZ * (size / 2 - 0.58))
+		) * CFrame.Angles(0, math.rad(45), 0),
 		Enum.Material.Metal,
 		palette.Detail,
 		false
@@ -398,14 +392,7 @@ local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3)
 		model,
 		"HangingBracket",
 		Vector3.new(0.28, 1.5 + (definition.Variant % 3) * 0.32, 0.72),
-		CFrame.new(
-			center
-				+ Vector3.new(
-					-cornerSignX * (size / 2 - 0.52),
-					-thickness / 2 - 0.82,
-					cornerSignZ * 0.9
-				)
-		),
+		CFrame.new(center + Vector3.new(-cornerSignX * (size / 2 - 0.52), -thickness / 2 - 0.82, cornerSignZ * 0.9)),
 		Enum.Material.Metal,
 		COLORS.Foundation,
 		false
