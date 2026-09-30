@@ -6,6 +6,11 @@ local root = ReplicatedStorage:WaitForChild("RisingSteps")
 local RemoteConfig = require(root.config.RemoteConfig)
 local remoteFolder = root:WaitForChild(RemoteConfig.FolderName)
 
+local controllersFolder = script:WaitForChild("controllers")
+local CameraController = require(controllersFolder.CameraController)
+
 for remoteName in RemoteConfig.Definitions do
 	remoteFolder:WaitForChild(remoteName)
 end
+
+CameraController.start()
