@@ -74,7 +74,12 @@ function StepSequence.generate(seed: number, count: number, startY: number, vari
 		local verticalRise = lerp(band.VerticalMin, band.VerticalMax, verticalAlpha)
 		local directionIndex = math.floor(directionAlpha * #DIRECTIONS) + 1
 
-		if directionIndex == previousDirection then
+		if id == 1 then
+			-- The onboarding step is intentionally straight ahead and clear of the spawn capsule.
+			horizontalDistance = band.HorizontalMax
+			verticalRise = math.min(band.VerticalMax, band.VerticalMin + 0.2)
+			directionIndex = 7
+		elseif directionIndex == previousDirection then
 			directionIndex = (directionIndex % #DIRECTIONS) + 1
 		end
 		previousDirection = directionIndex
