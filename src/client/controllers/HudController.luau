@@ -176,6 +176,56 @@ local function createHud()
 		COLORS.Text
 	)
 
+	local coinsLabel = makeLabel(
+		gui,
+		"Coins",
+		"◈ 0",
+		UDim2.fromOffset(120, 38),
+		UDim2.new(1, -138, 0, 20),
+		Enum.Font.GothamBold,
+		16,
+		COLORS.Warm
+	)
+	coinsLabel.TextXAlignment = Enum.TextXAlignment.Right
+
+	local tutorial = Instance.new("Frame")
+	tutorial.Name = "Tutorial"
+	tutorial.AnchorPoint = Vector2.new(0.5, 0)
+	tutorial.Position = UDim2.new(0.5, 0, 0, 20)
+	tutorial.Size = UDim2.fromOffset(360, 92)
+	tutorial.BackgroundColor3 = COLORS.Foundation
+	tutorial.BackgroundTransparency = 0.08
+	tutorial.BorderSizePixel = 0
+	tutorial.Visible = false
+	tutorial.Parent = gui
+	addCorner(tutorial, 16)
+	addStroke(tutorial, COLORS.Active, 0.42)
+
+	local tutorialTitle = makeLabel(
+		tutorial,
+		"Title",
+		"CLIMB UP ↑",
+		UDim2.new(1, -28, 0, 34),
+		UDim2.fromOffset(14, 8),
+		Enum.Font.GothamBlack,
+		19,
+		COLORS.Text
+	)
+	tutorialTitle.TextXAlignment = Enum.TextXAlignment.Center
+
+	local tutorialBody = makeLabel(
+		tutorial,
+		"Body",
+		"Land on the next step. Lower steps warn, then retract behind you.",
+		UDim2.new(1, -28, 0, 38),
+		UDim2.fromOffset(14, 42),
+		Enum.Font.GothamMedium,
+		13,
+		COLORS.Muted
+	)
+	tutorialBody.TextWrapped = true
+	tutorialBody.TextXAlignment = Enum.TextXAlignment.Center
+
 	local gradeLabel = Instance.new("TextLabel")
 	gradeLabel.Name = "LandingGrade"
 	gradeLabel.AnchorPoint = Vector2.new(0.5, 0.5)
@@ -227,6 +277,35 @@ local function createHud()
 	)
 	resultDetail.TextXAlignment = Enum.TextXAlignment.Center
 
+	local retryButton = Instance.new("TextButton")
+	retryButton.Name = "RetryButton"
+	retryButton.AnchorPoint = Vector2.new(0.5, 1)
+	retryButton.Position = UDim2.new(0.5, 0, 1, -10)
+	retryButton.Size = UDim2.fromOffset(164, 48)
+	retryButton.BackgroundColor3 = COLORS.Active
+	retryButton.BorderSizePixel = 0
+	retryButton.Font = Enum.Font.GothamBold
+	retryButton.Text = "RETRY"
+	retryButton.TextSize = 16
+	retryButton.TextColor3 = COLORS.Foundation
+	retryButton.Parent = result
+	addCorner(retryButton, 12)
+
+	result.Size = UDim2.fromOffset(300, 166)
+
+	local celebration = Instance.new("TextLabel")
+	celebration.Name = "Celebration"
+	celebration.AnchorPoint = Vector2.new(0.5, 0.5)
+	celebration.Position = UDim2.fromScale(0.5, 0.26)
+	celebration.Size = UDim2.fromOffset(360, 50)
+	celebration.BackgroundTransparency = 1
+	celebration.Font = Enum.Font.GothamBlack
+	celebration.Text = ""
+	celebration.TextSize = 26
+	celebration.TextColor3 = COLORS.Warm
+	celebration.TextTransparency = 1
+	celebration.Parent = gui
+
 	local function updateResponsiveScale()
 		local camera = Workspace.CurrentCamera
 		if not camera then
@@ -240,6 +319,21 @@ local function createHud()
 		heightValue.Text = tostring(height)
 		pbValue.Text = tostring(pb)
 		streakValue.Text = ("STREAK  %d"):format(streakCount)
+		local coins = LOCAL_PLAYER:GetAttribute("RisingStepsCoins")
+		coinsLabel.Text = ("◈ %d"):format(if type(coins) == "number" then coins else 0)
+	end
+
+	local function celebrate(text: string, color: Color3)
+		celebration.Text = text
+		celebration.TextColor3 = color
+		celebration.TextTransparency = 0
+		TweenService:Create(celebration, TweenInfo.new(1.1, Enum.EasingStyle.Quint), {
+			TextTransparency = 1,
+			Position = UDim2.fromScale(0.5, 0.22),
+		}):Play()
+		task.delay(1.15, function()
+			celebration.Position = UDim2.fromScale(0.5, 0.26)
+		end)
 	end
 
 	local gradeTween: Tween? = nil
@@ -278,7 +372,15 @@ local function createHud()
 
 	local remoteFolder = root:WaitForChild("Remotes")
 	local stateSnapshot = remoteFolder:WaitForChild("StateSnapshot")
+	local playerCommand = remoteFolder:WaitForChild("PlayerCommand")
+	local requestBootstrap = remoteFolder:WaitForChild("RequestBootstrap")
 	assert(stateSnapshot:IsA("RemoteEvent"), "StateSnapshot must be a RemoteEvent")
+	assert(playerCommand:IsA("RemoteEvent"), "PlayerCommand must be a RemoteEvent")
+	assert(requestBootstrap:IsA("RemoteFunction"), "RequestBootstrap must be a RemoteFunction")
+
+	retryButton.Activated:Connect(function()
+		playerCommand:FireServer({ Action = "Retry" })
+	end)
 
 	stateSnapshot.OnClientEvent:Connect(function(snapshot)
 		if type(snapshot) ~= "table" then
@@ -292,6 +394,14 @@ local function createHud()
 
 		if snapshot.Kind == "Progress" and type(snapshot.Grade) == "string" then
 			showGrade(snapshot.Grade)
+			tutorial.Visible = false
+			if snapshot.NewPB == true then
+				celebrate("NEW PB", COLORS.Warm)
+			elseif type(snapshot.UnlockedAchievements) == "table" and #snapshot.UnlockedAchievements > 0 then
+				celebrate("ACHIEVEMENT", COLORS.Active)
+			elseif type(snapshot.ChallengeCoins) == "number" and snapshot.ChallengeCoins > 0 then
+				celebrate("DAILY COMPLETE", COLORS.Warm)
+			end
 		elseif snapshot.Kind == "FallBoundary" or snapshot.Kind == "HumanoidDied" then
 			showFailure(height, pb)
 		elseif snapshot.Kind == "RunReset" then
@@ -314,6 +424,16 @@ local function createHud()
 	LOCAL_PLAYER:GetAttributeChangedSignal("RisingStepsHeight"):Connect(syncFromAttributes)
 	LOCAL_PLAYER:GetAttributeChangedSignal("RisingStepsStreak"):Connect(syncFromAttributes)
 	LOCAL_PLAYER:GetAttributeChangedSignal("RisingStepsPB"):Connect(syncFromAttributes)
+	LOCAL_PLAYER:GetAttributeChangedSignal("RisingStepsCoins"):Connect(syncFromAttributes)
+
+	task.spawn(function()
+		local ok, profile = pcall(function()
+			return requestBootstrap:InvokeServer()
+		end)
+		if ok and type(profile) == "table" then
+			tutorial.Visible = profile.TutorialComplete ~= true
+		end
+	end)
 
 	updateResponsiveScale()
 	Workspace:GetPropertyChangedSignal("CurrentCamera"):Connect(updateResponsiveScale)

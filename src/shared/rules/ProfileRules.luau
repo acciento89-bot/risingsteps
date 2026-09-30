@@ -2,6 +2,7 @@
 
 local EconomyConfig = require("../config/EconomyConfig")
 local CosmeticConfig = require("../config/CosmeticConfig")
+local RetentionConfig = require("../config/RetentionConfig")
 
 local ProfileRules = {}
 
@@ -43,6 +44,14 @@ local function defaultEquipped()
 	return equipped
 end
 
+local function defaultAchievements()
+	local result = {}
+	for achievementId in RetentionConfig.Achievements do
+		result[achievementId] = false
+	end
+	return result
+end
+
 function ProfileRules.defaultProfile()
 	return {
 		Version = EconomyConfig.ProfileVersion,
@@ -52,6 +61,21 @@ function ProfileRules.defaultProfile()
 		Equipped = defaultEquipped(),
 		Settings = {
 			ReducedMotion = false,
+		},
+		TutorialComplete = false,
+		Daily = {
+			LastClaimDay = -1,
+			ClaimStreak = 0,
+		},
+		Challenge = {
+			Day = -1,
+			Progress = 0,
+			Claimed = false,
+		},
+		Achievements = defaultAchievements(),
+		Totals = {
+			Perfect = 0,
+			Clean = 0,
 		},
 	}
 end
@@ -96,6 +120,32 @@ function ProfileRules.migrate(raw: any)
 
 	if type(raw.Settings) == "table" and type(raw.Settings.ReducedMotion) == "boolean" then
 		profile.Settings.ReducedMotion = raw.Settings.ReducedMotion
+	end
+
+	if type(raw.TutorialComplete) == "boolean" then
+		profile.TutorialComplete = raw.TutorialComplete
+	end
+
+	if type(raw.Daily) == "table" then
+		profile.Daily.LastClaimDay = math.floor(tonumber(raw.Daily.LastClaimDay) or -1)
+		profile.Daily.ClaimStreak = nonNegativeInteger(raw.Daily.ClaimStreak, 0)
+	end
+
+	if type(raw.Challenge) == "table" then
+		profile.Challenge.Day = math.floor(tonumber(raw.Challenge.Day) or -1)
+		profile.Challenge.Progress = nonNegativeInteger(raw.Challenge.Progress, 0)
+		profile.Challenge.Claimed = raw.Challenge.Claimed == true
+	end
+
+	if type(raw.Achievements) == "table" then
+		for achievementId in RetentionConfig.Achievements do
+			profile.Achievements[achievementId] = raw.Achievements[achievementId] == true
+		end
+	end
+
+	if type(raw.Totals) == "table" then
+		profile.Totals.Perfect = nonNegativeInteger(raw.Totals.Perfect, 0)
+		profile.Totals.Clean = nonNegativeInteger(raw.Totals.Clean, 0)
 	end
 
 	return profile

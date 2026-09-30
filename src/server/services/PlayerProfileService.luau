@@ -6,19 +6,11 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local root = ReplicatedStorage:WaitForChild("RisingSteps")
 local EconomyConfig = require(root.config.EconomyConfig)
+local RetentionConfig = require(root.config.RetentionConfig)
 local ProfileRules = require(root.rules.ProfileRules)
+local RetentionRules = require(root.rules.RetentionRules)
 
-type RuntimeProfile = {
-	Version: number,
-	PB: number,
-	Coins: number,
-	Owned: { [string]: { [string]: boolean } },
-	Equipped: { [string]: string },
-	Settings: { ReducedMotion: boolean },
-	Loaded: boolean,
-	PersistenceHealthy: boolean,
-	Dirty: boolean,
-}
+type RuntimeProfile = any
 
 local PlayerProfileService = {}
 
@@ -37,23 +29,17 @@ local function syncAttributes(player: Player, profile: RuntimeProfile)
 	player:SetAttribute("RisingStepsStepTheme", profile.Equipped.StepThemes)
 	player:SetAttribute("RisingStepsEnvironmentTheme", profile.Equipped.EnvironmentThemes)
 	player:SetAttribute("RisingStepsReducedMotion", profile.Settings.ReducedMotion)
+	player:SetAttribute("RisingStepsTutorialComplete", profile.TutorialComplete)
 	player:SetAttribute("RisingStepsProfileLoaded", profile.Loaded)
 	player:SetAttribute("RisingStepsPersistenceHealthy", profile.PersistenceHealthy)
 end
 
 local function runtimeFromData(data: any): RuntimeProfile
 	local migrated = ProfileRules.migrate(data)
-	return {
-		Version = migrated.Version,
-		PB = migrated.PB,
-		Coins = migrated.Coins,
-		Owned = migrated.Owned,
-		Equipped = migrated.Equipped,
-		Settings = migrated.Settings,
-		Loaded = false,
-		PersistenceHealthy = false,
-		Dirty = false,
-	}
+	migrated.Loaded = false
+	migrated.PersistenceHealthy = false
+	migrated.Dirty = false
+	return migrated
 end
 
 local function ensureProfile(player: Player): RuntimeProfile
@@ -76,7 +62,49 @@ local function persistentPayload(profile: RuntimeProfile)
 		Owned = profile.Owned,
 		Equipped = profile.Equipped,
 		Settings = profile.Settings,
+		TutorialComplete = profile.TutorialComplete,
+		Daily = profile.Daily,
+		Challenge = profile.Challenge,
+		Achievements = profile.Achievements,
+		Totals = profile.Totals,
 	}
+end
+
+local function currentDay(): number
+	return RetentionRules.dayIndex(os.time())
+end
+
+local function ensureCurrentChallenge(profile: RuntimeProfile): boolean
+	local day = currentDay()
+	if profile.Challenge.Day == day then
+		return false
+	end
+	profile.Challenge.Day = day
+	profile.Challenge.Progress = 0
+	profile.Challenge.Claimed = false
+	profile.Dirty = true
+	return true
+end
+
+local function mergeSessionProgress(loaded: RuntimeProfile, current: RuntimeProfile)
+	loaded.PB = math.max(loaded.PB, current.PB)
+	loaded.Coins += current.Coins
+	loaded.TutorialComplete = loaded.TutorialComplete or current.TutorialComplete
+	loaded.Totals.Perfect += current.Totals.Perfect
+	loaded.Totals.Clean += current.Totals.Clean
+
+	for achievementId, unlocked in current.Achievements do
+		if unlocked then
+			loaded.Achievements[achievementId] = true
+		end
+	end
+
+	if current.Challenge.Day == loaded.Challenge.Day then
+		loaded.Challenge.Progress = math.max(loaded.Challenge.Progress, current.Challenge.Progress)
+		loaded.Challenge.Claimed = loaded.Challenge.Claimed or current.Challenge.Claimed
+	end
+
+	loaded.Dirty = current.Dirty or current.Coins > 0 or current.PB > 0
 end
 
 local function loadPlayer(player: Player)
@@ -102,14 +130,9 @@ local function loadPlayer(player: Player)
 		local loaded = runtimeFromData(loadedValue)
 		loaded.Loaded = true
 		loaded.PersistenceHealthy = true
-
-		local current = profiles[player]
-		if current then
-			loaded.PB = math.max(loaded.PB, current.PB)
-			loaded.Coins += current.Coins
-			loaded.Dirty = current.Dirty or loaded.Coins ~= ProfileRules.migrate(loadedValue).Coins
-		end
+		mergeSessionProgress(loaded, profile)
 		profiles[player] = loaded
+		ensureCurrentChallenge(loaded)
 		syncAttributes(player, loaded)
 	else
 		profile.Loaded = true
@@ -118,8 +141,27 @@ local function loadPlayer(player: Player)
 	end
 end
 
+local function challengeSnapshot(profile: RuntimeProfile)
+	local day = currentDay()
+	local challenge = RetentionRules.challengeForDay(day)
+	local progress = if profile.Challenge.Day == day then profile.Challenge.Progress else 0
+	local claimed = profile.Challenge.Day == day and profile.Challenge.Claimed
+
+	return {
+		Kind = challenge.Kind,
+		Target = challenge.Target,
+		Progress = progress,
+		Claimed = claimed,
+		RewardCoins = challenge.RewardCoins,
+	}
+end
+
 function PlayerProfileService.getSnapshot(player: Player)
 	local profile = ensureProfile(player)
+	if profile.Loaded then
+		ensureCurrentChallenge(profile)
+	end
+
 	return {
 		Version = profile.Version,
 		PB = profile.PB,
@@ -127,6 +169,13 @@ function PlayerProfileService.getSnapshot(player: Player)
 		Owned = profile.Owned,
 		Equipped = profile.Equipped,
 		Settings = profile.Settings,
+		TutorialComplete = profile.TutorialComplete,
+		Daily = {
+			Claimable = profile.Daily.LastClaimDay ~= currentDay(),
+			ClaimStreak = profile.Daily.ClaimStreak,
+		},
+		Challenge = challengeSnapshot(profile),
+		Achievements = profile.Achievements,
 		Loaded = profile.Loaded,
 		PersistenceHealthy = profile.PersistenceHealthy,
 	}
@@ -145,18 +194,88 @@ function PlayerProfileService.recordHeight(player: Player, height: number): (num
 	return profile.PB, true
 end
 
-function PlayerProfileService.awardLanding(player: Player, grade: string, streak: number, height: number): number
+function PlayerProfileService.awardLanding(player: Player, grade: string, streak: number, height: number)
 	local profile = ensureProfile(player)
-	local reward = ProfileRules.rewardForLanding(grade, streak, height)
-	if reward <= 0 then
-		return 0
+	ensureCurrentChallenge(profile)
+
+	local oldPB = profile.PB
+	local normalizedHeight = math.max(0, math.floor(height))
+	profile.PB = math.max(profile.PB, normalizedHeight)
+	local newPB = profile.PB > oldPB
+
+	if grade == "Perfect" then
+		profile.Totals.Perfect += 1
+	elseif grade == "Clean" then
+		profile.Totals.Clean += 1
 	end
 
+	local landingCoins = ProfileRules.rewardForLanding(grade, streak, normalizedHeight)
+	profile.Coins += landingCoins
+
+	local event = {
+		Grade = grade,
+		Height = normalizedHeight,
+		Streak = math.max(0, math.floor(streak)),
+		PerfectTotal = profile.Totals.Perfect,
+	}
+
+	local challengeCoins = 0
+	local challenge = RetentionRules.challengeForDay(profile.Challenge.Day)
+	profile.Challenge.Progress =
+		RetentionRules.challengeProgress(challenge, profile.Challenge.Progress, event)
+	if profile.Challenge.Progress >= challenge.Target and not profile.Challenge.Claimed then
+		profile.Challenge.Claimed = true
+		challengeCoins = challenge.RewardCoins
+		profile.Coins += challengeCoins
+	end
+
+	local unlockedAchievements = {}
+	local achievementCoins = 0
+	for _, achievementId in RetentionRules.achievementIdsForEvent(event) do
+		if profile.Achievements[achievementId] ~= true then
+			profile.Achievements[achievementId] = true
+			local definition = RetentionConfig.Achievements[achievementId]
+			achievementCoins += definition.RewardCoins
+			table.insert(unlockedAchievements, achievementId)
+		end
+	end
+	profile.Coins += achievementCoins
+
+	if not profile.TutorialComplete then
+		profile.TutorialComplete = true
+	end
+
+	profile.Dirty = true
+	syncAttributes(player, profile)
+
+	return {
+		LandingCoins = landingCoins,
+		ChallengeCoins = challengeCoins,
+		AchievementCoins = achievementCoins,
+		NewPB = newPB,
+		UnlockedAchievements = unlockedAchievements,
+	}
+end
+
+function PlayerProfileService.claimDaily(player: Player): (boolean, string, number)
+	local profile = ensureProfile(player)
+	if not profile.Loaded or not profile.PersistenceHealthy then
+		return false, "profile_unavailable", 0
+	end
+
+	local day = currentDay()
+	local ok, reason, nextStreak, reward =
+		RetentionRules.dailyClaim(profile.Daily.LastClaimDay, profile.Daily.ClaimStreak, day)
+	if not ok then
+		return false, reason, 0
+	end
+
+	profile.Daily.LastClaimDay = day
+	profile.Daily.ClaimStreak = nextStreak
 	profile.Coins += reward
 	profile.Dirty = true
-	PlayerProfileService.recordHeight(player, height)
 	syncAttributes(player, profile)
-	return reward
+	return true, "ok", reward
 end
 
 function PlayerProfileService.getPB(player: Player): number

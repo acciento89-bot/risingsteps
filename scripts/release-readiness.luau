@@ -16,7 +16,7 @@ assert(GameConfig.Step.MaxVerticalRise <= 5.0, "vertical reach exceeds product l
 assert(GameConfig.Failure.MaxPaidRevivesPerRun == 1, "paid revive cap changed")
 assert(EconomyConfig.CompetitiveHeightPurchasable == false, "competitive height must not be purchasable")
 assert(EconomyConfig.PaidMovementAdvantageAllowed == false, "paid movement advantage is forbidden")
-assert(EconomyConfig.ProfileVersion >= 2, "progression profile schema must be versioned")
+assert(EconomyConfig.ProfileVersion >= 3, "retention profile schema must be versioned")
 assert(CosmeticConfig.Categories.Trails.Default ~= nil, "trail catalog is missing a default")
 assert(CosmeticConfig.Categories.StepThemes.Default ~= nil, "step-theme catalog is missing a default")
 assert(RemoteConfig.Definitions.StateSnapshot.Direction == "ServerToClient", "state snapshot authority drifted")

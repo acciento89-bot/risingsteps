@@ -6,6 +6,9 @@ local fresh = ProfileRules.defaultProfile()
 assert(fresh.Version == EconomyConfig.ProfileVersion, "default profile version mismatch")
 assert(fresh.PB == 0 and fresh.Coins == 0, "fresh profile economy must start at zero")
 assert(fresh.Owned.StepThemes.steel == true, "default step theme must be owned")
+assert(fresh.TutorialComplete == false, "fresh profile must require the first-session tutorial")
+assert(fresh.Daily.LastClaimDay == -1, "fresh profile must not have a daily claim")
+assert(fresh.Totals.Perfect == 0, "fresh profile Perfect total must start at zero")
 assert(fresh.Equipped.StepThemes == "steel", "default step theme must be equipped")
 
 local migratedV1 = ProfileRules.migrate({
@@ -16,6 +19,8 @@ assert(migratedV1.Version == EconomyConfig.ProfileVersion, "v1 profile did not m
 assert(migratedV1.PB == 37, "v1 PB was not preserved")
 assert(migratedV1.Coins == 0, "v1 migration invented coins")
 assert(migratedV1.Owned.Trails.none == true, "v1 migration lost default trail ownership")
+assert(migratedV1.TutorialComplete == false, "legacy migration invented tutorial completion")
+assert(migratedV1.Challenge.Day == -1, "legacy migration invented challenge state")
 
 local migratedV2 = ProfileRules.migrate({
 	Version = 2,

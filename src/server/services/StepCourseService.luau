@@ -320,7 +320,7 @@ local function scheduleExpiry(course: Course, stepId: number)
 	end)
 end
 
-local function sendSnapshot(course: Course, kind: string, grade: string?, rewardCoins: number?)
+local function sendSnapshot(course: Course, kind: string, grade: string?, reward: any?)
 	local remoteFolder = root:FindFirstChild("Remotes")
 	if not remoteFolder then
 		return
@@ -334,7 +334,11 @@ local function sendSnapshot(course: Course, kind: string, grade: string?, reward
 			PB = PlayerProfileService.getPB(course.Player),
 			Coins = course.Player:GetAttribute("RisingStepsCoins") or 0,
 			Grade = grade,
-			RewardCoins = rewardCoins or 0,
+			RewardCoins = if reward then reward.LandingCoins or 0 else 0,
+			ChallengeCoins = if reward then reward.ChallengeCoins or 0 else 0,
+			AchievementCoins = if reward then reward.AchievementCoins or 0 else 0,
+			NewPB = if reward then reward.NewPB == true else false,
+			UnlockedAchievements = if reward then reward.UnlockedAchievements or {} else {},
 			Failed = course.Failed,
 		})
 	end
@@ -419,8 +423,8 @@ local function onLanding(course: Course, runtime: StepRuntime, hit: BasePart)
 	course.HighestY = math.max(course.HighestY, stepTopY)
 	course.Player:SetAttribute("RisingStepsHeight", course.Height)
 	course.Player:SetAttribute("RisingStepsStreak", course.Streak)
-	local rewardCoins = PlayerProfileService.awardLanding(course.Player, grade, course.Streak, course.Height)
-	sendSnapshot(course, "Progress", grade, rewardCoins)
+	local reward = PlayerProfileService.awardLanding(course.Player, grade, course.Streak, course.Height)
+	sendSnapshot(course, "Progress", grade, reward)
 
 	local expiryStepId = course.Height - CourseConfig.ExpiryBehindCurrent
 	if expiryStepId >= 1 then
@@ -570,6 +574,21 @@ local function checkFalls()
 end
 
 function StepCourseService.start()
+	local remoteFolder = root:WaitForChild("Remotes")
+	local playerCommand = remoteFolder:WaitForChild("PlayerCommand")
+	assert(playerCommand:IsA("RemoteEvent"), "PlayerCommand must be a RemoteEvent")
+	playerCommand.OnServerEvent:Connect(function(player, payload)
+		if type(payload) ~= "table" or payload.Action ~= "Retry" then
+			return
+		end
+		local course = courses[player]
+		if not course or not course.Failed then
+			return
+		end
+		course.RunToken += 1
+		player:LoadCharacter()
+	end)
+
 	for _, player in Players:GetPlayers() do
 		bindPlayer(player)
 	end

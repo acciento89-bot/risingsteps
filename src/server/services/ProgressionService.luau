@@ -61,6 +61,14 @@ function ProgressionService.start(remoteFolder: Folder)
 			end
 			local ok, reason = PlayerProfileService.equipCosmetic(player, payload.Category, payload.ItemId)
 			emitProfile(remoteFolder, player, { Action = action, Ok = ok, Reason = reason })
+		elseif action == "ClaimDaily" then
+			local ok, reason, reward = PlayerProfileService.claimDaily(player)
+			emitProfile(remoteFolder, player, {
+				Action = action,
+				Ok = ok,
+				Reason = reason,
+				RewardCoins = reward,
+			})
 		elseif action == "ReducedMotion" and type(payload.Enabled) == "boolean" then
 			local ok = PlayerProfileService.setReducedMotion(player, payload.Enabled)
 			emitProfile(remoteFolder, player, {
