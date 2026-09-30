@@ -2,14 +2,14 @@
 
 local RuntimeQaConfig = {
 	EnabledInStudio = true,
-	StartupDelaySeconds = 1.0,
-	VisualHoldSeconds = 10,
-	SoakEnabled = true,
+	StartupDelaySeconds = 4.0,
+	VisualHoldSeconds = 4,
+	SoakEnabled = false,
 	SoakDurationSeconds = 1200,
 	SoakCyclePauseSeconds = 6,
 	SoakReportIntervalSeconds = 60,
-	InputQaEnabled = false,
-	InputQaStartupDelaySeconds = 1.0,
+	InputQaEnabled = true,
+	InputQaStartupDelaySeconds = 0.5,
 }
 
 return table.freeze(RuntimeQaConfig)
