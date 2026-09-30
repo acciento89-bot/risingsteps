@@ -404,9 +404,7 @@ local function run(player: Player)
 			BaseParts = lastBaseParts,
 			BeamsAndLights = lastBeamsAndLights,
 		})
-		print(
-			("[RisingStepsQA] SOAK_COMPLETE %.1fs cycles=%d"):format(soakElapsed, cycles)
-		)
+		print(("[RisingStepsQA] SOAK_COMPLETE %.1fs cycles=%d"):format(soakElapsed, cycles))
 	end
 
 	player:SetAttribute("RisingStepsQaPhase", "complete")
