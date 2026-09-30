@@ -4,6 +4,7 @@ local GuiService = game:GetService("GuiService")
 local MarketplaceService = game:GetService("MarketplaceService")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
 local UserInputService = game:GetService("UserInputService")
 local Workspace = game:GetService("Workspace")
@@ -1189,6 +1190,19 @@ local function createHud()
 			refreshShop(profile)
 		end
 	end)
+
+	if RunService:IsStudio() then
+		local function applyQaView()
+			local view = LOCAL_PLAYER:GetAttribute("RisingStepsQaView")
+			if view == "Shop" then
+				setShopVisible(true)
+			elseif view == "Gameplay" or view == "Result" then
+				setShopVisible(false)
+			end
+		end
+		LOCAL_PLAYER:GetAttributeChangedSignal("RisingStepsQaView"):Connect(applyQaView)
+		applyQaView()
+	end
 
 	task.spawn(function()
 		local ok, bootstrap = pcall(function()
