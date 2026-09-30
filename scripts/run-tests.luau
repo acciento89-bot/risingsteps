@@ -1,0 +1,10 @@
+local tests = {
+	require("../tests/config.spec"),
+	require("../tests/remote-authority.spec"),
+}
+
+for index, result in tests do
+	assert(result == true, ("test module %d did not return true"):format(index))
+end
+
+print(("Rising Steps: %d pure Luau test files passed"):format(#tests))
