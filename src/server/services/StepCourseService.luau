@@ -599,6 +599,7 @@ local function failCourse(course: Course, reason: string)
 	end
 
 	course.Failed = true
+	course.Ready = false
 	course.Player:SetAttribute("RisingStepsRunFailed", true)
 	task.spawn(PlayerProfileService.flushPlayer, course.Player)
 	sendSnapshot(course, reason)
