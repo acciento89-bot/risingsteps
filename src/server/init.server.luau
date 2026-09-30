@@ -5,13 +5,6 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local root = ReplicatedStorage:WaitForChild("RisingSteps")
 local RemoteConfig = require(root.config.RemoteConfig)
 
-local servicesFolder = script:WaitForChild("services")
-local StartDeckService = require(servicesFolder.StartDeckService)
-local PlayerMovementService = require(servicesFolder.PlayerMovementService)
-
-StartDeckService.start()
-PlayerMovementService.start()
-
 local remoteFolder = root:FindFirstChild(RemoteConfig.FolderName)
 if not remoteFolder then
 	remoteFolder = Instance.new("Folder")
@@ -28,3 +21,10 @@ for remoteName, definition in RemoteConfig.Definitions do
 		remote.Parent = remoteFolder
 	end
 end
+
+local servicesFolder = script:WaitForChild("services")
+local PlayerMovementService = require(servicesFolder.PlayerMovementService)
+local StepCourseService = require(servicesFolder.StepCourseService)
+
+PlayerMovementService.start()
+StepCourseService.start()
