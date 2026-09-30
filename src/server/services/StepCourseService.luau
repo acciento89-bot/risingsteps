@@ -28,6 +28,9 @@ type StepRuntime = {
 	Accents: { BasePart },
 	Decorations: { BasePart },
 	WarningSignals: { BasePart },
+	BaseCollisionColor: Color3,
+	BaseInsetColor: Color3,
+	BaseAccentColor: Color3,
 	Definition: any,
 	State: string,
 }
@@ -78,6 +81,37 @@ local COLORS = {
 	Warning = Color3.fromRGB(255, 159, 67),
 	Expiring = Color3.fromRGB(255, 93, 108),
 }
+
+local function paletteForBand(bandId: string)
+	if bandId == "service-decks" then
+		return {
+			Collision = Color3.fromRGB(42, 54, 70),
+			Inset = Color3.fromRGB(58, 70, 84),
+			Accent = COLORS.Active,
+			Detail = COLORS.Warm,
+			CollisionMaterial = Enum.Material.DiamondPlate,
+			InsetMaterial = Enum.Material.Rubber,
+		}
+	elseif bandId == "cloudline-works" then
+		return {
+			Collision = Color3.fromRGB(45, 63, 82),
+			Inset = Color3.fromRGB(64, 82, 99),
+			Accent = Color3.fromRGB(94, 235, 255),
+			Detail = Color3.fromRGB(184, 237, 246),
+			CollisionMaterial = Enum.Material.Metal,
+			InsetMaterial = Enum.Material.Metal,
+		}
+	end
+
+	return {
+		Collision = Color3.fromRGB(57, 72, 91),
+		Inset = Color3.fromRGB(78, 94, 111),
+		Accent = Color3.fromRGB(185, 246, 255),
+		Detail = Color3.fromRGB(220, 251, 255),
+		CollisionMaterial = Enum.Material.Slate,
+		InsetMaterial = Enum.Material.SmoothPlastic,
+	}
+end
 
 local function makePart(
 	parent: Instance,
@@ -131,14 +165,15 @@ local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3)
 	local center = laneOrigin + Vector3.new(definition.X, definition.Y, definition.Z)
 	local size = GameConfig.Step.BaseFootprint
 	local thickness = GameConfig.Step.CollisionThickness
+	local palette = paletteForBand(definition.BandId)
 
 	local collision = makePart(
 		model,
 		"Collision",
 		Vector3.new(size, thickness, size),
 		CFrame.new(center),
-		Enum.Material.Metal,
-		COLORS.Steel,
+		palette.CollisionMaterial,
+		palette.Collision,
 		true
 	)
 	collision:SetAttribute("StepId", definition.Id)
@@ -148,8 +183,8 @@ local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3)
 		"LandingInset",
 		Vector3.new(size - 0.72, 0.16, size - 0.72),
 		CFrame.new(center + Vector3.new(0, thickness / 2 + 0.08, 0)),
-		Enum.Material.Rubber,
-		COLORS.Concrete,
+		palette.InsetMaterial,
+		palette.Inset,
 		false
 	)
 
@@ -165,7 +200,7 @@ local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3)
 		Vector3.new(size - 0.5, 0.12, edgeThickness),
 		CFrame.new(center.X, edgeY, center.Z - edgeOffset),
 		Enum.Material.Metal,
-		COLORS.Active,
+		palette.Accent,
 		false
 	)
 	local accentB = makePart(
@@ -174,7 +209,7 @@ local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3)
 		Vector3.new(size - 0.5, 0.12, edgeThickness),
 		CFrame.new(center.X, edgeY, center.Z + edgeOffset),
 		Enum.Material.Metal,
-		COLORS.Active,
+		palette.Accent,
 		false
 	)
 	table.insert(accents, accentA)
@@ -198,12 +233,49 @@ local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3)
 		"LandingMark",
 		Vector3.new(1.55, 0.04, 1.55),
 		CFrame.new(center + Vector3.new(0, thickness / 2 + 0.18, 0)),
-		Enum.Material.SmoothPlastic,
-		COLORS.Active,
+		Enum.Material.Neon,
+		palette.Accent,
 		false
 	)
-	landingMark.Transparency = 0.62
+	landingMark.Transparency = 0.48
 	table.insert(decorations, landingMark)
+
+	for _, zSide in { -1, 1 } do
+		local underGlow = makePart(
+			model,
+			"UnderGlow",
+			Vector3.new(size - 1.2, 0.10, 0.12),
+			CFrame.new(center + Vector3.new(0, -thickness / 2 - 0.10, zSide * (size / 2 - 0.20))),
+			Enum.Material.Neon,
+			palette.Accent,
+			false
+		)
+		underGlow.Transparency = 0.38
+		table.insert(decorations, underGlow)
+	end
+
+	for _, xSide in { -1, 1 } do
+		for _, zSide in { -1, 1 } do
+			local bolt = makePart(
+				model,
+				"DeckBolt",
+				Vector3.new(0.20, 0.20, 0.20),
+				CFrame.new(
+					center
+						+ Vector3.new(
+							xSide * (size / 2 - 0.42),
+							thickness / 2 + 0.16,
+							zSide * (size / 2 - 0.42)
+						)
+				),
+				Enum.Material.Metal,
+				palette.Detail,
+				false
+			)
+			bolt.Shape = Enum.PartType.Ball
+			table.insert(decorations, bolt)
+		end
+	end
 
 	local warningSignals: { BasePart } = {}
 	for _, side in { -1, 1 } do
@@ -313,6 +385,9 @@ local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3)
 		Accents = accents,
 		Decorations = decorations,
 		WarningSignals = warningSignals,
+		BaseCollisionColor = palette.Collision,
+		BaseInsetColor = palette.Inset,
+		BaseAccentColor = palette.Accent,
 		Definition = definition,
 		State = StepRules.State.Active,
 	}
@@ -334,12 +409,12 @@ local function setStepState(runtime: StepRuntime, nextState: string)
 		runtime.Collision.CanCollide = true
 		runtime.Collision.CanTouch = true
 		runtime.Collision.Transparency = 0
-		runtime.Collision.Color = COLORS.Steel
+		runtime.Collision.Color = runtime.BaseCollisionColor
 		runtime.Inset.Transparency = 0
-		runtime.Inset.Color = COLORS.Concrete
+		runtime.Inset.Color = runtime.BaseInsetColor
 		for _, part in runtime.Accents do
 			part.Transparency = 0
-			part.Color = COLORS.Active
+			part.Color = runtime.BaseAccentColor
 		end
 		for _, part in runtime.Decorations do
 			if
