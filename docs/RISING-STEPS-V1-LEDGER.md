@@ -198,10 +198,12 @@ P12 implementation note: both mutation remotes now have per-player rate limits; 
 - [ ] P14-T03 Desktop keyboard/mouse
 - [ ] P14-T04 Controller
 - [ ] P14-T05 Camera/readability at low/high altitude on each viewport
-- [ ] P14-T06 Generator/cleanup performance and bounded memory/part count
+- [~] P14-T06 Generator/cleanup performance and bounded memory/part count
 - [ ] P14-T07 Compact-phone screenshot review at low/mid/high altitude; art density and HUD must remain readable without shrinking critical controls
 - [ ] P14-T08 Tablet/desktop composition uses added screen space intentionally rather than merely stretching the phone layout
 - [ ] P14-T09 Low/mobile graphics-quality pass preserves gameplay-state contrast, silhouettes and warning readability
+
+P14 implementation note: each generated player lane now records its BasePart and Beam/Light counts on the course model, emits structured diagnostics, and warns if the presentation exceeds locked budgets. Release-readiness enforces ceilings of 1,000 BaseParts and 128 Beams/Lights while production config is stricter at 900/96. Local StyLua/Selene checks pass, all 14 pure-Luau test files pass, the 16,000-placement reachability simulation passes, and release-readiness passes. P14-T06 remains `[~]` until the real 20-minute runtime confirms stable memory/cleanup and observes the counters under play.
 
 ## P15 Release
 - [ ] P15-T01 Production icon/thumbnails/metadata
