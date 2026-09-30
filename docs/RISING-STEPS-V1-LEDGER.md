@@ -28,15 +28,15 @@ Mandatory V1 rules:
 - QA captures go to `/tmp/risingsteps-qa`; only curated evidence enters `docs/evidence/`.
 
 ## P00 Product lock
-- [ ] P00-T01 Lock score vocabulary: height, streak, clean/perfect landing and PB
-- [ ] P00-T02 Lock movement/jump model and whether default Roblox jump is retained or tuned
-- [ ] P00-T03 Lock step lifetime, warning window, vertical spacing and horizontal reach envelope
-- [ ] P00-T04 Lock difficulty ramp, speed-up bands and fail/revive rules
-- [ ] P00-T05 Lock ethical monetization and cosmetic categories
-- [ ] P00-T06 Measurable quality/release criteria
-- [ ] P00-T07 Lock visual identity board: palette, material family, typography, UI radius/spacing, icon language, world silhouettes and explicit “do not use” examples
-- [ ] P00-T08 Lock camera composition targets for compact phone/tablet/desktop: avatar scale, visible upcoming steps and horizon/depth balance
-- [ ] P00-T09 Lock altitude-art progression with at least three visually distinct but coherent world bands so a long climb never looks like repeated blocks
+- [x] P00-T01 Lock score vocabulary: height, streak, clean/perfect landing and PB
+- [x] P00-T02 Lock movement/jump model and whether default Roblox jump is retained or tuned
+- [x] P00-T03 Lock step lifetime, warning window, vertical spacing and horizontal reach envelope
+- [x] P00-T04 Lock difficulty ramp, speed-up bands and fail/revive rules
+- [x] P00-T05 Lock ethical monetization and cosmetic categories
+- [x] P00-T06 Measurable quality/release criteria
+- [x] P00-T07 Lock visual identity board: palette, material family, typography, UI radius/spacing, icon language, world silhouettes and explicit “do not use” examples
+- [x] P00-T08 Lock camera composition targets for compact phone/tablet/desktop: avatar scale, visible upcoming steps and horizon/depth balance
+- [x] P00-T09 Lock altitude-art progression with at least three visually distinct but coherent world bands so a long climb never looks like repeated blocks
 
 ## P01 Technical foundation
 - [ ] P01-T01 Rojo client/server/shared layout
