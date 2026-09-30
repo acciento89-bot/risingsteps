@@ -71,6 +71,25 @@ local function addRod(
 	)
 end
 
+local function cableAnchor(parent: Instance): BasePart
+	local existing = parent:FindFirstChild("CableRigAnchor")
+	if existing and existing:IsA("BasePart") then
+		return existing
+	end
+
+	local anchor = decorativePart(
+		parent,
+		"CableRigAnchor",
+		Vector3.new(0.05, 0.05, 0.05),
+		CFrame.identity,
+		Enum.Material.SmoothPlastic,
+		Color3.new(0, 0, 0),
+		1
+	)
+	anchor.CastShadow = false
+	return anchor
+end
+
 local function addCable(
 	parent: Instance,
 	name: string,
@@ -79,29 +98,17 @@ local function addCable(
 	color: Color3,
 	width: number
 )
-	local anchorA = decorativePart(
-		parent,
-		name .. "AnchorA",
-		Vector3.new(0.08, 0.08, 0.08),
-		CFrame.new(fromPosition),
-		Enum.Material.SmoothPlastic,
-		color,
-		1
-	)
-	local anchorB = decorativePart(
-		parent,
-		name .. "AnchorB",
-		Vector3.new(0.08, 0.08, 0.08),
-		CFrame.new(toPosition),
-		Enum.Material.SmoothPlastic,
-		color,
-		1
-	)
+	local anchorPart = cableAnchor(parent)
 
 	local attachmentA = Instance.new("Attachment")
-	attachmentA.Parent = anchorA
+	attachmentA.Name = name .. "AttachmentA"
+	attachmentA.Position = anchorPart.CFrame:PointToObjectSpace(fromPosition)
+	attachmentA.Parent = anchorPart
+
 	local attachmentB = Instance.new("Attachment")
-	attachmentB.Parent = anchorB
+	attachmentB.Name = name .. "AttachmentB"
+	attachmentB.Position = anchorPart.CFrame:PointToObjectSpace(toPosition)
+	attachmentB.Parent = anchorPart
 
 	local beam = Instance.new("Beam")
 	beam.Name = name
@@ -114,7 +121,7 @@ local function addCable(
 	beam.LightEmission = 0.25
 	beam.FaceCamera = true
 	beam.Segments = 6
-	beam.Parent = anchorA
+	beam.Parent = anchorPart
 end
 
 local function addPracticalLight(parent: Instance, position: Vector3, color: Color3)
@@ -157,18 +164,17 @@ local function addBuilding(parent: Instance, position: Vector3, size: Vector3, s
 	local bands = math.clamp(math.floor(size.Y / 11), 2, 6)
 	for row = 1, bands do
 		local bandColor = if row % 2 == 0 then Color3.fromRGB(255, 180, 96) else Color3.fromRGB(103, 155, 184)
-		for zSide in { -1, 1 } do
-			local window = decorativePart(
-				parent,
-				"WindowBand",
-				Vector3.new(math.max(4, size.X - 1.8), 0.18, 0.08),
-				CFrame.new(position + Vector3.new(0, row * (size.Y / (bands + 1)), zSide * (size.Z / 2 + 0.05))),
-				Enum.Material.Neon,
-				bandColor,
-				0.28
-			)
-			window.CastShadow = false
-		end
+		local zSide = if row % 2 == 0 then -1 else 1
+		local window = decorativePart(
+			parent,
+			"WindowBand",
+			Vector3.new(math.max(4, size.X - 1.8), 0.18, 0.08),
+			CFrame.new(position + Vector3.new(0, row * (size.Y / (bands + 1)), zSide * (size.Z / 2 + 0.05))),
+			Enum.Material.Neon,
+			bandColor,
+			0.28
+		)
+		window.CastShadow = false
 	end
 
 	local roofLight = decorativePart(
