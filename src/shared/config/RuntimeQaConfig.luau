@@ -8,6 +8,8 @@ local RuntimeQaConfig = {
 	SoakDurationSeconds = 1200,
 	SoakCyclePauseSeconds = 6,
 	SoakReportIntervalSeconds = 60,
+	InputQaEnabled = false,
+	InputQaStartupDelaySeconds = 1.0,
 }
 
 return table.freeze(RuntimeQaConfig)
