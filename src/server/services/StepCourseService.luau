@@ -9,11 +9,14 @@ local Workspace = game:GetService("Workspace")
 local root = ReplicatedStorage:WaitForChild("RisingSteps")
 local CourseConfig = require(root.config.CourseConfig)
 local GameConfig = require(root.config.GameConfig)
+local SecurityConfig = require(root.config.SecurityConfig)
 local WorldConfig = require(root.config.WorldConfig)
 local ScoreRules = require(root.rules.ScoreRules)
+local SecurityRules = require(root.rules.SecurityRules)
 local StepRules = require(root.rules.StepRules)
 local StepSequence = require(root.rules.StepSequence)
 
+local DiagnosticsService = require(script.Parent.DiagnosticsService)
 local PlayerProfileService = require(script.Parent.PlayerProfileService)
 local StartDeckService = require(script.Parent.StartDeckService)
 local WorldArtService = require(script.Parent.WorldArtService)
@@ -43,6 +46,7 @@ type Course = {
 	Assisted: boolean,
 	RevivesUsed: number,
 	PendingRevive: boolean,
+	LastLandingAt: number,
 	RunToken: number,
 	CharacterDiedConnection: RBXScriptConnection?,
 }
@@ -53,6 +57,7 @@ local courses: { [Player]: Course } = {}
 local freeLaneIndices: { number } = {}
 local nextLaneIndex = 0
 local fallAccumulator = 0
+local lastPlayerCommandAt: { [Player]: number } = {}
 
 local function hex(hexColor: string): Color3
 	local value = hexColor:gsub("#", "")
@@ -507,6 +512,37 @@ local function onLanding(course: Course, runtime: StepRuntime, hit: BasePart)
 		return
 	end
 
+	if
+		not SecurityRules.componentsWithinLimit(
+			rootPart.Position.X,
+			rootPart.Position.Y,
+			rootPart.Position.Z,
+			SecurityConfig.MaxAbsPosition
+		)
+		or not SecurityRules.componentsWithinLimit(
+			rootPart.AssemblyLinearVelocity.X,
+			rootPart.AssemblyLinearVelocity.Y,
+			rootPart.AssemblyLinearVelocity.Z,
+			SecurityConfig.MaxAbsVelocity
+		)
+	then
+		DiagnosticsService.warn("InvalidCharacterKinematics", {
+			UserId = course.Player.UserId,
+			Height = course.Height,
+		})
+		failCourse(course, "InvalidPosition")
+		return
+	end
+
+	local now = os.clock()
+	if course.Height > 0 and not SecurityRules.intervalAllowed(
+		course.LastLandingAt,
+		now,
+		SecurityConfig.MinimumLandingIntervalSeconds
+	) then
+		return
+	end
+
 	local definition = runtime.Definition
 	local expectedStepId = course.Height + 1
 	local stepTopY = runtime.Collision.Position.Y + runtime.Collision.Size.Y / 2
@@ -533,6 +569,7 @@ local function onLanding(course: Course, runtime: StepRuntime, hit: BasePart)
 	)
 
 	course.Height = definition.Id
+	course.LastLandingAt = now
 	course.Streak = ScoreRules.nextStreak(course.Streak, grade)
 	course.HighestY = math.max(course.HighestY, stepTopY)
 	course.Player:SetAttribute("RisingStepsHeight", course.Height)
@@ -602,6 +639,7 @@ local function buildCourse(player: Player): Course
 		Assisted = false,
 		RevivesUsed = 0,
 		PendingRevive = false,
+		LastLandingAt = -math.huge,
 		RunToken = 1,
 		CharacterDiedConnection = nil,
 	}
@@ -682,6 +720,7 @@ local function unbindPlayer(player: Player)
 	course.Model:Destroy()
 	table.insert(freeLaneIndices, course.LaneIndex)
 	courses[player] = nil
+	lastPlayerCommandAt[player] = nil
 end
 
 local function checkFalls()
@@ -706,6 +745,13 @@ function StepCourseService.start()
 	local playerCommand = remoteFolder:WaitForChild("PlayerCommand")
 	assert(playerCommand:IsA("RemoteEvent"), "PlayerCommand must be a RemoteEvent")
 	playerCommand.OnServerEvent:Connect(function(player, payload)
+		local now = os.clock()
+		local previous = lastPlayerCommandAt[player] or -math.huge
+		if not SecurityRules.intervalAllowed(previous, now, SecurityConfig.RemoteIntervals.PlayerCommand) then
+			return
+		end
+		lastPlayerCommandAt[player] = now
+
 		if type(payload) ~= "table" then
 			return
 		end

@@ -1,14 +1,20 @@
 --!strict
 
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local root = ReplicatedStorage:WaitForChild("RisingSteps")
+local SecurityConfig = require(root.config.SecurityConfig)
+local SecurityRules = require(root.rules.SecurityRules)
+
 local PlayerProfileService = require(script.Parent.PlayerProfileService)
 
 local ProgressionService = {}
 
-local MAX_TEXT_LENGTH = 32
 local lastCommandAt: { [Player]: number } = {}
 
 local function validText(value: any): boolean
-	return type(value) == "string" and #value >= 1 and #value <= MAX_TEXT_LENGTH
+	return SecurityRules.validText(value, SecurityConfig.MaxPayloadTextLength)
 end
 
 local function emitProfile(remoteFolder: Instance, player: Player, result: any?)
@@ -32,14 +38,18 @@ function ProgressionService.start(remoteFolder: Folder)
 		return PlayerProfileService.getSnapshot(player)
 	end
 
+	Players.PlayerRemoving:Connect(function(player)
+		lastCommandAt[player] = nil
+	end)
+
 	shopCommand.OnServerEvent:Connect(function(player, payload)
 		if type(payload) ~= "table" then
 			return
 		end
 
 		local now = os.clock()
-		local previous = lastCommandAt[player] or 0
-		if now - previous < 0.15 then
+		local previous = lastCommandAt[player] or -math.huge
+		if not SecurityRules.intervalAllowed(previous, now, SecurityConfig.RemoteIntervals.ShopCommand) then
 			return
 		end
 		lastCommandAt[player] = now

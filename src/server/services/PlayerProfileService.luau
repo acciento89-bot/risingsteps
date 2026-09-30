@@ -8,11 +8,14 @@ local root = ReplicatedStorage:WaitForChild("RisingSteps")
 local EconomyConfig = require(root.config.EconomyConfig)
 local MonetizationConfig = require(root.config.MonetizationConfig)
 local RetentionConfig = require(root.config.RetentionConfig)
+local PersistenceRules = require(root.rules.PersistenceRules)
 local ProfileRules = require(root.rules.ProfileRules)
 local ReceiptRules = require(root.rules.ReceiptRules)
 local RetentionRules = require(root.rules.RetentionRules)
 
 type RuntimeProfile = any
+
+local DiagnosticsService = require(script.Parent.DiagnosticsService)
 
 local PlayerProfileService = {}
 
@@ -43,6 +46,7 @@ local function runtimeFromData(data: any): RuntimeProfile
 	migrated.Loaded = false
 	migrated.PersistenceHealthy = false
 	migrated.Dirty = false
+	migrated.Revision = 0
 	return migrated
 end
 
@@ -56,6 +60,11 @@ local function ensureProfile(player: Player): RuntimeProfile
 	profiles[player] = profile
 	syncAttributes(player, profile)
 	return profile
+end
+
+local function markDirty(profile: RuntimeProfile)
+	markDirty(profile)
+	profile.Revision += 1
 end
 
 local function persistentPayload(profile: RuntimeProfile)
@@ -89,7 +98,7 @@ local function ensureCurrentChallenge(profile: RuntimeProfile): boolean
 	profile.Challenge.Day = day
 	profile.Challenge.Progress = 0
 	profile.Challenge.Claimed = false
-	profile.Dirty = true
+	markDirty(profile)
 	return true
 end
 
@@ -112,6 +121,7 @@ local function mergeSessionProgress(loaded: RuntimeProfile, current: RuntimeProf
 	end
 
 	loaded.Dirty = current.Dirty or current.Coins > 0 or current.PB > 0
+	loaded.Revision = current.Revision
 end
 
 local function loadPlayer(player: Player)
@@ -145,6 +155,7 @@ local function loadPlayer(player: Player)
 		profile.Loaded = true
 		profile.PersistenceHealthy = false
 		syncAttributes(player, profile)
+		DiagnosticsService.warn("ProfileLoadFailed", { UserId = player.UserId })
 	end
 end
 
@@ -198,7 +209,7 @@ function PlayerProfileService.recordHeight(player: Player, height: number): (num
 	end
 
 	profile.PB = normalizedHeight
-	profile.Dirty = true
+	markDirty(profile)
 	syncAttributes(player, profile)
 	return profile.PB, true
 end
@@ -265,7 +276,7 @@ function PlayerProfileService.awardLanding(
 		profile.TutorialComplete = true
 	end
 
-	profile.Dirty = true
+	markDirty(profile)
 	syncAttributes(player, profile)
 
 	return {
@@ -293,7 +304,7 @@ function PlayerProfileService.claimDaily(player: Player): (boolean, string, numb
 	profile.Daily.LastClaimDay = day
 	profile.Daily.ClaimStreak = nextStreak
 	profile.Coins += reward
-	profile.Dirty = true
+	markDirty(profile)
 	syncAttributes(player, profile)
 	return true, "ok", reward
 end
@@ -315,7 +326,7 @@ function PlayerProfileService.purchaseCosmetic(player: Player, category: string,
 
 	profile.Coins -= price
 	profile.Owned[category][itemId] = true
-	profile.Dirty = true
+	markDirty(profile)
 	syncAttributes(player, profile)
 	return true, "ok"
 end
@@ -332,7 +343,7 @@ function PlayerProfileService.equipCosmetic(player: Player, category: string, it
 	end
 
 	profile.Equipped[category] = itemId
-	profile.Dirty = true
+	markDirty(profile)
 	syncAttributes(player, profile)
 	return true, "ok"
 end
@@ -344,7 +355,7 @@ function PlayerProfileService.setReducedMotion(player: Player, enabled: boolean)
 	end
 
 	profile.Settings.ReducedMotion = enabled
-	profile.Dirty = true
+	markDirty(profile)
 	syncAttributes(player, profile)
 	return true
 end
@@ -377,7 +388,7 @@ function PlayerProfileService.grantDeveloperProduct(
 	end
 
 	profile.ProcessedReceipts = ReceiptRules.append(profile.ProcessedReceipts, purchaseId)
-	profile.Dirty = true
+	markDirty(profile)
 	syncAttributes(player, profile)
 	return true, "ok"
 end
@@ -389,7 +400,7 @@ function PlayerProfileService.consumeRevive(player: Player): boolean
 	end
 
 	profile.Inventory.Revives -= 1
-	profile.Dirty = true
+	markDirty(profile)
 	syncAttributes(player, profile)
 	return true
 end
@@ -404,6 +415,7 @@ function PlayerProfileService.flushPlayer(player: Player): boolean
 	end
 
 	local desired = persistentPayload(profile)
+	local revisionAtStart = profile.Revision
 	local success = pcall(function()
 		STORE:UpdateAsync(keyFor(player), function(oldValue)
 			local stored = ProfileRules.migrate(oldValue)
@@ -414,8 +426,15 @@ function PlayerProfileService.flushPlayer(player: Player): boolean
 
 	if success then
 		profile.PB = desired.PB
-		profile.Dirty = false
+		if PersistenceRules.shouldClearDirty(true, revisionAtStart, profile.Revision) then
+			profile.Dirty = false
+		end
 		syncAttributes(player, profile)
+	else
+		DiagnosticsService.warn("ProfileSaveFailed", {
+			UserId = player.UserId,
+			Revision = revisionAtStart,
+		})
 	end
 
 	return success
