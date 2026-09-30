@@ -102,12 +102,14 @@ P05 implementation note: physics-based reachability model, per-band placement en
 P06 implementation note: legitimate server-validated landings now award Coins; the launch cosmetic catalog covers trails, landing effects, step themes and environment themes; all buy/equip/settings mutations are server validated; profile schema v2 migrates legacy PB-only data and filters unknown cosmetic IDs; autosave, leave-save, BindToClose and failed-load clobber protection are implemented. Local format/lint/8 pure-Luau tests/16,000-placement simulation/release-readiness/Rojo build pass; GitHub Actions CI run `36702520370` is green. Runtime DataStore purchase/equip/rejoin verification is still required before T01/T03/T05/T06 become `[x]`.
 
 ## P07 Tutorial and retention
-- [ ] P07-T01 First-session tutorial explains climb + disappearing steps visually
-- [ ] P07-T02 First dangerous expiration is telegraphed, not a surprise death
-- [ ] P07-T03 Daily login reward
-- [ ] P07-T04 Daily height/streak challenge
-- [ ] P07-T05 Achievement milestones
-- [ ] P07-T06 PB celebration and immediate “again” loop
+- [~] P07-T01 First-session tutorial explains climb + disappearing steps visually
+- [~] P07-T02 First dangerous expiration is telegraphed, not a surprise death
+- [~] P07-T03 Daily login reward
+- [~] P07-T04 Daily height/streak challenge
+- [~] P07-T05 Achievement milestones
+- [~] P07-T06 PB celebration and immediate “again” loop
+
+P07 implementation note: first-session tutorial overlay, disappearing-step explanation, automatic tutorial completion on the first legitimate landing, daily claims with consecutive-day rewards, deterministic rotating daily challenges, launch achievements, NEW PB/achievement/challenge feedback and a 48px retry action are implemented. Profile schema v3 migrates prior saves and persists tutorial/daily/challenge/achievement totals. Local format/lint/9 pure-Luau tests/16,000-placement simulation/release-readiness/Rojo build pass; GitHub Actions CI run `36703026061` is green. All P07 items remain `[~]` until the complete fresh-player/rejoin runtime journey is recorded.
 
 ## P08 Monetization
 - [ ] P08-T01 Final products/passes and prices
