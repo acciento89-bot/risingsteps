@@ -1,8 +1,5 @@
 --!strict
 
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-
-local root = ReplicatedStorage:WaitForChild("RisingSteps")
 local PlayerProfileService = require(script.Parent.PlayerProfileService)
 
 local ProgressionService = {}
