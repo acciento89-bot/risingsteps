@@ -55,6 +55,13 @@ local function waitReady(player: Player): boolean
 	end, 8)
 end
 
+local function visualHold(player: Player, phase: string, view: string?)
+	player:SetAttribute("RisingStepsQaView", view or "Gameplay")
+	player:SetAttribute("RisingStepsQaPhase", phase)
+	print(("[RisingStepsQA] VISUAL_HOLD %s"):format(phase))
+	task.wait(RuntimeQaConfig.VisualHoldSeconds)
+end
+
 local function run(player: Player)
 	task.wait(RuntimeQaConfig.StartupDelaySeconds)
 	check(
@@ -67,6 +74,7 @@ local function run(player: Player)
 	check("profile_healthy", player:GetAttribute("RisingStepsPersistenceHealthy") == true)
 
 	check("course_ready", waitReady(player))
+	visualHold(player, "tutorial", "Gameplay")
 	local initial = StepCourseService.qaSnapshot(player)
 	check(
 		"lane_part_budget",
@@ -293,6 +301,115 @@ local function run(player: Player)
 		end, 2)
 	)
 
+	local afterSecurity = StepCourseService.qaSnapshot(player)
+	if afterSecurity.Failed then
+		StepCourseService.qaRetry(player)
+	end
+	check("visual_reset_ready", waitReady(player))
+	StepCourseService.qaReset(player)
+	task.wait(0.25)
+
+	for stepId = 1, 3 do
+		assert(StepCourseService.qaLand(player, stepId, 0) ~= "Rejected", "visual early climb rejected")
+	end
+	visualHold(player, "early", "Gameplay")
+
+	for stepId = 4, 20 do
+		assert(StepCourseService.qaLand(player, stepId, 0) ~= "Rejected", "visual mid climb rejected")
+	end
+	visualHold(player, "mid", "Gameplay")
+
+	for stepId = 21, 38 do
+		assert(StepCourseService.qaLand(player, stepId, 0) ~= "Rejected", "visual high climb rejected")
+	end
+	visualHold(player, "high", "Gameplay")
+
+	StepCourseService.qaShowWarning(player, 39)
+	visualHold(player, "warning", "Gameplay")
+
+	StepCourseService.qaShowResult(player)
+	visualHold(player, "result", "Result")
+
+	StepCourseService.qaReset(player)
+	task.wait(0.25)
+	visualHold(player, "shop", "Shop")
+	player:SetAttribute("RisingStepsQaView", "Gameplay")
+	player:SetAttribute("RisingStepsQaPhase", "functional-complete")
+	print("[RisingStepsQA] FUNCTIONAL_COMPLETE " .. HttpService:JSONEncode(results))
+
+	if RuntimeQaConfig.SoakEnabled then
+		StepCourseService.qaReset(player)
+		check("soak_start_ready", waitReady(player))
+		player:SetAttribute("RisingStepsQaPhase", "soak")
+		local soakStart = os.clock()
+		local nextReport = RuntimeQaConfig.SoakReportIntervalSeconds
+		local cycles = 0
+		local lastBaseParts = 0
+		local lastBeamsAndLights = 0
+
+		while os.clock() - soakStart < RuntimeQaConfig.SoakDurationSeconds do
+			StepCourseService.qaReset(player)
+			task.wait(0.05)
+
+			for stepId = 1, CourseConfig.InitialStepCount do
+				local grade = StepCourseService.qaLand(player, stepId, 0)
+				assert(grade ~= "Rejected", ("soak landing rejected at step %d"):format(stepId))
+				task.wait(0.005)
+			end
+
+			local snapshot = StepCourseService.qaSnapshot(player)
+			assert(snapshot.Height == CourseConfig.InitialStepCount, "soak climb did not reach final step")
+			assert(
+				type(snapshot.BaseParts) == "number" and snapshot.BaseParts <= CourseConfig.MaxLaneBaseParts,
+				"soak exceeded BasePart budget"
+			)
+			assert(
+				type(snapshot.BeamsAndLights) == "number"
+					and snapshot.BeamsAndLights <= CourseConfig.MaxLaneBeamsAndLights,
+				"soak exceeded Beam/Light budget"
+			)
+			lastBaseParts = snapshot.BaseParts
+			lastBeamsAndLights = snapshot.BeamsAndLights
+
+			assert(StepCourseService.qaTriggerFallBoundary(player), "soak fall boundary failed")
+			assert(
+				waitUntil(function()
+					return player:GetAttribute("RisingStepsRunFailed") == true
+				end, 2),
+				"soak failure state timed out"
+			)
+			StepCourseService.qaRetry(player)
+			assert(waitReady(player), "soak retry did not recover")
+			cycles += 1
+
+			local elapsed = os.clock() - soakStart
+			if elapsed >= nextReport then
+				print(
+					("[RisingStepsQA] SOAK %.0fs cycles=%d baseParts=%d beamsLights=%d"):format(
+						elapsed,
+						cycles,
+						lastBaseParts,
+						lastBeamsAndLights
+					)
+				)
+				nextReport += RuntimeQaConfig.SoakReportIntervalSeconds
+			end
+			task.wait(RuntimeQaConfig.SoakCyclePauseSeconds)
+		end
+
+		local soakElapsed = os.clock() - soakStart
+		check("soak_twenty_minutes", soakElapsed >= RuntimeQaConfig.SoakDurationSeconds and cycles > 0, {
+			ElapsedSeconds = soakElapsed,
+			Cycles = cycles,
+			BaseParts = lastBaseParts,
+			BeamsAndLights = lastBeamsAndLights,
+		})
+		print(
+			("[RisingStepsQA] SOAK_COMPLETE %.1fs cycles=%d"):format(soakElapsed, cycles)
+		)
+	end
+
+	player:SetAttribute("RisingStepsQaPhase", "complete")
 	print("[RisingStepsQA] COMPLETE " .. HttpService:JSONEncode(results))
 end
 
