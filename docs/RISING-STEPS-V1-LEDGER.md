@@ -168,12 +168,14 @@ P10 implementation note: production world art now includes a city-depth Service 
 P11 implementation note: Clean/Perfect landing rings, bounded streak sparks, warning-step Highlight, failure camera cue, Revive/PB/Achievement tones and reduced-motion suppression are implemented. Transient audio uses Roblox runtime-owned assets only, volumes are deliberately low and concurrency is capped at six. Local format/lint/12 pure-Luau tests/16,000-placement simulation/release-readiness/Rojo build pass; GitHub Actions CI run `36704562322` is green. T07 character-animation polish and full mobile audio/VFX runtime QA remain open.
 
 ## P12 Security and persistence hardening
-- [ ] P12-T01 Remote/rate-limit audit
-- [ ] P12-T02 Server validates landed step and legal sequence
-- [ ] P12-T03 Position/teleport/NaN/extreme-value guards
-- [ ] P12-T04 Currency/ownership mutation serialization
-- [ ] P12-T05 DataStore migration/recovery/lock tests
-- [ ] P12-T06 Structured diagnostics
+- [~] P12-T01 Remote/rate-limit audit
+- [~] P12-T02 Server validates landed step and legal sequence
+- [~] P12-T03 Position/teleport/NaN/extreme-value guards
+- [~] P12-T04 Currency/ownership mutation serialization
+- [~] P12-T05 DataStore migration/recovery/lock tests
+- [~] P12-T06 Structured diagnostics
+
+P12 implementation note: both mutation remotes now have per-player rate limits; landing authority remains server/touch/sequence based; NaN/infinity/extreme position and velocity guards plus rapid-landing timing protection are active; profile saves use mutation revisions so a write racing a later mutation cannot clear dirty state; failed loads cannot overwrite unknown stored data; diagnostics emit structured JSON events for persistence/security failures. Local format/lint/14 pure-Luau tests/16,000-placement simulation/release-readiness/Rojo build pass; GitHub Actions CI run `36704962166` is green. P12 remains `[~]` until hostile runtime and real DataStore/rejoin probes are executed.
 
 ## P13 Mandatory full runtime journey
 - [ ] P13-T01 Fresh spawn + tutorial
