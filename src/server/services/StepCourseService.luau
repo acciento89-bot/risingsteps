@@ -955,7 +955,7 @@ function StepCourseService.qaLand(player: Player, stepId: number, landingOffsetR
 		runtime.Collision.Position.Z
 	)
 	rootPart.AssemblyLinearVelocity = Vector3.zero
-	course.LastLandingAt = -math.huge
+	course.LastLandingAt = os.clock() - SecurityConfig.MinimumLandingIntervalSeconds - 1
 	local probe = {
 		CourseHeightBefore = course.Height,
 		ExpectedStepId = course.Height + 1,
