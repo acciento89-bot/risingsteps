@@ -1,8 +1,6 @@
 --!strict
 
-local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Workspace = game:GetService("Workspace")
 
 local root = ReplicatedStorage:WaitForChild("RisingSteps")
 local WorldConfig = require(root.config.WorldConfig)
@@ -27,13 +25,14 @@ local function makePart(
 	size: Vector3,
 	cframe: CFrame,
 	material: Enum.Material,
-	color: Color3
+	color: Color3,
+	canCollide: boolean
 ): Part
 	local part = Instance.new("Part")
 	part.Name = name
 	part.Anchored = true
-	part.CanCollide = true
-	part.CanTouch = true
+	part.CanCollide = canCollide
+	part.CanTouch = canCollide
 	part.CanQuery = true
 	part.Material = material
 	part.Color = color
@@ -45,44 +44,29 @@ local function makePart(
 	return part
 end
 
-local function makeDecoration(
-	parent: Instance,
-	name: string,
-	size: Vector3,
-	cframe: CFrame,
-	material: Enum.Material,
-	color: Color3
-): Part
-	local part = makePart(parent, name, size, cframe, material, color)
-	part.CanCollide = false
-	return part
-end
-
-local function buildVisualDeck(worldFolder: Folder): SpawnLocation
-	local existing = worldFolder:FindFirstChild(WorldConfig.StartDeck.Name)
-	if existing then
-		existing:Destroy()
-	end
-
+function StartDeckService.create(parent: Instance, player: Player, laneOrigin: Vector3): SpawnLocation
 	local model = Instance.new("Model")
-	model.Name = WorldConfig.StartDeck.Name
+	model.Name = "StartDeck"
 	model:SetAttribute("AuthoredAsset", true)
-	model.Parent = worldFolder
+	model:SetAttribute("OwnerUserId", player.UserId)
+	model.Parent = parent
 
 	local y = WorldConfig.StartDeck.CenterY
 	local deckSize = WorldConfig.StartDeck.DeckSize
 	local deckThickness = WorldConfig.StartDeck.DeckThickness
+	local center = laneOrigin + Vector3.new(0, y, 0)
 
 	local base = makePart(
 		model,
 		"StructuralDeck",
 		Vector3.new(deckSize, deckThickness, deckSize),
-		CFrame.new(0, y, 0),
+		CFrame.new(center),
 		Enum.Material.Metal,
-		hex(WorldConfig.Palette.Steel)
+		hex(WorldConfig.Palette.Steel),
+		true
 	)
 
-	makeDecoration(
+	makePart(
 		model,
 		"LandingInset",
 		Vector3.new(
@@ -90,58 +74,46 @@ local function buildVisualDeck(worldFolder: Folder): SpawnLocation
 			WorldConfig.StartDeck.LandingInsetThickness,
 			WorldConfig.StartDeck.LandingInsetSize
 		),
-		CFrame.new(0, y + deckThickness / 2 + WorldConfig.StartDeck.LandingInsetThickness / 2, 0),
+		CFrame.new(center + Vector3.new(0, deckThickness / 2 + WorldConfig.StartDeck.LandingInsetThickness / 2, 0)),
 		Enum.Material.Rubber,
-		hex(WorldConfig.Palette.Concrete)
+		hex(WorldConfig.Palette.Concrete),
+		false
 	)
 
 	local trimThickness = 0.24
 	local trimHeight = 0.18
 	local trimOffset = deckSize / 2 - trimThickness / 2
-	local trimY = y + deckThickness / 2 + trimHeight / 2
+	local trimY = center.Y + deckThickness / 2 + trimHeight / 2
 	local accent = hex(WorldConfig.Palette.WarmAccent)
 
-	makeDecoration(
-		model,
-		"TrimNorth",
-		Vector3.new(deckSize, trimHeight, trimThickness),
-		CFrame.new(0, trimY, -trimOffset),
-		Enum.Material.Metal,
-		accent
-	)
-	makeDecoration(
-		model,
-		"TrimSouth",
-		Vector3.new(deckSize, trimHeight, trimThickness),
-		CFrame.new(0, trimY, trimOffset),
-		Enum.Material.Metal,
-		accent
-	)
-	makeDecoration(
-		model,
-		"TrimWest",
-		Vector3.new(trimThickness, trimHeight, deckSize),
-		CFrame.new(-trimOffset, trimY, 0),
-		Enum.Material.Metal,
-		accent
-	)
-	makeDecoration(
-		model,
-		"TrimEast",
-		Vector3.new(trimThickness, trimHeight, deckSize),
-		CFrame.new(trimOffset, trimY, 0),
-		Enum.Material.Metal,
-		accent
-	)
+	local trimDefinitions = {
+		{ "TrimNorth", Vector3.new(deckSize, trimHeight, trimThickness), Vector3.new(0, 0, -trimOffset) },
+		{ "TrimSouth", Vector3.new(deckSize, trimHeight, trimThickness), Vector3.new(0, 0, trimOffset) },
+		{ "TrimWest", Vector3.new(trimThickness, trimHeight, deckSize), Vector3.new(-trimOffset, 0, 0) },
+		{ "TrimEast", Vector3.new(trimThickness, trimHeight, deckSize), Vector3.new(trimOffset, 0, 0) },
+	}
+
+	for _, definition in trimDefinitions do
+		makePart(
+			model,
+			definition[1],
+			definition[2],
+			CFrame.new(Vector3.new(center.X, trimY, center.Z) + definition[3]),
+			Enum.Material.Metal,
+			accent,
+			false
+		)
+	end
 
 	for index, x in { -4.4, -1.5, 1.5, 4.4 } do
-		makeDecoration(
+		makePart(
 			model,
 			("UndersideRib%02d"):format(index),
 			Vector3.new(0.34, 1.2, 9.6),
-			CFrame.new(x, y - deckThickness / 2 - 0.6, 0),
+			CFrame.new(center + Vector3.new(x, -deckThickness / 2 - 0.6, 0)),
 			Enum.Material.Metal,
-			hex(WorldConfig.Palette.Foundation)
+			hex(WorldConfig.Palette.Foundation),
+			false
 		)
 	end
 
@@ -155,33 +127,10 @@ local function buildVisualDeck(worldFolder: Folder): SpawnLocation
 	spawn.Neutral = true
 	spawn.Duration = 0
 	spawn.Size = Vector3.new(5, 1, 5)
-	spawn.CFrame = CFrame.new(0, y + deckThickness / 2 + WorldConfig.StartDeck.SpawnHeightAboveDeck, 0)
+	spawn.CFrame = CFrame.new(center + Vector3.new(0, deckThickness / 2 + WorldConfig.StartDeck.SpawnHeightAboveDeck, 0))
 	spawn.Parent = model
 
 	model.PrimaryPart = base
-	return spawn
-end
-
-function StartDeckService.start(): SpawnLocation
-	local worldFolder = Workspace:FindFirstChild(WorldConfig.WorldFolderName)
-	if not worldFolder then
-		worldFolder = Instance.new("Folder")
-		worldFolder.Name = WorldConfig.WorldFolderName
-		worldFolder.Parent = Workspace
-	end
-	assert(worldFolder:IsA("Folder"), "RisingStepsWorld must be a Folder")
-
-	local spawn = buildVisualDeck(worldFolder)
-
-	local function bindPlayer(player: Player)
-		player.RespawnLocation = spawn
-	end
-
-	for _, player in Players:GetPlayers() do
-		bindPlayer(player)
-	end
-	Players.PlayerAdded:Connect(bindPlayer)
-
 	return spawn
 end
 
