@@ -51,7 +51,7 @@ end
 local function waitReady(player: Player): boolean
 	return waitUntil(function()
 		local snap = StepCourseService.qaSnapshot(player)
-		return snap.Ready == true and player.Character ~= nil
+		return snap.Ready == true and snap.Failed == false and player.Character ~= nil
 	end, 8)
 end
 
