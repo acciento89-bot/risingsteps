@@ -4,7 +4,10 @@ local EconomyConfig = require("../src/shared/config/EconomyConfig")
 local RemoteConfig = require("../src/shared/config/RemoteConfig")
 
 assert(GameConfig.Name == "Rising Steps", "product name changed")
-assert(GameConfig.Score.PerfectToleranceRatio < GameConfig.Score.CleanToleranceRatio, "landing grade tolerances invalid")
+assert(
+	GameConfig.Score.PerfectToleranceRatio < GameConfig.Score.CleanToleranceRatio,
+	"landing grade tolerances invalid"
+)
 assert(GameConfig.Step.MinimumWarningSeconds >= 0.70, "warning window below product lock")
 assert(GameConfig.Step.MaxHorizontalCenterDistance <= 8.25, "horizontal reach exceeds product lock")
 assert(GameConfig.Step.MaxVerticalRise <= 5.0, "vertical reach exceeds product lock")
