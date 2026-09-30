@@ -32,7 +32,8 @@ Revive, temporary step-stability/slowdown boost, coin multiplier, trails, jump/l
 1. `README.md`
 2. `docs/MASTER-PLAN.md`
 3. `docs/ART-DIRECTION.md`
-4. `docs/RISING-STEPS-V1-LEDGER.md`
-5. Detail plan for the next open phase
+4. `docs/PRODUCT-LOCK.md`
+5. `docs/RISING-STEPS-V1-LEDGER.md`
+6. Detail plan for the next open phase
 
 The ledger is the source of truth for implementation state.
