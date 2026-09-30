@@ -1112,6 +1112,14 @@ function StepCourseService.qaForceStepState(player: Player, stepId: number, stat
 	setStepState(runtime, state)
 end
 
+function StepCourseService.qaShowWarning(player: Player, stepId: number)
+	local course = requireStudioCourse(player)
+	local runtime = course.Steps[stepId]
+	assert(runtime, "QA step unavailable")
+	setStepState(runtime, StepRules.State.Warning)
+	sendSnapshot(course, "StepWarning")
+end
+
 function StepCourseService.start()
 	local remoteFolder = root:WaitForChild("Remotes")
 	local playerCommand = remoteFolder:WaitForChild("PlayerCommand")
