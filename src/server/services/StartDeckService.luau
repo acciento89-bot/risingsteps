@@ -117,6 +117,34 @@ function StartDeckService.create(parent: Instance, player: Player, laneOrigin: V
 		)
 	end
 
+	-- The first seconds must read as a deliberate runway into the climb, not a spawn beside a block pile.
+	local guideY = center.Y + deckThickness / 2 + 0.17
+	for index = 1, WorldConfig.StartDeck.OnboardingGuideCount do
+		local alpha = (index - 1) / math.max(1, WorldConfig.StartDeck.OnboardingGuideCount - 1)
+		local z = 2.0 - alpha * 4.2
+		local width = 3.8 - alpha * 1.2
+		local guide = makePart(
+			model,
+			("ForwardGuide%02d"):format(index),
+			Vector3.new(width, 0.08, 0.34),
+			CFrame.new(center.X, guideY, center.Z + z),
+			Enum.Material.Neon,
+			hex(WorldConfig.Palette.GameplayAccent),
+			false
+		)
+		guide.Transparency = 0.22 + alpha * 0.18
+	end
+
+	makePart(
+		model,
+		"LaunchLip",
+		Vector3.new(4.6, 0.16, 0.38),
+		CFrame.new(center.X, guideY + 0.03, center.Z - deckSize / 2 + 0.72),
+		Enum.Material.Metal,
+		hex(WorldConfig.Palette.WarmAccent),
+		false
+	)
+
 	local spawn = Instance.new("SpawnLocation")
 	spawn.Name = "SafeSpawn"
 	spawn.Anchored = true
@@ -127,8 +155,13 @@ function StartDeckService.create(parent: Instance, player: Player, laneOrigin: V
 	spawn.Neutral = true
 	spawn.Duration = 0
 	spawn.Size = Vector3.new(5, 1, 5)
-	spawn.CFrame =
-		CFrame.new(center + Vector3.new(0, deckThickness / 2 + WorldConfig.StartDeck.SpawnHeightAboveDeck, 0))
+	local spawnPosition = center
+		+ Vector3.new(
+			0,
+			deckThickness / 2 + WorldConfig.StartDeck.SpawnHeightAboveDeck,
+			WorldConfig.StartDeck.SpawnBackOffset
+		)
+	spawn.CFrame = CFrame.lookAt(spawnPosition, spawnPosition + Vector3.new(0, 0, -1))
 	spawn.Parent = model
 
 	model.PrimaryPart = base
