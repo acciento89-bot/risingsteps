@@ -12,13 +12,14 @@ local WorldConfig = require(root.config.WorldConfig)
 local CameraController = {}
 
 local LOCAL_PLAYER = Players.LocalPlayer
-local FOLLOW_RESPONSE = 7.5
-local DEFAULT_FOV = 70
-local COMPACT_FOV = 73
-local MIN_CAMERA_DISTANCE = 6.5
+local FOLLOW_RESPONSE = 8.5
+local DEFAULT_FOV = 66
+local COMPACT_FOV = 68
 local WALL_PADDING = 0.8
+local MIN_CAMERA_DISTANCE = 5.5
 
 local renderConnection: RBXScriptConnection? = nil
+local snappedCharacter: Model? = nil
 
 local function currentCourse(): Model?
 	local world = Workspace:FindFirstChild(WorldConfig.WorldFolderName)
@@ -33,11 +34,25 @@ local function currentCourse(): Model?
 	return nil
 end
 
-local function targetPosition(height: number, rootPosition: Vector3): Vector3
+local function horizontalUnit(vector: Vector3, fallback: Vector3): Vector3
+	local flat = Vector3.new(vector.X, 0, vector.Z)
+	if flat.Magnitude >= 0.25 then
+		return flat.Unit
+	end
+
+	local fallbackFlat = Vector3.new(fallback.X, 0, fallback.Z)
+	if fallbackFlat.Magnitude >= 0.25 then
+		return fallbackFlat.Unit
+	end
+
+	return Vector3.new(0, 0, -1)
+end
+
+local function targetPosition(height: number, rootPart: BasePart): Vector3
 	local course = currentCourse()
 	local steps = course and course:FindFirstChild("Steps")
 	if not steps then
-		return rootPosition + Vector3.new(0, 4.2, 0)
+		return rootPart.Position + Vector3.new(0, 2.35, 0)
 	end
 
 	local positions = {}
@@ -50,7 +65,7 @@ local function targetPosition(height: number, rootPosition: Vector3): Vector3
 	end
 
 	if #positions == 0 then
-		return rootPosition + Vector3.new(0, 4.2, 0)
+		return rootPart.Position + Vector3.new(0, 2.35, 0)
 	end
 
 	local average = Vector3.zero
@@ -59,19 +74,28 @@ local function targetPosition(height: number, rootPosition: Vector3): Vector3
 	end
 	average /= #positions
 
-	local focus = rootPosition:Lerp(average, 0.42)
-	return focus + Vector3.new(0, 3.6, 0)
+	local focus = rootPart.Position:Lerp(average, 0.28)
+	return focus + Vector3.new(0, 2.45, 0)
 end
 
-local function horizontalDirection(from: Vector3, to: Vector3): Vector3
-	local delta = Vector3.new(to.X - from.X, 0, to.Z - from.Z)
-	if delta.Magnitude < 0.5 then
-		return Vector3.new(0, 0, -1)
+local function forwardDirection(height: number, rootPart: BasePart): Vector3
+	local course = currentCourse()
+	local steps = course and course:FindFirstChild("Steps")
+	local nextStep = steps and steps:FindFirstChild(("Step_%03d"):format(height + 1))
+	local collision = nextStep and nextStep:FindFirstChild("Collision")
+
+	if collision and collision:IsA("BasePart") then
+		return horizontalUnit(collision.Position - rootPart.Position, rootPart.CFrame.LookVector)
 	end
-	return delta.Unit
+
+	return horizontalUnit(rootPart.CFrame.LookVector, Vector3.new(0, 0, -1))
 end
 
-local function obstructionAdjustedPosition(focus: Vector3, desiredPosition: Vector3, character: Model?): Vector3
+local function obstructionAdjustedPosition(
+	focus: Vector3,
+	desiredPosition: Vector3,
+	character: Model
+): Vector3
 	local direction = desiredPosition - focus
 	if direction.Magnitude <= MIN_CAMERA_DISTANCE then
 		return desiredPosition
@@ -80,9 +104,7 @@ local function obstructionAdjustedPosition(focus: Vector3, desiredPosition: Vect
 	local params = RaycastParams.new()
 	params.FilterType = Enum.RaycastFilterType.Exclude
 	params.IgnoreWater = true
-	if character then
-		params.FilterDescendantsInstances = { character }
-	end
+	params.FilterDescendantsInstances = { character }
 
 	local hit = Workspace:Raycast(focus, direction, params)
 	if not hit then
@@ -93,11 +115,77 @@ local function obstructionAdjustedPosition(focus: Vector3, desiredPosition: Vect
 	return focus + direction.Unit * safeDistance
 end
 
-local function configureCharacter(character: Model)
-	local humanoid = character:WaitForChild("Humanoid", 10)
-	if humanoid and humanoid:IsA("Humanoid") then
-		humanoid.CameraOffset = Vector3.zero
+local function desiredCameraCFrame(
+	camera: Camera,
+	character: Model,
+	rootPart: BasePart,
+	height: number
+): CFrame
+	local compact = camera.ViewportSize.X <= 760
+	camera.FieldOfView = if compact then COMPACT_FOV else DEFAULT_FOV
+
+	local focus = targetPosition(height, rootPart)
+	local forward = forwardDirection(height, rootPart)
+	local distance = if compact then 10.2 else 11.6
+	local vertical = if compact then 6.4 else 7.2
+	local sideOffset = if compact then 0.35 else 0.55
+
+	local desiredPosition =
+		focus - forward * distance + Vector3.new(0, vertical, 0) + rootPart.CFrame.RightVector * sideOffset
+	desiredPosition = obstructionAdjustedPosition(focus, desiredPosition, character)
+
+	return CFrame.lookAt(desiredPosition, focus, Vector3.yAxis)
+end
+
+local function fallbackToCharacterCamera(character: Model?)
+	local camera = Workspace.CurrentCamera
+	if not camera then
+		return
 	end
+
+	local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+	camera.CameraType = Enum.CameraType.Custom
+	if humanoid then
+		camera.CameraSubject = humanoid
+	end
+end
+
+local function snapToCharacter(character: Model)
+	local camera = Workspace.CurrentCamera
+	local rootPart = character:FindFirstChild("HumanoidRootPart")
+	if not camera or not rootPart or not rootPart:IsA("BasePart") then
+		return
+	end
+
+	local heightAttribute = LOCAL_PLAYER:GetAttribute("RisingStepsHeight")
+	local height = if type(heightAttribute) == "number" then math.max(0, math.floor(heightAttribute)) else 0
+	camera.CameraType = Enum.CameraType.Scriptable
+	camera.CFrame = desiredCameraCFrame(camera, character, rootPart, height)
+	snappedCharacter = character
+end
+
+local function configureCharacter(character: Model)
+	snappedCharacter = nil
+	fallbackToCharacterCamera(character)
+
+	local humanoid = character:WaitForChild("Humanoid", 10)
+	local rootPart = character:WaitForChild("HumanoidRootPart", 10)
+	if not humanoid or not humanoid:IsA("Humanoid") or not rootPart or not rootPart:IsA("BasePart") then
+		return
+	end
+
+	humanoid.CameraOffset = Vector3.zero
+	local camera = Workspace.CurrentCamera
+	if camera then
+		camera.CameraSubject = humanoid
+	end
+
+	-- First frame must already be attached to the avatar. Never lerp from the Studio/map camera.
+	task.defer(function()
+		if character.Parent and LOCAL_PLAYER.Character == character then
+			snapToCharacter(character)
+		end
+	end)
 end
 
 local function startRenderLoop()
@@ -109,34 +197,23 @@ local function startRenderLoop()
 		local camera = Workspace.CurrentCamera
 		local character = LOCAL_PLAYER.Character
 		local rootPart = character and character:FindFirstChild("HumanoidRootPart")
-		if not camera or not rootPart or not rootPart:IsA("BasePart") then
+		if not camera or not character or not rootPart or not rootPart:IsA("BasePart") then
+			fallbackToCharacterCamera(character)
 			return
 		end
 
-		camera.CameraType = Enum.CameraType.Scriptable
-
 		local heightAttribute = LOCAL_PLAYER:GetAttribute("RisingStepsHeight")
 		local height = if type(heightAttribute) == "number" then math.max(0, math.floor(heightAttribute)) else 0
-		local rootPosition = rootPart.Position
-		local focus = targetPosition(height, rootPosition)
+		local desired = desiredCameraCFrame(camera, character, rootPart, height)
 
-		local course = currentCourse()
-		local steps = course and course:FindFirstChild("Steps")
-		local nextStep = steps and steps:FindFirstChild(("Step_%03d"):format(height + 1))
-		local nextCollision = nextStep and nextStep:FindFirstChild("Collision")
-		local nextPosition = if nextCollision and nextCollision:IsA("BasePart")
-			then nextCollision.Position
-			else focus + Vector3.new(0, 0, -8)
-		local forward = horizontalDirection(rootPosition, nextPosition)
+		camera.CameraType = Enum.CameraType.Scriptable
+		if snappedCharacter ~= character then
+			-- Critical startup/respawn path: hard snap instead of exposing the map/editor camera.
+			camera.CFrame = desired
+			snappedCharacter = character
+			return
+		end
 
-		local compact = camera.ViewportSize.X <= 760
-		camera.FieldOfView = if compact then COMPACT_FOV else DEFAULT_FOV
-		local distance = if compact then 13.5 else 15.5
-		local vertical = if compact then 9.8 else 11.0
-		local desiredPosition = focus - forward * distance + Vector3.new(0, vertical, 0)
-		desiredPosition = obstructionAdjustedPosition(focus, desiredPosition, character)
-
-		local desired = CFrame.lookAt(desiredPosition, focus, Vector3.yAxis)
 		local alpha = 1 - math.exp(-FOLLOW_RESPONSE * math.max(0, deltaTime))
 		camera.CFrame = camera.CFrame:Lerp(desired, alpha)
 	end)
@@ -148,13 +225,28 @@ function CameraController.start()
 		"camera product lock requires upcoming target visibility"
 	)
 
+	fallbackToCharacterCamera(LOCAL_PLAYER.Character)
+
 	if LOCAL_PLAYER.Character then
 		task.spawn(configureCharacter, LOCAL_PLAYER.Character)
 	end
+
 	LOCAL_PLAYER.CharacterAdded:Connect(configureCharacter)
+	LOCAL_PLAYER.CharacterRemoving:Connect(function(character)
+		if snappedCharacter == character then
+			snappedCharacter = nil
+		end
+		fallbackToCharacterCamera(nil)
+	end)
 
 	startRenderLoop()
-	Workspace:GetPropertyChangedSignal("CurrentCamera"):Connect(startRenderLoop)
+	Workspace:GetPropertyChangedSignal("CurrentCamera"):Connect(function()
+		snappedCharacter = nil
+		fallbackToCharacterCamera(LOCAL_PLAYER.Character)
+		if LOCAL_PLAYER.Character then
+			task.defer(snapToCharacter, LOCAL_PLAYER.Character)
+		end
+	end)
 end
 
 return CameraController
