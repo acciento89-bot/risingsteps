@@ -88,7 +88,8 @@ local function bindCharacter(character: Model)
 				landingImpulse = math.clamp(0.16 + verticalSpeed / 90, 0.16, 0.34)
 			end
 			wasFreefall = false
-		elseif newState == Enum.HumanoidStateType.Running
+		elseif
+			newState == Enum.HumanoidStateType.Running
 			or newState == Enum.HumanoidStateType.RunningNoPhysics
 			or newState == Enum.HumanoidStateType.Jumping
 		then
