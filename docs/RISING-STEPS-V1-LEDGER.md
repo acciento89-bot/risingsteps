@@ -92,12 +92,14 @@ P04 implementation note: Height, Perfect/Clean/Miss grading, streak reset/increm
 P05 implementation note: physics-based reachability model, per-band placement envelopes, seeded deterministic generation and an 8-direction anti-repeat placement pattern are implemented. Static QA now simulates 16,000 generated placements across eight seeds with zero unreachable placements; local format/lint/7 pure-Luau tests/release-readiness/Rojo build pass and GitHub Actions CI run `36685931096` is green. T01-T04 remain `[~]` pending Studio camera/runtime validation; T07 requires the real long-climb runtime test.
 
 ## P06 Progression and persistence
-- [ ] P06-T01 Coins/rewards tied to legitimate height and streak
-- [ ] P06-T02 Trail, landing effect, step theme and environment cosmetic catalog
-- [ ] P06-T03 Purchase/equip validation on server
-- [ ] P06-T04 Versioned profile schema and migration
-- [ ] P06-T05 Autosave/leave/recovery semantics
-- [ ] P06-T06 New-session rejoin preserves PB, coins, cosmetics and settings
+- [~] P06-T01 Coins/rewards tied to legitimate height and streak
+- [x] P06-T02 Trail, landing effect, step theme and environment cosmetic catalog
+- [~] P06-T03 Purchase/equip validation on server
+- [x] P06-T04 Versioned profile schema and migration
+- [~] P06-T05 Autosave/leave/recovery semantics
+- [~] P06-T06 New-session rejoin preserves PB, coins, cosmetics and settings
+
+P06 implementation note: legitimate server-validated landings now award Coins; the launch cosmetic catalog covers trails, landing effects, step themes and environment themes; all buy/equip/settings mutations are server validated; profile schema v2 migrates legacy PB-only data and filters unknown cosmetic IDs; autosave, leave-save, BindToClose and failed-load clobber protection are implemented. Local format/lint/8 pure-Luau tests/16,000-placement simulation/release-readiness/Rojo build pass; GitHub Actions CI run `36702520370` is green. Runtime DataStore purchase/equip/rejoin verification is still required before T01/T03/T05/T06 become `[x]`.
 
 ## P07 Tutorial and retention
 - [ ] P07-T01 First-session tutorial explains climb + disappearing steps visually
