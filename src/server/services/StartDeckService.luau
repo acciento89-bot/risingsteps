@@ -145,6 +145,53 @@ function StartDeckService.create(parent: Instance, player: Player, laneOrigin: V
 		false
 	)
 
+	-- Frame the spawn as a designed launch bay while keeping the forward edge visually open.
+	for _, side in { -1, 1 } do
+		makePart(
+			model,
+			"LaunchRail",
+			Vector3.new(0.18, 0.78, 5.2),
+			CFrame.new(center + Vector3.new(side * (deckSize / 2 - 0.22), 0.48, 1.6)),
+			Enum.Material.Metal,
+			hex(WorldConfig.Palette.Foundation),
+			false
+		)
+
+		makePart(
+			model,
+			"RearGuard",
+			Vector3.new(1.8, 0.18, 0.24),
+			CFrame.new(center + Vector3.new(side * 4.6, 0.78, deckSize / 2 - 0.34)),
+			Enum.Material.Metal,
+			hex(WorldConfig.Palette.GameplayAccent),
+			false
+		)
+
+		local brace = makePart(
+			model,
+			"LaunchBrace",
+			Vector3.new(0.22, 1.7, 0.22),
+			CFrame.new(center + Vector3.new(side * 5.02, -0.02, 2.9))
+				* CFrame.Angles(0, 0, math.rad(side * 18)),
+			Enum.Material.Metal,
+			hex(WorldConfig.Palette.Foundation),
+			false
+		)
+		brace.CastShadow = true
+	end
+
+	for _, z in { 3.55, 1.1 } do
+		makePart(
+			model,
+			"DeckSeam",
+			Vector3.new(deckSize - 1.5, 0.035, 0.08),
+			CFrame.new(center + Vector3.new(0, deckThickness / 2 + 0.16, z)),
+			Enum.Material.Metal,
+			hex(WorldConfig.Palette.Foundation),
+			false
+		)
+	end
+
 	local spawn = Instance.new("SpawnLocation")
 	spawn.Name = "SafeSpawn"
 	spawn.Anchored = true
