@@ -907,6 +907,134 @@ local function checkFalls()
 	end
 end
 
+
+local function requireStudioCourse(player: Player): Course
+	assert(RunService:IsStudio(), "QA helpers are Studio-only")
+	local course = courses[player]
+	assert(course, "QA course unavailable")
+	return course
+end
+
+function StepCourseService.qaSnapshot(player: Player)
+	local course = requireStudioCourse(player)
+	local states = {}
+	for stepId, runtime in course.Steps do
+		states[stepId] = runtime.State
+	end
+	return {
+		Height = course.Height,
+		Streak = course.Streak,
+		Failed = course.Failed,
+		Ready = course.Ready,
+		Assisted = course.Assisted,
+		RevivesUsed = course.RevivesUsed,
+		RunToken = course.RunToken,
+		StepStates = states,
+		BaseParts = course.Model:GetAttribute("BasePartCount"),
+		BeamsAndLights = course.Model:GetAttribute("BeamAndLightCount"),
+	}
+end
+
+function StepCourseService.qaLand(player: Player, stepId: number, landingOffsetRatio: number?): string
+	local course = requireStudioCourse(player)
+	local runtime = course.Steps[stepId]
+	assert(runtime, ("QA step %d unavailable"):format(stepId))
+	assert(course.Ready and not course.Failed, "QA course not ready")
+
+	local character = player.Character
+	assert(character, "QA character unavailable")
+	local rootPart = character:FindFirstChild("HumanoidRootPart")
+	assert(rootPart and rootPart:IsA("BasePart"), "QA root unavailable")
+
+	local ratio = math.clamp(landingOffsetRatio or 0, -0.48, 0.48)
+	local topY = runtime.Collision.Position.Y + runtime.Collision.Size.Y / 2
+	rootPart.AssemblyLinearVelocity = Vector3.new(0, -1, 0)
+	rootPart.CFrame = CFrame.new(
+		runtime.Collision.Position.X + GameConfig.Step.BaseFootprint * ratio,
+		topY + 2.9,
+		runtime.Collision.Position.Z
+	)
+	course.LastLandingAt = -math.huge
+	onLanding(course, runtime, rootPart)
+
+	return if course.Height == stepId then ScoreRules.gradeLanding(
+		rootPart.Position.X,
+		rootPart.Position.Z,
+		runtime.Collision.Position.X,
+		runtime.Collision.Position.Z,
+		GameConfig.Step.BaseFootprint,
+		GameConfig.Score.PerfectToleranceRatio,
+		GameConfig.Score.CleanToleranceRatio
+	) else "Rejected"
+end
+
+function StepCourseService.qaFail(player: Player, reason: string?)
+	local course = requireStudioCourse(player)
+	failCourse(course, reason or "StudioQA")
+end
+
+function StepCourseService.qaRetry(player: Player)
+	local course = requireStudioCourse(player)
+	assert(course.Failed, "QA retry requires failed course")
+	course.RunToken += 1
+	player:LoadCharacter()
+end
+
+function StepCourseService.qaUseRevive(player: Player): boolean
+	local course = requireStudioCourse(player)
+	if not course.Failed or course.RevivesUsed >= GameConfig.Failure.MaxPaidRevivesPerRun or course.Height < 1 then
+		return false
+	end
+	if not PlayerProfileService.consumeRevive(player) then
+		return false
+	end
+	course.RunToken += 1
+	course.Failed = false
+	course.Streak = 0
+	course.Assisted = true
+	course.RevivesUsed += 1
+	course.PendingRevive = true
+	player:SetAttribute("RisingStepsRunFailed", false)
+	player:LoadCharacter()
+	return true
+end
+
+function StepCourseService.qaSetInvalidPosition(player: Player)
+	local course = requireStudioCourse(player)
+	local character = player.Character
+	local rootPart = character and character:FindFirstChild("HumanoidRootPart")
+	assert(rootPart and rootPart:IsA("BasePart"), "QA root unavailable")
+	rootPart.CFrame = CFrame.new(SecurityConfig.MaxAbsPosition * 2, rootPart.Position.Y, rootPart.Position.Z)
+	checkFalls()
+	if not course.Failed then
+		local nextStep = course.Steps[course.Height + 1]
+		if nextStep then
+			onLanding(course, nextStep, rootPart)
+		end
+	end
+end
+
+function StepCourseService.qaReset(player: Player)
+	local course = requireStudioCourse(player)
+	resetCourse(course)
+	local character = player.Character
+	if character then
+		character:PivotTo(course.Spawn.CFrame)
+	end
+	task.delay(0.21, function()
+		if courses[player] == course and not course.Failed then
+			course.Ready = true
+		end
+	end)
+end
+
+function StepCourseService.qaForceStepState(player: Player, stepId: number, state: string)
+	local course = requireStudioCourse(player)
+	local runtime = course.Steps[stepId]
+	assert(runtime, "QA step unavailable")
+	setStepState(runtime, state)
+end
+
 function StepCourseService.start()
 	local remoteFolder = root:WaitForChild("Remotes")
 	local playerCommand = remoteFolder:WaitForChild("PlayerCommand")
