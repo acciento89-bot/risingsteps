@@ -148,11 +148,11 @@ P09 implementation note: the gameplay HUD is now a coherent custom component sys
 - [~] P10-T07 Lighting/material pass has deliberate key/fill/accent balance, soft readable shadows and no crushed-black or blown-out gameplay surfaces
 - [~] P10-T08 Avatar silhouette remains separated from every supported environment/theme at normal and compact-phone camera distances
 - [~] P10-T09 Add authored landing-zone detail, edge treatment and surface breakup so platforms read as finished game assets instead of colored boxes
-- [ ] P10-T10 Cosmetic themes change presentation substantially while preserving identical collision, reachability and competitive truth
+- [~] P10-T10 Cosmetic themes change presentation substantially while preserving identical collision, reachability and competitive truth
 - [ ] P10-T11 Visual polish pass removes z-fighting, seams, floating props, texture stretching, visible generation pop, clipping and debug/helper geometry
 - [!] P10-T12 Screenshot-quality gate at early, mid and high altitude on compact phone and desktop; any frame that still reads as prototype blocks P15
 
-P10 implementation note: production world art now includes a city-depth Service Decks band, Cloudline scaffold/cloud/glass band and Stratosphere spine/antenna band; global Atmosphere/Clouds/Bloom/ColorCorrection/soft shadows are authored; the step kit now has six structural variants, landing target detailing, braces/rails/anchors/cantilever pieces and warning fins so danger changes shape as well as color. Local format/lint/11 pure-Luau tests/16,000-placement simulation/release-readiness/Rojo build pass; GitHub Actions CI run `36704215763` is green. T10 cosmetic environment reskin, T11 visual cleanup and T12 screenshot approval remain open/runtime dependent.
+P10 implementation note: production world art now includes a city-depth Service Decks band, Cloudline scaffold/cloud/glass band and Stratosphere spine/antenna band; global Atmosphere/Clouds/Bloom/ColorCorrection/soft shadows are authored; the step kit now has six structural variants, landing target detailing, braces/rails/anchors/cantilever pieces and warning fins so danger changes shape as well as color. Equipped Step Themes and Environment Themes now alter the live presentation locally without changing collision/reachability; character Trails and Landing Effects also render distinct equipped cosmetics. Theme application is re-applied after retries and environment recoloring is based on stable original colors to avoid cumulative tint drift. T10 is therefore implemented but remains `[~]` until runtime visual acceptance. T11 cleanup and T12 screenshot approval remain open/runtime dependent.
 
 ## P11 Audio and VFX
 - [~] P11-T01 Landing feedback
