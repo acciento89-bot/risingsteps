@@ -91,14 +91,7 @@ local function addBuilding(parent: Instance, position: Vector3, size: Vector3, s
 			parent,
 			"WindowBand",
 			Vector3.new(math.max(4, size.X - 1.8), 0.18, 0.08),
-			CFrame.new(
-				position
-					+ Vector3.new(
-						0,
-						row * (size.Y / (bands + 1)),
-						-size.Z / 2 - 0.05
-					)
-			),
+			CFrame.new(position + Vector3.new(0, row * (size.Y / (bands + 1)), -size.Z / 2 - 0.05)),
 			Enum.Material.Neon,
 			if row % 2 == 0 then Color3.fromRGB(255, 180, 96) else Color3.fromRGB(103, 155, 184),
 			0.28
@@ -152,12 +145,14 @@ local function buildServiceDecks(parent: Instance, origin: Vector3)
 		)
 	end
 
-	for _, offset in {
-		Vector3.new(-13, 4.7, -10),
-		Vector3.new(13, 4.7, -10),
-		Vector3.new(-13, 4.7, 10),
-		Vector3.new(13, 4.7, 10),
-	} do
+	for _, offset in
+		{
+			Vector3.new(-13, 4.7, -10),
+			Vector3.new(13, 4.7, -10),
+			Vector3.new(-13, 4.7, 10),
+			Vector3.new(13, 4.7, 10),
+		}
+	do
 		addPracticalLight(folder, origin + offset, amber)
 	end
 end
@@ -197,8 +192,7 @@ local function buildCloudline(parent: Instance, origin: Vector3)
 	for index = 1, 6 do
 		local angle = index / 6 * math.pi * 2
 		local radius = 29 + (index % 2) * 6
-		local position =
-			origin + Vector3.new(math.cos(angle) * radius, 78 + index * 6, math.sin(angle) * radius)
+		local position = origin + Vector3.new(math.cos(angle) * radius, 78 + index * 6, math.sin(angle) * radius)
 
 		local wisp = decorativePart(
 			folder,
@@ -217,11 +211,7 @@ local function buildCloudline(parent: Instance, origin: Vector3)
 			folder,
 			"GlassServicePanel",
 			Vector3.new(7, 0.24, 3.2),
-			CFrame.new(
-				origin.X + (if index % 2 == 0 then -21 else 21),
-				70 + index * 12,
-				origin.Z + (index - 2.5) * 8
-			),
+			CFrame.new(origin.X + (if index % 2 == 0 then -21 else 21), 70 + index * 12, origin.Z + (index - 2.5) * 8),
 			Enum.Material.Glass,
 			glass,
 			0.54
@@ -236,7 +226,8 @@ local function buildCloudline(parent: Instance, origin: Vector3)
 			Enum.Material.Neon,
 			cyan,
 			0.12
-		).CastShadow = false
+		).CastShadow =
+			false
 	end
 end
 
@@ -265,8 +256,7 @@ local function buildStratosphere(parent: Instance, origin: Vector3)
 			folder,
 			"AntennaRib",
 			Vector3.new(11, 0.48, 0.62),
-			CFrame.new(origin.X - 22 + side * 4.3, y, origin.Z + 6)
-				* CFrame.Angles(0, 0, math.rad(side * 12)),
+			CFrame.new(origin.X - 22 + side * 4.3, y, origin.Z + 6) * CFrame.Angles(0, 0, math.rad(side * 12)),
 			Enum.Material.Metal,
 			foundation
 		)
