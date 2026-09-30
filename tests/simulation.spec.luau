@@ -26,7 +26,10 @@ for _, seed in seeds do
 
 		assert(vertical > GameConfig.Step.CollisionThickness, "step vertical separation would physically overlap")
 		assert(horizontal >= band.HorizontalMin - 0.001, "generated horizontal distance below band minimum")
-		assert(\n\t\t\thorizontal <= GameConfig.Step.MaxHorizontalCenterDistance + 0.001,\n\t\t\t"generated horizontal distance above hard cap"\n\t\t)
+		assert(
+			horizontal <= GameConfig.Step.MaxHorizontalCenterDistance + 0.001,
+			"generated horizontal distance above hard cap"
+		)
 		assert(vertical <= GameConfig.Step.MaxVerticalRise + 0.001, "generated vertical rise above hard cap")
 		assert(
 			ReachabilityRules.isReachable(
