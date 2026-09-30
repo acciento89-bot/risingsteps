@@ -1,6 +1,7 @@
 local tests = {
 	require("../tests/config.spec"),
 	require("../tests/remote-authority.spec"),
+	require("../tests/score-rules.spec"),
 	require("../tests/step-rules.spec"),
 	require("../tests/step-sequence.spec"),
 }
