@@ -59,8 +59,8 @@ local function targetPosition(height: number, rootPosition: Vector3): Vector3
 	end
 	average /= #positions
 
-	local focus = rootPosition:Lerp(average, 0.34)
-	return focus + Vector3.new(0, 2.8, 0)
+	local focus = rootPosition:Lerp(average, 0.42)
+	return focus + Vector3.new(0, 3.6, 0)
 end
 
 local function horizontalDirection(from: Vector3, to: Vector3): Vector3
@@ -131,8 +131,8 @@ local function startRenderLoop()
 
 		local compact = camera.ViewportSize.X <= 760
 		camera.FieldOfView = if compact then COMPACT_FOV else DEFAULT_FOV
-		local distance = if compact then 11.5 else 13.5
-		local vertical = if compact then 7.2 else 8.4
+		local distance = if compact then 13.5 else 15.5
+		local vertical = if compact then 9.8 else 11.0
 		local desiredPosition = focus - forward * distance + Vector3.new(0, vertical, 0)
 		desiredPosition = obstructionAdjustedPosition(focus, desiredPosition, character)
 
