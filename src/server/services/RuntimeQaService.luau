@@ -193,30 +193,44 @@ local function run(player: Player)
 		task.wait(0.02)
 	end
 	local longClimb = StepCourseService.qaSnapshot(player)
-	check("long_climb_all_steps", longClimbAccepted == CourseConfig.InitialStepCount
-		and longClimb.Height == CourseConfig.InitialStepCount, {
-		Accepted = longClimbAccepted,
-		Height = longClimb.Height,
-		Target = CourseConfig.InitialStepCount,
-	})
+	check(
+		"long_climb_all_steps",
+		longClimbAccepted == CourseConfig.InitialStepCount and longClimb.Height == CourseConfig.InitialStepCount,
+		{
+			Accepted = longClimbAccepted,
+			Height = longClimb.Height,
+			Target = CourseConfig.InitialStepCount,
+		}
+	)
 	check("band_service_decks", StepCourseService.qaStepBand(player, 12) == "service-decks", {
 		Band = StepCourseService.qaStepBand(player, 12),
 	})
-	check("band_cloudline_works", StepCourseService.qaStepBand(player, 13) == "cloudline-works"
-		and StepCourseService.qaStepBand(player, 30) == "cloudline-works", {
-		Step13 = StepCourseService.qaStepBand(player, 13),
-		Step30 = StepCourseService.qaStepBand(player, 30),
-	})
-	check("band_stratosphere_spine", StepCourseService.qaStepBand(player, 31) == "stratosphere-spine"
-		and StepCourseService.qaStepBand(player, 42) == "stratosphere-spine", {
-		Step31 = StepCourseService.qaStepBand(player, 31),
-		Step42 = StepCourseService.qaStepBand(player, 42),
-	})
-	check("long_climb_part_budget_stable",
-		type(longClimb.BaseParts) == "number" and longClimb.BaseParts <= CourseConfig.MaxLaneBaseParts, {
-		BaseParts = longClimb.BaseParts,
-		Budget = CourseConfig.MaxLaneBaseParts,
-	})
+	check(
+		"band_cloudline_works",
+		StepCourseService.qaStepBand(player, 13) == "cloudline-works"
+			and StepCourseService.qaStepBand(player, 30) == "cloudline-works",
+		{
+			Step13 = StepCourseService.qaStepBand(player, 13),
+			Step30 = StepCourseService.qaStepBand(player, 30),
+		}
+	)
+	check(
+		"band_stratosphere_spine",
+		StepCourseService.qaStepBand(player, 31) == "stratosphere-spine"
+			and StepCourseService.qaStepBand(player, 42) == "stratosphere-spine",
+		{
+			Step31 = StepCourseService.qaStepBand(player, 31),
+			Step42 = StepCourseService.qaStepBand(player, 42),
+		}
+	)
+	check(
+		"long_climb_part_budget_stable",
+		type(longClimb.BaseParts) == "number" and longClimb.BaseParts <= CourseConfig.MaxLaneBaseParts,
+		{
+			BaseParts = longClimb.BaseParts,
+			Budget = CourseConfig.MaxLaneBaseParts,
+		}
+	)
 
 	local dailyOk, dailyReason, dailyReward = PlayerProfileService.claimDaily(player)
 	check("daily_reward_path", dailyOk or dailyReason == "already_claimed", {
