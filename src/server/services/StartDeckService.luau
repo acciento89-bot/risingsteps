@@ -171,8 +171,7 @@ function StartDeckService.create(parent: Instance, player: Player, laneOrigin: V
 			model,
 			"LaunchBrace",
 			Vector3.new(0.22, 1.7, 0.22),
-			CFrame.new(center + Vector3.new(side * 5.02, -0.02, 2.9))
-				* CFrame.Angles(0, 0, math.rad(side * 18)),
+			CFrame.new(center + Vector3.new(side * 5.02, -0.02, 2.9)) * CFrame.Angles(0, 0, math.rad(side * 18)),
 			Enum.Material.Metal,
 			hex(WorldConfig.Palette.Foundation),
 			false
