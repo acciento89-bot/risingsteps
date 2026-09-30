@@ -127,7 +127,7 @@ function StartDeckService.create(parent: Instance, player: Player, laneOrigin: V
 	spawn.Neutral = true
 	spawn.Duration = 0
 	spawn.Size = Vector3.new(5, 1, 5)
-	spawn.CFrame = CFrame.new(center + Vector3.new(0, deckThickness / 2 + WorldConfig.StartDeck.SpawnHeightAboveDeck, 0))
+	spawn.CFrame =\n\t\tCFrame.new(center + Vector3.new(0, deckThickness / 2 + WorldConfig.StartDeck.SpawnHeightAboveDeck, 0))
 	spawn.Parent = model
 
 	model.PrimaryPart = base
