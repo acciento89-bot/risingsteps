@@ -5,7 +5,6 @@ local StepSequence = require("../src/shared/rules/StepSequence")
 
 local seeds = { 1, 7, 91, 2026, 4099, 88001, 456789, 1900003 }
 local stepsPerSeed = 2000
-local controlSafetyFactor = 0.55
 local totalChecked = 0
 
 local function horizontalDistance(a, b)
@@ -38,7 +37,7 @@ for _, seed in seeds do
 				GameConfig.Movement.Gravity,
 				GameConfig.Step.BaseFootprint,
 				GameConfig.Step.BaseFootprint,
-				controlSafetyFactor
+				CourseConfig.ReachabilityControlSafetyFactor
 			),
 			("unreachable placement at seed %d step %d"):format(seed, index)
 		)
