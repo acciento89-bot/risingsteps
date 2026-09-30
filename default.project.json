@@ -1,0 +1,23 @@
+{
+  "name": "RisingSteps",
+  "tree": {
+    "$className": "DataModel",
+    "ReplicatedStorage": {
+      "RisingSteps": {
+        "$path": "src/shared"
+      }
+    },
+    "ServerScriptService": {
+      "RisingStepsServer": {
+        "$path": "src/server"
+      }
+    },
+    "StarterPlayer": {
+      "StarterPlayerScripts": {
+        "RisingStepsClient": {
+          "$path": "src/client"
+        }
+      }
+    }
+  }
+}
