@@ -499,7 +499,7 @@ local function failCourse(course: Course, reason: string)
 end
 
 local function onLanding(course: Course, runtime: StepRuntime, hit: BasePart)
-	if course.Failed then
+	if course.Failed or not course.Ready then
 		return
 	end
 
