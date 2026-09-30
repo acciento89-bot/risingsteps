@@ -446,7 +446,7 @@ local function createHud()
 	shop.Name = "ShopPanel"
 	shop.AnchorPoint = Vector2.new(0.5, 0.5)
 	shop.Position = UDim2.fromScale(0.5, 0.5)
-	shop.Size = UDim2.new(0.88, 0, 0.86, 0)
+	shop.Size = UDim2.fromScale(0.88, 0.86)
 	shop.BackgroundColor3 = COLORS.Foundation
 	shop.BorderSizePixel = 0
 	shop.Visible = false
