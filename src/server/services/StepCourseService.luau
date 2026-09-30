@@ -769,9 +769,21 @@ local function buildCourse(player: Player): Course
 
 	local basePartCount = 0
 	local beamAndLightCount = 0
+	local stepPartCount = 0
+	local startDeckPartCount = 0
+	local environmentPartCount = 0
+	local startDeck = courseModel:FindFirstChild("StartDeck")
+	local environmentArt = courseModel:FindFirstChild("EnvironmentArt")
 	for _, descendant in courseModel:GetDescendants() do
 		if descendant:IsA("BasePart") then
 			basePartCount += 1
+			if descendant:IsDescendantOf(stepFolder) then
+				stepPartCount += 1
+			elseif startDeck and descendant:IsDescendantOf(startDeck) then
+				startDeckPartCount += 1
+			elseif environmentArt and descendant:IsDescendantOf(environmentArt) then
+				environmentPartCount += 1
+			end
 		elseif descendant:IsA("Beam") or descendant:IsA("Light") then
 			beamAndLightCount += 1
 		end
@@ -785,12 +797,20 @@ local function buildCourse(player: Player): Course
 			BasePartBudget = CourseConfig.MaxLaneBaseParts,
 			BeamsAndLights = beamAndLightCount,
 			BeamAndLightBudget = CourseConfig.MaxLaneBeamsAndLights,
+			StepParts = stepPartCount,
+			StartDeckParts = startDeckPartCount,
+			EnvironmentParts = environmentPartCount,
+			PresentationRevision = "2026-09-30-budget-breakdown-v1",
 		})
 	else
 		DiagnosticsService.info("LanePresentationBudget", {
 			UserId = player.UserId,
 			BaseParts = basePartCount,
 			BeamsAndLights = beamAndLightCount,
+			StepParts = stepPartCount,
+			StartDeckParts = startDeckPartCount,
+			EnvironmentParts = environmentPartCount,
+			PresentationRevision = "2026-09-30-budget-breakdown-v1",
 		})
 	end
 
