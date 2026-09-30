@@ -7,6 +7,7 @@ local CourseConfig = {
 	ExpiryBehindCurrent = 2,
 	FallCheckIntervalSeconds = 0.10,
 	RespawnResetDelaySeconds = 0.15,
+	ReachabilityControlSafetyFactor = 0.55,
 }
 
 return table.freeze(CourseConfig)
