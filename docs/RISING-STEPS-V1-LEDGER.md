@@ -55,18 +55,20 @@ P01 verification: local StyLua, Selene, pure-Luau tests, release-readiness and R
 - [~] P02-T04 Camera exposes enough upcoming geometry for fair decisions
 - [~] P02-T05 Touch movement/jump targets meet mobile ergonomics
 - [~] P02-T06 Controller and keyboard parity
-- [ ] P02-T07 Runtime spawn → climb → fall → retry → respawn verification
+- [!] P02-T07 Runtime spawn → climb → fall → retry → respawn verification
 
 P02 implementation note: authored start deck/spawn, authoritative movement tuning, default touch/controller movement policy and elevated third-person camera are implemented and pass local format/lint/tests/build. GitHub Actions CI run `36684305304` is green. T01-T06 remain `[~]` until Studio/device runtime verifies spawn safety, camera framing, sticky-edge behavior and input parity.
 
 ## P03 Rising-step mechanic
-- [ ] P03-T01 Deterministic server-owned step sequence
-- [ ] P03-T02 New steps spawn ahead/above with readable timing
-- [ ] P03-T03 Old steps enter warning state before disappearing
-- [ ] P03-T04 Disappearing step collision/state transitions are race-safe
-- [ ] P03-T05 Landing detection cannot double-count or award while falling past
-- [ ] P03-T06 Fall/death boundary is unambiguous and triggers once
-- [ ] P03-T07 Runtime acceptance across slow, medium and high pacing
+- [~] P03-T01 Deterministic server-owned step sequence
+- [~] P03-T02 New steps spawn ahead/above with readable timing
+- [~] P03-T03 Old steps enter warning state before disappearing
+- [~] P03-T04 Disappearing step collision/state transitions are race-safe
+- [~] P03-T05 Landing detection cannot double-count or award while falling past
+- [~] P03-T06 Fall/death boundary is unambiguous and triggers once
+- [!] P03-T07 Runtime acceptance across slow, medium and high pacing
+
+P03 implementation note: deterministic server-owned sequence, authored six-variant step models, per-player lanes, warning→expiring→expired state machine, token-guarded expiry, ordered landing validation and single-fire fall failure are implemented. Local format/lint/4 pure-Luau tests/release-readiness/Rojo build pass; GitHub Actions CI run `36685118098` is green. P02-T07 and P03-T07 remain runtime-blocked until an interactive Studio/device play session can be driven.
 
 ## P04 Scoring, streak and feedback
 - [ ] P04-T01 Height/step score model
