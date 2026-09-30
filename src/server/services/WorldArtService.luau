@@ -282,11 +282,7 @@ local function buildCloudline(parent: Instance, origin: Vector3)
 			folder,
 			"GlassServicePanel",
 			Vector3.new(7, 0.24, 3.2),
-			CFrame.new(
-				origin.X + (if index % 2 == 0 then -27 else 27),
-				70 + index * 12,
-				origin.Z + (index - 2.5) * 8
-			),
+			CFrame.new(origin.X + (if index % 2 == 0 then -27 else 27), 70 + index * 12, origin.Z + (index - 2.5) * 8),
 			Enum.Material.Glass,
 			glass,
 			0.54
@@ -301,7 +297,8 @@ local function buildCloudline(parent: Instance, origin: Vector3)
 			Enum.Material.Neon,
 			cyan,
 			0.12
-		).CastShadow = false
+		).CastShadow =
+			false
 	end
 
 	for _, y in { 70, 88, 106 } do
@@ -374,22 +371,16 @@ local function buildStratosphere(parent: Instance, origin: Vector3)
 	for index = 1, ringSegments do
 		local a = (index - 1) / ringSegments * math.pi * 2
 		local b = index / ringSegments * math.pi * 2
-		local fromPosition = ringCenter + Vector3.new(math.cos(a) * ringRadius, math.sin(a) * 8, math.sin(a) * ringRadius)
+		local fromPosition = ringCenter
+			+ Vector3.new(math.cos(a) * ringRadius, math.sin(a) * 8, math.sin(a) * ringRadius)
 		local toPosition = ringCenter + Vector3.new(math.cos(b) * ringRadius, math.sin(b) * 8, math.sin(b) * ringRadius)
 		addRod(folder, "StratosphereRing", fromPosition, toPosition, 0.34, deepSteel)
 	end
 
 	for _, angle in { 0, math.pi * 0.66, math.pi * 1.33 } do
-		local ringPoint =
-			ringCenter + Vector3.new(math.cos(angle) * ringRadius, math.sin(angle) * 8, math.sin(angle) * ringRadius)
-		addCable(
-			folder,
-			"HighTensionCable",
-			ringPoint,
-			ringPoint + Vector3.new(0, 36, 0),
-			pale,
-			0.045
-		)
+		local ringPoint = ringCenter
+			+ Vector3.new(math.cos(angle) * ringRadius, math.sin(angle) * 8, math.sin(angle) * ringRadius)
+		addCable(folder, "HighTensionCable", ringPoint, ringPoint + Vector3.new(0, 36, 0), pale, 0.045)
 	end
 end
 
