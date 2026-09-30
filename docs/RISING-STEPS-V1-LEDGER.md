@@ -19,6 +19,11 @@ Mandatory V1 rules:
 - Touch, keyboard/mouse and controller all support the same skill ceiling.
 - Persistent progression, rewards and purchases are server-authoritative.
 - Production art, sound and VFX must survive screenshot-quality review.
+- **No 08/15/default Roblox look:** raw Parts, default materials, default-looking UI, empty-baseplate composition, visible debug text, placeholder icons and unstyled generated geometry are release blockers.
+- The world must have authored visual depth: foreground gameplay kit, mid-ground structures and distant/parallax depth, with at least three coherent altitude bands that visibly evolve during a climb.
+- Gameplay platforms may use simple collision primitives internally, but the visible step kit must use authored silhouettes, trims, supports, materials and state-specific surface treatment.
+- The avatar and next 2–3 reachable steps must remain visually readable on a compact phone without zooming or guessing.
+- Every production screenshot must look like a shippable game without requiring an explanation of what is unfinished.
 - A full fresh-player and rejoin journey must pass in the published private place.
 - QA captures go to `/tmp/risingsteps-qa`; only curated evidence enters `docs/evidence/`.
 
@@ -29,6 +34,9 @@ Mandatory V1 rules:
 - [ ] P00-T04 Lock difficulty ramp, speed-up bands and fail/revive rules
 - [ ] P00-T05 Lock ethical monetization and cosmetic categories
 - [ ] P00-T06 Measurable quality/release criteria
+- [ ] P00-T07 Lock visual identity board: palette, material family, typography, UI radius/spacing, icon language, world silhouettes and explicit “do not use” examples
+- [ ] P00-T08 Lock camera composition targets for compact phone/tablet/desktop: avatar scale, visible upcoming steps and horizon/depth balance
+- [ ] P00-T09 Lock altitude-art progression with at least three visually distinct but coherent world bands so a long climb never looks like repeated blocks
 
 ## P01 Technical foundation
 - [ ] P01-T01 Rojo client/server/shared layout
@@ -107,14 +115,24 @@ Mandatory V1 rules:
 - [ ] P09-T05 Compact phone/tablet/desktop responsive pass
 - [ ] P09-T06 Controller focus/navigation
 - [ ] P09-T07 Reduced-motion/accessibility settings
+- [ ] P09-T08 Replace all placeholder/default-looking interface surfaces with a coherent production component kit: typography, spacing grid, panels, buttons, icons and interaction states
+- [ ] P09-T09 HUD must preserve gameplay visibility on compact phones; no control or metric may cover the avatar, current landing step or next reachable step
+- [ ] P09-T10 Runtime visual-state pass for idle, active climb, warning, Perfect/Good, failure, result, shop and first-session tutorial
+- [ ] P09-T11 Screenshot gate: HUD and shop must look intentionally designed at native phone and desktop viewport sizes
 
-## P10 Production art
-- [ ] P10-T01 Distinct vertical-world art direction with depth cues
-- [ ] P10-T02 Step kit has intentional geometry/materials, not raw primitives
-- [ ] P10-T03 Safe/active/warning/expiring states have coherent visual language
-- [ ] P10-T04 Background/parallax/fog reinforces altitude without obscuring gameplay
-- [ ] P10-T05 Lighting/material pass across low and high altitude
-- [ ] P10-T06 Screenshot-quality gate at representative heights
+## P10 Production art — non-negotiable ship-quality gate
+- [ ] P10-T01 Build a distinct vertical-world identity with authored foreground, mid-ground and distant depth; no empty baseplate or generic floating-block presentation
+- [ ] P10-T02 Create a production step kit with at least six authored visible silhouette/trim variants; collision truth may stay simple but rendered geometry must not look like untouched Roblox Parts
+- [ ] P10-T03 Add believable structural language beneath/around steps — supports, brackets, rails, anchors, cables, architectural fragments or equivalent world-specific detail
+- [ ] P10-T04 Safe/active/warning/expiring states use shape/material/motion/VFX as well as color, and remain readable for color-vision deficiencies
+- [ ] P10-T05 Build at least three coherent altitude bands with visible progression in environment, atmosphere and set dressing
+- [ ] P10-T06 Background/parallax/fog/cloud/depth treatment reinforces height and motion without hiding the next 2–3 reachable steps
+- [ ] P10-T07 Lighting/material pass has deliberate key/fill/accent balance, soft readable shadows and no crushed-black or blown-out gameplay surfaces
+- [ ] P10-T08 Avatar silhouette remains separated from every supported environment/theme at normal and compact-phone camera distances
+- [ ] P10-T09 Add authored landing-zone detail, edge treatment and surface breakup so platforms read as finished game assets instead of colored boxes
+- [ ] P10-T10 Cosmetic themes change presentation substantially while preserving identical collision, reachability and competitive truth
+- [ ] P10-T11 Visual polish pass removes z-fighting, seams, floating props, texture stretching, visible generation pop, clipping and debug/helper geometry
+- [ ] P10-T12 Screenshot-quality gate at early, mid and high altitude on compact phone and desktop; any frame that still reads as prototype blocks P15
 
 ## P11 Audio and VFX
 - [ ] P11-T01 Landing feedback
@@ -123,6 +141,9 @@ Mandatory V1 rules:
 - [ ] P11-T04 Fall/failure/retry cues
 - [ ] P11-T05 Height/PB/reward feedback
 - [ ] P11-T06 Owned/Roblox-safe assets and reduced-motion runtime QA
+- [ ] P11-T07 Character movement/landing presentation has coherent animation timing and no abrupt camera/VFX conflict
+- [ ] P11-T08 VFX budget keeps the avatar, current step and next target readable during high streaks
+- [ ] P11-T09 Audio mix pass prevents stacked landing/warning/reward cues from clipping or becoming fatiguing on mobile speakers
 
 ## P12 Security and persistence hardening
 - [ ] P12-T01 Remote/rate-limit audit
@@ -143,6 +164,9 @@ Mandatory V1 rules:
 - [ ] P13-T08 Respawn camera/control recovery
 - [ ] P13-T09 New-session persistence/rejoin
 - [ ] P13-T10 20-minute stability/performance climb
+- [ ] P13-T11 Visual acceptance run records curated screenshots at spawn/tutorial, early climb, mid climb, high altitude, warning/expiry, result and shop
+- [ ] P13-T12 Human visual review confirms there are no placeholder assets, default-looking screens, empty-baseplate views, geometry pop-in or repetitive copy-paste presentation
+- [ ] P13-T13 Camera composition review confirms the avatar and next reachable geometry remain legible throughout a long climb
 
 ## P14 Device and performance QA
 - [ ] P14-T01 Compact phone touch
@@ -151,6 +175,9 @@ Mandatory V1 rules:
 - [ ] P14-T04 Controller
 - [ ] P14-T05 Camera/readability at low/high altitude on each viewport
 - [ ] P14-T06 Generator/cleanup performance and bounded memory/part count
+- [ ] P14-T07 Compact-phone screenshot review at low/mid/high altitude; art density and HUD must remain readable without shrinking critical controls
+- [ ] P14-T08 Tablet/desktop composition uses added screen space intentionally rather than merely stretching the phone layout
+- [ ] P14-T09 Low/mobile graphics-quality pass preserves gameplay-state contrast, silhouettes and warning readability
 
 ## P15 Release
 - [ ] P15-T01 Production icon/thumbnails/metadata
@@ -158,6 +185,8 @@ Mandatory V1 rules:
 - [ ] P15-T03 Publish canonical build privately
 - [ ] P15-T04 Repeat complete P13 journey in published private place
 - [ ] P15-T05 Record build hash/place version/rollback
+- [ ] P15-T05A Final store screenshots must be captured from the actual accepted build and accurately represent the shipped art/UI
+- [ ] P15-T05B Final “looks finished” sign-off: no placeholder icon/text/material/model, no default UI styling, no debug overlays, no known visual P0/P1/P2 defect
 - [!] P15-T06 Controlled public release after paid receipt/rejoin evidence and zero P0/P1 defects
 
 ## P16 Post-launch
@@ -167,4 +196,4 @@ Mandatory V1 rules:
 
 ## Definition of Done
 
-Rising Steps V1 is complete only when a player can repeatedly climb, understand danger, fail, retry, progress and rejoin without broken camera/control/generation state, while the published game meets production visual/audio quality on all supported device classes.
+Rising Steps V1 is complete only when a player can repeatedly climb, understand danger, fail, retry, progress and rejoin without broken camera/control/generation state **and** the accepted private-place build visually reads as a finished commercial Roblox game. A functioning mechanic, green CI, or generated platforms alone are never sufficient. Early/mid/high-altitude gameplay, HUD, result flow and shop must all pass the authored-art, mobile-readability, audio/VFX and screenshot-quality gates above before the project may advance to Perfect Jump.
