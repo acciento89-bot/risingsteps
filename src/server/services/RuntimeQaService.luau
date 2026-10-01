@@ -103,6 +103,11 @@ local function run(player: Player)
 
 	check("course_ready", waitReady(player))
 
+	if not RuntimeQaConfig.VisualOnly then
+		StepCourseService.qaReset(player)
+		check("course_reset_ready", waitReady(player))
+	end
+
 	if RuntimeQaConfig.VisualOnly then
 		-- Front-load modal UI acceptance so shop/cosmetic evidence is captured before long gameplay holds.
 		StepCourseService.qaReset(player)
