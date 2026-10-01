@@ -1,5 +1,6 @@
 --!strict
 
+local GuiService = game:GetService("GuiService")
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local RunService = game:GetService("RunService")
@@ -22,7 +23,8 @@ local function emit(name: string, passed: boolean, detail: string?)
 end
 
 local function buttonCenter(button: GuiObject): Vector2
-	return button.AbsolutePosition + button.AbsoluteSize / 2
+	local insetTopLeft = select(1, GuiService:GetGuiInset())
+	return button.AbsolutePosition + button.AbsoluteSize / 2 + insetTopLeft
 end
 
 local function clickButton(virtualInput: any, button: GuiButton)
