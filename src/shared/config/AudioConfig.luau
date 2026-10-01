@@ -19,7 +19,14 @@ local AudioConfig = {
 		Pitch = 1.52,
 		Volume = 0.26,
 	}),
-	MaxConcurrentTransientSounds = 6,
+	MaxConcurrentTransientSounds = 4,
+	MaxSingleTransientVolume = 0.28,
+	CueMinIntervalSeconds = table.freeze({
+		Landing = 0.08,
+		Warning = 0.45,
+		Failure = 0.55,
+		Celebration = 0.35,
+	}),
 }
 
 return table.freeze(AudioConfig)
