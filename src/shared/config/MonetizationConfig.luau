@@ -19,7 +19,7 @@ local MonetizationConfig = {
 	}),
 	GamePasses = table.freeze({
 		CoinMultiplier = table.freeze({
-			GamePassId = 0,
+			GamePassId = 2002022878,
 			Robux = 99,
 			Multiplier = 2,
 		}),
