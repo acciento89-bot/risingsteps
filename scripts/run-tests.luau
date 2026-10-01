@@ -2,6 +2,7 @@ local tests = {
 	require("../tests/art-config.spec"),
 	require("../tests/audio-config.spec"),
 	require("../tests/config.spec"),
+	require("../tests/graphics-quality-rules.spec"),
 	require("../tests/persistence-rules.spec"),
 	require("../tests/profile-rules.spec"),
 	require("../tests/reachability.spec"),
@@ -13,6 +14,7 @@ local tests = {
 	require("../tests/score-rules.spec"),
 	require("../tests/step-rules.spec"),
 	require("../tests/step-sequence.spec"),
+	require("../tests/viewport-rules.spec"),
 }
 
 for index, result in tests do
