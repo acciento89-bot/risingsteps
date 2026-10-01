@@ -209,7 +209,7 @@ local function run(player: Player)
 
 	PlayerProfileService.qaGrantCoins(player, 2500)
 	local buyTrailOk, buyTrailReason = PlayerProfileService.purchaseCosmetic(player, "Trails", "ion")
-	check("cosmetic_purchase", buyTrailOk, { Reason = buyTrailReason })
+	check("cosmetic_purchase", buyTrailOk or buyTrailReason == "already_owned", { Reason = buyTrailReason })
 	local equipTrailOk, equipTrailReason = PlayerProfileService.equipCosmetic(player, "Trails", "ion")
 	check("cosmetic_equip", equipTrailOk and player:GetAttribute("RisingStepsTrail") == "ion", {
 		Reason = equipTrailReason,
@@ -217,7 +217,9 @@ local function run(player: Player)
 	})
 	local buyEnvironmentOk, buyEnvironmentReason =
 		PlayerProfileService.purchaseCosmetic(player, "EnvironmentThemes", "dusk")
-	check("environment_purchase", buyEnvironmentOk, { Reason = buyEnvironmentReason })
+	check("environment_purchase", buyEnvironmentOk or buyEnvironmentReason == "already_owned", {
+		Reason = buyEnvironmentReason,
+	})
 	local equipEnvironmentOk, equipEnvironmentReason =
 		PlayerProfileService.equipCosmetic(player, "EnvironmentThemes", "dusk")
 	check("environment_equip", equipEnvironmentOk and player:GetAttribute("RisingStepsEnvironmentTheme") == "dusk", {
@@ -229,11 +231,11 @@ local function run(player: Player)
 	check("reduced_motion_attribute_on", player:GetAttribute("RisingStepsReducedMotion") == true)
 	check("reduced_motion_off", PlayerProfileService.setReducedMotion(player, false))
 
-	local receiptOk, receiptReason = PlayerProfileService.grantDeveloperProduct(player, "Revive", "studioqa-revive-001")
-	check("developer_product_grant", receiptOk, { Reason = receiptReason })
+	local receiptId = "studioqa-revive-" .. HttpService:GenerateGUID(false)
+	local receiptOk, receiptReason = PlayerProfileService.grantDeveloperProduct(player, "Revive", receiptId)
+	check("developer_product_grant", receiptOk and receiptReason == "ok", { Reason = receiptReason })
 	local revivesAfterGrant = player:GetAttribute("RisingStepsRevives") or 0
-	local duplicateOk, duplicateReason =
-		PlayerProfileService.grantDeveloperProduct(player, "Revive", "studioqa-revive-001")
+	local duplicateOk, duplicateReason = PlayerProfileService.grantDeveloperProduct(player, "Revive", receiptId)
 	check("duplicate_receipt_idempotent", duplicateOk and duplicateReason == "already_processed", {
 		Reason = duplicateReason,
 		Revives = player:GetAttribute("RisingStepsRevives"),
