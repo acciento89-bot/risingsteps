@@ -14,12 +14,13 @@ local CameraController = {}
 local LOCAL_PLAYER = Players.LocalPlayer
 local FOLLOW_RESPONSE = 8.5
 local DEFAULT_FOV = 66
-local COMPACT_FOV = 68
+local COMPACT_FOV = 70
 local WALL_PADDING = 0.8
 local MIN_CAMERA_DISTANCE = 5.5
 
 local renderConnection: RBXScriptConnection? = nil
 local snappedCharacter: Model? = nil
+local lastHeight: number? = nil
 
 local function currentCourse(): Model?
 	local world = Workspace:FindFirstChild(WorldConfig.WorldFolderName)
@@ -48,11 +49,11 @@ local function horizontalUnit(vector: Vector3, fallback: Vector3): Vector3
 	return Vector3.new(0, 0, -1)
 end
 
-local function targetPosition(height: number, rootPart: BasePart): Vector3
+local function targetPosition(height: number, rootPart: BasePart, compact: boolean): Vector3
 	local course = currentCourse()
 	local steps = course and course:FindFirstChild("Steps")
 	if not steps then
-		return rootPart.Position + Vector3.new(0, 2.35, 0)
+		return rootPart.Position + Vector3.new(0, if compact then 2.0 else 2.35, 0)
 	end
 
 	local positions = {}
@@ -74,8 +75,10 @@ local function targetPosition(height: number, rootPart: BasePart): Vector3
 	end
 	average /= #positions
 
-	local focus = rootPart.Position:Lerp(average, 0.28)
-	return focus + Vector3.new(0, 2.45, 0)
+	local futureWeight = if compact then 0.20 else 0.28
+	local verticalLead = if compact then 2.05 else 2.45
+	local focus = rootPart.Position:Lerp(average, futureWeight)
+	return focus + Vector3.new(0, verticalLead, 0)
 end
 
 local function forwardDirection(height: number, rootPart: BasePart): Vector3
@@ -115,9 +118,9 @@ local function desiredCameraCFrame(camera: Camera, character: Model, rootPart: B
 	local compact = camera.ViewportSize.X <= 760
 	camera.FieldOfView = if compact then COMPACT_FOV else DEFAULT_FOV
 
-	local focus = targetPosition(height, rootPart)
+	local focus = targetPosition(height, rootPart, compact)
 	local forward = forwardDirection(height, rootPart)
-	local distance = if compact then 10.2 else 11.6
+	local distance = if compact then 11.2 else 11.6
 	local vertical = if compact then 6.4 else 7.2
 	local sideOffset = if compact then 0.35 else 0.55
 
@@ -155,10 +158,12 @@ local function snapToCharacter(character: Model)
 	camera.CameraType = Enum.CameraType.Scriptable
 	camera.CFrame = desiredCameraCFrame(camera, character, rootPart, height)
 	snappedCharacter = character
+	lastHeight = height
 end
 
 local function configureCharacter(character: Model)
 	snappedCharacter = nil
+	lastHeight = nil
 	fallbackToCharacterCamera(character)
 
 	local humanoid = character:WaitForChild("Humanoid", 10)
@@ -200,13 +205,17 @@ local function startRenderLoop()
 		local desired = desiredCameraCFrame(camera, character, rootPart, height)
 
 		camera.CameraType = Enum.CameraType.Scriptable
-		if snappedCharacter ~= character then
-			-- Critical startup/respawn path: hard snap instead of exposing the map/editor camera.
+		local heightJump = if lastHeight == nil then math.huge else math.abs(height - lastHeight)
+		if snappedCharacter ~= character or heightJump >= 3 then
+			-- Startup/respawn and large authoritative height corrections must never expose stale framing.
+			-- Normal gameplay advances one step at a time and therefore retains smooth follow motion.
 			camera.CFrame = desired
 			snappedCharacter = character
+			lastHeight = height
 			return
 		end
 
+		lastHeight = height
 		local alpha = 1 - math.exp(-FOLLOW_RESPONSE * math.max(0, deltaTime))
 		camera.CFrame = camera.CFrame:Lerp(desired, alpha)
 	end)
@@ -228,6 +237,7 @@ function CameraController.start()
 	LOCAL_PLAYER.CharacterRemoving:Connect(function(character)
 		if snappedCharacter == character then
 			snappedCharacter = nil
+			lastHeight = nil
 		end
 		fallbackToCharacterCamera(nil)
 	end)
@@ -235,6 +245,7 @@ function CameraController.start()
 	startRenderLoop()
 	Workspace:GetPropertyChangedSignal("CurrentCamera"):Connect(function()
 		snappedCharacter = nil
+		lastHeight = nil
 		fallbackToCharacterCamera(LOCAL_PLAYER.Character)
 		if LOCAL_PLAYER.Character then
 			task.defer(snapToCharacter, LOCAL_PLAYER.Character)
