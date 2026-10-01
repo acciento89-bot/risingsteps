@@ -97,7 +97,7 @@ P05 implementation note: physics-based reachability model, per-band placement en
 - [x] P06-T03 Purchase/equip validation on server
 - [x] P06-T04 Versioned profile schema and migration
 - [x] P06-T05 Autosave/leave/recovery semantics
-- [~] P06-T06 New-session rejoin preserves PB, coins, cosmetics and settings
+- [x] P06-T06 New-session rejoin preserves PB, coins, cosmetics and settings
 
 P06 implementation note: legitimate server-validated landings now award Coins; the launch cosmetic catalog covers trails, landing effects, step themes and environment themes; all buy/equip/settings mutations are server validated; profile schema v2 migrates legacy PB-only data and filters unknown cosmetic IDs; autosave, leave-save, BindToClose and failed-load clobber protection are implemented. Local format/lint/8 pure-Luau tests/16,000-placement simulation/release-readiness/Rojo build pass; GitHub Actions CI run `36702520370` is green. Runtime DataStore purchase/equip/rejoin verification is still required before T01/T03/T05/T06 become `[x]`.
 
@@ -188,7 +188,7 @@ P12 implementation note: both mutation remotes now have per-player rate limits; 
 - [x] P13-T06 Reward/cosmetic purchase/equip path
 - [x] P13-T07 Revive path
 - [x] P13-T08 Respawn camera/control recovery
-- [ ] P13-T09 New-session persistence/rejoin
+- [x] P13-T09 New-session persistence/rejoin
 - [x] P13-T10 20-minute stability/performance climb
 - [x] P13-T11 Visual acceptance run records curated screenshots at spawn/tutorial, early climb, mid climb, high altitude, warning/expiry, result and shop
 - [x] P13-T12 Human visual review confirms there are no placeholder assets, default-looking screens, empty-baseplate views, geometry pop-in or repetitive copy-paste presentation
@@ -225,11 +225,23 @@ Creator Dashboard was checked under the signed-in owner `Acciento865`.
 
 The Creator Dashboard's `Experience erstellen` control was also tested. It launches Roblox Studio rather than creating a web-only experience. The owner permits creating the Rising Steps experience from the web, but explicitly does not permit creating a new experience through Studio unattended. Therefore no experience was created and no existing experience was overwritten. P15-T03, published-place rejoin, real paid receipt, place-version/rollback and final store gates remain blocked until the owner is back at the Mac and can authorize/perform the required Studio-side creation step.
 
+### Published private experience verification 2026-10-01
+
+- Web-created private Experience: Universe `10768815106`
+- Root Place: `133160458509988`
+- Canonical GitHub source published from `main`; current QA-published source SHA: `c0e83fad4e7fdb12f13f0049267741278ffe5743`
+- Studio log confirmed `PublishSuccessful` and `Published new changes in "Steigende Schritte" to Roblox.`
+- Published-place functional QA completed successfully against the cloud Root Place with no Rojo server attached.
+- Runtime evidence includes all 42 steps, all three difficulty/art bands, Warning→Expired, Perfect streak + Miss reset, failure boundary, Retry, Revive, cosmetic purchase/equip, daily reward, security rejection, 755/900 BasePart budget, 21/96 Beam/Light budget and successful DataStore flush.
+- Real new-session rejoin loaded PB 42, 10,827 coins, Trail `ion`, Environment `dusk` and the persisted Reduced Motion sentinel. The QA cleanup then reset Reduced Motion to false and flushed the cleaned profile.
+- P06-T06, P13-T09, P15-T03 and P15-T04 are therefore verified complete.
+- This does not satisfy P08-T08: the existing receipt harness validates grant/idempotency logic but a real MarketplaceService Developer Product receipt is still required.
+
 ## P15 Release
 - [~] P15-T01 Production icon/thumbnails/metadata
 - [~] P15-T02 Privacy/content questionnaire
-- [ ] P15-T03 Publish canonical build privately
-- [ ] P15-T04 Repeat complete P13 journey in published private place
+- [x] P15-T03 Publish canonical build privately
+- [x] P15-T04 Repeat complete P13 journey in published private place
 - [~] P15-T05 Record build hash/place version/rollback
 - [ ] P15-T05A Final store screenshots must be captured from the actual accepted build and accurately represent the shipped art/UI
 - [ ] P15-T05B Final “looks finished” sign-off: no placeholder icon/text/material/model, no default UI styling, no debug overlays, no known visual P0/P1/P2 defect
