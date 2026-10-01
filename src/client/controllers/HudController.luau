@@ -13,6 +13,7 @@ local root = ReplicatedStorage:WaitForChild("RisingSteps")
 local CosmeticConfig = require(root.config.CosmeticConfig)
 local MonetizationConfig = require(root.config.MonetizationConfig)
 local WorldConfig = require(root.config.WorldConfig)
+local ViewportRules = require(root.rules.ViewportRules)
 
 local HudController = {}
 
@@ -895,11 +896,19 @@ local function createHud()
 			return
 		end
 		local width = camera.ViewportSize.X
-		scale.Scale = math.clamp(width / 900, 0.82, 1.08)
-		if width <= 760 then
+		local viewportClass = ViewportRules.classify(width)
+		scale.Scale = ViewportRules.uiScale(width)
+
+		if viewportClass == "compact" then
 			metrics.Position = UDim2.fromOffset(12, 12)
 			topRight.Position = UDim2.new(1, -12, 0, 126)
 			tutorial.Size = UDim2.new(1, -28, 0, 94)
+		elseif viewportClass == "tablet" then
+			-- Tablets have enough horizontal room to keep primary metrics and
+			-- shop/currency controls on the same top row instead of stacking.
+			metrics.Position = UDim2.fromOffset(16, 16)
+			topRight.Position = UDim2.new(1, -16, 0, 16)
+			tutorial.Size = UDim2.fromOffset(420, 94)
 		else
 			metrics.Position = UDim2.fromOffset(18, 18)
 			topRight.Position = UDim2.new(1, -18, 0, 132)
