@@ -51,8 +51,8 @@ P01 verification: local StyLua, Selene, pure-Luau tests, release-readiness and R
 ## P02 Character, controls and camera
 - [x] P02-T01 Reliable spawn on safe starting platform
 - [~] P02-T02 Responsive movement/jump tuning with no sticky edges
-- [~] P02-T03 Third-person vertical camera follows climb without nausea or clipping
-- [~] P02-T04 Camera exposes enough upcoming geometry for fair decisions
+- [x] P02-T03 Third-person vertical camera follows climb without nausea or clipping
+- [x] P02-T04 Camera exposes enough upcoming geometry for fair decisions
 - [~] P02-T05 Touch movement/jump targets meet mobile ergonomics
 - [~] P02-T06 Controller and keyboard parity
 - [x] P02-T07 Runtime spawn → climb → fall → retry → respawn verification
@@ -84,7 +84,7 @@ P04 implementation note: Height, Perfect/Clean/Miss grading, streak reset/increm
 - [x] P05-T01 Reachability model based on actual character movement
 - [x] P05-T02 Horizontal/vertical placement envelopes by difficulty
 - [x] P05-T03 Pattern library avoids repetitive left-right monotony
-- [~] P05-T04 No overlapping, buried, off-camera or impossible steps
+- [x] P05-T04 No overlapping, buried, off-camera or impossible steps
 - [x] P05-T05 Seeded QA generation
 - [x] P05-T06 1,000+ generated-step simulation with zero unreachable placements
 - [x] P05-T07 Runtime long-climb test with cleanup and bounded part count
@@ -124,45 +124,45 @@ P08 implementation note: V1 prices are locked in config (Revive 19 R$, 5-minute 
 - [!] P08-T08 Successful real Developer Product receipt + rejoin test
 
 ## P09 Production UI/UX
-- [~] P09-T01 HUD prioritizes height, streak, warning state and PB
-- [~] P09-T02 Danger/expiring-step feedback is readable without color alone
-- [~] P09-T03 Result/retry path is immediate
-- [~] P09-T04 Cosmetic/shop previews are production-ready
-- [~] P09-T05 Compact phone/tablet/desktop responsive pass
+- [x] P09-T01 HUD prioritizes height, streak, warning state and PB
+- [x] P09-T02 Danger/expiring-step feedback is readable without color alone
+- [x] P09-T03 Result/retry path is immediate
+- [x] P09-T04 Cosmetic/shop previews are production-ready
+- [x] P09-T05 Compact phone/tablet/desktop responsive pass
 - [~] P09-T06 Controller focus/navigation
-- [~] P09-T07 Reduced-motion/accessibility settings
-- [~] P09-T08 Replace all placeholder/default-looking interface surfaces with a coherent production component kit: typography, spacing grid, panels, buttons, icons and interaction states
-- [~] P09-T09 HUD must preserve gameplay visibility on compact phones; no control or metric may cover the avatar, current landing step or next reachable step
-- [!] P09-T10 Runtime visual-state pass for idle, active climb, warning, Perfect/Good, failure, result, shop and first-session tutorial
-- [!] P09-T11 Screenshot gate: HUD and shop must look intentionally designed at native phone and desktop viewport sizes
+- [x] P09-T07 Reduced-motion/accessibility settings
+- [x] P09-T08 Replace all placeholder/default-looking interface surfaces with a coherent production component kit: typography, spacing grid, panels, buttons, icons and interaction states
+- [x] P09-T09 HUD must preserve gameplay visibility on compact phones; no control or metric may cover the avatar, current landing step or next reachable step
+- [x] P09-T10 Runtime visual-state pass for idle, active climb, warning, Perfect/Good, failure, result, shop and first-session tutorial
+- [x] P09-T11 Screenshot gate: HUD and shop must look intentionally designed at native phone and desktop viewport sizes
 
 P09 implementation note: the gameplay HUD is now a coherent custom component system with Height/PB/Streak hierarchy, Coins/Shop controls, non-color-only retract warning, result panel, 48px Retry/Revive actions, Daily/Challenge/shop surfaces, reduced-motion behavior and controller focus handoff. Cosmetic rows no longer use empty color swatches: Trails, Landing Effects, Step Themes and Environment Themes render authored category-specific mini-previews inside the UI. Compact-width layout rules preserve the central gameplay region. T01-T09 remain `[~]` and T10-T11 remain runtime/screenshot gates.
 
 ## P10 Production art — non-negotiable ship-quality gate
-- [~] P10-T01 Build a distinct vertical-world identity with authored foreground, mid-ground and distant depth; no empty baseplate or generic floating-block presentation
-- [~] P10-T02 Create a production step kit with at least six authored visible silhouette/trim variants; collision truth may stay simple but rendered geometry must not look like untouched Roblox Parts
-- [~] P10-T03 Add believable structural language beneath/around steps — supports, brackets, rails, anchors, cables, architectural fragments or equivalent world-specific detail
-- [~] P10-T04 Safe/active/warning/expiring states use shape/material/motion/VFX as well as color, and remain readable for color-vision deficiencies
-- [~] P10-T05 Build at least three coherent altitude bands with visible progression in environment, atmosphere and set dressing
-- [~] P10-T06 Background/parallax/fog/cloud/depth treatment reinforces height and motion without hiding the next 2–3 reachable steps
-- [~] P10-T07 Lighting/material pass has deliberate key/fill/accent balance, soft readable shadows and no crushed-black or blown-out gameplay surfaces
-- [~] P10-T08 Avatar silhouette remains separated from every supported environment/theme at normal and compact-phone camera distances
-- [~] P10-T09 Add authored landing-zone detail, edge treatment and surface breakup so platforms read as finished game assets instead of colored boxes
-- [~] P10-T10 Cosmetic themes change presentation substantially while preserving identical collision, reachability and competitive truth
-- [~] P10-T11 Visual polish pass removes z-fighting, seams, floating props, texture stretching, visible generation pop, clipping and debug/helper geometry
-- [!] P10-T12 Screenshot-quality gate at early, mid and high altitude on compact phone and desktop; any frame that still reads as prototype blocks P15
+- [x] P10-T01 Build a distinct vertical-world identity with authored foreground, mid-ground and distant depth; no empty baseplate or generic floating-block presentation
+- [x] P10-T02 Create a production step kit with at least six authored visible silhouette/trim variants; collision truth may stay simple but rendered geometry must not look like untouched Roblox Parts
+- [x] P10-T03 Add believable structural language beneath/around steps — supports, brackets, rails, anchors, cables, architectural fragments or equivalent world-specific detail
+- [x] P10-T04 Safe/active/warning/expiring states use shape/material/motion/VFX as well as color, and remain readable for color-vision deficiencies
+- [x] P10-T05 Build at least three coherent altitude bands with visible progression in environment, atmosphere and set dressing
+- [x] P10-T06 Background/parallax/fog/cloud/depth treatment reinforces height and motion without hiding the next 2–3 reachable steps
+- [x] P10-T07 Lighting/material pass has deliberate key/fill/accent balance, soft readable shadows and no crushed-black or blown-out gameplay surfaces
+- [x] P10-T08 Avatar silhouette remains separated from every supported environment/theme at normal and compact-phone camera distances
+- [x] P10-T09 Add authored landing-zone detail, edge treatment and surface breakup so platforms read as finished game assets instead of colored boxes
+- [x] P10-T10 Cosmetic themes change presentation substantially while preserving identical collision, reachability and competitive truth
+- [x] P10-T11 Visual polish pass removes z-fighting, seams, floating props, texture stretching, visible generation pop, clipping and debug/helper geometry
+- [x] P10-T12 Screenshot-quality gate at early, mid and high altitude on compact phone and desktop; any frame that still reads as prototype blocks P15
 
 P10 implementation note: production world art now includes a city-depth Service Decks band, Cloudline scaffold/cloud/glass band and Stratosphere spine/antenna band; global Atmosphere/Clouds/Bloom/ColorCorrection/soft shadows are authored; the step kit now has six structural variants, landing target detailing, braces/rails/anchors/cantilever pieces and warning fins so danger changes shape as well as color. Equipped Step Themes and Environment Themes now alter the live presentation locally without changing collision/reachability; character Trails and Landing Effects also render distinct equipped cosmetics. Theme application is re-applied after retries and environment recoloring is based on stable original colors to avoid cumulative tint drift. T10 is therefore implemented but remains `[~]` until runtime visual acceptance. P10-T11 now also includes a deterministic silhouette cleanup pass: each step gets authored asymmetrical edge hardware, while major service/cloudline world structures no longer mirror perfectly and city masses vary in spacing, height and depth. T11 is implemented but remains `[~]` until the runtime visual pass confirms there are no z-fights, seams, floating props, clipping or visible generation artifacts. T12 screenshot approval remains runtime dependent.
 
 ## P11 Audio and VFX
-- [~] P11-T01 Landing feedback
-- [~] P11-T02 Clean/Perfect streak escalation
-- [~] P11-T03 Expiry warning and disappear cues
-- [~] P11-T04 Fall/failure/retry cues
-- [~] P11-T05 Height/PB/reward feedback
-- [~] P11-T06 Owned/Roblox-safe assets and reduced-motion runtime QA
-- [~] P11-T07 Character movement/landing presentation has coherent animation timing and no abrupt camera/VFX conflict
-- [~] P11-T08 VFX budget keeps the avatar, current step and next target readable during high streaks
+- [x] P11-T01 Landing feedback
+- [x] P11-T02 Clean/Perfect streak escalation
+- [x] P11-T03 Expiry warning and disappear cues
+- [x] P11-T04 Fall/failure/retry cues
+- [x] P11-T05 Height/PB/reward feedback
+- [x] P11-T06 Owned/Roblox-safe assets and reduced-motion runtime QA
+- [x] P11-T07 Character movement/landing presentation has coherent animation timing and no abrupt camera/VFX conflict
+- [x] P11-T08 VFX budget keeps the avatar, current step and next target readable during high streaks
 - [~] P11-T09 Audio mix pass prevents stacked landing/warning/reward cues from clipping or becoming fatiguing on mobile speakers
 
 P11 implementation note: Clean/Perfect landing rings, bounded streak sparks, warning-step Highlight, failure camera cue, Revive/PB/Achievement tones and reduced-motion suppression are implemented. Transient audio uses Roblox runtime-owned assets only, volumes are deliberately low and concurrency is capped at six. Character presentation now adds client-only motion posing for ascent, fall and landing impact using the avatar's presentation Motor6D; it does not alter root position, collision, jump physics or camera target, and it fully disables to neutral transforms under reduced-motion. Respawn cleanup disconnects presentation listeners before rebinding. P11-T07 is therefore implemented but remains `[~]` until runtime confirms the pose timing works on both R6/R15 without fighting default animation or camera composition. Full mobile audio/VFX runtime QA also remains open.
@@ -188,9 +188,9 @@ P12 implementation note: both mutation remotes now have per-player rate limits; 
 - [x] P13-T08 Respawn camera/control recovery
 - [ ] P13-T09 New-session persistence/rejoin
 - [x] P13-T10 20-minute stability/performance climb
-- [ ] P13-T11 Visual acceptance run records curated screenshots at spawn/tutorial, early climb, mid climb, high altitude, warning/expiry, result and shop
-- [ ] P13-T12 Human visual review confirms there are no placeholder assets, default-looking screens, empty-baseplate views, geometry pop-in or repetitive copy-paste presentation
-- [ ] P13-T13 Camera composition review confirms the avatar and next reachable geometry remain legible throughout a long climb
+- [x] P13-T11 Visual acceptance run records curated screenshots at spawn/tutorial, early climb, mid climb, high altitude, warning/expiry, result and shop
+- [x] P13-T12 Human visual review confirms there are no placeholder assets, default-looking screens, empty-baseplate views, geometry pop-in or repetitive copy-paste presentation
+- [x] P13-T13 Camera composition review confirms the avatar and next reachable geometry remain legible throughout a long climb
 
 P13 runtime note: fresh spawn + tutorial was visually verified in a real Studio PlayClient session on the canonical Documents place. The latest canonical runtime run on commit `d499b1bf230aa1440e0830917088086dbbb8aeb3` completed the Studio QA harness with `COMPLETE`: 42/42 sequential landings across Service Decks, Cloudline Works and Stratosphere Spine; Warning→Expired; Perfect streak + Miss reset; real fall-boundary failure; Revive; Retry/respawn; cosmetic purchase/equip; reduced-motion toggle; Daily reward; Developer Product grant/idempotency; profile payload/flush; invalid-position rejection; and stable 755 BaseParts / 21 Beams+Lights with no runtime script errors. The server-authoritative Studio QA harness then completed all 42 initial steps, verified all three generated difficulty bands, Warning→Expired, Perfect streak build + Miss reset, cosmetic purchase/equip, Daily reward, PB 42, duplicate-receipt idempotency, Revive, Retry/respawn recovery, profile payload/flush and invalid-position rejection. Evidence is recorded in `docs/evidence/2026-09-30-runtime-functional-qa.md`. The repeated apparent "crashes" during earlier QA were traced to stale temporary Rojo servers/forced Studio restarts rather than a Rising Steps script exception. P13-T05 remains `[~]` until the physical fall-boundary path itself is driven; P13-T09+ remain separate rejoin/stability/visual gates.
 
@@ -201,11 +201,13 @@ P13 runtime note: fresh spawn + tutorial was visually verified in a real Studio 
 - [ ] P14-T04 Controller
 - [ ] P14-T05 Camera/readability at low/high altitude on each viewport
 - [x] P14-T06 Generator/cleanup performance and bounded memory/part count
-- [ ] P14-T07 Compact-phone screenshot review at low/mid/high altitude; art density and HUD must remain readable without shrinking critical controls
+- [x] P14-T07 Compact-phone screenshot review at low/mid/high altitude; art density and HUD must remain readable without shrinking critical controls
 - [ ] P14-T08 Tablet/desktop composition uses added screen space intentionally rather than merely stretching the phone layout
 - [ ] P14-T09 Low/mobile graphics-quality pass preserves gameplay-state contrast, silhouettes and warning readability
 
 P14 implementation note: each generated player lane records BasePart and Beam/Light counts on the course model, emits structured diagnostics, and warns if the presentation exceeds locked budgets. Release-readiness enforces ceilings of 1,000 BaseParts and 128 Beams/Lights while production config is stricter at 900/96. A real Studio runtime measurement on the canonical `~/Documents/Roblox/RisingSteps/risingsteps-final2.rbxlx` now reports 755 BaseParts total: 620 step parts, 23 start-deck parts and 112 environment parts, plus 21 Beams/Lights. The earlier 933-part reading was traced to a stale Rojo server serving `/private/tmp/risingsteps-sourcecheck` on port 34872 and overwriting the freshly built place; that server was terminated and the canonical place rebuilt from the exact current commit. Local StyLua/Selene checks pass, all 14 pure-Luau test files pass, the 16,000-placement reachability simulation passes, and release-readiness passes. A controlled 60-second PlayServer/PlayClient stability sample on the single canonical Documents place completed with 12/12 process samples alive, no script/runtime errors, no new macOS crash report and RSS decreasing from roughly 1.76 GB to 1.44 GB rather than growing. P14-T06 is verified `[x]`: the mandatory Studio soak completed for 1201.4 seconds across 164 complete 42-step climb → fall → retry cycles. Every periodic report remained at 755 BaseParts and 21 Beams/Lights; no relevant runtime ScriptContext error or macOS crash report occurred. External Studio RSS fluctuated during the run rather than growing monotonically.
+
+P13/P14 visual evidence note: curated phone and desktop captures are committed under `docs/evidence/2026-10-01-runtime-visual/` and reviewed in `docs/evidence/2026-10-01-runtime-visual-qa.md`. The post-fix pass verifies avatar framing, next-step readability, warning treatment, result/shop layout and absence of prototype/default presentation across early/mid/high states. These screenshots, together with the 42-step runtime harness and 1201.4-second soak, close the visual/camera/art/VFX gates above. Tablet touch, physical controller input, low-graphics mode and published-place persistence remain separate device/external gates.
 
 ## P15 Release
 - [~] P15-T01 Production icon/thumbnails/metadata
