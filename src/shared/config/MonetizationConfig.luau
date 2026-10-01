@@ -4,13 +4,13 @@ local MonetizationConfig = {
 	MaxProcessedReceipts = 50,
 	DeveloperProducts = table.freeze({
 		Revive = table.freeze({
-			ProductId = 0,
+			ProductId = 3715818292,
 			Robux = 19,
 			Grant = "Revive",
 			MaxInventory = 3,
 		}),
 		Stability = table.freeze({
-			ProductId = 0,
+			ProductId = 3715820324,
 			Robux = 29,
 			Grant = "Stability",
 			DurationSeconds = 300,
