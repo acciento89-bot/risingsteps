@@ -370,10 +370,12 @@ local function run(player: Player)
 	else
 		check("rejoin_sentinel_reduced_motion", PlayerProfileService.setReducedMotion(player, true))
 		local sentinelFlush = PlayerProfileService.flushPlayer(player)
-		print(("[RisingStepsQA] REJOIN_SENTINEL_WRITTEN flush=%s healthy=%s"):format(
-			tostring(sentinelFlush),
-			tostring(initialPersistenceHealthy)
-		))
+		print(
+			("[RisingStepsQA] REJOIN_SENTINEL_WRITTEN flush=%s healthy=%s"):format(
+				tostring(sentinelFlush),
+				tostring(initialPersistenceHealthy)
+			)
+		)
 	end
 
 	print("[RisingStepsQA] FUNCTIONAL_COMPLETE " .. HttpService:JSONEncode(results))
