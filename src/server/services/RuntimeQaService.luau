@@ -102,6 +102,36 @@ local function run(player: Player)
 	check("profile_healthy", player:GetAttribute("RisingStepsPersistenceHealthy") == true)
 
 	check("course_ready", waitReady(player))
+
+	if RuntimeQaConfig.VisualOnly then
+		visualHold(player, "tutorial", "Tutorial")
+		StepCourseService.qaReset(player)
+		task.wait(0.25)
+		for stepId = 1, 3 do
+			assert(StepCourseService.qaLand(player, stepId, 0) ~= "Rejected", "visual early climb rejected")
+		end
+		visualHold(player, "early", "Gameplay")
+		for stepId = 4, 20 do
+			assert(StepCourseService.qaLand(player, stepId, 0) ~= "Rejected", "visual mid climb rejected")
+		end
+		visualHold(player, "mid", "Gameplay")
+		for stepId = 21, 38 do
+			assert(StepCourseService.qaLand(player, stepId, 0) ~= "Rejected", "visual high climb rejected")
+		end
+		visualHold(player, "high", "Gameplay")
+		StepCourseService.qaShowWarning(player, 39)
+		visualHold(player, "warning", "Warning")
+		StepCourseService.qaShowResult(player)
+		visualHold(player, "result", "Result")
+		StepCourseService.qaReset(player)
+		task.wait(0.25)
+		visualHold(player, "shop", "Shop")
+		player:SetAttribute("RisingStepsQaView", "Gameplay")
+		player:SetAttribute("RisingStepsQaPhase", "visual-complete")
+		print("[RisingStepsQA] VISUAL_COMPLETE")
+		return
+	end
+
 	visualHold(player, "tutorial", "Tutorial")
 	local initial = StepCourseService.qaSnapshot(player)
 	check(
