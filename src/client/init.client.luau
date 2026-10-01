@@ -8,6 +8,7 @@ local remoteFolder = root:WaitForChild(RemoteConfig.FolderName)
 
 local controllersFolder = script:WaitForChild("controllers")
 local CameraController = require(controllersFolder.CameraController)
+local CapturePresentationController = require(controllersFolder.CapturePresentationController)
 local CharacterMotionController = require(controllersFolder.CharacterMotionController)
 local CosmeticPresentationController = require(controllersFolder.CosmeticPresentationController)
 local CourseVisibilityController = require(controllersFolder.CourseVisibilityController)
@@ -21,6 +22,7 @@ for remoteName in RemoteConfig.Definitions do
 end
 
 CameraController.start()
+CapturePresentationController.start()
 CharacterMotionController.start()
 CosmeticPresentationController.start()
 CourseVisibilityController.start()
