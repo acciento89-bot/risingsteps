@@ -2,7 +2,7 @@
 
 local RuntimeQaConfig = {
 	EnabledInStudio = true,
-	VisualOnly = true,
+	VisualOnly = false,
 	StartupDelaySeconds = 4.0,
 	VisualHoldSeconds = 8,
 	SoakEnabled = false,
