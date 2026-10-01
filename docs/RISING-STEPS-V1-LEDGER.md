@@ -136,6 +136,8 @@ P08 implementation note: V1 prices are locked in config (Revive 19 R$, 5-minute 
 - [x] P09-T10 Runtime visual-state pass for idle, active climb, warning, Perfect/Good, failure, result, shop and first-session tutorial
 - [x] P09-T11 Screenshot gate: HUD and shop must look intentionally designed at native phone and desktop viewport sizes
 
+P09 runtime note: compact-phone VisualOnly QA on iPhone XR 896×414 accepted tutorial, early, mid, high, warning, result, shop and cosmetic states; evidence is recorded in `docs/evidence/2026-10-01-phone-visual-qa.md`. HUD hierarchy, non-color-only warning, result/retry, production component styling and authored cosmetic previews are visually accepted on compact phone. P09-T10/T11 remain `[~]` until the matching desktop pass completes.
+
 P09 implementation note: the gameplay HUD is now a coherent custom component system with Height/PB/Streak hierarchy, Coins/Shop controls, non-color-only retract warning, result panel, 48px Retry/Revive actions, Daily/Challenge/shop surfaces, reduced-motion behavior and controller focus handoff. Cosmetic rows no longer use empty color swatches: Trails, Landing Effects, Step Themes and Environment Themes render authored category-specific mini-previews inside the UI. Compact-width layout rules preserve the central gameplay region. T01-T09 remain `[~]` and T10-T11 remain runtime/screenshot gates.
 
 ## P10 Production art — non-negotiable ship-quality gate
@@ -195,7 +197,7 @@ P12 implementation note: both mutation remotes now have per-player rate limits; 
 P13 runtime note: fresh spawn + tutorial was visually verified in a real Studio PlayClient session on the canonical Documents place. The latest canonical runtime run on commit `d499b1bf230aa1440e0830917088086dbbb8aeb3` completed the Studio QA harness with `COMPLETE`: 42/42 sequential landings across Service Decks, Cloudline Works and Stratosphere Spine; Warning→Expired; Perfect streak + Miss reset; real fall-boundary failure; Revive; Retry/respawn; cosmetic purchase/equip; reduced-motion toggle; Daily reward; Developer Product grant/idempotency; profile payload/flush; invalid-position rejection; and stable 755 BaseParts / 21 Beams+Lights with no runtime script errors. The server-authoritative Studio QA harness then completed all 42 initial steps, verified all three generated difficulty bands, Warning→Expired, Perfect streak build + Miss reset, cosmetic purchase/equip, Daily reward, PB 42, duplicate-receipt idempotency, Revive, Retry/respawn recovery, profile payload/flush and invalid-position rejection. Evidence is recorded in `docs/evidence/2026-09-30-runtime-functional-qa.md`. The repeated apparent "crashes" during earlier QA were traced to stale temporary Rojo servers/forced Studio restarts rather than a Rising Steps script exception. P13-T05 remains `[~]` until the physical fall-boundary path itself is driven; P13-T09+ remain separate rejoin/stability/visual gates.
 
 ## P14 Device and performance QA
-- [ ] P14-T01 Compact phone touch
+- [~] P14-T01 Compact phone touch
 - [ ] P14-T02 Tablet touch
 - [ ] P14-T03 Desktop keyboard/mouse
 - [ ] P14-T04 Controller
