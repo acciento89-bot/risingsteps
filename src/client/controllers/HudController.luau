@@ -1194,7 +1194,7 @@ local function createHud()
 	if RunService:IsStudio() then
 		local function applyQaView()
 			local view = LOCAL_PLAYER:GetAttribute("RisingStepsQaView")
-			if view == "Shop" then
+			if view == "Shop" or view == "ShopCosmetics" then
 				setShopVisible(true)
 				tutorial.Visible = false
 				warning.Visible = false
@@ -1205,6 +1205,12 @@ local function createHud()
 					end)
 					if ok and type(bootstrap) == "table" then
 						refreshShop(bootstrap)
+					end
+					task.wait(0.15)
+					if view == "ShopCosmetics" then
+						scroll.CanvasPosition = Vector2.new(0, 620)
+					else
+						scroll.CanvasPosition = Vector2.zero
 					end
 				end)
 			elseif view == "Tutorial" then
