@@ -14,6 +14,7 @@ local FeedbackController = {}
 
 local LOCAL_PLAYER = Players.LocalPlayer
 local transientSounds = 0
+local lastCueAt: { [string]: number } = {}
 
 local function hex(hexColor: string): Color3
 	local value = hexColor:gsub("#", "")
@@ -36,8 +37,15 @@ local function reducedMotion(): boolean
 	return LOCAL_PLAYER:GetAttribute("RisingStepsReducedMotion") == true
 end
 
-local function playTone(pitch: number, volume: number)
+local function playTone(cue: string, pitch: number, volume: number)
 	if transientSounds >= AudioConfig.MaxConcurrentTransientSounds then
+		return
+	end
+
+	local minInterval = AudioConfig.CueMinIntervalSeconds[cue]
+	local now = os.clock()
+	local lastAt = lastCueAt[cue]
+	if type(minInterval) == "number" and lastAt and now - lastAt < minInterval then
 		return
 	end
 
@@ -46,11 +54,12 @@ local function playTone(pitch: number, volume: number)
 		return
 	end
 
+	lastCueAt[cue] = now
 	transientSounds += 1
 	local sound = Instance.new("Sound")
-	sound.Name = "RisingStepsTransient"
+	sound.Name = "RisingStepsTransient_" .. cue
 	sound.SoundId = AudioConfig.Source
-	sound.Volume = volume
+	sound.Volume = math.min(volume, AudioConfig.MaxSingleTransientVolume)
 	sound.PlaybackSpeed = pitch
 	sound.RollOffMaxDistance = 80
 	sound.Parent = camera
@@ -205,7 +214,7 @@ local function onSnapshot(snapshot: any)
 		local effectId = if type(landingEffect) == "string" then landingEffect else "basic"
 
 		if grade == "Perfect" then
-			playTone(AudioConfig.Landing.PerfectPitch, AudioConfig.Landing.BaseVolume)
+			playTone("Landing", AudioConfig.Landing.PerfectPitch, AudioConfig.Landing.BaseVolume)
 			if effectId == "spark" then
 				makeRing(COLORS.Warm, 5.8, 0.30)
 				sparkBurst(COLORS.Warm, 8 + math.floor(streak / 4))
@@ -221,7 +230,7 @@ local function onSnapshot(snapshot: any)
 				sparkBurst(COLORS.Active, 4 + math.floor(streak / 5))
 			end
 		elseif grade == "Clean" then
-			playTone(AudioConfig.Landing.CleanPitch, AudioConfig.Landing.BaseVolume * 0.85)
+			playTone("Landing", AudioConfig.Landing.CleanPitch, AudioConfig.Landing.BaseVolume * 0.85)
 			if effectId == "spark" then
 				sparkBurst(COLORS.Warm, 5)
 				makeRing(COLORS.Warm, 4.5, 0.28)
@@ -237,19 +246,19 @@ local function onSnapshot(snapshot: any)
 			snapshot.NewPB == true or (type(snapshot.AchievementCoins) == "number" and snapshot.AchievementCoins > 0)
 		then
 			task.delay(0.10, function()
-				playTone(AudioConfig.Celebration.Pitch, AudioConfig.Celebration.Volume)
+				playTone("Celebration", AudioConfig.Celebration.Pitch, AudioConfig.Celebration.Volume)
 			end)
 		end
 	elseif snapshot.Kind == "StepWarning" then
-		playTone(AudioConfig.Warning.Pitch, AudioConfig.Warning.Volume)
+		playTone("Warning", AudioConfig.Warning.Pitch, AudioConfig.Warning.Volume)
 		if type(snapshot.StepId) == "number" then
 			highlightWarningStep(snapshot.StepId)
 		end
 	elseif snapshot.Kind == "FallBoundary" or snapshot.Kind == "HumanoidDied" then
-		playTone(AudioConfig.Failure.Pitch, AudioConfig.Failure.Volume)
+		playTone("Failure", AudioConfig.Failure.Pitch, AudioConfig.Failure.Volume)
 		cameraFailureKick()
 	elseif snapshot.Kind == "Revived" then
-		playTone(AudioConfig.Celebration.Pitch, AudioConfig.Celebration.Volume)
+		playTone("Celebration", AudioConfig.Celebration.Pitch, AudioConfig.Celebration.Volume)
 		makeRing(COLORS.Active, 8.0, 0.48)
 	end
 end
