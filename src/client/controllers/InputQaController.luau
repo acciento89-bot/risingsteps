@@ -23,8 +23,9 @@ local function emit(name: string, passed: boolean, detail: string?)
 end
 
 local function buttonCenter(button: GuiObject): Vector2
-	local insetTopLeft = select(1, GuiService:GetGuiInset())
-	return button.AbsolutePosition + button.AbsoluteSize / 2 + insetTopLeft
+	-- AbsolutePosition is already expressed in screen coordinates for a ScreenGui
+	-- with IgnoreGuiInset=false. Adding GetGuiInset() again double-offsets clicks.
+	return button.AbsolutePosition + button.AbsoluteSize / 2
 end
 
 local function clickButton(virtualInput: any, button: GuiButton)
