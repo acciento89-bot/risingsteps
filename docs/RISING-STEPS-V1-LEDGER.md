@@ -223,7 +223,7 @@ Creator Dashboard was checked under the signed-in owner `Acciento865`.
 - Creator/ownership selector: only Acciento865; no alternate group/owner containing Rising Steps
 - canonical local place remains `PlaceId=0 / UniverseId=0`
 
-Therefore P15-T03 cannot target an existing Rising Steps experience. Creating a new Roblox experience is intentionally blocked by the owner's instruction not to create another/duplicate experience. No new experience was created and no existing experience was overwritten. Published-place rejoin, paid receipt, place-version and final store gates remain blocked behind this ownership/publish decision.
+The Creator Dashboard's `Experience erstellen` control was also tested. It launches Roblox Studio rather than creating a web-only experience. The owner permits creating the Rising Steps experience from the web, but explicitly does not permit creating a new experience through Studio unattended. Therefore no experience was created and no existing experience was overwritten. P15-T03, published-place rejoin, real paid receipt, place-version/rollback and final store gates remain blocked until the owner is back at the Mac and can authorize/perform the required Studio-side creation step.
 
 ## P15 Release
 - [~] P15-T01 Production icon/thumbnails/metadata
