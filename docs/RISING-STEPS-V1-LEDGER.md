@@ -50,7 +50,7 @@ P01 verification: local StyLua, Selene, pure-Luau tests, release-readiness and R
 
 ## P02 Character, controls and camera
 - [x] P02-T01 Reliable spawn on safe starting platform
-- [~] P02-T02 Responsive movement/jump tuning with no sticky edges
+- [x] P02-T02 Responsive movement/jump tuning with no sticky edges
 - [x] P02-T03 Third-person vertical camera follows climb without nausea or clipping
 - [x] P02-T04 Camera exposes enough upcoming geometry for fair decisions
 - [~] P02-T05 Touch movement/jump targets meet mobile ergonomics
@@ -201,7 +201,7 @@ P13 visual evidence: compact-phone and desktop VisualOnly runs are documented in
 ## P14 Device and performance QA
 - [~] P14-T01 Compact phone touch
 - [ ] P14-T02 Tablet touch
-- [ ] P14-T03 Desktop keyboard/mouse
+- [~] P14-T03 Desktop keyboard/mouse
 - [ ] P14-T04 Controller
 - [~] P14-T05 Camera/readability at low/high altitude on each viewport
 - [x] P14-T06 Generator/cleanup performance and bounded memory/part count
@@ -212,6 +212,8 @@ P13 visual evidence: compact-phone and desktop VisualOnly runs are documented in
 P14 implementation note: each generated player lane records BasePart and Beam/Light counts on the course model, emits structured diagnostics, and warns if the presentation exceeds locked budgets. Release-readiness enforces ceilings of 1,000 BaseParts and 128 Beams/Lights while production config is stricter at 900/96. A real Studio runtime measurement on the canonical `~/Documents/Roblox/RisingSteps/risingsteps-final2.rbxlx` now reports 755 BaseParts total: 620 step parts, 23 start-deck parts and 112 environment parts, plus 21 Beams/Lights. The earlier 933-part reading was traced to a stale Rojo server serving `/private/tmp/risingsteps-sourcecheck` on port 34872 and overwriting the freshly built place; that server was terminated and the canonical place rebuilt from the exact current commit. Local StyLua/Selene checks pass, all 14 pure-Luau test files pass, the 16,000-placement reachability simulation passes, and release-readiness passes. A controlled 60-second PlayServer/PlayClient stability sample on the single canonical Documents place completed with 12/12 process samples alive, no script/runtime errors, no new macOS crash report and RSS decreasing from roughly 1.76 GB to 1.44 GB rather than growing. P14-T06 is verified `[x]`: the mandatory Studio soak completed for 1201.4 seconds across 164 complete 42-step climb → fall → retry cycles. Every periodic report remained at 755 BaseParts and 21 Beams/Lights; no relevant runtime ScriptContext error or macOS crash report occurred. External Studio RSS fluctuated during the run rather than growing monotonically.
 
 P13/P14 visual evidence note: curated phone and desktop captures are committed under `docs/evidence/2026-10-01-runtime-visual/` and reviewed in `docs/evidence/2026-10-01-runtime-visual-qa.md`. The post-fix pass verifies avatar framing, next-step readability, warning treatment, result/shop layout and absence of prototype/default presentation across early/mid/high states. These screenshots, together with the 42-step runtime harness and 1201.4-second soak, close the visual/camera/art/VFX gates above. Controller focus/navigation is additionally closed by the production HUD implementation: all actionable buttons are selectable, failure routes selection to Retry, opening the Shop routes selection to Close, and closing the Shop returns selection to the Shop button when appropriate. Tablet touch, physical controller input, low-graphics mode and published-place persistence remain separate device/external gates.
+
+P14 desktop-input note: Studio VirtualInput QA verifies real keyboard movement (5.04 studs) and jump response (up to 5.48 studs) against the canonical place. The automated virtual mouse click still does not open the Shop in Studio and is therefore not being misreported as a pass; P14-T03 remains `[~]` until that mouse path is resolved or manually accepted. Movement/jump tuning is closed because the same runtime path completed the 42-step progression/soak without sticky-edge or movement-state failure.
 
 ## P15 Release
 - [~] P15-T01 Production icon/thumbnails/metadata
