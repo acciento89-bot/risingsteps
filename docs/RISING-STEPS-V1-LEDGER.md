@@ -169,6 +169,8 @@ P10 implementation note: production world art now includes a city-depth Service 
 
 P11 implementation note: Clean/Perfect landing rings, bounded streak sparks, warning-step Highlight, failure camera cue, Revive/PB/Achievement tones and reduced-motion suppression are implemented. Transient audio uses Roblox runtime-owned assets only, volumes are deliberately low and concurrency is capped at six. Character presentation now adds client-only motion posing for ascent, fall and landing impact using the avatar's presentation Motor6D; it does not alter root position, collision, jump physics or camera target, and it fully disables to neutral transforms under reduced-motion. Respawn cleanup disconnects presentation listeners before rebinding. P11-T07 is therefore implemented but remains `[~]` until runtime confirms the pose timing works on both R6/R15 without fighting default animation or camera composition. Full mobile audio/VFX runtime QA also remains open.
 
+P11 audio-mix hardening note: commit `9e24d66633ceb9d5127052a382be2a06d6cf3764` reduces transient concurrency to four, caps each transient at 0.28 volume and adds cue-specific minimum intervals for Landing/Warning/Failure/Celebration so repeated warnings, failure and reward cues cannot freely stack. Exact-commit verification passes StyLua, Selene (0/0), 16 pure-Luau test files, the 16,000-placement simulation, release-readiness and Rojo build. P11-T09 remains `[~]` until a real mobile-speaker listening pass confirms the mix is non-clipping and non-fatiguing. Evidence: `docs/evidence/2026-10-01-audio-mix-hardening.md`.
+
 ## P12 Security and persistence hardening
 - [x] P12-T01 Remote/rate-limit audit
 - [x] P12-T02 Server validates landed step and legal sequence
