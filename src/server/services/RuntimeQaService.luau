@@ -70,7 +70,35 @@ local function run(player: Player)
 			return player:GetAttribute("RisingStepsProfileLoaded") == true
 		end, 8)
 	)
-	PlayerProfileService.qaSetPersistenceHealthy(player, true)
+	local initialPersistenceHealthy = player:GetAttribute("RisingStepsPersistenceHealthy") == true
+	local initialPayload = PlayerProfileService.qaPersistentPayload(player)
+	local rejoinSentinelLoaded = initialPersistenceHealthy
+		and initialPayload.PB >= CourseConfig.InitialStepCount
+		and initialPayload.Equipped.Trails == "ion"
+		and initialPayload.Equipped.EnvironmentThemes == "dusk"
+		and initialPayload.Settings.ReducedMotion == true
+	if rejoinSentinelLoaded then
+		emit("rejoin_persistence", true, {
+			PB = initialPayload.PB,
+			Trail = initialPayload.Equipped.Trails,
+			Environment = initialPayload.Equipped.EnvironmentThemes,
+			ReducedMotion = initialPayload.Settings.ReducedMotion,
+		})
+	else
+		print(
+			("[RisingStepsQA] REJOIN_SENTINEL_ABSENT healthy=%s pb=%d trail=%s environment=%s reducedMotion=%s"):format(
+				tostring(initialPersistenceHealthy),
+				initialPayload.PB,
+				initialPayload.Equipped.Trails,
+				initialPayload.Equipped.EnvironmentThemes,
+				tostring(initialPayload.Settings.ReducedMotion)
+			)
+		)
+	end
+
+	if not initialPersistenceHealthy then
+		PlayerProfileService.qaSetPersistenceHealthy(player, true)
+	end
 	check("profile_healthy", player:GetAttribute("RisingStepsPersistenceHealthy") == true)
 
 	check("course_ready", waitReady(player))
@@ -335,6 +363,19 @@ local function run(player: Player)
 	visualHold(player, "shop", "Shop")
 	player:SetAttribute("RisingStepsQaView", "Gameplay")
 	player:SetAttribute("RisingStepsQaPhase", "functional-complete")
+	if rejoinSentinelLoaded then
+		check("rejoin_cleanup_reduced_motion", PlayerProfileService.setReducedMotion(player, false))
+		check("rejoin_cleanup_flush", PlayerProfileService.flushPlayer(player))
+		print("[RisingStepsQA] REJOIN_COMPLETE")
+	else
+		check("rejoin_sentinel_reduced_motion", PlayerProfileService.setReducedMotion(player, true))
+		local sentinelFlush = PlayerProfileService.flushPlayer(player)
+		print(("[RisingStepsQA] REJOIN_SENTINEL_WRITTEN flush=%s healthy=%s"):format(
+			tostring(sentinelFlush),
+			tostring(initialPersistenceHealthy)
+		))
+	end
+
 	print("[RisingStepsQA] FUNCTIONAL_COMPLETE " .. HttpService:JSONEncode(results))
 
 	if RuntimeQaConfig.SoakEnabled then
