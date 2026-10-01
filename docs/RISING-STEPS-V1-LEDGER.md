@@ -215,6 +215,16 @@ P13/P14 visual evidence note: curated phone and desktop captures are committed u
 
 P14 desktop-input note: Studio VirtualInput QA verifies real keyboard movement (5.04 studs) and jump response (up to 5.48 studs) against the canonical place. The automated virtual mouse click still does not open the Shop in Studio and is therefore not being misreported as a pass; P14-T03 remains `[~]` until that mouse path is resolved or manually accepted. Movement/jump tuning is closed because the same runtime path completed the 42-step progression/soak without sticky-edge or movement-state failure.
 
+### Roblox publish blocker verified 2026-10-01
+
+Creator Dashboard was checked under the signed-in owner `Acciento865`.
+- `Meine Experiences`: Perfect Drop, Repair Empire, Acciento865s Ort
+- `Mit mir geteilt`: empty
+- Creator/ownership selector: only Acciento865; no alternate group/owner containing Rising Steps
+- canonical local place remains `PlaceId=0 / UniverseId=0`
+
+Therefore P15-T03 cannot target an existing Rising Steps experience. Creating a new Roblox experience is intentionally blocked by the owner's instruction not to create another/duplicate experience. No new experience was created and no existing experience was overwritten. Published-place rejoin, paid receipt, place-version and final store gates remain blocked behind this ownership/publish decision.
+
 ## P15 Release
 - [~] P15-T01 Production icon/thumbnails/metadata
 - [~] P15-T02 Privacy/content questionnaire
