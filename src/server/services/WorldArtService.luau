@@ -54,21 +54,26 @@ local function addRod(
 	fromPosition: Vector3,
 	toPosition: Vector3,
 	thickness: number,
-	color: Color3
+	color: Color3,
+	transparency: number?
 )
 	local delta = toPosition - fromPosition
 	if delta.Magnitude < 0.01 then
 		return
 	end
 
-	decorativePart(
+	local rod = decorativePart(
 		parent,
 		name,
 		Vector3.new(thickness, thickness, delta.Magnitude),
 		CFrame.lookAt((fromPosition + toPosition) / 2, toPosition),
 		Enum.Material.Metal,
-		color
+		color,
+		transparency
 	)
+	if (transparency or 0) >= 0.2 then
+		rod.CastShadow = false
+	end
 end
 
 local function cableAnchor(parent: Instance): BasePart
@@ -340,15 +345,15 @@ local function buildStratosphere(parent: Instance, origin: Vector3)
 	folder.Name = "StratosphereArt"
 	folder.Parent = parent
 
-	local deepSteel = hex("#182331")
+	local deepSteel = hex("#31445A")
 	local pale = hex("#B9F6FF")
 	local foundation = hex("#121722")
 
 	decorativePart(
 		folder,
 		"HighSpine",
-		Vector3.new(3.0, 78, 3.0),
-		CFrame.new(origin.X - 36, 145, origin.Z + 10),
+		Vector3.new(1.8, 78, 1.8),
+		CFrame.new(origin.X - 44, 145, origin.Z + 14),
 		Enum.Material.Metal,
 		deepSteel
 	)
@@ -359,8 +364,8 @@ local function buildStratosphere(parent: Instance, origin: Vector3)
 		decorativePart(
 			folder,
 			"AntennaRib",
-			Vector3.new(11, 0.48, 0.62),
-			CFrame.new(origin.X - 36 + side * 4.3, y, origin.Z + 10) * CFrame.Angles(0, 0, math.rad(side * 12)),
+			Vector3.new(8.4, 0.34, 0.46),
+			CFrame.new(origin.X - 44 + side * 3.3, y, origin.Z + 14) * CFrame.Angles(0, 0, math.rad(side * 12)),
 			Enum.Material.Metal,
 			foundation
 		)
@@ -387,8 +392,8 @@ local function buildStratosphere(parent: Instance, origin: Vector3)
 		light.Parent = beacon
 	end
 
-	local ringCenter = origin + Vector3.new(0, 151, 2)
-	local ringRadius = 31
+	local ringCenter = origin + Vector3.new(0, 151, 4)
+	local ringRadius = 42
 	local ringSegments = 14
 	for index = 1, ringSegments do
 		local a = (index - 1) / ringSegments * math.pi * 2
@@ -396,7 +401,7 @@ local function buildStratosphere(parent: Instance, origin: Vector3)
 		local fromPosition = ringCenter
 			+ Vector3.new(math.cos(a) * ringRadius, math.sin(a) * 8, math.sin(a) * ringRadius)
 		local toPosition = ringCenter + Vector3.new(math.cos(b) * ringRadius, math.sin(b) * 8, math.sin(b) * ringRadius)
-		addRod(folder, "StratosphereRing", fromPosition, toPosition, 0.34, deepSteel)
+		addRod(folder, "StratosphereRing", fromPosition, toPosition, 0.18, deepSteel, 0.34)
 	end
 
 	for _, angle in { 0, math.pi * 0.66, math.pi * 1.33 } do
