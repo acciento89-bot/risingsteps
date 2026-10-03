@@ -91,6 +91,8 @@ P04 implementation note: Height, Perfect/Clean/Miss grading, streak reset/increm
 
 P05 implementation note: physics-based reachability model, per-band placement envelopes, seeded deterministic generation and an 8-direction anti-repeat placement pattern are implemented. Static QA now simulates 16,000 generated placements across eight seeds with zero unreachable placements; local format/lint/7 pure-Luau tests/release-readiness/Rojo build pass and GitHub Actions CI run `36685931096` is green. T01-T04 remain `[~]` pending Studio camera/runtime validation; T07 requires the real long-climb runtime test.
 
+2026-10-03 spacing regression fix: compact-phone review exposed a visually over-dense staircase despite mathematical reachability. Platform footprint is now 6.25 studs, visible look-ahead is capped at four steps, horizontal/vertical spacing was widened within the verified jump envelope, and the first three targets form an authored forward curve instead of stacking on one camera axis. The updated generator passes 16,000/16,000 simulated placements, all 16 pure-Luau tests, release-readiness and an iPhone XR PlaySolo review with 0 CreatorErrors.
+
 ## P06 Progression and persistence
 - [x] P06-T01 Coins/rewards tied to legitimate height and streak
 - [x] P06-T02 Trail, landing effect, step theme and environment cosmetic catalog

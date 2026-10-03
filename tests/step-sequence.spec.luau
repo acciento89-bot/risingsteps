@@ -15,12 +15,18 @@ assert(#first == 120, "generator returned the wrong number of steps")
 assert(#second == #first, "deterministic replay changed step count")
 assert(math.abs(first[1].X) < 0.001, "tutorial step must remain centered on the forward axis")
 assert(first[1].Z <= -5.9, "tutorial step must remain clear of the spawn capsule")
+assert(first[2].X > first[1].X + 1, "second tutorial step must open the staircase laterally")
+assert(first[2].Z < first[1].Z, "second tutorial step must continue away from the spawn deck")
+assert(first[3].X > first[2].X + 1, "third tutorial step must continue the authored curve")
+assert(first[3].Z <= first[2].Z + 0.001, "opening curve must never turn back toward the spawn deck")
+local previousOpeningDistance = 0
 for index = 1, 3 do
-	assert(math.abs(first[index].X) < 0.001, "opening staircase must stay on the authored forward axis")
+	local openingDistance = math.sqrt(first[index].X * first[index].X + first[index].Z * first[index].Z)
+	assert(openingDistance > previousOpeningDistance, "opening staircase must move farther from the spawn deck")
 	if index > 1 then
-		assert(first[index].Z < first[index - 1].Z, "opening staircase must progress away from the spawn deck")
 		assert(first[index].Y > first[index - 1].Y, "opening staircase must visibly climb")
 	end
+	previousOpeningDistance = openingDistance
 end
 
 local previous = { X = 0, Y = 4.6, Z = 0 }

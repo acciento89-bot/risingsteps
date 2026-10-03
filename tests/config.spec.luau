@@ -10,7 +10,7 @@ assert(
 )
 assert(GameConfig.Movement.WalkSpeed == 16, "WalkSpeed drifted from product lock")
 assert(GameConfig.Movement.JumpPower == 50, "JumpPower drifted from product lock")
-assert(GameConfig.Step.MaxHorizontalCenterDistance == 8.25, "horizontal hard cap changed")
+assert(GameConfig.Step.MaxHorizontalCenterDistance == 9.0, "horizontal hard cap changed")
 assert(GameConfig.Step.MaxVerticalRise == 5.0, "vertical hard cap changed")
 assert(GameConfig.Step.MinimumWarningSeconds >= 0.70, "warning floor below product lock")
 assert(GameConfig.Failure.MaxPaidRevivesPerRun == 1, "paid revive cap changed")

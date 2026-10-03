@@ -24,14 +24,14 @@ local GameConfig = {
 		AllowDash = false,
 	},
 	Step = {
-		BaseFootprint = 9,
+		BaseFootprint = 6.25,
 		CollisionThickness = 1.25,
 		ProtectedSeconds = 1.25,
 		WarningSeconds = 1.35,
 		MinimumWarningSeconds = 0.70,
 		ExpiryTransitionSeconds = 0.35,
 		MinimumSafeTargetsAhead = 2,
-		MaxHorizontalCenterDistance = 8.25,
+		MaxHorizontalCenterDistance = 9.0,
 		MaxVerticalRise = 5.0,
 	},
 	Failure = {

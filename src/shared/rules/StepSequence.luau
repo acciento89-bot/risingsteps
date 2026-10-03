@@ -79,11 +79,24 @@ function StepSequence.generate(seed: number, count: number, startY: number, vari
 			-- then the next two stay deliberately short and straight.
 			horizontalDistance = if id == 1
 				then math.max(6.4, band.HorizontalMax)
-				else math.min(band.HorizontalMax, band.HorizontalMin + 0.55 + id * 0.10)
-			verticalRise = math.min(band.VerticalMax, band.VerticalMin + 0.14 + (id - 1) * 0.10)
-			directionIndex = 7
-		elseif directionIndex == previousDirection then
-			directionIndex = (directionIndex % #DIRECTIONS) + 1
+				else math.min(band.HorizontalMax, band.HorizontalMin + 0.35 + id * 0.08)
+			verticalRise = math.min(band.VerticalMax, band.VerticalMin + 0.10 + (id - 1) * 0.08)
+			directionIndex = if id == 1 then 7 else if id == 2 then 8 else 1
+		elseif previousDirection > 0 then
+			-- Keep the climb readable from below: continue mostly forward and only
+			-- bend by 45/90 degrees. The old fully-random direction selection
+			-- repeatedly crossed back over recent steps and created dense towers.
+			local turn = 0
+			if directionAlpha < 0.12 then
+				turn = -2
+			elseif directionAlpha < 0.32 then
+				turn = -1
+			elseif directionAlpha > 0.88 then
+				turn = 2
+			elseif directionAlpha > 0.68 then
+				turn = 1
+			end
+			directionIndex = ((previousDirection - 1 + turn) % #DIRECTIONS) + 1
 		end
 		previousDirection = directionIndex
 

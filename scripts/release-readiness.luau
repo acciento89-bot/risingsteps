@@ -17,7 +17,7 @@ assert(
 	"landing grade tolerances invalid"
 )
 assert(GameConfig.Step.MinimumWarningSeconds >= 0.70, "warning window below product lock")
-assert(GameConfig.Step.MaxHorizontalCenterDistance <= 8.25, "horizontal reach exceeds product lock")
+assert(GameConfig.Step.MaxHorizontalCenterDistance <= 9.0, "horizontal reach exceeds product lock")
 assert(GameConfig.Step.MaxVerticalRise <= 5.0, "vertical reach exceeds product lock")
 assert(GameConfig.Failure.MaxPaidRevivesPerRun == 1, "paid revive cap changed")
 assert(EconomyConfig.CompetitiveHeightPurchasable == false, "competitive height must not be purchasable")
