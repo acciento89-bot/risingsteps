@@ -25,7 +25,7 @@ local GameConfig = {
 	},
 	Step = {
 		BaseFootprint = 6.25,
-		CollisionThickness = 1.25,
+		CollisionThickness = 0.78,
 		ProtectedSeconds = 1.25,
 		WarningSeconds = 1.35,
 		MinimumWarningSeconds = 0.70,

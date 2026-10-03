@@ -210,7 +210,7 @@ P13 visual evidence: compact-phone and desktop VisualOnly runs are documented in
 - [~] P14-T05 Camera/readability at low/high altitude on each viewport
 - [x] P14-T06 Generator/cleanup performance and bounded memory/part count
 - [x] P14-T07 Compact-phone screenshot review at low/mid/high altitude; art density and HUD must remain readable without shrinking critical controls
-- [~] P14-T08 Tablet/desktop composition uses added screen space intentionally rather than merely stretching the phone layout
+- [x] P14-T08 Tablet/desktop composition uses added screen space intentionally rather than merely stretching the phone layout
 - [~] P14-T09 Low/mobile graphics-quality pass preserves gameplay-state contrast, silhouettes and warning readability
 
 P14 implementation note: each generated player lane records BasePart and Beam/Light counts on the course model, emits structured diagnostics, and warns if the presentation exceeds locked budgets. Release-readiness enforces ceilings of 1,000 BaseParts and 128 Beams/Lights while production config is stricter at 900/96. A real Studio runtime measurement on the canonical `~/Documents/Roblox/RisingSteps/risingsteps-final2.rbxlx` now reports 755 BaseParts total: 620 step parts, 23 start-deck parts and 112 environment parts, plus 21 Beams/Lights. The earlier 933-part reading was traced to a stale Rojo server serving `/private/tmp/risingsteps-sourcecheck` on port 34872 and overwriting the freshly built place; that server was terminated and the canonical place rebuilt from the exact current commit. Local StyLua/Selene checks pass, all 14 pure-Luau test files pass, the 16,000-placement reachability simulation passes, and release-readiness passes. A controlled 60-second PlayServer/PlayClient stability sample on the single canonical Documents place completed with 12/12 process samples alive, no script/runtime errors, no new macOS crash report and RSS decreasing from roughly 1.76 GB to 1.44 GB rather than growing. P14-T06 is verified `[x]`: the mandatory Studio soak completed for 1201.4 seconds across 164 complete 42-step climb → fall → retry cycles. Every periodic report remained at 755 BaseParts and 21 Beams/Lights; no relevant runtime ScriptContext error or macOS crash report occurred. External Studio RSS fluctuated during the run rather than growing monotonically.
@@ -279,3 +279,12 @@ Rising Steps V1 is complete only when a player can repeatedly climb, understand 
 - [x] Canonical source commit `e3c8111` synced into the existing production Place `133160458509988` (Universe `10768815106`); no replacement Place/Experience created.
 - [x] Studio publish succeeded as Place version `v17`; post-publish iPhone XR smoke visually confirmed separated platforms / curved opening and reported `0 CreatorErrors`.
 - [x] Canonical build SHA-256 for this publish: `1cf00ac9c82c9fa8c87434e760cfc19bb3151c538eeeab4bd7d1775b6ced89b5`.
+
+## 2026-10-03 tablet visual-clarity corrective pass
+
+- [x] Real iPad 10th Generation (`1180x820`) Device Simulator visual pass completed on the current build. HUD, tutorial, Shop, avatar framing and touch-control clearances remain inside the playable viewport.
+- [x] Step collision bodies reduced from `1.25` to `0.78` studs so the climb reads as lightweight platforms rather than stacked dark slabs; regression guards enforce `0.65 <= CollisionThickness <= 0.80`.
+- [x] Service Decks background skyline moved farther from the climb path, spread laterally and lightened so its city masses no longer visually merge with the first four targets.
+- [x] Exact post-fix verification: StyLua pass, Selene `0/0`, 16 pure-Luau test files, 16,000/16,000 reachability placements, release-readiness and Rojo build pass; iPad runtime reports `0 CreatorErrors`, 846/900 BaseParts and 21/96 Beams/Lights.
+- [x] P14-T08 closed from real tablet plus previously accepted desktop composition evidence.
+- [ ] P14-T02 remains open: Studio Device Simulator confirms the touch layout, but OS mouse events do not exercise Roblox touch movement and `VirtualInputManager:SendTouchEvent` is RobloxScript-security restricted from CommandBar; no touch-interaction pass is claimed without real evidence.

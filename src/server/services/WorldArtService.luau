@@ -229,14 +229,17 @@ local function buildServiceDecks(parent: Instance, origin: Vector3)
 		end
 	end
 
+	-- Keep the skyline as depth, not as gameplay-shaped foreground mass.
+	-- The wider/lighter/farther placement prevents the dark city silhouettes from
+	-- visually merging with the first four climb targets on tablet/phone cameras.
 	for index = 1, 9 do
-		local x = origin.X - 56 + index * 12 + (index % 2) * 2.5
+		local x = origin.X - 80 + index * 17 + (index % 2) * 3
 		local height = 18 + ((index * 3) % 5) * 7
 		addBuilding(
 			folder,
-			Vector3.new(x, -18, origin.Z - 98 - ((index * 2) % 4) * 8),
+			Vector3.new(x, -18, origin.Z - 142 - ((index * 2) % 4) * 10),
 			Vector3.new(9 + ((index + 1) % 3) * 2.5, height, 10 + ((index * 2) % 3) * 2),
-			44 + index
+			68 + index * 2
 		)
 	end
 
