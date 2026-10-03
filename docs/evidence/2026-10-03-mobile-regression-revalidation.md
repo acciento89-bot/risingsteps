@@ -35,3 +35,25 @@ No external release gate is reclassified by this corrective pass.
 - iPhone XR smoke confirmed the LAND ANYWHERE rule/copy and clear opening route in the existing production place.
 - Existing production place 133160458509988 was republished after this corrective pass.
 - Studio returned PublishSuccessful and Published new changes in Steigende Schritte to Roblox.
+
+## Follow-up opening-density correction and v17 production verification
+
+A later real-phone screenshot review found that the course could remain mathematically reachable while still reading as a dense black tower from the chase camera. This was treated as a separate presentation regression rather than undoing the earlier landing-forgiveness work.
+
+Corrections in canonical source commit `e3c8111`:
+- base platform footprint reduced to 6.25 studs so successive targets no longer visually merge;
+- horizontal and vertical spacing increased inside the verified jump envelope;
+- opening steps now form an authored forward curve instead of stacking on one camera axis;
+- generated direction changes are constrained to a readable forward-flowing path instead of repeatedly crossing recent steps;
+- compact-client look-ahead reduced to four upcoming steps to avoid a dense overhead block;
+- reachability hard cap and regression tests updated to match the new verified geometry.
+
+Verification:
+- StyLua/Selene: pass, 0 errors / 0 warnings / 0 parse errors;
+- 16 pure-Luau test files passed;
+- 16,000/16,000 procedural placements passed reachability checks;
+- release-readiness passed;
+- canonical Rojo build SHA-256: `1cf00ac9c82c9fa8c87434e760cfc19bb3151c538eeeab4bd7d1775b6ced89b5`;
+- existing production Place `133160458509988` / Universe `10768815106` was opened directly and synced from the canonical `RisingSteps` Rojo project; no new Place/Experience was created;
+- Studio published successfully as production Place version `v17` and logged `Published new changes in "Steigende Schritte" to Roblox.`;
+- post-publish iPhone XR PlaySolo smoke showed the widened gaps, lateral opening curve and limited look-ahead in the published Place with `0 CreatorErrors`.

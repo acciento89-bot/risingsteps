@@ -271,3 +271,11 @@ Rising Steps V1 is complete only when a player can repeatedly climb, understand 
 ## 2026-10-03 Mobile difficulty/landing corrective pass
 
 - [x] Real-phone landing/difficulty regression repaired and revalidated: larger targets, shorter rises/gaps, wider scoring tolerance, clearer platform-wide acceptance messaging and first-step guidance. The full Studio harness completed all 42 steps after the corrective pass. Evidence: `docs/evidence/2026-10-03-mobile-regression-revalidation.md`.
+
+## 2026-10-03 opening-density correction / production v17
+
+- [x] Real-phone visual regression corrected after the earlier landing-forgiveness pass: base footprint 6.25 studs, wider verified gaps/rises, forward-flowing direction changes, authored curved first three targets and only four upcoming steps rendered on compact clients.
+- [x] Regression protection updated: 16 pure-Luau files pass, 16,000/16,000 reachability placements pass, StyLua/Selene and release-readiness pass.
+- [x] Canonical source commit `e3c8111` synced into the existing production Place `133160458509988` (Universe `10768815106`); no replacement Place/Experience created.
+- [x] Studio publish succeeded as Place version `v17`; post-publish iPhone XR smoke visually confirmed separated platforms / curved opening and reported `0 CreatorErrors`.
+- [x] Canonical build SHA-256 for this publish: `1cf00ac9c82c9fa8c87434e760cfc19bb3151c538eeeab4bd7d1775b6ced89b5`.
