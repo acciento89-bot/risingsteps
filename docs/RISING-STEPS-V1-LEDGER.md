@@ -265,3 +265,7 @@ Final release-gate recheck after terminal restart: main head `9a9d2b1c6c3a3c5b5f
 ## Definition of Done
 
 Rising Steps V1 is complete only when a player can repeatedly climb, understand danger, fail, retry, progress and rejoin without broken camera/control/generation state **and** the accepted private-place build visually reads as a finished commercial Roblox game. A functioning mechanic, green CI, or generated platforms alone are never sufficient. Early/mid/high-altitude gameplay, HUD, result flow and shop must all pass the authored-art, mobile-readability, audio/VFX and screenshot-quality gates above before the project may advance to Perfect Jump.
+
+## 2026-10-03 Mobile difficulty/landing corrective pass
+
+- [x] Real-phone landing/difficulty regression repaired and revalidated: larger targets, shorter rises/gaps, wider scoring tolerance, clearer platform-wide acceptance messaging and first-step guidance. The full Studio harness completed all 42 steps after the corrective pass. Evidence: `docs/evidence/2026-10-03-mobile-regression-revalidation.md`.

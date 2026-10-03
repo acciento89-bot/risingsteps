@@ -12,8 +12,8 @@ local GameConfig = {
 			Clean = "Clean",
 			Miss = "Miss",
 		},
-		PerfectToleranceRatio = 0.22,
-		CleanToleranceRatio = 0.55,
+		PerfectToleranceRatio = 0.30,
+		CleanToleranceRatio = 0.82,
 	},
 	Movement = {
 		WalkSpeed = 16,
@@ -24,7 +24,7 @@ local GameConfig = {
 		AllowDash = false,
 	},
 	Step = {
-		BaseFootprint = 7,
+		BaseFootprint = 9,
 		CollisionThickness = 1.25,
 		ProtectedSeconds = 1.25,
 		WarningSeconds = 1.35,
@@ -35,7 +35,7 @@ local GameConfig = {
 		MaxVerticalRise = 5.0,
 	},
 	Failure = {
-		FallDistanceBelowHighestValidated = 28,
+		FallDistanceBelowHighestValidated = 34,
 		MaxPaidRevivesPerRun = 1,
 		RetryTargetSeconds = 2.0,
 	},

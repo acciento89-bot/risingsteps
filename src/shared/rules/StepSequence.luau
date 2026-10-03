@@ -75,11 +75,11 @@ function StepSequence.generate(seed: number, count: number, startY: number, vari
 		local directionIndex = math.floor(directionAlpha * #DIRECTIONS) + 1
 
 		if id <= 3 then
-			-- The opening run is an authored staircase straight away from the spawn deck.
-			-- Random turns begin only after the player has visually understood the climb direction.
+			-- The opening run is authored: the first target clears the spawn capsule,
+			-- then the next two stay deliberately short and straight.
 			horizontalDistance = if id == 1
-				then band.HorizontalMax
-				else math.min(band.HorizontalMax, band.HorizontalMin + 0.65 + id * 0.12)
+				then math.max(6.4, band.HorizontalMax)
+				else math.min(band.HorizontalMax, band.HorizontalMin + 0.55 + id * 0.10)
 			verticalRise = math.min(band.VerticalMax, band.VerticalMin + 0.14 + (id - 1) * 0.10)
 			directionIndex = 7
 		elseif directionIndex == previousDirection then

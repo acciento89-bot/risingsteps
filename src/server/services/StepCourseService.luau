@@ -80,6 +80,7 @@ local COLORS = {
 	Active = hex(WorldConfig.Palette.GameplayAccent),
 	Warning = Color3.fromRGB(255, 159, 67),
 	Expiring = Color3.fromRGB(255, 93, 108),
+	Text = Color3.fromRGB(242, 247, 252),
 }
 
 local function paletteForBand(bandId: string)
@@ -230,15 +231,42 @@ local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3)
 
 	local landingMark = makePart(
 		model,
-		"LandingMark",
-		Vector3.new(1.55, 0.04, 1.55),
+		"BonusCore",
+		Vector3.new(1.15, 0.04, 1.15),
 		CFrame.new(center + Vector3.new(0, thickness / 2 + 0.18, 0)),
 		Enum.Material.Neon,
 		palette.Accent,
 		false
 	)
-	landingMark.Transparency = 0.48
+	landingMark.Transparency = 0.18
 	table.insert(decorations, landingMark)
+
+	if definition.Id <= 4 then
+		local guide = Instance.new("BillboardGui")
+		guide.Name = "LandingGuide"
+		guide.Adornee = collision
+		guide.Size = UDim2.fromOffset(190, 52)
+		guide.StudsOffset = Vector3.new(0, 3.0, 0)
+		guide.AlwaysOnTop = false
+		guide.MaxDistance = 42
+		guide.Parent = model
+
+		local guideText = Instance.new("TextLabel")
+		guideText.Size = UDim2.fromScale(1, 1)
+		guideText.BackgroundColor3 = COLORS.Foundation
+		guideText.BackgroundTransparency = 0.12
+		guideText.BorderSizePixel = 0
+		guideText.Font = Enum.Font.GothamBold
+		guideText.TextScaled = true
+		guideText.TextWrapped = true
+		guideText.TextColor3 = COLORS.Text
+		guideText.Text = "LAND ANYWHERE\nCENTER = BONUS"
+		guideText.Parent = guide
+
+		local guideCorner = Instance.new("UICorner")
+		guideCorner.CornerRadius = UDim.new(0, 10)
+		guideCorner.Parent = guideText
+	end
 
 	for _, zSide in { -1, 1 } do
 		local underGlow = makePart(

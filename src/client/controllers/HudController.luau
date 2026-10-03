@@ -378,7 +378,7 @@ local function createHud()
 	local tutorialTitle = makeLabel(
 		tutorial,
 		"Title",
-		"CLIMB UP  ↑",
+		"LAND ANYWHERE  ↑",
 		UDim2.new(1, -28, 0, 34),
 		UDim2.fromOffset(14, 8),
 		Enum.Font.GothamBlack,
@@ -390,7 +390,7 @@ local function createHud()
 	local tutorialBody = makeLabel(
 		tutorial,
 		"Body",
-		"Land on the next step. Lower steps WARN, then RETRACT behind you.",
+		"Any part of the next platform counts. The glowing center is BONUS precision — not required.",
 		UDim2.new(1, -28, 0, 38),
 		UDim2.fromOffset(14, 44),
 		Enum.Font.GothamMedium,
@@ -957,10 +957,10 @@ local function createHud()
 		elseif grade == "Clean" then
 			gradeLabel.TextColor3 = COLORS.Warm
 		else
-			gradeLabel.TextColor3 = COLORS.Fail
+			gradeLabel.TextColor3 = COLORS.Active
 		end
 
-		gradeLabel.Text = string.upper(grade)
+		gradeLabel.Text = if grade == "Miss" then "SAFE LANDING" else string.upper(grade)
 		gradeLabel.Position = UDim2.fromScale(0.5, 0.36)
 		gradeLabel.TextTransparency = 0
 		gradeLabel.TextStrokeTransparency = 0.72

@@ -13,9 +13,9 @@ local function grade(x, z)
 	)
 end
 
-local perfect = grade(0.2, 0.3)
-local clean = grade(1.2, 0.4)
-local miss = grade(3.0, 0)
+local perfect = grade(0.6, 0.4)
+local clean = grade(2.2, 0.5)
+local miss = grade(4.0, 0)
 
 assert(perfect == "Perfect", "center landing should be Perfect")
 assert(clean == "Clean", "mid-pad landing should be Clean")
