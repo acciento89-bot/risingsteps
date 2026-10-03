@@ -28,3 +28,10 @@ Corrective pass based on real phone play: landing intent was unclear and the ope
 - Final iPhone XR visual holds for tutorial, early climb and high climb show a clear route with no overlapping world-space instructional text.
 
 No external release gate is reclassified by this corrective pass.
+
+## Live refresh
+
+- Revalidated canonical main immediately before release: 16 pure-Luau test files, 16,000 reachability placements, Selene 0/0, Rojo build and release-readiness all passed.
+- iPhone XR smoke confirmed the LAND ANYWHERE rule/copy and clear opening route in the existing production place.
+- Existing production place 133160458509988 was republished after this corrective pass.
+- Studio returned PublishSuccessful and Published new changes in Steigende Schritte to Roblox.
