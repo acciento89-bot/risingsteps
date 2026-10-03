@@ -86,8 +86,8 @@ local COLORS = {
 local function paletteForBand(bandId: string)
 	if bandId == "service-decks" then
 		return {
-			Collision = Color3.fromRGB(42, 54, 70),
-			Inset = Color3.fromRGB(58, 70, 84),
+			Collision = Color3.fromRGB(54, 68, 86),
+			Inset = Color3.fromRGB(76, 90, 108),
 			Accent = COLORS.Active,
 			Detail = COLORS.Warm,
 			CollisionMaterial = Enum.Material.DiamondPlate,
@@ -95,8 +95,8 @@ local function paletteForBand(bandId: string)
 		}
 	elseif bandId == "cloudline-works" then
 		return {
-			Collision = Color3.fromRGB(45, 63, 82),
-			Inset = Color3.fromRGB(64, 82, 99),
+			Collision = Color3.fromRGB(58, 76, 98),
+			Inset = Color3.fromRGB(80, 100, 120),
 			Accent = Color3.fromRGB(94, 235, 255),
 			Detail = Color3.fromRGB(184, 237, 246),
 			CollisionMaterial = Enum.Material.Metal,
@@ -105,8 +105,8 @@ local function paletteForBand(bandId: string)
 	end
 
 	return {
-		Collision = Color3.fromRGB(57, 72, 91),
-		Inset = Color3.fromRGB(78, 94, 111),
+		Collision = Color3.fromRGB(68, 86, 108),
+		Inset = Color3.fromRGB(92, 110, 132),
 		Accent = Color3.fromRGB(185, 246, 255),
 		Detail = Color3.fromRGB(220, 251, 255),
 		CollisionMaterial = Enum.Material.Slate,
@@ -218,6 +218,29 @@ local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3)
 	table.insert(decorations, accentA)
 	table.insert(decorations, accentB)
 
+	local accentC = makePart(
+		model,
+		"AccentC",
+		Vector3.new(edgeThickness, 0.12, size - 0.5),
+		CFrame.new(center.X - edgeOffset, edgeY, center.Z),
+		Enum.Material.Metal,
+		palette.Accent,
+		false
+	)
+	local accentD = makePart(
+		model,
+		"AccentD",
+		Vector3.new(edgeThickness, 0.12, size - 0.5),
+		CFrame.new(center.X + edgeOffset, edgeY, center.Z),
+		Enum.Material.Metal,
+		palette.Accent,
+		false
+	)
+	table.insert(accents, accentC)
+	table.insert(accents, accentD)
+	table.insert(decorations, accentC)
+	table.insert(decorations, accentD)
+
 	local support = makePart(
 		model,
 		"SupportSpine",
@@ -241,32 +264,8 @@ local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3)
 	landingMark.Transparency = 0.18
 	table.insert(decorations, landingMark)
 
-	if definition.Id <= 4 then
-		local guide = Instance.new("BillboardGui")
-		guide.Name = "LandingGuide"
-		guide.Adornee = collision
-		guide.Size = UDim2.fromOffset(190, 52)
-		guide.StudsOffset = Vector3.new(0, 3.0, 0)
-		guide.AlwaysOnTop = false
-		guide.MaxDistance = 42
-		guide.Parent = model
-
-		local guideText = Instance.new("TextLabel")
-		guideText.Size = UDim2.fromScale(1, 1)
-		guideText.BackgroundColor3 = COLORS.Foundation
-		guideText.BackgroundTransparency = 0.12
-		guideText.BorderSizePixel = 0
-		guideText.Font = Enum.Font.GothamBold
-		guideText.TextScaled = true
-		guideText.TextWrapped = true
-		guideText.TextColor3 = COLORS.Text
-		guideText.Text = "LAND ANYWHERE\nCENTER = BONUS"
-		guideText.Parent = guide
-
-		local guideCorner = Instance.new("UICorner")
-		guideCorner.CornerRadius = UDim.new(0, 10)
-		guideCorner.Parent = guideText
-	end
+	-- The HUD teaches "land anywhere; center = bonus". Keep the world itself
+	-- free of repeated billboard text so the climb remains readable on phones.
 
 	for _, zSide in { -1, 1 } do
 		local underGlow = makePart(
