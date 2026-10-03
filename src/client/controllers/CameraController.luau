@@ -22,6 +22,14 @@ local renderConnection: RBXScriptConnection? = nil
 local snappedCharacter: Model? = nil
 local lastHeight: number? = nil
 
+local function keepAvatarVisible(character: Model)
+	for _, descendant in character:GetDescendants() do
+		if descendant:IsA("BasePart") and descendant.LocalTransparencyModifier ~= 0 then
+			descendant.LocalTransparencyModifier = 0
+		end
+	end
+end
+
 local function currentCourse(): Model?
 	local world = Workspace:FindFirstChild(WorldConfig.WorldFolderName)
 	if not world then
@@ -173,6 +181,7 @@ local function configureCharacter(character: Model)
 	end
 
 	humanoid.CameraOffset = Vector3.zero
+	keepAvatarVisible(character)
 	local camera = Workspace.CurrentCamera
 	if camera then
 		camera.CameraSubject = humanoid
@@ -205,6 +214,11 @@ local function startRenderLoop()
 		local desired = desiredCameraCFrame(camera, character, rootPart, height)
 
 		camera.CameraType = Enum.CameraType.Scriptable
+		local humanoid = character:FindFirstChildOfClass("Humanoid")
+		if humanoid then
+			camera.CameraSubject = humanoid
+		end
+		keepAvatarVisible(character)
 		local heightJump = if lastHeight == nil then math.huge else math.abs(height - lastHeight)
 		if snappedCharacter ~= character or heightJump >= 3 then
 			-- Startup/respawn and large authoritative height corrections must never expose stale framing.
