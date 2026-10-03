@@ -27,3 +27,14 @@ Follow-up after the mobile opening-density correction. The iPad 10th Generation 
 ## Tablet touch status
 
 Visual/touch-target layout is accepted, but touch interaction is intentionally not marked complete. macOS pointer injection did not enter Roblox's touch path, and `VirtualInputManager:SendTouchEvent` is RobloxScript-security restricted from the Studio CommandBar. P14-T02 remains open until a real touch-capable run or another authoritative Roblox touch-input path is captured.
+
+## Production cloud verification
+
+- Canonical source: `eeb0c67` (`main`, pushed to `origin/main`).
+- Existing Rising Steps production Place: `133160458509988`, Universe `10768815106`.
+- The canonical Rojo source was synchronized into the existing Place; no replacement Place or Experience was created.
+- Rojo was then stopped and Studio was fully closed/reopened with `EditPlace` against the cloud Place.
+- A fresh iPad 10th Generation `1180x820` PlaySolo run loaded directly from Roblox, with no Rojo server attached.
+- The freshly loaded cloud build visibly contains the 0.78-stud step bodies and the widened/distant Service Decks skyline from `eeb0c67`.
+- Fresh-cloud runtime CreatorErrors: `0`.
+- Because this Studio build did not emit the numeric Place version in its log, no version number is claimed here. The independent cloud reload is the acceptance proof that the corrective build reached Roblox.
