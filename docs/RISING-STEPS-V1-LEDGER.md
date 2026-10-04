@@ -249,7 +249,7 @@ The Creator Dashboard's `Experience erstellen` control was also tested. It launc
 
 ## P15 Release
 - [~] P15-T01 Production icon/thumbnails/metadata
-- [~] P15-T02 Privacy/content questionnaire
+- [x] P15-T02 Privacy/content questionnaire
 - [x] P15-T03 Publish canonical build privately
 - [x] P15-T04 Repeat complete P13 journey in published private place
 - [x] P15-T05 Record build hash/place version/rollback
@@ -257,7 +257,7 @@ The Creator Dashboard's `Experience erstellen` control was also tested. It launc
 - [x] P15-T05B Final “looks finished” sign-off: no placeholder icon/text/material/model, no default UI styling, no debug overlays, no known visual P0/P1/P2 defect
 - [!] P15-T06 Controlled public release after paid receipt/rejoin evidence and zero P0/P1 defects
 
-P15 implementation note: production title/short/full description, genre/audience copy, icon/thumbnail art direction and screenshot-truth rules are locked in `docs/RELEASE-METADATA.md`. Canonical privacy/content questionnaire answers are locked in `docs/PRIVACY-CONTENT.md`, and the full P13/P14 execution script is locked in `docs/RUNTIME-QA.md`. P15-T01 remains `[~]` because final icon/thumbnails/store screenshots still need to be uploaded from the accepted published build. P15-T02 remains `[~]` because the Creator Dashboard privacy/content questionnaire submission itself is not yet recorded. P15-T05 is now `[x]`: accepted source commit `17f0121004e3d9fc33a1e57fc39ffa020d0f1339`, Universe `10768815106`, Place `133160458509988`, published place version `v6`, rollback target `v5`. Live monetization IDs are Revive `3715818292`, Stability `3715820324`, Coin Multiplier GamePass `2002022878`.
+P15 implementation note: production title/short/full description, genre/audience copy, icon/thumbnail art direction and screenshot-truth rules are locked in `docs/RELEASE-METADATA.md`. Canonical privacy/content questionnaire answers are locked in `docs/PRIVACY-CONTENT.md`, and the full P13/P14 execution script is locked in `docs/RUNTIME-QA.md`. P15-T01 remains `[~]` because final icon/thumbnails/store screenshots still need to be uploaded from the accepted published build. P15-T02 is now `[x]`: Creator Dashboard reports **Fragebogen komplett ausgefüllt**, content maturity `Minimal`, no labels/non-conforming regions and no additional age restriction. Evidence: `docs/evidence/2026-10-04-release-dashboard/`. P15-T05 is now `[x]`: accepted source commit `17f0121004e3d9fc33a1e57fc39ffa020d0f1339`, Universe `10768815106`, Place `133160458509988`, published place version `v6`, rollback target `v5`. Live monetization IDs are Revive `3715818292`, Stability `3715820324`, Coin Multiplier GamePass `2002022878`.
 
 Store-art review note: the prepared 512x512 icon remains a valid production candidate, but the three existing 1920x1080 thumbnails are not accepted as final because Roblox CoreGui/topbar/player-list chrome is still visible in the captured frames. Commit `513863ae94d044661930bf9956a4c36788b9bccf` adds a strictly Studio + VisualOnly-gated capture controller that hides CoreGui/topbar for clean store captures without affecting production players. Exact-commit verification passes StyLua, Selene (0/0), 16 pure-Luau test files, 16,000-placement simulation, release-readiness and Rojo build. P15-T01/P15-T05A/P15-T05B therefore remain open/in-progress until fresh clean captures are produced and reviewed. Evidence: `docs/evidence/2026-10-01-store-art-clean-capture-gate.md`.
 
