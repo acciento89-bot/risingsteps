@@ -248,7 +248,7 @@ The Creator Dashboard's `Experience erstellen` control was also tested. It launc
 - This does not satisfy P08-T08: the existing receipt harness validates grant/idempotency logic but a real MarketplaceService Developer Product receipt is still required.
 
 ## P15 Release
-- [~] P15-T01 Production icon/thumbnails/metadata
+- [x] P15-T01 Production icon/thumbnails/metadata
 - [x] P15-T02 Privacy/content questionnaire
 - [x] P15-T03 Publish canonical build privately
 - [x] P15-T04 Repeat complete P13 journey in published private place
