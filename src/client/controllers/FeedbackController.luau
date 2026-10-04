@@ -8,6 +8,7 @@ local Workspace = game:GetService("Workspace")
 
 local root = ReplicatedStorage:WaitForChild("RisingSteps")
 local AudioConfig = require(root.config.AudioConfig)
+local AudioMixRules = require(root.rules.AudioMixRules)
 local WorldConfig = require(root.config.WorldConfig)
 
 local FeedbackController = {}
@@ -15,6 +16,14 @@ local FeedbackController = {}
 local LOCAL_PLAYER = Players.LocalPlayer
 local transientSounds = 0
 local lastCueAt: { [string]: number } = {}
+
+type ActiveSound = {
+	Cue: string,
+	StartedAt: number,
+	Sound: Sound,
+}
+
+local activeSounds: { [Sound]: ActiveSound } = {}
 
 local function hex(hexColor: string): Color3
 	local value = hexColor:gsub("#", "")
@@ -42,10 +51,26 @@ local function playTone(cue: string, pitch: number, volume: number)
 		return
 	end
 
-	local minInterval = AudioConfig.CueMinIntervalSeconds[cue]
 	local now = os.clock()
-	local lastAt = lastCueAt[cue]
-	if type(minInterval) == "number" and lastAt and now - lastAt < minInterval then
+	local activeCues = {}
+	for _, entry in activeSounds do
+		table.insert(activeCues, {
+			Cue = entry.Cue,
+			StartedAt = entry.StartedAt,
+		})
+	end
+
+	if
+		not AudioMixRules.shouldPlay(
+			cue,
+			now,
+			lastCueAt,
+			activeCues,
+			AudioConfig.CueMinIntervalSeconds,
+			AudioConfig.CuePriority,
+			AudioConfig.HigherPriorityGuardSeconds
+		)
+	then
 		return
 	end
 
@@ -54,18 +79,46 @@ local function playTone(cue: string, pitch: number, volume: number)
 		return
 	end
 
+	for _, entry in activeSounds do
+		if AudioMixRules.shouldDuck(entry.Cue, cue, AudioConfig.CuePriority) then
+			entry.Sound.Volume *= AudioConfig.HigherPriorityDuckMultiplier
+		end
+	end
+
 	lastCueAt[cue] = now
-	transientSounds += 1
 	local sound = Instance.new("Sound")
 	sound.Name = "RisingStepsTransient_" .. cue
 	sound.SoundId = AudioConfig.Source
-	sound.Volume = math.min(volume, AudioConfig.MaxSingleTransientVolume)
+	sound.Volume = AudioMixRules.volumeForConcurrency(
+		volume,
+		transientSounds,
+		AudioConfig.MaxSingleTransientVolume,
+		AudioConfig.ConcurrentVolumeDuck
+	)
 	sound.PlaybackSpeed = pitch
 	sound.RollOffMaxDistance = 80
 	sound.Parent = camera
-	sound.Ended:Connect(function()
+
+	local entry: ActiveSound = {
+		Cue = cue,
+		StartedAt = now,
+		Sound = sound,
+	}
+	activeSounds[sound] = entry
+	transientSounds += 1
+
+	local cleaned = false
+	local function cleanup()
+		if cleaned then
+			return
+		end
+		cleaned = true
+		activeSounds[sound] = nil
 		transientSounds = math.max(0, transientSounds - 1)
-	end)
+	end
+
+	sound.Ended:Once(cleanup)
+	sound.Destroying:Once(cleanup)
 	Debris:AddItem(sound, 3)
 	sound:Play()
 end

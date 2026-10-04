@@ -19,8 +19,17 @@ local AudioConfig = {
 		Pitch = 1.52,
 		Volume = 0.26,
 	}),
-	MaxConcurrentTransientSounds = 4,
+	MaxConcurrentTransientSounds = 3,
 	MaxSingleTransientVolume = 0.28,
+	ConcurrentVolumeDuck = 0.72,
+	HigherPriorityDuckMultiplier = 0.52,
+	HigherPriorityGuardSeconds = 0.18,
+	CuePriority = table.freeze({
+		Landing = 1,
+		Celebration = 2,
+		Warning = 3,
+		Failure = 4,
+	}),
 	CueMinIntervalSeconds = table.freeze({
 		Landing = 0.08,
 		Warning = 0.45,
