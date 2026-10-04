@@ -53,7 +53,7 @@ P01 verification: local StyLua, Selene, pure-Luau tests, release-readiness and R
 - [x] P02-T02 Responsive movement/jump tuning with no sticky edges
 - [x] P02-T03 Third-person vertical camera follows climb without nausea or clipping
 - [x] P02-T04 Camera exposes enough upcoming geometry for fair decisions
-- [~] P02-T05 Touch movement/jump targets meet mobile ergonomics
+- [!] P02-T05 Touch movement/jump targets meet mobile ergonomics
 - [x] P02-T06 Controller and keyboard parity — keyboard movement/jump and Studio Controller Emulator Gamepad1 movement/jump both verified on the production control path
 - [x] P02-T07 Runtime spawn → climb → fall → retry → respawn verification
 
@@ -167,7 +167,7 @@ P10 implementation note: production world art now includes a city-depth Service 
 - [x] P11-T06 Owned/Roblox-safe assets and reduced-motion runtime QA
 - [x] P11-T07 Character movement/landing presentation has coherent animation timing and no abrupt camera/VFX conflict
 - [x] P11-T08 VFX budget keeps the avatar, current step and next target readable during high streaks
-- [~] P11-T09 Audio mix pass prevents stacked landing/warning/reward cues from clipping or becoming fatiguing on mobile speakers
+- [!] P11-T09 Audio mix pass prevents stacked landing/warning/reward cues from clipping or becoming fatiguing on mobile speakers
 
 P11 implementation note: Clean/Perfect landing rings, bounded streak sparks, warning-step Highlight, failure camera cue, Revive/PB/Achievement tones and reduced-motion suppression are implemented. Transient audio uses Roblox runtime-owned assets only, volumes are deliberately low and concurrency is capped at three with cross-cue priority/ducking. Character presentation now adds client-only motion posing for ascent, fall and landing impact using the avatar's presentation Motor6D; it does not alter root position, collision, jump physics or camera target, and it fully disables to neutral transforms under reduced-motion. Respawn cleanup disconnects presentation listeners before rebinding. P11-T07 is therefore implemented but remains `[~]` until runtime confirms the pose timing works on both R6/R15 without fighting default animation or camera composition. Full mobile audio/VFX runtime QA also remains open.
 
@@ -203,8 +203,8 @@ P13 runtime note: fresh spawn + tutorial was visually verified in a real Studio 
 P13 visual evidence: compact-phone and desktop VisualOnly runs are documented in `docs/evidence/2026-10-01-phone-visual-qa.md` and `docs/evidence/2026-10-01-desktop-visual-qa.md`. Early/mid/high camera composition, warning, result, shop and cosmetic-preview presentation pass on both reviewed viewports. Tablet remains independently open.
 
 ## P14 Device and performance QA
-- [~] P14-T01 Compact phone touch
-- [ ] P14-T02 Tablet touch
+- [!] P14-T01 Compact phone touch
+- [!] P14-T02 Tablet touch
 - [x] P14-T03 Desktop keyboard/mouse — keyboard move/jump runtime plus native OS-mouse Shop open/close accepted; CoreGui player-list overlap fixed; evidence `docs/evidence/2026-10-04-desktop-input-qa.md`
 - [x] P14-T04 Controller — Studio Controller Emulator delivered real Gamepad1 Thumbstick1/ButtonA events; movement 6.63 studs and jump +7.27 studs verified
 - [x] P14-T05 Camera/readability at low/high altitude on each viewport — phone + desktop prior evidence plus iPad 10th Gen 1180×820 Early/High VisualOnly pass; evidence `docs/evidence/2026-10-04-tablet-camera-runtime-qa.md`
@@ -268,7 +268,7 @@ Final release-gate recheck after terminal restart: main head `9a9d2b1c6c3a3c5b5f
 ## P16 Post-launch
 - [!] P16-T01 First telemetry review
 - [!] P16-T02 Evidence-based difficulty/balance patch
-- [ ] P16-T03 New step patterns/themes/cosmetics cadence
+- [!] P16-T03 New step patterns/themes/cosmetics cadence
 
 ## Definition of Done
 
@@ -293,14 +293,14 @@ Rising Steps V1 is complete only when a player can repeatedly climb, understand 
 - [x] Service Decks background skyline moved farther from the climb path, spread laterally and lightened so its city masses no longer visually merge with the first four targets.
 - [x] Exact post-fix verification: StyLua pass, Selene `0/0`, 16 pure-Luau test files, 16,000/16,000 reachability placements, release-readiness and Rojo build pass; iPad runtime reports `0 CreatorErrors`, 846/900 BaseParts and 21/96 Beams/Lights.
 - [x] P14-T08 closed from real tablet plus previously accepted desktop composition evidence.
-- [ ] P14-T02 remains open: Studio Device Simulator confirms the touch layout, but OS mouse events do not exercise Roblox touch movement and `VirtualInputManager:SendTouchEvent` is RobloxScript-security restricted from CommandBar; no touch-interaction pass is claimed without real evidence.
+- [!] P14-T02 remains externally blocked: Studio Device Simulator confirms the touch layout, but OS mouse events do not exercise Roblox touch movement and `VirtualInputManager:SendTouchEvent` is RobloxScript-security restricted from CommandBar; no touch-interaction pass is claimed without real evidence.
 
 ## 2026-10-03 tablet clarity production verification
 
 - [x] Canonical clarity source `eeb0c67` is on `origin/main`.
 - [x] Existing Place `133160458509988` / Universe `10768815106` received the clarity source; no replacement Place/Experience was created.
 - [x] Independent verification was performed by stopping Rojo, closing/reopening the cloud Place and running iPad 10th Generation `1180x820` PlaySolo directly from Roblox. The fresh cloud build visibly contains the thinner platform bodies and separated skyline, with `0 CreatorErrors`.
-- [ ] P14-T02 tablet touch remains open until movement/jump is exercised through genuine touch input rather than OS mouse emulation.
+- [!] P14-T02 tablet touch remains externally blocked until movement/jump is exercised through genuine touch input rather than OS mouse emulation.
 - [x] P14-T04 controller closed on 2026-10-04 by real Studio Controller Emulator Gamepad1 event + avatar-response evidence.
 
 ## 2026-10-04 controller-emulator acceptance
@@ -311,6 +311,15 @@ Rising Steps V1 is complete only when a player can repeatedly climb, understand 
 - [x] Final harness result: `connected=true stick=true move=true buttonA=true jump=true pass=true`.
 - [x] Existing selectable/focus routing covers Shop, Close and Retry for gamepad UI navigation; no controller-only gameplay branch is introduced.
 - [x] The QA harness is Studio-only and default-disabled in `RuntimeQaConfig`; temporary ButtonA keyboard remapping used to make the emulator deterministic was restored to the original Studio preference immediately after the run.
-- [ ] Tablet genuine-touch interaction remains separate and intentionally open.
+- [!] Tablet genuine-touch interaction remains separate and externally blocked.
 
 P15 final-store capture reconciliation (2026-10-04): the authoritative acceptance is `docs/evidence/2026-10-04-final-store-art/README.md`, which verifies all three 1920x1080 final thumbnails and their SHA-256 hashes. P15-T05A remains closed.
+
+## 2026-10-04 final release-gate status
+
+- [x] Creator Dashboard icon / production metadata / exactly-three final thumbnail set verified.
+- [x] Creator Dashboard content questionnaire verified complete at `Minimal` with no labels/age restriction.
+- [x] GitHub Actions CI run `37191956028` green for head `45f38d5b3fee2e63c54a40a5dbb4974f7632ae72`.
+- [!] Remaining pre-release acceptance is external only: genuine phone/tablet touch, physical mobile-speaker listen, real paid Developer Product receipt + rejoin, and Roblox audience/publishing review.
+- [!] No 50,000 Robux accelerated-review payment and no Developer Product purchase was initiated automatically.
+- Evidence: `docs/evidence/2026-10-04-release-gate-status.md`.
