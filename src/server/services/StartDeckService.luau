@@ -48,6 +48,55 @@ local function ball(parent: Instance, name: string, position: Vector3, size: Vec
 	return item
 end
 
+local function disc(
+	parent: Instance,
+	name: string,
+	position: Vector3,
+	diameter: number,
+	height: number,
+	color: Color3
+): Part
+	local item = makePart(
+		parent,
+		name,
+		Vector3.new(height, diameter, diameter),
+		CFrame.new(position) * CFrame.Angles(0, 0, math.rad(90)),
+		Enum.Material.Grass,
+		color,
+		false
+	)
+	item.Shape = Enum.PartType.Cylinder
+	return item
+end
+
+local function addSapling(parent: Instance, position: Vector3, scale: number, stone: Color3, grass: Color3)
+	makePart(
+		parent,
+		"SkySaplingTrunk",
+		Vector3.new(0.42 * scale, 2.9 * scale, 0.42 * scale),
+		CFrame.new(position + Vector3.new(0, 1.45 * scale, 0)),
+		Enum.Material.Wood,
+		Color3.fromRGB(104, 73, 57),
+		false
+	)
+	local crown = ball(
+		parent,
+		"SkySaplingCrown",
+		position + Vector3.new(0, 3.35 * scale, 0),
+		Vector3.new(2.55, 2.05, 2.55) * scale,
+		grass:Lerp(Color3.fromRGB(116, 185, 105), 0.45)
+	)
+	crown.Material = Enum.Material.Grass
+	local pebble = ball(
+		parent,
+		"SkySaplingStone",
+		position + Vector3.new(0.72 * scale, 0.2, 0.35),
+		Vector3.new(1.0, 0.65, 0.9) * scale,
+		stone
+	)
+	pebble.Material = Enum.Material.Rock
+end
+
 function StartDeckService.create(parent: Instance, player: Player, laneOrigin: Vector3): SpawnLocation
 	local model = Instance.new("Model")
 	model.Name = "StartDeck"
@@ -74,20 +123,9 @@ function StartDeckService.create(parent: Instance, player: Player, laneOrigin: V
 		stone,
 		true
 	)
+	base.Transparency = 1
 
-	makePart(
-		model,
-		"GrassLanding",
-		Vector3.new(
-			WorldConfig.StartDeck.LandingInsetSize,
-			WorldConfig.StartDeck.LandingInsetThickness,
-			WorldConfig.StartDeck.LandingInsetSize
-		),
-		CFrame.new(center + Vector3.new(0, deckThickness / 2 + WorldConfig.StartDeck.LandingInsetThickness / 2, 0)),
-		Enum.Material.Grass,
-		grass,
-		false
-	)
+	disc(model, "SpawnGrassCrown", center + Vector3.new(0, deckThickness / 2 + 0.18, 0), deckSize * 1.06, 0.42, grass)
 
 	for index, offset in
 		{
@@ -170,6 +208,9 @@ function StartDeckService.create(parent: Instance, player: Player, laneOrigin: V
 		light.Shadows = false
 		light.Parent = crystal
 	end
+
+	addSapling(model, center + Vector3.new(-3.7, deckThickness / 2 + 0.35, 1.7), 0.82, stone, grass)
+	addSapling(model, center + Vector3.new(3.9, deckThickness / 2 + 0.35, -0.9), 0.68, stone, grass)
 
 	local spawn = Instance.new("SpawnLocation")
 	spawn.Name = "SafeSpawn"

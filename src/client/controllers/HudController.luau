@@ -244,9 +244,99 @@ local function createHud()
 	scale.Scale = 1
 	scale.Parent = gui
 
+	local logo = Instance.new("Frame")
+	logo.Name = "RisingStepsLogo"
+	logo.Position = UDim2.fromOffset(18, 10)
+	logo.Size = UDim2.fromOffset(224, 80)
+	logo.BackgroundTransparency = 1
+	logo.Parent = gui
+
+	local risingWord = makeLabel(
+		logo,
+		"RisingWord",
+		"RISING",
+		UDim2.fromOffset(142, 34),
+		UDim2.fromOffset(0, 0),
+		Enum.Font.GothamBlack,
+		28,
+		COLORS.Warm
+	)
+	risingWord.TextStrokeColor3 = Color3.fromRGB(71, 50, 105)
+	risingWord.TextStrokeTransparency = 0.34
+
+	local stepsWord = makeLabel(
+		logo,
+		"StepsWord",
+		"STEPS",
+		UDim2.fromOffset(152, 34),
+		UDim2.fromOffset(16, 26),
+		Enum.Font.GothamBlack,
+		30,
+		Color3.fromRGB(235, 247, 255)
+	)
+	stepsWord.TextStrokeColor3 = Color3.fromRGB(84, 70, 151)
+	stepsWord.TextStrokeTransparency = 0.28
+
+	local logoTagline = makeLabel(
+		logo,
+		"Tagline",
+		"JUMP HIGHER • DISCOVER NEW SKIES",
+		UDim2.fromOffset(224, 18),
+		UDim2.fromOffset(2, 62),
+		Enum.Font.GothamBold,
+		9,
+		COLORS.Muted
+	)
+	logoTagline.TextXAlignment = Enum.TextXAlignment.Left
+
+	local stageProgress = Instance.new("Frame")
+	stageProgress.Name = "StageProgress"
+	stageProgress.AnchorPoint = Vector2.new(0.5, 0)
+	stageProgress.Position = UDim2.new(0.5, 0, 0, 12)
+	stageProgress.Size = UDim2.fromOffset(304, 56)
+	stageProgress.BackgroundColor3 = COLORS.Foundation
+	stageProgress.BackgroundTransparency = 0.03
+	stageProgress.BorderSizePixel = 0
+	stageProgress.Parent = gui
+	addCorner(stageProgress, 17)
+	addStroke(stageProgress, Color3.fromRGB(199, 177, 255), 0.34, 1.4)
+	addGradient(stageProgress, Color3.fromRGB(61, 48, 101), COLORS.Foundation, 115)
+
+	local stageProgressText = makeLabel(
+		stageProgress,
+		"ProgressText",
+		"HEIGHT 0 / 12",
+		UDim2.new(1, -24, 0, 26),
+		UDim2.fromOffset(12, 4),
+		Enum.Font.GothamBold,
+		12,
+		COLORS.Text
+	)
+	stageProgressText.TextXAlignment = Enum.TextXAlignment.Center
+
+	local progressTrack = Instance.new("Frame")
+	progressTrack.Name = "ProgressTrack"
+	progressTrack.Position = UDim2.fromOffset(12, 34)
+	progressTrack.Size = UDim2.new(1, -24, 0, 12)
+	progressTrack.BackgroundColor3 = Color3.fromRGB(22, 20, 43)
+	progressTrack.BackgroundTransparency = 0.06
+	progressTrack.BorderSizePixel = 0
+	progressTrack.ClipsDescendants = true
+	progressTrack.Parent = stageProgress
+	addCorner(progressTrack, 99)
+
+	local progressFill = Instance.new("Frame")
+	progressFill.Name = "ProgressFill"
+	progressFill.Size = UDim2.fromScale(0, 1)
+	progressFill.BackgroundColor3 = Color3.fromRGB(103, 232, 159)
+	progressFill.BorderSizePixel = 0
+	progressFill.Parent = progressTrack
+	addCorner(progressFill, 99)
+	addGradient(progressFill, Color3.fromRGB(115, 242, 183), Color3.fromRGB(91, 220, 239), 0)
+
 	local metrics = Instance.new("Frame")
 	metrics.Name = "Metrics"
-	metrics.Position = UDim2.fromOffset(18, 18)
+	metrics.Position = UDim2.fromOffset(18, 98)
 	metrics.Size = UDim2.fromOffset(202, 88)
 	metrics.BackgroundColor3 = COLORS.Foundation
 	metrics.BackgroundTransparency = 0.08
@@ -302,7 +392,7 @@ local function createHud()
 
 	local streak = Instance.new("Frame")
 	streak.Name = "Streak"
-	streak.Position = UDim2.fromOffset(18, 114)
+	streak.Position = UDim2.fromOffset(18, 194)
 	streak.Size = UDim2.fromOffset(128, 40)
 	streak.BackgroundColor3 = COLORS.Steel
 	streak.BackgroundTransparency = 0.10
@@ -325,20 +415,21 @@ local function createHud()
 	local topRight = Instance.new("Frame")
 	topRight.Name = "TopRight"
 	topRight.AnchorPoint = Vector2.new(1, 0)
-	topRight.Position = UDim2.new(1, -18, 0, 132)
-	topRight.Size = UDim2.fromOffset(212, 48)
+	topRight.Position = UDim2.new(1, -18, 0, 18)
+	topRight.Size = UDim2.fromOffset(106, 48)
 	topRight.BackgroundTransparency = 1
 	topRight.Parent = gui
 
 	local coinsPill = Instance.new("Frame")
 	coinsPill.Name = "CoinsPill"
-	coinsPill.Size = UDim2.fromOffset(92, 48)
+	coinsPill.Size = UDim2.fromOffset(106, 48)
 	coinsPill.BackgroundColor3 = COLORS.Foundation
-	coinsPill.BackgroundTransparency = 0.08
+	coinsPill.BackgroundTransparency = 0.04
 	coinsPill.BorderSizePixel = 0
 	coinsPill.Parent = topRight
-	addCorner(coinsPill, 14)
-	addStroke(coinsPill, COLORS.Warm, 0.58)
+	addCorner(coinsPill, 15)
+	addStroke(coinsPill, COLORS.Warm, 0.42, 1.2)
+	addGradient(coinsPill, Color3.fromRGB(61, 48, 101), COLORS.Foundation, 115)
 
 	local coinsLabel = makeLabel(
 		coinsPill,
@@ -352,20 +443,45 @@ local function createHud()
 	)
 	coinsLabel.TextXAlignment = Enum.TextXAlignment.Center
 
+	local quickActions = Instance.new("Frame")
+	quickActions.Name = "QuickActions"
+	quickActions.Position = UDim2.fromOffset(18, 246)
+	quickActions.Size = UDim2.fromOffset(92, 148)
+	quickActions.BackgroundTransparency = 1
+	quickActions.Parent = gui
+
 	local shopButton = makeButton(
-		topRight,
+		quickActions,
 		"ShopButton",
 		"SHOP",
-		UDim2.fromOffset(108, 48),
-		UDim2.fromOffset(104, 0),
-		COLORS.Active,
+		UDim2.fromOffset(88, 42),
+		UDim2.fromOffset(0, 0),
+		Color3.fromRGB(145, 103, 255),
+		COLORS.Text
+	)
+	local dailyQuickButton = makeButton(
+		quickActions,
+		"DailyQuickButton",
+		"DAILY",
+		UDim2.fromOffset(88, 42),
+		UDim2.fromOffset(0, 50),
+		Color3.fromRGB(255, 171, 92),
+		COLORS.Foundation
+	)
+	local styleQuickButton = makeButton(
+		quickActions,
+		"StyleQuickButton",
+		"STYLE",
+		UDim2.fromOffset(88, 42),
+		UDim2.fromOffset(0, 100),
+		Color3.fromRGB(91, 220, 239),
 		COLORS.Foundation
 	)
 
 	local tutorial = Instance.new("Frame")
 	tutorial.Name = "Tutorial"
 	tutorial.AnchorPoint = Vector2.new(0.5, 0)
-	tutorial.Position = UDim2.new(0.5, 0, 0, 78)
+	tutorial.Position = UDim2.new(0.5, 0, 0, 82)
 	tutorial.Size = UDim2.fromOffset(370, 94)
 	tutorial.BackgroundColor3 = COLORS.Foundation
 	tutorial.BackgroundTransparency = 0.06
@@ -903,15 +1019,35 @@ local function createHud()
 		topRight.Position = UDim2.new(1, -rightInset, 0, topOffset)
 
 		if viewportClass == "compact" then
+			logo.Visible = false
+			quickActions.Visible = false
 			metrics.Position = UDim2.fromOffset(12, 12)
+			streak.Position = UDim2.fromOffset(12, 108)
+			stageProgress.Size = UDim2.fromOffset(228, 52)
+			stageProgress.Position = UDim2.new(0.58, 0, 0, 12)
+			tutorial.Position = UDim2.new(0.5, 0, 0, 164)
 			tutorial.Size = UDim2.new(1, -28, 0, 94)
 		elseif viewportClass == "tablet" then
-			-- Tablets have enough horizontal room to keep primary metrics and
-			-- shop/currency controls on the same top row instead of stacking.
-			metrics.Position = UDim2.fromOffset(16, 16)
+			logo.Visible = true
+			quickActions.Visible = true
+			logo.Position = UDim2.fromOffset(16, 10)
+			metrics.Position = UDim2.fromOffset(16, 98)
+			streak.Position = UDim2.fromOffset(16, 194)
+			quickActions.Position = UDim2.fromOffset(16, 246)
+			stageProgress.Size = UDim2.fromOffset(286, 56)
+			stageProgress.Position = UDim2.new(0.5, 0, 0, 12)
+			tutorial.Position = UDim2.new(0.5, 0, 0, 82)
 			tutorial.Size = UDim2.fromOffset(420, 94)
 		else
-			metrics.Position = UDim2.fromOffset(18, 18)
+			logo.Visible = true
+			quickActions.Visible = true
+			logo.Position = UDim2.fromOffset(18, 10)
+			metrics.Position = UDim2.fromOffset(18, 98)
+			streak.Position = UDim2.fromOffset(18, 194)
+			quickActions.Position = UDim2.fromOffset(18, 246)
+			stageProgress.Size = UDim2.fromOffset(304, 56)
+			stageProgress.Position = UDim2.new(0.5, 0, 0, 12)
+			tutorial.Position = UDim2.new(0.5, 0, 0, 82)
 			tutorial.Size = UDim2.fromOffset(370, 94)
 		end
 	end
@@ -922,6 +1058,21 @@ local function createHud()
 		streakValue.Text = ("STREAK  %d"):format(streakCount)
 		local coins = LOCAL_PLAYER:GetAttribute("RisingStepsCoins")
 		coinsLabel.Text = ("◈ %d"):format(if type(coins) == "number" then coins else 0)
+
+		local milestoneStart = 0
+		local milestoneTarget = 12
+		if height >= 30 then
+			milestoneStart = 30 + math.floor((height - 30) / 10) * 10
+			milestoneTarget = milestoneStart + 10
+		elseif height >= 12 then
+			milestoneStart = 12
+			milestoneTarget = 30
+		end
+		local progress = math.clamp((height - milestoneStart) / math.max(1, milestoneTarget - milestoneStart), 0, 1)
+		stageProgressText.Text = ("HEIGHT %d / %d"):format(height, milestoneTarget)
+		TweenService:Create(progressFill, TweenInfo.new(0.24, Enum.EasingStyle.Quint), {
+			Size = UDim2.fromScale(progress, 1),
+		}):Play()
 	end
 
 	local function celebrate(text: string, color: Color3)
@@ -1085,6 +1236,18 @@ local function createHud()
 
 	shopButton.Activated:Connect(function()
 		setShopVisible(true)
+	end)
+	dailyQuickButton.Activated:Connect(function()
+		setShopVisible(true)
+		task.defer(function()
+			scroll.CanvasPosition = Vector2.new(0, 0)
+		end)
+	end)
+	styleQuickButton.Activated:Connect(function()
+		setShopVisible(true)
+		task.defer(function()
+			scroll.CanvasPosition = Vector2.new(0, 360)
+		end)
 	end)
 	closeButton.Activated:Connect(function()
 		setShopVisible(false)

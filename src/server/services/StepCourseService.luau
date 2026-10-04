@@ -139,21 +139,6 @@ local function makePart(
 	return part
 end
 
-local function makeWedge(parent: Instance, name: string, size: Vector3, cframe: CFrame, color: Color3): WedgePart
-	local part = Instance.new("WedgePart")
-	part.Name = name
-	part.Anchored = true
-	part.CanCollide = false
-	part.CanTouch = false
-	part.CanQuery = true
-	part.Material = Enum.Material.Metal
-	part.Color = color
-	part.Size = size
-	part.CFrame = cframe
-	part.Parent = parent
-	return part
-end
-
 local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3): StepRuntime
 	local model = Instance.new("Model")
 	model.Name = ("Step_%03d"):format(definition.Id)
@@ -167,8 +152,10 @@ local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3)
 	local size = GameConfig.Step.BaseFootprint
 	local thickness = GameConfig.Step.CollisionThickness
 	local palette = paletteForBand(definition.BandId)
-	local underColor = palette.Collision:Lerp(Color3.new(0, 0, 0), 0.18)
+	local underColor = palette.Collision:Lerp(Color3.new(0, 0, 0), 0.14)
 
+	-- Gameplay stays deterministic on a simple square collision volume, but the
+	-- player never sees that primitive. The visible surface is a layered sky-island.
 	local collision = makePart(
 		model,
 		"Collision",
@@ -179,12 +166,13 @@ local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3)
 		true
 	)
 	collision:SetAttribute("StepId", definition.Id)
+	collision.Transparency = 1
 
 	local inset = makePart(
 		model,
-		"LandingInset",
-		Vector3.new(size - 0.72, 0.16, size - 0.72),
-		CFrame.new(center + Vector3.new(0, thickness / 2 + 0.08, 0)),
+		"FloatingGrassTop",
+		Vector3.new(size - 0.34, 0.22, size - 0.34),
+		CFrame.new(center + Vector3.new(0, thickness / 2 + 0.10, 0)),
 		palette.InsetMaterial,
 		palette.Inset,
 		false
@@ -192,249 +180,121 @@ local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3)
 
 	local accents: { BasePart } = {}
 	local decorations: { BasePart } = { inset }
-	local edgeY = center.Y + thickness / 2 + 0.13
-	local edgeOffset = size / 2 - 0.14
-	local edgeThickness = 0.20
 
-	local accentA = makePart(
-		model,
-		"AccentA",
-		Vector3.new(size - 0.5, 0.12, edgeThickness),
-		CFrame.new(center.X, edgeY, center.Z - edgeOffset),
-		Enum.Material.Neon,
-		palette.Accent,
-		false
-	)
-	local accentB = makePart(
-		model,
-		"AccentB",
-		Vector3.new(size - 0.5, 0.12, edgeThickness),
-		CFrame.new(center.X, edgeY, center.Z + edgeOffset),
-		Enum.Material.Neon,
-		palette.Accent,
-		false
-	)
-	table.insert(accents, accentA)
-	table.insert(accents, accentB)
-	table.insert(decorations, accentA)
-	table.insert(decorations, accentB)
+	-- Rounded, irregular stone mass below the grass. The lobes deliberately
+	-- overlap so normal camera distance reads as one authored floating island.
+	local rockOffsets = {
+		Vector3.new(-1.65, -1.02, -1.28),
+		Vector3.new(1.48, -1.22, -1.42),
+		Vector3.new(-1.30, -1.48, 1.36),
+		Vector3.new(1.55, -1.70, 1.18),
+	}
+	for index, offset in rockOffsets do
+		local shard = makePart(
+			model,
+			("RockShard%02d"):format(index),
+			Vector3.new(size * 0.60, 2.10 + index * 0.18, size * 0.56),
+			CFrame.new(center + offset),
+			Enum.Material.Rock,
+			if index % 2 == 0 then underColor:Lerp(Color3.new(1, 1, 1), 0.08) else underColor,
+			false
+		)
+		shard.Shape = Enum.PartType.Ball
+		table.insert(decorations, shard)
+	end
 
-	local accentC = makePart(
+	local core = makePart(
 		model,
-		"AccentC",
-		Vector3.new(edgeThickness, 0.12, size - 0.5),
-		CFrame.new(center.X - edgeOffset, edgeY, center.Z),
-		Enum.Material.Neon,
-		palette.Accent,
-		false
-	)
-	local accentD = makePart(
-		model,
-		"AccentD",
-		Vector3.new(edgeThickness, 0.12, size - 0.5),
-		CFrame.new(center.X + edgeOffset, edgeY, center.Z),
-		Enum.Material.Neon,
-		palette.Accent,
-		false
-	)
-	table.insert(accents, accentC)
-	table.insert(accents, accentD)
-	table.insert(decorations, accentC)
-	table.insert(decorations, accentD)
-
-	local support = makePart(
-		model,
-		"HangingRockCore",
-		Vector3.new(size * 0.72, 1.9, size * 0.68),
-		CFrame.new(center + Vector3.new(0, -thickness / 2 - 0.94, 0)),
-		Enum.Material.Rock,
+		"RockShardCore",
+		Vector3.new(size * 0.70, 2.65, size * 0.68),
+		CFrame.new(center + Vector3.new(0, -1.72, 0)),
+		Enum.Material.Slate,
 		underColor,
 		false
 	)
-	support.Shape = Enum.PartType.Ball
-	table.insert(decorations, support)
+	core.Shape = Enum.PartType.Ball
+	table.insert(decorations, core)
 
-	local landingMark = makePart(
-		model,
-		"BonusCore",
-		Vector3.new(1.15, 0.04, 1.15),
-		CFrame.new(center + Vector3.new(0, thickness / 2 + 0.18, 0)),
-		Enum.Material.Neon,
-		palette.Accent,
-		false
-	)
-	landingMark.Transparency = 0.18
-	table.insert(decorations, landingMark)
-
-	-- The HUD teaches "land anywhere; center = bonus". Keep the world itself
-	-- free of repeated billboard text so the climb remains readable on phones.
-
-	for _, zSide in { -1, 1 } do
-		local underGlow = makePart(
+	local edgeOffset = size / 2 - 0.22
+	local edgeThickness = 0.12
+	local runeDefinitions = {
+		{ "RuneEdgeNorth", Vector3.new(size - 0.68, 0.08, edgeThickness), Vector3.new(0, 0, -edgeOffset) },
+		{ "RuneEdgeSouth", Vector3.new(size - 0.68, 0.08, edgeThickness), Vector3.new(0, 0, edgeOffset) },
+		{ "RuneEdgeWest", Vector3.new(edgeThickness, 0.08, size - 0.68), Vector3.new(-edgeOffset, 0, 0) },
+		{ "RuneEdgeEast", Vector3.new(edgeThickness, 0.08, size - 0.68), Vector3.new(edgeOffset, 0, 0) },
+	}
+	for _, definitionEntry in runeDefinitions do
+		local rune = makePart(
 			model,
-			"UnderGlow",
-			Vector3.new(size - 1.2, 0.10, 0.12),
-			CFrame.new(center + Vector3.new(0, -thickness / 2 - 0.10, zSide * (size / 2 - 0.20))),
+			definitionEntry[1],
+			definitionEntry[2],
+			CFrame.new(center + Vector3.new(0, thickness / 2 + 0.16, 0) + definitionEntry[3]),
 			Enum.Material.Neon,
 			palette.Accent,
 			false
 		)
-		underGlow.Transparency = 0.38
-		table.insert(decorations, underGlow)
+		rune.Transparency = 0.08
+		table.insert(accents, rune)
+		table.insert(decorations, rune)
 	end
 
-	local boltDiagonal = if definition.Id % 2 == 0 then 1 else -1
-	for _, xSide in { -1, 1 } do
-		local zSide = xSide * boltDiagonal
-		local bolt = makePart(
-			model,
-			"DeckBolt",
-			Vector3.new(0.20, 0.20, 0.20),
-			CFrame.new(center + Vector3.new(xSide * (size / 2 - 0.42), thickness / 2 + 0.16, zSide * (size / 2 - 0.42))),
-			Enum.Material.Metal,
-			palette.Detail,
-			false
-		)
-		bolt.Shape = Enum.PartType.Ball
-		table.insert(decorations, bolt)
-	end
+	local landingMark = makePart(
+		model,
+		"BonusCore",
+		Vector3.new(1.05, 0.07, 1.05),
+		CFrame.new(center + Vector3.new(0, thickness / 2 + 0.23, 0)) * CFrame.Angles(0, math.rad(45), 0),
+		Enum.Material.Neon,
+		palette.Accent,
+		false
+	)
+	landingMark.Transparency = 0.10
+	table.insert(decorations, landingMark)
 
 	local warningSignals: { BasePart } = {}
 	for _, side in { -1, 1 } do
-		local fin = makePart(
+		local signal = makePart(
 			model,
-			"WarningFin",
-			Vector3.new(0.20, 0.76, 1.5),
-			CFrame.new(center + Vector3.new(side * (size / 2 - 0.12), 0.62, 0)),
-			Enum.Material.Metal,
+			"WarningCrystal",
+			Vector3.new(0.34, 0.82, 0.34),
+			CFrame.new(center + Vector3.new(side * (size / 2 - 0.42), 0.56, 0)),
+			Enum.Material.Neon,
 			COLORS.Warning,
 			false
 		)
-		fin.Transparency = 1
-		table.insert(warningSignals, fin)
-		table.insert(decorations, fin)
+		signal.Transparency = 1
+		signal.Shape = Enum.PartType.Ball
+		table.insert(warningSignals, signal)
+		table.insert(decorations, signal)
 	end
 
-	if definition.Variant == 2 or definition.Variant == 5 then
-		local brace = makeWedge(
+	-- Small asymmetric details keep repeated generated steps from reading like
+	-- cloned boxes while remaining cheap enough for the mobile presentation budget.
+	if definition.Variant % 2 == 0 then
+		local moss = makePart(
 			model,
-			"SideBrace",
-			Vector3.new(1.2, 1.0, 3.2),
-			CFrame.new(center + Vector3.new(size / 2 + 0.6, -0.55, 0)) * CFrame.Angles(0, math.rad(90), 0),
-			COLORS.Foundation
-		)
-		table.insert(decorations, brace)
-	elseif definition.Variant == 3 or definition.Variant == 6 then
-		local brace = makeWedge(
-			model,
-			"SideBrace",
-			Vector3.new(1.2, 1.0, 3.2),
-			CFrame.new(center + Vector3.new(-size / 2 - 0.6, -0.55, 0)) * CFrame.Angles(0, math.rad(-90), 0),
-			COLORS.Foundation
-		)
-		table.insert(decorations, brace)
-	else
-		local crossbar = makePart(
-			model,
-			"Crossbar",
-			Vector3.new(size - 1.4, 0.28, 0.45),
-			CFrame.new(center + Vector3.new(0, -thickness / 2 - 0.48, 0)),
-			Enum.Material.Metal,
-			underColor,
+			"MossTuft",
+			Vector3.new(1.32, 0.20, 0.82),
+			CFrame.new(center + Vector3.new(size * 0.27, thickness / 2 + 0.19, -size * 0.23))
+				* CFrame.Angles(0, math.rad(18), 0),
+			Enum.Material.Grass,
+			palette.Inset:Lerp(Color3.fromRGB(184, 214, 126), 0.28),
 			false
 		)
-		table.insert(decorations, crossbar)
-	end
-
-	if definition.Variant == 4 then
-		for _, side in { -1, 1 } do
-			local rail = makePart(
-				model,
-				"RailFragment",
-				Vector3.new(0.18, 0.68, 2.1),
-				CFrame.new(center + Vector3.new(side * (size / 2 + 0.16), 0.10, 0)),
-				Enum.Material.Metal,
-				underColor,
-				false
-			)
-			table.insert(decorations, rail)
-		end
-	elseif definition.Variant == 5 then
-		for _, side in { -1, 1 } do
-			local anchor = makePart(
-				model,
-				"CableAnchor",
-				Vector3.new(0.38, 1.15, 0.38),
-				CFrame.new(center + Vector3.new(side * 2.35, -0.18, -2.35)),
-				Enum.Material.Metal,
-				underColor,
-				false
-			)
-			table.insert(decorations, anchor)
-		end
-	elseif definition.Variant == 6 then
-		local nose = makePart(
-			model,
-			"CantileverNose",
-			Vector3.new(2.8, 0.34, 0.72),
-			CFrame.new(center + Vector3.new(0, -0.42, -size / 2 - 0.36)),
-			Enum.Material.Metal,
-			underColor,
-			false
-		)
-		table.insert(decorations, nose)
+		table.insert(decorations, moss)
 	end
 
 	if definition.Variant >= 4 then
-		local marker = makePart(
+		local runeChip = makePart(
 			model,
-			"WarmMarker",
-			Vector3.new(0.28, 0.18, 1.65),
-			CFrame.new(center.X, edgeY + 0.03, center.Z),
-			Enum.Material.Metal,
-			COLORS.Warm,
-			false
-		)
-		table.insert(decorations, marker)
-	end
-
-	-- Break the square generated silhouette without cloning decorative hardware onto every step.
-	-- This keeps the authored asymmetry while staying inside the per-lane presentation budget.
-	local cornerSignX = if definition.Variant % 2 == 0 then 1 else -1
-	local cornerSignZ = if definition.Variant <= 3 then -1 else 1
-
-	if definition.Id % 2 == 0 then
-		local cornerPlate = makePart(
-			model,
-			"CornerPlate",
-			Vector3.new(1.15, 0.16, 1.15),
-			CFrame.new(
-				center
-					+ Vector3.new(
-						cornerSignX * (size / 2 - 0.58),
-						thickness / 2 + 0.12,
-						cornerSignZ * (size / 2 - 0.58)
-					)
-			) * CFrame.Angles(0, math.rad(45), 0),
-			Enum.Material.Metal,
+			"RuneChip",
+			Vector3.new(0.36, 0.16, 1.28),
+			CFrame.new(center + Vector3.new(-size * 0.28, thickness / 2 + 0.22, size * 0.18)),
+			Enum.Material.Neon,
 			palette.Detail,
 			false
 		)
-		cornerPlate.Transparency = 0.08
-		table.insert(decorations, cornerPlate)
-	end
-
-	if definition.Id % 3 == 0 then
-		local hangingBracket = makePart(
-			model,
-			"HangingBracket",
-			Vector3.new(0.28, 1.5 + (definition.Variant % 3) * 0.32, 0.72),
-			CFrame.new(center + Vector3.new(-cornerSignX * (size / 2 - 0.52), -thickness / 2 - 0.82, cornerSignZ * 0.9)),
-			Enum.Material.Metal,
-			underColor,
-			false
-		)
-		table.insert(decorations, hangingBracket)
+		runeChip.Transparency = 0.12
+		table.insert(decorations, runeChip)
 	end
 
 	for _, part in decorations do
@@ -473,7 +333,7 @@ local function setStepState(runtime: StepRuntime, nextState: string)
 	if nextState == StepRules.State.Active then
 		runtime.Collision.CanCollide = true
 		runtime.Collision.CanTouch = true
-		runtime.Collision.Transparency = 0
+		runtime.Collision.Transparency = 1
 		runtime.Collision.Color = runtime.BaseCollisionColor
 		runtime.Inset.Transparency = 0
 		runtime.Inset.Color = runtime.BaseInsetColor

@@ -329,3 +329,11 @@ P15 final-store capture reconciliation (2026-10-04): the authoritative acceptanc
 - [x] Native Roblox concept-quality presentation pass implemented for this game; no static concept screenshot is used in gameplay.
 - [x] Lighting/VFX and native ScreenGui styling are test-guarded and pass local static verification plus Studio PlaySolo runtime QA.
 - [x] Evidence: `docs/evidence/2026-10-04-concept-visual-polish.md`.
+
+## 2026-10-04 concept-fidelity pass 2
+
+- [x] Opening gameplay view now follows the approved Fantasy Sky Realms concept rather than the previous industrial/block-heavy language.
+- [x] Visible gameplay collision replaced by authored grass/stone island presentation while deterministic collision remains unchanged.
+- [x] Opening vista now contains hero islands, cloud layering, portal and warm sun focal point.
+- [x] HUD now mirrors the approved concept hierarchy with branded logo, top progress capsule, currency pill and vertical quick actions.
+- [x] Final PlaySolo run: 0 CreatorErrors; lane presentation 789 BaseParts / 6 Beams+Lights; 19 pure-Luau tests and 16,000 reachability placements passed.

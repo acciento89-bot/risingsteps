@@ -287,18 +287,54 @@ local function buildServiceDecks(parent: Instance, origin: Vector3)
 	folder.Name = "DawnGardensArt"
 	folder.Parent = parent
 
-	local islandA = origin + Vector3.new(-27, 16, -23)
-	local islandB = origin + Vector3.new(31, 28, -38)
-	local islandC = origin + Vector3.new(-34, 42, 18)
-	addFloatingIsland(folder, islandA, 12, 1)
-	addFloatingIsland(folder, islandB, 9, 2)
+	local heroLeft = Instance.new("Folder")
+	heroLeft.Name = "HeroIslandLeft"
+	heroLeft.Parent = folder
+	local islandA = origin + Vector3.new(-22, 11, -34)
+	addFloatingIsland(heroLeft, islandA, 13, 1)
+	addTree(heroLeft, islandA + Vector3.new(-2.4, 0.5, 1.0), 0.92)
+	addTree(heroLeft, islandA + Vector3.new(3.4, 0.5, -1.8), 0.68)
+	addWaterfall(heroLeft, islandA + Vector3.new(8.4, 0, 0), 20)
+	addRuin(heroLeft, islandA + Vector3.new(-0.8, 0.4, -2.8), 0.62)
+
+	local heroRight = Instance.new("Folder")
+	heroRight.Name = "HeroIslandRight"
+	heroRight.Parent = folder
+	local islandB = origin + Vector3.new(26, 20, -43)
+	addFloatingIsland(heroRight, islandB, 10.5, 2)
+	addTree(heroRight, islandB + Vector3.new(-1.2, 0.5, 0.8), 0.74)
+	addTree(heroRight, islandB + Vector3.new(3.0, 0.5, -1.2), 0.58)
+	addRuin(heroRight, islandB + Vector3.new(0.4, 0.4, -1.8), 0.78)
+
+	local islandC = origin + Vector3.new(-31, 36, -52)
 	addFloatingIsland(folder, islandC, 8, 3)
-	addTree(folder, islandA + Vector3.new(-2, 0.5, 1), 0.85)
-	addTree(folder, islandA + Vector3.new(3, 0.5, -2), 0.62)
-	addTree(folder, islandB + Vector3.new(1, 0.5, 0), 0.68)
-	addWaterfall(folder, islandA + Vector3.new(7.5, 0, 0), 18)
-	addRuin(folder, islandC + Vector3.new(0, 0.4, 0), 0.72)
-	addCloudWisps(folder, origin + Vector3.new(0, -8, -70), 1.25)
+	addTree(folder, islandC + Vector3.new(0, 0.5, 0), 0.58)
+
+	local initialPortal = Instance.new("Folder")
+	initialPortal.Name = "InitialVistaPortal"
+	initialPortal.Parent = folder
+	local portalIsland = origin + Vector3.new(15, 13, -38)
+	addFloatingIsland(initialPortal, portalIsland, 7.8, 8)
+	addPortal(initialPortal, portalIsland + Vector3.new(0, 6.3, 0), 4.7, COLORS.Gold)
+
+	local sun = ball(
+		folder,
+		"SkySunDisc",
+		origin + Vector3.new(39, 20, -118),
+		Vector3.new(19, 19, 19),
+		Enum.Material.Neon,
+		Color3.fromRGB(255, 188, 118),
+		0.08
+	)
+	sun.CastShadow = false
+	addGlow(sun, Color3.fromRGB(255, 193, 132), 1.2, 42)
+
+	local foregroundCloudBank = Instance.new("Folder")
+	foregroundCloudBank.Name = "ForegroundCloudBank"
+	foregroundCloudBank.Parent = folder
+	addCloudWisps(foregroundCloudBank, origin + Vector3.new(-21, 3, -28), 1.05)
+	addCloudWisps(foregroundCloudBank, origin + Vector3.new(24, 5, -32), 0.92)
+	addCloudWisps(folder, origin + Vector3.new(0, -7, -72), 1.35)
 end
 
 local function buildCloudline(parent: Instance, origin: Vector3)

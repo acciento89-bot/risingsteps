@@ -1,31 +1,45 @@
 # Rising Steps Art Direction
 
-## Target
-A polished, readable Roblox experience that looks intentional from a normal gameplay screenshot. Stylized, clean and modern; never like an empty baseplate or developer prototype.
+## Approved concept — Fantasy Sky Realms
 
-## Visual language
-- Strong silhouette readability at mobile camera distance.
-- One dominant dark/neutral foundation plus one warm accent and one gameplay-state accent.
-- Rounded, compact UI surfaces with high contrast.
-- Restrained Neon only for Perfect/goal/reward feedback.
-- Materials must communicate function: concrete/painted metal/rubber/glass/wood where appropriate.
-- Focal gameplay objects require secondary detail rather than raw primitive blocks.
+Rising Steps is a bright fantasy climb through miniature floating worlds. The approved reference is the pastel sky concept: warm sunset light, lavender/cyan atmosphere, grass-topped stone islands, waterfalls, glowing portal ruins and a clear upward path. It must read as an adventurous premium Roblox world, not as an industrial obby or a collection of raw blocks.
 
-## Character
-The player's Roblox avatar is always visible during the core loop and remains the visual anchor.
+## Screenshot target
 
-## Feedback hierarchy
-1. Immediate input feedback.
-2. Landing/action quality: Perfect / Good / Miss.
-3. Combo/score delta.
-4. Reward/unlock.
-5. Failure and immediate retry.
+A normal gameplay screenshot should immediately show all of the following without developer explanation:
+- the avatar as the visual anchor;
+- a readable chain of floating grass/stone steps rising into the sky;
+- at least one scenic floating-island landmark in depth;
+- warm sky light plus cool lavender/cyan atmospheric separation;
+- compact glossy UI that leaves the route visible;
+- magical rune/glow accents used as guidance, not broad neon surfaces.
 
-## Audio/VFX
-- Every success grade has a distinct but short sound/visual response.
-- Perfect chains escalate without becoming visually noisy.
-- Failure feedback is fast; it must not delay retry.
-- Use only verified Roblox-owned or owned project audio/assets.
+## World language
+
+- **Foreground:** grass-topped floating stone platforms, moss, small crystals and subtle golden/cyan rune edges.
+- **Mid-ground:** larger islands with stylized trees, ruins, portals and waterfalls.
+- **Background:** layered clouds, distant islands and a warm low sun focal point.
+- Platform collision primitives may stay simple for deterministic gameplay but must be visually hidden behind authored art geometry.
+- Avoid industrial beams, exposed mechanical braces, generic black slabs, empty void composition and default Roblox baseplate language.
+
+## Palette
+
+- Foundation rock: plum/slate stone.
+- Vegetation: fresh desaturated greens with lighter moss highlights.
+- Magic: warm gold for reward/hero accents, cyan for route/state accents, lavender for high-altitude magic.
+- Sky: peach sunset light fading through lavender into cyan.
+
+## UI
+
+- Rounded glossy panels with soft purple/navy foundations, thin lavender/cyan strokes and bright readable text.
+- Strong progress/coin/shop hierarchy similar to the approved concept while preserving Rising Steps gameplay vocabulary.
+- Shop cards should visually sell fantasy trails, landing effects, step themes and sky environments rather than industrial equipment.
+- Mobile safe areas and the next landing target take priority over decorative UI.
+
+## Character and feedback
+
+The player's Roblox avatar remains visible during the core loop. Landing feedback escalates from safe landing to Clean/Perfect through brief rune glow, particles/text and audio; failure feedback stays fast so retry is immediate.
 
 ## Quality gate
-A normal gameplay screenshot must communicate the game's mechanic without explanatory developer text. Placeholder geometry, default UI, inaccessible surfaces and visible debug artifacts block release.
+
+Release screenshots must look like the same product family as the approved Fantasy Sky Realms concept. Raw primitives, industrial leftovers, default UI, unreadable dark scenes, debug artifacts or large empty areas fail the visual gate.

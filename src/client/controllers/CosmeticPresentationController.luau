@@ -90,17 +90,14 @@ local function recolorStepModel(step: Model, theme: any)
 	if collision and collision:IsA("BasePart") then
 		collision.Color = theme.Collision
 	end
-	local inset = step:FindFirstChild("LandingInset")
+	local inset = step:FindFirstChild("FloatingGrassTop") or step:FindFirstChild("LandingInset")
 	if inset and inset:IsA("BasePart") then
 		inset.Color = theme.Inset
 	end
 	for _, descendant in step:GetDescendants() do
 		if descendant:IsA("BasePart") then
 			if
-				descendant.Name == "AccentA"
-				or descendant.Name == "AccentB"
-				or descendant.Name == "AccentC"
-				or descendant.Name == "AccentD"
+				string.find(descendant.Name, "RuneEdge", 1, true)
 				or descendant.Name == "UnderGlow"
 				or descendant.Name == "LandingMark"
 				or descendant.Name == "BonusCore"
