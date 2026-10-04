@@ -1,4 +1,6 @@
 local tests = {
+	require("../tests/fantasy-presentation.spec"),
+	require("../tests/visual-polish.spec"),
 	require("../tests/art-config.spec"),
 	require("../tests/audio-config.spec"),
 	require("../tests/config.spec"),

@@ -15,6 +15,7 @@ local CourseVisibilityController = require(controllersFolder.CourseVisibilityCon
 local FeedbackController = require(controllersFolder.FeedbackController)
 local GraphicsQualityController = require(controllersFolder.GraphicsQualityController)
 local HudController = require(controllersFolder.HudController)
+local VisualPolishController = require(controllersFolder.VisualPolishController)
 local InputQaController = require(controllersFolder.InputQaController)
 
 for remoteName in RemoteConfig.Definitions do
@@ -29,4 +30,5 @@ CourseVisibilityController.start()
 FeedbackController.start()
 GraphicsQualityController.start()
 HudController.start()
+VisualPolishController.start()
 InputQaController.start()

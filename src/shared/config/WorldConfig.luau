@@ -14,11 +14,11 @@ local WorldConfig = {
 		OnboardingGuideCount = 3,
 	},
 	Palette = {
-		Foundation = "#121722",
-		Steel = "#202938",
-		Concrete = "#3A4657",
-		WarmAccent = "#FFB454",
-		GameplayAccent = "#5EEBFF",
+		Foundation = "#2A2340",
+		Steel = "#685A78",
+		Concrete = "#769268",
+		WarmAccent = "#FFD36A",
+		GameplayAccent = "#74E8FF",
 	},
 }
 

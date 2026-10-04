@@ -6,20 +6,25 @@ local Workspace = game:GetService("Workspace")
 
 local root = ReplicatedStorage:WaitForChild("RisingSteps")
 local ArtConfig = require(root.config.ArtConfig)
-local WorldConfig = require(root.config.WorldConfig)
 
 local WorldArtService = {}
-
 local lightingConfigured = false
 
-local function hex(hexColor: string): Color3
-	local value = hexColor:gsub("#", "")
-	local r = tonumber(value:sub(1, 2), 16)
-	local g = tonumber(value:sub(3, 4), 16)
-	local b = tonumber(value:sub(5, 6), 16)
-	assert(r and g and b, "invalid art hex")
-	return Color3.fromRGB(r, g, b)
-end
+local COLORS = {
+	Rock = Color3.fromRGB(91, 78, 112),
+	RockLight = Color3.fromRGB(125, 105, 139),
+	Grass = Color3.fromRGB(116, 158, 91),
+	GrassLight = Color3.fromRGB(154, 190, 108),
+	Wood = Color3.fromRGB(106, 71, 55),
+	Leaves = Color3.fromRGB(92, 152, 92),
+	LeavesLight = Color3.fromRGB(133, 184, 105),
+	Gold = Color3.fromRGB(255, 211, 106),
+	Cyan = Color3.fromRGB(116, 232, 255),
+	Lavender = Color3.fromRGB(200, 178, 255),
+	Water = Color3.fromRGB(111, 220, 255),
+	Cloud = Color3.fromRGB(246, 235, 255),
+	Stone = Color3.fromRGB(160, 144, 170),
+}
 
 local function decorativePart(
 	parent: Instance,
@@ -30,388 +35,304 @@ local function decorativePart(
 	color: Color3,
 	transparency: number?
 ): Part
-	local part = Instance.new("Part")
-	part.Name = name
-	part.Size = size
-	part.CFrame = cframe
-	part.Anchored = true
-	part.CanCollide = false
-	part.CanTouch = false
-	part.CanQuery = false
-	part.CastShadow = true
-	part.Material = material
-	part.Color = color
-	part.Transparency = transparency or 0
-	part.TopSurface = Enum.SurfaceType.Smooth
-	part.BottomSurface = Enum.SurfaceType.Smooth
-	part.Parent = parent
-	return part
+	local item = Instance.new("Part")
+	item.Name = name
+	item.Size = size
+	item.CFrame = cframe
+	item.Anchored = true
+	item.CanCollide = false
+	item.CanTouch = false
+	item.CanQuery = false
+	item.CastShadow = true
+	item.Material = material
+	item.Color = color
+	item.Transparency = transparency or 0
+	item.TopSurface = Enum.SurfaceType.Smooth
+	item.BottomSurface = Enum.SurfaceType.Smooth
+	item.Parent = parent
+	return item
 end
 
-local function addRod(
+local function ball(
+	parent: Instance,
+	name: string,
+	position: Vector3,
+	size: Vector3,
+	material: Enum.Material,
+	color: Color3,
+	transparency: number?
+): Part
+	local item = decorativePart(parent, name, size, CFrame.new(position), material, color, transparency)
+	item.Shape = Enum.PartType.Ball
+	return item
+end
+
+local function disc(
+	parent: Instance,
+	name: string,
+	position: Vector3,
+	diameter: number,
+	height: number,
+	material: Enum.Material,
+	color: Color3,
+	transparency: number?
+): Part
+	local item = decorativePart(
+		parent,
+		name,
+		Vector3.new(height, diameter, diameter),
+		CFrame.new(position) * CFrame.Angles(0, 0, math.rad(90)),
+		material,
+		color,
+		transparency
+	)
+	item.Shape = Enum.PartType.Cylinder
+	return item
+end
+
+local function rod(
 	parent: Instance,
 	name: string,
 	fromPosition: Vector3,
 	toPosition: Vector3,
 	thickness: number,
 	color: Color3,
-	transparency: number?
-)
+	material: Enum.Material?
+): Part?
 	local delta = toPosition - fromPosition
-	if delta.Magnitude < 0.01 then
-		return
+	if delta.Magnitude < 0.05 then
+		return nil
 	end
-
-	local rod = decorativePart(
+	return decorativePart(
 		parent,
 		name,
 		Vector3.new(thickness, thickness, delta.Magnitude),
 		CFrame.lookAt((fromPosition + toPosition) / 2, toPosition),
-		Enum.Material.Metal,
-		color,
-		transparency
-	)
-	if (transparency or 0) >= 0.2 then
-		rod.CastShadow = false
-	end
-end
-
-local function cableAnchor(parent: Instance): BasePart
-	local existing = parent:FindFirstChild("CableRigAnchor")
-	if existing and existing:IsA("BasePart") then
-		return existing
-	end
-
-	local anchor = decorativePart(
-		parent,
-		"CableRigAnchor",
-		Vector3.new(0.05, 0.05, 0.05),
-		CFrame.identity,
-		Enum.Material.SmoothPlastic,
-		Color3.new(0, 0, 0),
-		1
-	)
-	anchor.CastShadow = false
-	return anchor
-end
-
-local function addCable(
-	parent: Instance,
-	name: string,
-	fromPosition: Vector3,
-	toPosition: Vector3,
-	color: Color3,
-	width: number
-)
-	local anchorPart = cableAnchor(parent)
-
-	local attachmentA = Instance.new("Attachment")
-	attachmentA.Name = name .. "AttachmentA"
-	attachmentA.Position = anchorPart.CFrame:PointToObjectSpace(fromPosition)
-	attachmentA.Parent = anchorPart
-
-	local attachmentB = Instance.new("Attachment")
-	attachmentB.Name = name .. "AttachmentB"
-	attachmentB.Position = anchorPart.CFrame:PointToObjectSpace(toPosition)
-	attachmentB.Parent = anchorPart
-
-	local beam = Instance.new("Beam")
-	beam.Name = name
-	beam.Attachment0 = attachmentA
-	beam.Attachment1 = attachmentB
-	beam.Color = ColorSequence.new(color)
-	beam.Width0 = width
-	beam.Width1 = width
-	beam.Transparency = NumberSequence.new(0.28)
-	beam.LightEmission = 0.25
-	beam.FaceCamera = true
-	beam.Segments = 6
-	beam.Parent = anchorPart
-end
-
-local function addPracticalLight(parent: Instance, position: Vector3, color: Color3)
-	local post = decorativePart(
-		parent,
-		"PracticalPost",
-		Vector3.new(0.34, 2.4, 0.34),
-		CFrame.new(position + Vector3.new(0, 1.2, 0)),
-		Enum.Material.Metal,
-		hex(WorldConfig.Palette.Foundation)
-	)
-	local cap = decorativePart(
-		parent,
-		"PracticalLamp",
-		Vector3.new(0.66, 0.22, 0.66),
-		post.CFrame + Vector3.new(0, 1.34, 0),
-		Enum.Material.Neon,
+		material or Enum.Material.Slate,
 		color
 	)
-	cap.CastShadow = false
-
-	local light = Instance.new("PointLight")
-	light.Color = color
-	light.Brightness = 1.15
-	light.Range = 11
-	light.Shadows = false
-	light.Parent = cap
 end
 
-local function addBuilding(parent: Instance, position: Vector3, size: Vector3, shade: number)
-	local building = decorativePart(
+local function addGlow(parent: BasePart, color: Color3, brightness: number, range: number)
+	local light = Instance.new("PointLight")
+	light.Color = color
+	light.Brightness = brightness
+	light.Range = range
+	light.Shadows = false
+	light.Parent = parent
+end
+
+local function addTree(parent: Instance, position: Vector3, scale: number)
+	decorativePart(
 		parent,
-		"CityMass",
-		size,
-		CFrame.new(position + Vector3.new(0, size.Y / 2, 0)),
-		Enum.Material.Concrete,
-		Color3.fromRGB(shade, shade + 6, shade + 14)
+		"SkyTreeTrunk",
+		Vector3.new(0.8 * scale, 4.2 * scale, 0.8 * scale),
+		CFrame.new(position + Vector3.new(0, 2.1 * scale, 0)),
+		Enum.Material.Wood,
+		COLORS.Wood
+	)
+	ball(
+		parent,
+		"SkyTreeCrown",
+		position + Vector3.new(0, 4.7 * scale, 0),
+		Vector3.new(4.2, 3.0, 4.2) * scale,
+		Enum.Material.Grass,
+		COLORS.Leaves
+	)
+	ball(
+		parent,
+		"SkyTreeHighlight",
+		position + Vector3.new(1.1 * scale, 5.3 * scale, -0.5 * scale),
+		Vector3.new(2.2, 1.7, 2.2) * scale,
+		Enum.Material.Grass,
+		COLORS.LeavesLight
+	)
+end
+
+local function addFloatingIsland(parent: Instance, position: Vector3, radius: number, seed: number)
+	local depth = radius * 0.82
+	ball(
+		parent,
+		"FloatingRock",
+		position - Vector3.new(0, depth * 0.36, 0),
+		Vector3.new(radius * 1.9, depth, radius * 1.65),
+		Enum.Material.Slate,
+		if seed % 2 == 0 then COLORS.Rock else COLORS.RockLight
+	)
+	disc(
+		parent,
+		"GrassCrown",
+		position + Vector3.new(0, 0.24, 0),
+		radius * 1.72,
+		0.55,
+		Enum.Material.Grass,
+		COLORS.Grass
+	)
+	disc(
+		parent,
+		"MossRim",
+		position - Vector3.new(0, 0.08, 0),
+		radius * 1.82,
+		0.25,
+		Enum.Material.Ground,
+		COLORS.GrassLight
 	)
 
-	local bands = math.clamp(math.floor(size.Y / 11), 2, 6)
-	for row = 1, bands do
-		local bandColor = if row % 2 == 0 then Color3.fromRGB(255, 180, 96) else Color3.fromRGB(103, 155, 184)
-		local zSide = if row % 2 == 0 then -1 else 1
-		local window = decorativePart(
-			parent,
-			"WindowBand",
-			Vector3.new(math.max(4, size.X - 1.8), 0.18, 0.08),
-			CFrame.new(position + Vector3.new(0, row * (size.Y / (bands + 1)), zSide * (size.Z / 2 + 0.05))),
-			Enum.Material.Neon,
-			bandColor,
-			0.28
+	for index = 1, 2 do
+		local angle = (seed * 1.7 + index * 2.35) % (math.pi * 2)
+		local offset = Vector3.new(
+			math.cos(angle) * radius * 0.44,
+			-depth * (0.58 + index * 0.13),
+			math.sin(angle) * radius * 0.44
 		)
-		window.CastShadow = false
+		ball(
+			parent,
+			"HangingRock",
+			position + offset,
+			Vector3.new(radius * 0.55, depth * 0.55, radius * 0.5),
+			Enum.Material.Rock,
+			COLORS.Rock
+		)
 	end
+end
 
-	local roofLight = decorativePart(
+local function addWaterfall(parent: Instance, position: Vector3, length: number)
+	local water = decorativePart(
 		parent,
-		"RoofBeacon",
-		Vector3.new(math.max(2.2, size.X - 2.8), 0.12, 0.22),
-		CFrame.new(position + Vector3.new(0, size.Y + 0.10, 0)),
-		Enum.Material.Neon,
-		Color3.fromRGB(91, 196, 220),
-		0.32
+		"SkyWaterfall",
+		Vector3.new(2.4, length, 0.28),
+		CFrame.new(position - Vector3.new(0, length / 2, 0)),
+		Enum.Material.Glass,
+		COLORS.Water,
+		0.34
 	)
-	roofLight.CastShadow = false
+	water.CastShadow = false
+	local glow = decorativePart(
+		parent,
+		"WaterfallGlow",
+		Vector3.new(0.6, length * 0.94, 0.12),
+		water.CFrame + Vector3.new(0.45, 0, -0.08),
+		Enum.Material.Neon,
+		COLORS.Cyan,
+		0.58
+	)
+	glow.CastShadow = false
+end
 
-	return building
+local function addPortal(parent: Instance, center: Vector3, radius: number, color: Color3)
+	local segments = 10
+	for index = 1, segments do
+		local a = ((index - 1) / segments) * math.pi * 2
+		local b = (index / segments) * math.pi * 2
+		local from = center + Vector3.new(math.cos(a) * radius, math.sin(a) * radius, 0)
+		local to = center + Vector3.new(math.cos(b) * radius, math.sin(b) * radius, 0)
+		local segment = rod(parent, "PortalRune", from, to, 0.32, color, Enum.Material.Neon)
+		if segment then
+			segment.CastShadow = false
+		end
+	end
+	local core = decorativePart(
+		parent,
+		"PortalCore",
+		Vector3.new(radius * 1.42, radius * 1.42, 0.08),
+		CFrame.new(center),
+		Enum.Material.ForceField,
+		color,
+		0.72
+	)
+	core.CastShadow = false
+	addGlow(core, color, 1.4, 18)
+end
+
+local function addRuin(parent: Instance, center: Vector3, scale: number)
+	for _, side in { -1, 1 } do
+		decorativePart(
+			parent,
+			"RuinColumn",
+			Vector3.new(1.2 * scale, 6.6 * scale, 1.2 * scale),
+			CFrame.new(center + Vector3.new(side * 3.1 * scale, 3.3 * scale, 0)),
+			Enum.Material.Marble,
+			COLORS.Stone
+		)
+	end
+	decorativePart(
+		parent,
+		"RuinLintel",
+		Vector3.new(7.4 * scale, 1.0 * scale, 1.35 * scale),
+		CFrame.new(center + Vector3.new(0, 6.55 * scale, 0)),
+		Enum.Material.Marble,
+		COLORS.Stone
+	)
+end
+
+local function addCloudWisps(parent: Instance, center: Vector3, scale: number)
+	for index = 1, 4 do
+		local offset =
+			Vector3.new((index - 2.5) * 4.3 * scale, math.sin(index) * 0.7, math.cos(index * 1.7) * 2.5 * scale)
+		local cloud = ball(
+			parent,
+			"CloudWisp",
+			center + offset,
+			Vector3.new(8.5, 2.2, 5.0) * scale,
+			Enum.Material.SmoothPlastic,
+			COLORS.Cloud,
+			0.60
+		)
+		cloud.CastShadow = false
+	end
 end
 
 local function buildServiceDecks(parent: Instance, origin: Vector3)
 	local folder = Instance.new("Folder")
-	folder.Name = "ServiceDecksArt"
+	folder.Name = "DawnGardensArt"
 	folder.Parent = parent
 
-	local steel = hex("#202938")
-	local foundation = hex("#121722")
-	local amber = hex("#FFB454")
-
-	for side in { -1, 1 } do
-		local spineX = origin.X + side * (if side < 0 then 32 else 35)
-		decorativePart(
-			folder,
-			"ServiceSpine",
-			Vector3.new(2.4, 52, 2.4),
-			CFrame.new(spineX, 26, origin.Z + 2),
-			Enum.Material.Metal,
-			steel
-		)
-
-		for y = 8, 48, 10 do
-			local stagger = if side < 0 then (y % 20) * 0.08 else ((y + 10) % 20) * 0.08
-			decorativePart(
-				folder,
-				"ServiceCrossbeam",
-				Vector3.new(7.4 + stagger, 0.7, 0.8),
-				CFrame.new(origin.X + side * (28.0 + stagger), y, origin.Z + 2 + side * stagger),
-				Enum.Material.Metal,
-				foundation
-			)
-		end
-	end
-
-	-- Keep the skyline as depth, not as gameplay-shaped foreground mass.
-	-- The wider/lighter/farther placement prevents the dark city silhouettes from
-	-- visually merging with the first four climb targets on tablet/phone cameras.
-	for index = 1, 9 do
-		local x = origin.X - 80 + index * 17 + (index % 2) * 3
-		local height = 18 + ((index * 3) % 5) * 7
-		addBuilding(
-			folder,
-			Vector3.new(x, -18, origin.Z - 142 - ((index * 2) % 4) * 10),
-			Vector3.new(9 + ((index + 1) % 3) * 2.5, height, 10 + ((index * 2) % 3) * 2),
-			68 + index * 2
-		)
-	end
-
-	for _, offset in
-		{
-			Vector3.new(-13, 4.7, -10),
-			Vector3.new(13, 4.7, -10),
-			Vector3.new(-13, 4.7, 10),
-			Vector3.new(13, 4.7, 10),
-		}
-	do
-		addPracticalLight(folder, origin + offset, amber)
-	end
-
-	for _, y in { 13, 29, 45 } do
-		addCable(
-			folder,
-			"ServiceCable",
-			Vector3.new(origin.X - 32, y, origin.Z + 2),
-			Vector3.new(origin.X - 43, y - 5, origin.Z + 24),
-			Color3.fromRGB(84, 98, 116),
-			0.055
-		)
-		addCable(
-			folder,
-			"ServiceCable",
-			Vector3.new(origin.X + 35, y, origin.Z + 2),
-			Vector3.new(origin.X + 46, y - 5, origin.Z + 24),
-			Color3.fromRGB(84, 98, 116),
-			0.055
-		)
-	end
+	local islandA = origin + Vector3.new(-27, 16, -23)
+	local islandB = origin + Vector3.new(31, 28, -38)
+	local islandC = origin + Vector3.new(-34, 42, 18)
+	addFloatingIsland(folder, islandA, 12, 1)
+	addFloatingIsland(folder, islandB, 9, 2)
+	addFloatingIsland(folder, islandC, 8, 3)
+	addTree(folder, islandA + Vector3.new(-2, 0.5, 1), 0.85)
+	addTree(folder, islandA + Vector3.new(3, 0.5, -2), 0.62)
+	addTree(folder, islandB + Vector3.new(1, 0.5, 0), 0.68)
+	addWaterfall(folder, islandA + Vector3.new(7.5, 0, 0), 18)
+	addRuin(folder, islandC + Vector3.new(0, 0.4, 0), 0.72)
+	addCloudWisps(folder, origin + Vector3.new(0, -8, -70), 1.25)
 end
 
 local function buildCloudline(parent: Instance, origin: Vector3)
 	local folder = Instance.new("Folder")
-	folder.Name = "CloudlineArt"
+	folder.Name = "CloudTemplesArt"
 	folder.Parent = parent
 
-	local steel = hex("#263447")
-	local cyan = hex("#5EEBFF")
-	local glass = Color3.fromRGB(116, 148, 168)
-
-	for side in { -1, 1 } do
-		local x = origin.X + side * (if side < 0 then 33 else 36)
-		decorativePart(
-			folder,
-			"CloudlineMast",
-			Vector3.new(1.4, 58, 1.4),
-			CFrame.new(x, 86, origin.Z - 3),
-			Enum.Material.Metal,
-			steel
-		)
-
-		for y = 62, 112, 12 do
-			local armShift = if side < 0 then (y % 24) * 0.06 else ((y + 12) % 24) * 0.06
-			decorativePart(
-				folder,
-				"CloudlineArm",
-				Vector3.new(8.1 + armShift, 0.42, 0.58),
-				CFrame.new(origin.X + side * (29.2 + armShift), y, origin.Z - 3 + side * armShift),
-				Enum.Material.Metal,
-				steel
-			)
-		end
-	end
-
-	for index = 1, 4 do
-		local panel = decorativePart(
-			folder,
-			"GlassServicePanel",
-			Vector3.new(7, 0.24, 3.2),
-			CFrame.new(origin.X + (if index % 2 == 0 then -27 else 27), 70 + index * 12, origin.Z + (index - 2.5) * 8),
-			Enum.Material.Glass,
-			glass,
-			0.54
-		)
-		panel.CastShadow = false
-
-		decorativePart(
-			folder,
-			"PanelGuide",
-			Vector3.new(5.8, 0.12, 0.16),
-			panel.CFrame + Vector3.new(0, 0.22, 0),
-			Enum.Material.Neon,
-			cyan,
-			0.12
-		).CastShadow =
-			false
-	end
-
-	for _, y in { 70, 88, 106 } do
-		addCable(
-			folder,
-			"CloudlineTensionCable",
-			Vector3.new(origin.X - 34, y, origin.Z - 3),
-			Vector3.new(origin.X + 34, y + 4, origin.Z + 17),
-			Color3.fromRGB(116, 203, 220),
-			0.05
-		)
-	end
+	local islandA = origin + Vector3.new(35, 72, 12)
+	local islandB = origin + Vector3.new(-38, 91, -24)
+	addFloatingIsland(folder, islandA, 10, 4)
+	addFloatingIsland(folder, islandB, 11, 5)
+	addTree(folder, islandA + Vector3.new(2, 0.5, -1), 0.72)
+	addTree(folder, islandB + Vector3.new(-2, 0.5, 1), 0.78)
+	addWaterfall(folder, islandB + Vector3.new(-7.5, 0, 0), 22)
+	addRuin(folder, islandA + Vector3.new(-1, 0.4, 0), 0.82)
+	addPortal(folder, islandB + Vector3.new(0, 6.4, 0), 4.3, COLORS.Cyan)
+	addCloudWisps(folder, origin + Vector3.new(3, 58, -54), 1.5)
 end
 
 local function buildStratosphere(parent: Instance, origin: Vector3)
 	local folder = Instance.new("Folder")
-	folder.Name = "StratosphereArt"
+	folder.Name = "StarSanctuaryArt"
 	folder.Parent = parent
 
-	local deepSteel = hex("#31445A")
-	local pale = hex("#B9F6FF")
-	local foundation = hex("#121722")
-
-	decorativePart(
-		folder,
-		"HighSpine",
-		Vector3.new(1.8, 78, 1.8),
-		CFrame.new(origin.X - 44, 145, origin.Z + 14),
-		Enum.Material.Metal,
-		deepSteel
-	)
-
-	for index = 1, 7 do
-		local y = 116 + index * 9
-		local side = if index % 2 == 0 then 1 else -1
-		decorativePart(
-			folder,
-			"AntennaRib",
-			Vector3.new(8.4, 0.34, 0.46),
-			CFrame.new(origin.X - 44 + side * 3.3, y, origin.Z + 14) * CFrame.Angles(0, 0, math.rad(side * 12)),
-			Enum.Material.Metal,
-			foundation
-		)
-	end
-
-	for index = 1, 5 do
-		local y = 126 + index * 12
-		local beacon = decorativePart(
-			folder,
-			"HighBeacon",
-			Vector3.new(0.48, 0.48, 0.48),
-			CFrame.new(origin.X + 32, y, origin.Z - 10 + (index % 2) * 14),
-			Enum.Material.Neon,
-			pale,
-			0.08
-		)
-		beacon.CastShadow = false
-
-		local light = Instance.new("PointLight")
-		light.Color = pale
-		light.Brightness = 0.8
-		light.Range = 8
-		light.Shadows = false
-		light.Parent = beacon
-	end
-
-	local ringCenter = origin + Vector3.new(0, 151, 4)
-	local ringRadius = 42
-	local ringSegments = 14
-	for index = 1, ringSegments do
-		local a = (index - 1) / ringSegments * math.pi * 2
-		local b = index / ringSegments * math.pi * 2
-		local fromPosition = ringCenter
-			+ Vector3.new(math.cos(a) * ringRadius, math.sin(a) * 8, math.sin(a) * ringRadius)
-		local toPosition = ringCenter + Vector3.new(math.cos(b) * ringRadius, math.sin(b) * 8, math.sin(b) * ringRadius)
-		addRod(folder, "StratosphereRing", fromPosition, toPosition, 0.18, deepSteel, 0.34)
-	end
-
-	for _, angle in { 0, math.pi * 0.66, math.pi * 1.33 } do
-		local ringPoint = ringCenter
-			+ Vector3.new(math.cos(angle) * ringRadius, math.sin(angle) * 8, math.sin(angle) * ringRadius)
-		addCable(folder, "HighTensionCable", ringPoint, ringPoint + Vector3.new(0, 36, 0), pale, 0.045)
-	end
+	local islandA = origin + Vector3.new(-36, 128, 16)
+	local islandB = origin + Vector3.new(34, 154, -18)
+	addFloatingIsland(folder, islandA, 9, 6)
+	addFloatingIsland(folder, islandB, 12, 7)
+	addTree(folder, islandA + Vector3.new(0, 0.5, 0), 0.62)
+	addTree(folder, islandB + Vector3.new(3, 0.5, 1), 0.78)
+	addTree(folder, islandB + Vector3.new(-3, 0.5, -2), 0.58)
+	addWaterfall(folder, islandB + Vector3.new(7.8, 0, 0), 26)
+	addPortal(folder, islandB + Vector3.new(0, 7.2, 0), 5.0, COLORS.Lavender)
+	addCloudWisps(folder, origin + Vector3.new(-2, 118, -62), 1.7)
 end
 
 function WorldArtService.configureLighting()
@@ -423,36 +344,49 @@ function WorldArtService.configureLighting()
 	Lighting.ClockTime = ArtConfig.Lighting.ClockTime
 	Lighting.Brightness = ArtConfig.Lighting.Brightness
 	Lighting.ExposureCompensation = ArtConfig.Lighting.ExposureCompensation
+	Lighting.EnvironmentDiffuseScale = 0.48
+	Lighting.EnvironmentSpecularScale = 0.72
 	Lighting.GlobalShadows = true
-	Lighting.ShadowSoftness = 0.28
-	Lighting.Ambient = Color3.fromRGB(74, 83, 101)
-	Lighting.OutdoorAmbient = Color3.fromRGB(112, 119, 132)
+	Lighting.ShadowSoftness = 0.36
+	Lighting.Ambient = Color3.fromRGB(126, 105, 154)
+	Lighting.OutdoorAmbient = Color3.fromRGB(196, 169, 195)
+	Lighting.ColorShift_Top = Color3.fromRGB(255, 209, 174)
+	Lighting.ColorShift_Bottom = Color3.fromRGB(181, 173, 232)
+	Lighting.FogColor = Color3.fromRGB(225, 190, 232)
+	Lighting.FogStart = 310
+	Lighting.FogEnd = 1500
 
 	local atmosphere = Lighting:FindFirstChildOfClass("Atmosphere") or Instance.new("Atmosphere")
 	atmosphere.Density = ArtConfig.Lighting.AtmosphereDensity
 	atmosphere.Haze = ArtConfig.Lighting.AtmosphereHaze
-	atmosphere.Color = Color3.fromRGB(196, 214, 226)
-	atmosphere.Decay = Color3.fromRGB(105, 117, 137)
-	atmosphere.Glare = 0.12
+	atmosphere.Offset = 0.11
+	atmosphere.Color = Color3.fromRGB(237, 215, 255)
+	atmosphere.Decay = Color3.fromRGB(214, 155, 130)
+	atmosphere.Glare = 0.17
 	atmosphere.Parent = Lighting
 
 	local bloom = Lighting:FindFirstChildOfClass("BloomEffect") or Instance.new("BloomEffect")
-	bloom.Intensity = 0.22
-	bloom.Size = 22
-	bloom.Threshold = 1.45
+	bloom.Intensity = 0.52
+	bloom.Size = 38
+	bloom.Threshold = 1.05
 	bloom.Parent = Lighting
 
 	local color = Lighting:FindFirstChildOfClass("ColorCorrectionEffect") or Instance.new("ColorCorrectionEffect")
-	color.Brightness = 0.01
-	color.Contrast = 0.06
-	color.Saturation = -0.04
-	color.TintColor = Color3.fromRGB(238, 245, 251)
+	color.Brightness = 0.025
+	color.Contrast = 0.07
+	color.Saturation = 0.10
+	color.TintColor = Color3.fromRGB(255, 239, 224)
 	color.Parent = Lighting
+
+	local rays = Lighting:FindFirstChildOfClass("SunRaysEffect") or Instance.new("SunRaysEffect")
+	rays.Intensity = 0.075
+	rays.Spread = 0.72
+	rays.Parent = Lighting
 
 	local clouds = Workspace.Terrain:FindFirstChildOfClass("Clouds") or Instance.new("Clouds")
 	clouds.Cover = ArtConfig.Lighting.CloudCover
 	clouds.Density = ArtConfig.Lighting.CloudDensity
-	clouds.Color = Color3.fromRGB(232, 238, 243)
+	clouds.Color = Color3.fromRGB(255, 240, 255)
 	clouds.Parent = Workspace.Terrain
 end
 
@@ -461,6 +395,7 @@ function WorldArtService.createLane(parent: Instance, laneOrigin: Vector3)
 
 	local environment = Instance.new("Folder")
 	environment.Name = "EnvironmentArt"
+	environment:SetAttribute("VisualIdentity", ArtConfig.VisualIdentity)
 	environment.Parent = parent
 
 	buildServiceDecks(environment, laneOrigin)

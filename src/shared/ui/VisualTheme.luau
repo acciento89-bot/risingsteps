@@ -1,0 +1,53 @@
+--!strict
+
+return {
+	Id = "rising-steps",
+	Title = "Rising Steps",
+	Colors = {
+		Foundation = "#16162E",
+		Panel = "#29244B",
+		Panel2 = "#3A3261",
+		Accent = "#FFB65F",
+		Accent2 = "#9A82FF",
+		Accent3 = "#64E6A7",
+		Text = "#FFF8EA",
+		Muted = "#D4CCE3",
+	},
+	Lighting = {
+		Brightness = 2.7,
+		ClockTime = 17.35,
+		ExposureCompensation = 0.22,
+		EnvironmentDiffuseScale = 0.45,
+		EnvironmentSpecularScale = 0.78,
+		FogStart = 340,
+		FogEnd = 1450,
+		Ambient = "#9C82BC",
+		OutdoorAmbient = "#C8B2D7",
+		FogColor = "#E6C7FF",
+	},
+	Atmosphere = {
+		Density = 0.28,
+		Offset = 0.12,
+		Color = "#E8D6FF",
+		Decay = "#D8A98C",
+		Glare = 0.18,
+		Haze = 1.7,
+	},
+	Effects = {
+		BloomIntensity = 0.7,
+		BloomSize = 42,
+		BloomThreshold = 1.0,
+		Saturation = 0.12,
+		Contrast = 0.06,
+		TintColor = "#FFE8D5",
+		SunRaysIntensity = 0.08,
+		SunRaysSpread = 0.72,
+	},
+	Clouds = {
+		Cover = 0.36,
+		Density = 0.42,
+		Color = "#FFF4FF",
+	},
+	TargetGuis = { "RisingStepsHUD" },
+	TargetPrefixes = { "RisingSteps" },
+}

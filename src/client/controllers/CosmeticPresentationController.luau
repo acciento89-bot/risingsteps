@@ -13,20 +13,20 @@ local LOCAL_PLAYER = Players.LocalPlayer
 
 local STEP_THEMES = {
 	steel = {
-		Collision = Color3.fromRGB(42, 54, 70),
-		Inset = Color3.fromRGB(58, 70, 84),
-		Accent = Color3.fromRGB(94, 235, 255),
-		Detail = Color3.fromRGB(255, 180, 84),
+		Collision = Color3.fromRGB(112, 94, 126),
+		Inset = Color3.fromRGB(118, 158, 92),
+		Accent = Color3.fromRGB(255, 211, 106),
+		Detail = Color3.fromRGB(245, 226, 190),
 	},
 	forge = {
-		Collision = Color3.fromRGB(70, 45, 34),
-		Inset = Color3.fromRGB(101, 58, 38),
-		Accent = Color3.fromRGB(255, 151, 72),
-		Detail = Color3.fromRGB(255, 210, 116),
+		Collision = Color3.fromRGB(145, 94, 91),
+		Inset = Color3.fromRGB(169, 133, 88),
+		Accent = Color3.fromRGB(255, 180, 92),
+		Detail = Color3.fromRGB(255, 224, 151),
 	},
 	frost = {
-		Collision = Color3.fromRGB(39, 61, 76),
-		Inset = Color3.fromRGB(65, 93, 110),
+		Collision = Color3.fromRGB(116, 142, 169),
+		Inset = Color3.fromRGB(150, 180, 181),
 		Accent = Color3.fromRGB(128, 237, 255),
 		Detail = Color3.fromRGB(221, 251, 255),
 	},
@@ -99,8 +99,11 @@ local function recolorStepModel(step: Model, theme: any)
 			if
 				descendant.Name == "AccentA"
 				or descendant.Name == "AccentB"
+				or descendant.Name == "AccentC"
+				or descendant.Name == "AccentD"
 				or descendant.Name == "UnderGlow"
 				or descendant.Name == "LandingMark"
+				or descendant.Name == "BonusCore"
 			then
 				descendant.Color = theme.Accent
 			elseif descendant.Name == "DeckBolt" or descendant.Name == "WarmMarker" then

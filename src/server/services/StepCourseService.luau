@@ -86,30 +86,30 @@ local COLORS = {
 local function paletteForBand(bandId: string)
 	if bandId == "service-decks" then
 		return {
-			Collision = Color3.fromRGB(54, 68, 86),
-			Inset = Color3.fromRGB(76, 90, 108),
-			Accent = COLORS.Active,
-			Detail = COLORS.Warm,
-			CollisionMaterial = Enum.Material.DiamondPlate,
-			InsetMaterial = Enum.Material.Rubber,
+			Collision = Color3.fromRGB(112, 94, 126),
+			Inset = Color3.fromRGB(118, 158, 92),
+			Accent = Color3.fromRGB(255, 211, 106),
+			Detail = Color3.fromRGB(245, 226, 190),
+			CollisionMaterial = Enum.Material.Slate,
+			InsetMaterial = Enum.Material.Grass,
 		}
 	elseif bandId == "cloudline-works" then
 		return {
-			Collision = Color3.fromRGB(58, 76, 98),
-			Inset = Color3.fromRGB(80, 100, 120),
-			Accent = Color3.fromRGB(94, 235, 255),
-			Detail = Color3.fromRGB(184, 237, 246),
-			CollisionMaterial = Enum.Material.Metal,
-			InsetMaterial = Enum.Material.Metal,
+			Collision = Color3.fromRGB(113, 138, 160),
+			Inset = Color3.fromRGB(136, 177, 145),
+			Accent = Color3.fromRGB(116, 232, 255),
+			Detail = Color3.fromRGB(222, 245, 255),
+			CollisionMaterial = Enum.Material.Limestone,
+			InsetMaterial = Enum.Material.Grass,
 		}
 	end
 
 	return {
-		Collision = Color3.fromRGB(68, 86, 108),
-		Inset = Color3.fromRGB(92, 110, 132),
-		Accent = Color3.fromRGB(185, 246, 255),
-		Detail = Color3.fromRGB(220, 251, 255),
-		CollisionMaterial = Enum.Material.Slate,
+		Collision = Color3.fromRGB(128, 111, 168),
+		Inset = Color3.fromRGB(168, 148, 194),
+		Accent = Color3.fromRGB(215, 197, 255),
+		Detail = Color3.fromRGB(246, 235, 255),
+		CollisionMaterial = Enum.Material.Marble,
 		InsetMaterial = Enum.Material.SmoothPlastic,
 	}
 end
@@ -167,6 +167,7 @@ local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3)
 	local size = GameConfig.Step.BaseFootprint
 	local thickness = GameConfig.Step.CollisionThickness
 	local palette = paletteForBand(definition.BandId)
+	local underColor = palette.Collision:Lerp(Color3.new(0, 0, 0), 0.18)
 
 	local collision = makePart(
 		model,
@@ -200,7 +201,7 @@ local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3)
 		"AccentA",
 		Vector3.new(size - 0.5, 0.12, edgeThickness),
 		CFrame.new(center.X, edgeY, center.Z - edgeOffset),
-		Enum.Material.Metal,
+		Enum.Material.Neon,
 		palette.Accent,
 		false
 	)
@@ -209,7 +210,7 @@ local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3)
 		"AccentB",
 		Vector3.new(size - 0.5, 0.12, edgeThickness),
 		CFrame.new(center.X, edgeY, center.Z + edgeOffset),
-		Enum.Material.Metal,
+		Enum.Material.Neon,
 		palette.Accent,
 		false
 	)
@@ -223,7 +224,7 @@ local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3)
 		"AccentC",
 		Vector3.new(edgeThickness, 0.12, size - 0.5),
 		CFrame.new(center.X - edgeOffset, edgeY, center.Z),
-		Enum.Material.Metal,
+		Enum.Material.Neon,
 		palette.Accent,
 		false
 	)
@@ -232,7 +233,7 @@ local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3)
 		"AccentD",
 		Vector3.new(edgeThickness, 0.12, size - 0.5),
 		CFrame.new(center.X + edgeOffset, edgeY, center.Z),
-		Enum.Material.Metal,
+		Enum.Material.Neon,
 		palette.Accent,
 		false
 	)
@@ -243,13 +244,14 @@ local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3)
 
 	local support = makePart(
 		model,
-		"SupportSpine",
-		Vector3.new(0.55, 1.45, size - 1.0),
-		CFrame.new(center + Vector3.new(0, -thickness / 2 - 0.72, 0)),
-		Enum.Material.Metal,
-		COLORS.Foundation,
+		"HangingRockCore",
+		Vector3.new(size * 0.72, 1.9, size * 0.68),
+		CFrame.new(center + Vector3.new(0, -thickness / 2 - 0.94, 0)),
+		Enum.Material.Rock,
+		underColor,
 		false
 	)
+	support.Shape = Enum.PartType.Ball
 	table.insert(decorations, support)
 
 	local landingMark = makePart(
@@ -338,7 +340,7 @@ local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3)
 			Vector3.new(size - 1.4, 0.28, 0.45),
 			CFrame.new(center + Vector3.new(0, -thickness / 2 - 0.48, 0)),
 			Enum.Material.Metal,
-			COLORS.Foundation,
+			underColor,
 			false
 		)
 		table.insert(decorations, crossbar)
@@ -352,7 +354,7 @@ local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3)
 				Vector3.new(0.18, 0.68, 2.1),
 				CFrame.new(center + Vector3.new(side * (size / 2 + 0.16), 0.10, 0)),
 				Enum.Material.Metal,
-				COLORS.Foundation,
+				underColor,
 				false
 			)
 			table.insert(decorations, rail)
@@ -365,7 +367,7 @@ local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3)
 				Vector3.new(0.38, 1.15, 0.38),
 				CFrame.new(center + Vector3.new(side * 2.35, -0.18, -2.35)),
 				Enum.Material.Metal,
-				COLORS.Foundation,
+				underColor,
 				false
 			)
 			table.insert(decorations, anchor)
@@ -377,7 +379,7 @@ local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3)
 			Vector3.new(2.8, 0.34, 0.72),
 			CFrame.new(center + Vector3.new(0, -0.42, -size / 2 - 0.36)),
 			Enum.Material.Metal,
-			COLORS.Foundation,
+			underColor,
 			false
 		)
 		table.insert(decorations, nose)
@@ -429,7 +431,7 @@ local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3)
 			Vector3.new(0.28, 1.5 + (definition.Variant % 3) * 0.32, 0.72),
 			CFrame.new(center + Vector3.new(-cornerSignX * (size / 2 - 0.52), -thickness / 2 - 0.82, cornerSignZ * 0.9)),
 			Enum.Material.Metal,
-			COLORS.Foundation,
+			underColor,
 			false
 		)
 		table.insert(decorations, hangingBracket)

@@ -323,3 +323,9 @@ P15 final-store capture reconciliation (2026-10-04): the authoritative acceptanc
 - [!] Remaining pre-release acceptance is external only: genuine phone/tablet touch, physical mobile-speaker listen, real paid Developer Product receipt + rejoin, and Roblox audience/publishing review.
 - [!] No 50,000 Robux accelerated-review payment and no Developer Product purchase was initiated automatically.
 - Evidence: `docs/evidence/2026-10-04-release-gate-status.md`.
+
+## 2026-10-04 concept visual-polish pass
+
+- [x] Native Roblox concept-quality presentation pass implemented for this game; no static concept screenshot is used in gameplay.
+- [x] Lighting/VFX and native ScreenGui styling are test-guarded and pass local static verification plus Studio PlaySolo runtime QA.
+- [x] Evidence: `docs/evidence/2026-10-04-concept-visual-polish.md`.

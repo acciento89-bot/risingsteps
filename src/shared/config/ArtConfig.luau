@@ -1,14 +1,21 @@
 --!strict
 
 local ArtConfig = {
+	VisualIdentity = "fantasy-sky-realms",
 	Lighting = table.freeze({
-		ClockTime = 17.35,
-		Brightness = 2.1,
-		ExposureCompensation = 0.05,
-		AtmosphereDensity = 0.30,
-		AtmosphereHaze = 1.8,
-		CloudCover = 0.28,
-		CloudDensity = 0.34,
+		ClockTime = 17.4,
+		Brightness = 2.7,
+		ExposureCompensation = 0.22,
+		AtmosphereDensity = 0.27,
+		AtmosphereHaze = 1.65,
+		CloudCover = 0.34,
+		CloudDensity = 0.40,
+	}),
+	Fantasy = table.freeze({
+		FloatingIslandClusters = 7,
+		PortalCount = 2,
+		WaterfallCount = 3,
+		TreeClusters = 8,
 	}),
 	Bands = table.freeze({
 		table.freeze({
@@ -16,24 +23,24 @@ local ArtConfig = {
 			MinHeight = 0,
 			MaxHeight = 11,
 			CenterY = 28,
-			StructureColor = "#202938",
-			AccentColor = "#FFB454",
+			StructureColor = "#685A78",
+			AccentColor = "#FFD36A",
 		}),
 		table.freeze({
 			Id = "cloudline-works",
 			MinHeight = 12,
 			MaxHeight = 29,
 			CenterY = 88,
-			StructureColor = "#263447",
-			AccentColor = "#5EEBFF",
+			StructureColor = "#718AA0",
+			AccentColor = "#74E8FF",
 		}),
 		table.freeze({
 			Id = "stratosphere-spine",
 			MinHeight = 30,
 			MaxHeight = math.huge,
 			CenterY = 154,
-			StructureColor = "#182331",
-			AccentColor = "#B9F6FF",
+			StructureColor = "#806FA8",
+			AccentColor = "#D7C5FF",
 		}),
 	}),
 }
