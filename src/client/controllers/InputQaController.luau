@@ -36,7 +36,17 @@ local function clickButton(virtualInput: any, button: GuiButton)
 	virtualInput:SendMouseButton(center, Enum.UserInputType.MouseButton1, false, 1)
 end
 
-local function run()
+local function getCharacterParts(): (BasePart?, Humanoid?)
+	local character = LOCAL_PLAYER.Character or LOCAL_PLAYER.CharacterAdded:Wait()
+	local rootPart = character:WaitForChild("HumanoidRootPart", 8)
+	local humanoid = character:WaitForChild("Humanoid", 8)
+	if not rootPart or not rootPart:IsA("BasePart") or not humanoid or not humanoid:IsA("Humanoid") then
+		return nil, nil
+	end
+	return rootPart, humanoid
+end
+
+local function runKeyboardMouse()
 	task.wait(RuntimeQaConfig.InputQaStartupDelaySeconds)
 
 	local virtualInput = UserInputService:CreateVirtualInput()
@@ -47,10 +57,8 @@ local function run()
 	end
 	emit("virtual_input_available", true)
 
-	local character = LOCAL_PLAYER.Character or LOCAL_PLAYER.CharacterAdded:Wait()
-	local rootPart = character:WaitForChild("HumanoidRootPart", 8)
-	local humanoid = character:WaitForChild("Humanoid", 8)
-	if not rootPart or not rootPart:IsA("BasePart") or not humanoid or not humanoid:IsA("Humanoid") then
+	local rootPart, humanoid = getCharacterParts()
+	if not rootPart or not humanoid then
 		emit("character_ready", false)
 		LOCAL_PLAYER:SetAttribute("RisingStepsInputQaComplete", true)
 		return
@@ -114,11 +122,132 @@ local function run()
 	print(("[RisingStepsInputQA] COMPLETE keyboard=%s mouse=%s"):format(tostring(keyboardPass), tostring(mousePass)))
 end
 
-function InputQaController.start()
-	if not RunService:IsStudio() or not RuntimeQaConfig.InputQaEnabled then
+local function runGamepadObservation()
+	task.wait(RuntimeQaConfig.InputQaStartupDelaySeconds)
+
+	local rootPart, humanoid = getCharacterParts()
+	if not rootPart or not humanoid then
+		emit("gamepad_character_ready", false)
+		LOCAL_PLAYER:SetAttribute("RisingStepsGamepadQaComplete", true)
 		return
 	end
-	task.spawn(run)
+
+	local connected = UserInputService.GamepadEnabled
+		or UserInputService:GetGamepadConnected(Enum.UserInputType.Gamepad1)
+	emit("gamepad_connected", connected)
+	LOCAL_PLAYER:SetAttribute("RisingStepsGamepadQaConnected", connected)
+
+	local stickSeen = false
+	local movePass = false
+	local buttonASeen = false
+	local jumpPass = false
+	local moveCheckStarted = false
+	local jumpCheckStarted = false
+	local moveOrigin = rootPart.Position
+
+	local changedConnection = UserInputService.InputChanged:Connect(function(input)
+		if input.UserInputType ~= Enum.UserInputType.Gamepad1 or input.KeyCode ~= Enum.KeyCode.Thumbstick1 then
+			return
+		end
+		local magnitude = Vector2.new(input.Position.X, input.Position.Y).Magnitude
+		if magnitude < 0.25 then
+			return
+		end
+		if not stickSeen then
+			stickSeen = true
+			emit("gamepad_thumbstick_event", true, ("magnitude=%.2f"):format(magnitude))
+			LOCAL_PLAYER:SetAttribute("RisingStepsGamepadQaStick", true)
+		end
+		if moveCheckStarted then
+			return
+		end
+		moveCheckStarted = true
+		moveOrigin = rootPart.Position
+		task.delay(0.45, function()
+			if not rootPart.Parent then
+				return
+			end
+			local delta =
+				Vector3.new(rootPart.Position.X - moveOrigin.X, 0, rootPart.Position.Z - moveOrigin.Z).Magnitude
+			movePass = delta >= 0.35 or humanoid.MoveDirection.Magnitude >= 0.20
+			emit(
+				"gamepad_move",
+				movePass,
+				("distance=%.2f moveDirection=%.2f"):format(delta, humanoid.MoveDirection.Magnitude)
+			)
+			LOCAL_PLAYER:SetAttribute("RisingStepsGamepadQaMove", movePass)
+		end)
+	end)
+
+	local beganConnection = UserInputService.InputBegan:Connect(function(input)
+		if input.UserInputType ~= Enum.UserInputType.Gamepad1 or input.KeyCode ~= Enum.KeyCode.ButtonA then
+			return
+		end
+		if not buttonASeen then
+			buttonASeen = true
+			emit("gamepad_button_a_event", true)
+			LOCAL_PLAYER:SetAttribute("RisingStepsGamepadQaButtonA", true)
+		end
+		if jumpCheckStarted then
+			return
+		end
+		jumpCheckStarted = true
+		local beforeY = rootPart.Position.Y
+		task.spawn(function()
+			local peakY = beforeY
+			local deadline = os.clock() + 0.85
+			repeat
+				if not rootPart.Parent then
+					break
+				end
+				peakY = math.max(peakY, rootPart.Position.Y)
+				task.wait(0.03)
+			until os.clock() >= deadline
+			jumpPass = peakY > beforeY + 0.75
+			emit("gamepad_jump", jumpPass, ("rise=%.2f"):format(peakY - beforeY))
+			LOCAL_PLAYER:SetAttribute("RisingStepsGamepadQaJump", jumpPass)
+		end)
+	end)
+
+	local deadline = os.clock() + RuntimeQaConfig.GamepadQaTimeoutSeconds
+	repeat
+		task.wait(0.1)
+	until os.clock() >= deadline or (stickSeen and movePass and buttonASeen and jumpPass)
+
+	changedConnection:Disconnect()
+	beganConnection:Disconnect()
+
+	local passed = connected and stickSeen and movePass and buttonASeen and jumpPass
+	if not stickSeen then
+		emit("gamepad_thumbstick_event", false, "no Thumbstick1 event observed")
+	end
+	if not buttonASeen then
+		emit("gamepad_button_a_event", false, "no ButtonA event observed")
+	end
+	LOCAL_PLAYER:SetAttribute("RisingStepsGamepadQaPass", passed)
+	LOCAL_PLAYER:SetAttribute("RisingStepsGamepadQaComplete", true)
+	print(
+		("[RisingStepsGamepadQA] COMPLETE connected=%s stick=%s move=%s buttonA=%s jump=%s pass=%s"):format(
+			tostring(connected),
+			tostring(stickSeen),
+			tostring(movePass),
+			tostring(buttonASeen),
+			tostring(jumpPass),
+			tostring(passed)
+		)
+	)
+end
+
+function InputQaController.start()
+	if not RunService:IsStudio() then
+		return
+	end
+	if RuntimeQaConfig.InputQaEnabled then
+		task.spawn(runKeyboardMouse)
+	end
+	if RuntimeQaConfig.GamepadQaEnabled then
+		task.spawn(runGamepadObservation)
+	end
 end
 
 return InputQaController

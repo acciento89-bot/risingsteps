@@ -11,6 +11,8 @@ local RuntimeQaConfig = {
 	SoakReportIntervalSeconds = 60,
 	InputQaEnabled = false,
 	InputQaStartupDelaySeconds = 0.5,
+	GamepadQaEnabled = false,
+	GamepadQaTimeoutSeconds = 12,
 }
 
 return table.freeze(RuntimeQaConfig)
