@@ -253,7 +253,7 @@ The Creator Dashboard's `Experience erstellen` control was also tested. It launc
 - [x] P15-T03 Publish canonical build privately
 - [x] P15-T04 Repeat complete P13 journey in published private place
 - [x] P15-T05 Record build hash/place version/rollback
-- [ ] P15-T05A Final store screenshots must be captured from the actual accepted build and accurately represent the shipped art/UI
+- [~] P15-T05A Final store screenshots must be captured from the actual accepted build and accurately represent the shipped art/UI
 - [ ] P15-T05B Final “looks finished” sign-off: no placeholder icon/text/material/model, no default UI styling, no debug overlays, no known visual P0/P1/P2 defect
 - [!] P15-T06 Controlled public release after paid receipt/rejoin evidence and zero P0/P1 defects
 
@@ -310,3 +310,5 @@ Rising Steps V1 is complete only when a player can repeatedly climb, understand 
 - [x] Existing selectable/focus routing covers Shop, Close and Retry for gamepad UI navigation; no controller-only gameplay branch is introduced.
 - [x] The QA harness is Studio-only and default-disabled in `RuntimeQaConfig`; temporary ButtonA keyboard remapping used to make the emulator deterministic was restored to the original Studio preference immediately after the run.
 - [ ] Tablet genuine-touch interaction remains separate and intentionally open.
+
+P15 final-store capture note (2026-10-04): native Roblox `View -> Screenshot` capture for the core-climb frame is accepted; height/cosmetics remain intentionally open until equally clean native captures exist. Evidence: `docs/evidence/2026-10-04-final-store-capture-progress.md`.
