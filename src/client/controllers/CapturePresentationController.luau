@@ -21,6 +21,9 @@ local function hideCoreUi()
 	pcall(function()
 		StarterGui:SetCore("TopbarEnabled", false)
 	end)
+	pcall(function()
+		StarterGui:SetCore("PerformanceStatsVisible", false)
+	end)
 end
 
 function CapturePresentationController.start()
