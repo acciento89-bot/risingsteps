@@ -843,6 +843,141 @@ local function createHud()
 		Color3.fromRGB(113, 229, 255)
 	)
 
+	local dailyDimmer = Instance.new("Frame")
+	dailyDimmer.Name = "DailyDimmer"
+	dailyDimmer.Size = UDim2.fromScale(1, 1)
+	dailyDimmer.BackgroundColor3 = COLORS.Dim
+	dailyDimmer.BackgroundTransparency = 0.34
+	dailyDimmer.BorderSizePixel = 0
+	dailyDimmer.Visible = false
+	dailyDimmer.ZIndex = 60
+	dailyDimmer.Parent = gui
+
+	local dailyPanel = Instance.new("Frame")
+	dailyPanel.Name = "DailyRewardsPanel"
+	dailyPanel.AnchorPoint = Vector2.new(0.5, 0.5)
+	dailyPanel.Position = UDim2.fromScale(0.5, 0.5)
+	dailyPanel.Size = UDim2.fromOffset(430, 292)
+	dailyPanel.BackgroundColor3 = Color3.fromRGB(55, 45, 96)
+	dailyPanel.BackgroundTransparency = 0.02
+	dailyPanel.BorderSizePixel = 0
+	dailyPanel.Visible = false
+	dailyPanel.ZIndex = 61
+	dailyPanel.Parent = gui
+	addCorner(dailyPanel, 22)
+	addStroke(dailyPanel, Color3.fromRGB(220, 205, 255), 0.28, 1.5)
+	addGradient(dailyPanel, Color3.fromRGB(105, 81, 164), Color3.fromRGB(44, 39, 82), 115)
+
+	local dailyModalTitle = makeLabel(
+		dailyPanel,
+		"Title",
+		"DAILY REWARDS",
+		UDim2.fromOffset(300, 34),
+		UDim2.fromOffset(22, 14),
+		Enum.Font.GothamBlack,
+		22,
+		COLORS.Text
+	)
+	dailyModalTitle.ZIndex = 62
+
+	local dailyCloseButton = makeButton(
+		dailyPanel,
+		"CloseButton",
+		"×",
+		UDim2.fromOffset(44, 44),
+		UDim2.new(1, -58, 0, 12),
+		Color3.fromRGB(85, 69, 132),
+		COLORS.Text
+	)
+	dailyCloseButton.TextSize = 24
+	dailyCloseButton.ZIndex = 62
+
+	local dailyModalStatus = makeLabel(
+		dailyPanel,
+		"Status",
+		"COME BACK EVERY DAY FOR A SKY REWARD",
+		UDim2.new(1, -44, 0, 22),
+		UDim2.fromOffset(22, 52),
+		Enum.Font.GothamBold,
+		11,
+		COLORS.Muted
+	)
+	dailyModalStatus.TextXAlignment = Enum.TextXAlignment.Center
+	dailyModalStatus.ZIndex = 62
+
+	local dailyModalTiles: { Frame } = {}
+	for index = 1, 5 do
+		local tile = Instance.new("Frame")
+		tile.Name = ("Day%02d"):format(index)
+		tile.Position = UDim2.fromOffset(18 + (index - 1) * 80, 88)
+		tile.Size = UDim2.fromOffset(72, 110)
+		tile.BackgroundColor3 = Color3.fromRGB(72, 59, 119)
+		tile.BorderSizePixel = 0
+		tile.ZIndex = 62
+		tile.Parent = dailyPanel
+		addCorner(tile, 14)
+		addStroke(tile, Color3.fromRGB(210, 194, 255), 0.54, 1)
+
+		local day = makeLabel(
+			tile,
+			"Day",
+			("DAY %d"):format(index),
+			UDim2.fromOffset(64, 18),
+			UDim2.fromOffset(4, 7),
+			Enum.Font.GothamBold,
+			9,
+			COLORS.Muted
+		)
+		day.TextXAlignment = Enum.TextXAlignment.Center
+		day.ZIndex = 63
+		local icon = makeLabel(
+			tile,
+			"RewardIcon",
+			if index == 1
+				then "✓"
+				elseif index == 2 then "◈"
+				elseif index == 3 then "✦"
+				elseif index == 4 then "♢"
+				else "★",
+			UDim2.fromOffset(64, 44),
+			UDim2.fromOffset(4, 30),
+			Enum.Font.GothamBlack,
+			24,
+			if index == 1 then Color3.fromRGB(103, 232, 159) else COLORS.Warm
+		)
+		icon.TextXAlignment = Enum.TextXAlignment.Center
+		icon.ZIndex = 63
+		local reward = makeLabel(
+			tile,
+			"Reward",
+			if index == 1
+				then "TODAY"
+				elseif index == 2 then "+250"
+				elseif index == 3 then "BONUS"
+				elseif index == 4 then "STYLE"
+				else "RARE",
+			UDim2.fromOffset(64, 20),
+			UDim2.fromOffset(4, 82),
+			Enum.Font.GothamBold,
+			9,
+			COLORS.Text
+		)
+		reward.TextXAlignment = Enum.TextXAlignment.Center
+		reward.ZIndex = 63
+		table.insert(dailyModalTiles, tile)
+	end
+
+	local dailyModalButton = makeButton(
+		dailyPanel,
+		"ClaimButton",
+		"CLAIM REWARD",
+		UDim2.fromOffset(180, 46),
+		UDim2.new(0.5, -90, 1, -64),
+		Color3.fromRGB(95, 224, 130),
+		Color3.fromRGB(35, 42, 55)
+	)
+	dailyModalButton.ZIndex = 62
+
 	local tutorial = Instance.new("Frame")
 	tutorial.Name = "Tutorial"
 	tutorial.AnchorPoint = Vector2.new(0.5, 0)
@@ -1381,7 +1516,7 @@ local function createHud()
 		scale.Scale = ViewportRules.uiScale(width)
 
 		local rightInset, topOffset = ViewportRules.topRightHudOffsets(width, UserInputService.TouchEnabled)
-		conceptShowcase.Visible = viewportClass ~= "compact"
+		conceptShowcase.Visible = false
 		metrics.Visible = viewportClass == "compact"
 		streak.Visible = viewportClass == "compact"
 		if viewportClass ~= "compact" then
@@ -1560,6 +1695,14 @@ local function createHud()
 			conceptDailyCaption.Text = if daily.Claimable == true
 				then "READY TO CLAIM"
 				else ("STREAK %d DAYS"):format(dailyStreak)
+			dailyModalButton.Active = daily.Claimable == true
+			dailyModalButton.Text = if daily.Claimable == true then "CLAIM REWARD" else "CLAIMED"
+			dailyModalButton.BackgroundColor3 = if daily.Claimable == true
+				then Color3.fromRGB(95, 224, 130)
+				else Color3.fromRGB(92, 91, 119)
+			dailyModalStatus.Text = if daily.Claimable == true
+				then ("DAY %d IS READY"):format(math.max(1, dailyStreak + 1))
+				else ("STREAK %d • COME BACK TOMORROW"):format(dailyStreak)
 			for index, tile in conceptDailyTiles do
 				local claimed = index <= math.clamp(dailyStreak, 0, 5)
 				local current = daily.Claimable == true and index == math.clamp(dailyStreak + 1, 1, 5)
@@ -1567,6 +1710,14 @@ local function createHud()
 					then Color3.fromRGB(66, 126, 101)
 					elseif current then Color3.fromRGB(125, 86, 166)
 					else Color3.fromRGB(70, 59, 116)
+			end
+			for index, tile in dailyModalTiles do
+				local claimed = index <= math.clamp(dailyStreak, 0, 5)
+				local current = daily.Claimable == true and index == math.clamp(dailyStreak + 1, 1, 5)
+				tile.BackgroundColor3 = if claimed
+					then Color3.fromRGB(66, 126, 101)
+					elseif current then Color3.fromRGB(125, 86, 166)
+					else Color3.fromRGB(72, 59, 119)
 			end
 		end
 
@@ -1620,6 +1771,20 @@ local function createHud()
 		end
 	end
 
+	local function setDailyVisible(visible: boolean)
+		dailyPanel.Visible = visible
+		dailyDimmer.Visible = visible
+		if visible then
+			setShopVisible(false)
+			refreshShop(profile)
+			if UserInputService.GamepadEnabled then
+				GuiService.SelectedObject = dailyCloseButton
+			end
+		elseif GuiService.SelectedObject and GuiService.SelectedObject:IsDescendantOf(dailyPanel) then
+			GuiService.SelectedObject = dailyQuickButton
+		end
+	end
+
 	for _, conceptButton in conceptShopButtons do
 		conceptButton.Activated:Connect(function()
 			setShopVisible(true)
@@ -1627,15 +1792,14 @@ local function createHud()
 	end
 
 	shopButton.Activated:Connect(function()
+		setDailyVisible(false)
 		setShopVisible(true)
 	end)
 	dailyQuickButton.Activated:Connect(function()
-		setShopVisible(true)
-		task.defer(function()
-			scroll.CanvasPosition = Vector2.new(0, 0)
-		end)
+		setDailyVisible(true)
 	end)
 	styleQuickButton.Activated:Connect(function()
+		setDailyVisible(false)
 		setShopVisible(true)
 		task.defer(function()
 			scroll.CanvasPosition = Vector2.new(0, 360)
@@ -1643,6 +1807,14 @@ local function createHud()
 	end)
 	closeButton.Activated:Connect(function()
 		setShopVisible(false)
+	end)
+	dailyCloseButton.Activated:Connect(function()
+		setDailyVisible(false)
+	end)
+	dailyDimmer.InputBegan:Connect(function(input)
+		if input.UserInputType == Enum.UserInputType.MouseButton1 then
+			setDailyVisible(false)
+		end
 	end)
 	dimmer.InputBegan:Connect(function(input)
 		if input.UserInputType == Enum.UserInputType.MouseButton1 then
@@ -1658,6 +1830,9 @@ local function createHud()
 	end)
 
 	dailyButton.Activated:Connect(function()
+		shopCommand:FireServer({ Action = "ClaimDaily" })
+	end)
+	dailyModalButton.Activated:Connect(function()
 		shopCommand:FireServer({ Action = "ClaimDaily" })
 	end)
 
