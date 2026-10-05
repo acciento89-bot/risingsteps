@@ -250,6 +250,37 @@ local function buildStep(parent: Instance, definition: any, laneOrigin: Vector3)
 	landingMark.Transparency = 0.10
 	table.insert(decorations, landingMark)
 
+	if definition.Id % 3 == 0 then
+		local mossLip = makePart(
+			model,
+			"EdgeMossLip",
+			Vector3.new(size * 0.58, 0.16, 0.34),
+			CFrame.new(center + Vector3.new(size * 0.12, thickness / 2 + 0.18, size / 2 - 0.16))
+				* CFrame.Angles(0, math.rad(-6 + (definition.Id % 4) * 4), 0),
+			Enum.Material.Grass,
+			palette.Inset:Lerp(Color3.fromRGB(193, 221, 137), 0.34),
+			false
+		)
+		mossLip.Transparency = 0.02
+		table.insert(decorations, mossLip)
+	end
+
+	if definition.Id % 5 == 0 then
+		local crystal = makePart(
+			model,
+			"HangingCrystal",
+			Vector3.new(0.44, 1.55, 0.44),
+			CFrame.new(center + Vector3.new(-size * 0.26, -2.45, size * 0.18))
+				* CFrame.Angles(math.rad(12), math.rad(definition.Id * 17 % 360), math.rad(28)),
+			Enum.Material.Neon,
+			palette.Accent:Lerp(COLORS.Warm, 0.22),
+			false
+		)
+		crystal.Transparency = 0.14
+		table.insert(accents, crystal)
+		table.insert(decorations, crystal)
+	end
+
 	local warningSignals: { BasePart } = {}
 	for _, side in { -1, 1 } do
 		local signal = makePart(

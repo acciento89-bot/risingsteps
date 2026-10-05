@@ -14,6 +14,12 @@ A normal gameplay screenshot should immediately show all of the following withou
 - compact glossy UI that leaves the route visible;
 - magical rune/glow accents used as guidance, not broad neon surfaces.
 
+## Graphic fidelity
+- The **parallax sky-island identity** uses a readable foreground route, hero islands in the mid-ground and a softer distant island chain to create depth without hiding the next landing target.
+- The sunset focal point is layered with a broad halo; cloud ribbons and broken sky-bridge ruins give the climb stronger directional flow.
+- Generated steps keep invisible deterministic collision but gain sparse moss-edge and hanging-crystal detail so repeated platforms feel authored without exceeding the mobile presentation budget.
+- Scenic island, cloud, ruin and crystal additions remain decorative and non-colliding.
+
 ## World language
 
 - **Foreground:** grass-topped floating stone platforms, moss, small crystals and subtle golden/cyan rune edges.
