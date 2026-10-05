@@ -343,3 +343,11 @@ P15 final-store capture reconciliation (2026-10-04): the authoritative acceptanc
 - [x] Concept-fidelity source synced to the existing production Place `133160458509988` and published successfully as `v22`.
 - [x] No new Place/Experience created; canonical `main` remained the only source line.
 - [x] Concept-fidelity pass 3: live featured shop + progress/daily/visual cards, unobstructed medium/large hero vista and warmer lavender/sunset world grade are implemented and test-guarded.
+
+## 2026-10-05 graphic-fidelity pass 4
+
+- [x] Source-side concept graphic fidelity implemented: Parallax island chain, layered sun halo, broken sky-bridge/cloud ribbons, sparse moss-edge and hanging-crystal step detail.
+- [x] Contextual-menu rule preserved: full Shop/Daily/Style/Revive/Result surfaces are not permanently visible during normal gameplay.
+- [x] CI verification green on run `37288709962`; merged source commit `3a41806`.
+- [ ] Fresh Roblox Studio PlaySolo visual acceptance after this pass.
+- [ ] Publish/republish this exact graphic-fidelity source to the existing canonical Place after Studio acceptance.
