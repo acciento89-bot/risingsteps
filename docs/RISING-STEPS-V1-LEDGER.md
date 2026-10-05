@@ -349,5 +349,5 @@ P15 final-store capture reconciliation (2026-10-04): the authoritative acceptanc
 - [x] Source-side concept graphic fidelity implemented: Parallax island chain, layered sun halo, broken sky-bridge/cloud ribbons, sparse moss-edge and hanging-crystal step detail.
 - [x] Contextual-menu rule preserved: full Shop/Daily/Style/Revive/Result surfaces are not permanently visible during normal gameplay.
 - [x] CI verification green on run `37288709962`; merged source commit `3a41806`.
-- [ ] Fresh Roblox Studio PlaySolo visual acceptance after this pass.
-- [ ] Publish/republish this exact graphic-fidelity source to the existing canonical Place after Studio acceptance.
+- [x] Fresh Roblox Studio PlaySolo visual acceptance passed: Fantasy Sky Realms route/avatar readability verified; contextual menus remained closed by default; runtime log reported 859 BaseParts / 6 Beams+Lights with no gameplay CreatorError/ScriptError match.
+- [x] Graphic-fidelity source published to existing canonical Place `133160458509988` as `v24`; no new Place/Experience created. Evidence: `docs/evidence/2026-10-05-graphic-fidelity-runtime-publish.md`.
