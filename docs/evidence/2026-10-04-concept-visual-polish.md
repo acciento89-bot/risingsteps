@@ -32,3 +32,12 @@ The visual contract was introduced with a failing test before production impleme
 - Added concept-style HUD hierarchy: Rising Steps wordmark, top-center milestone progress capsule, compact coin pill and vertical Shop/Daily/Style actions.
 - Studio PlaySolo visual inspection completed on the final local build with zero CreatorErrors. Presentation budget remained within the existing lane guard at 789 BaseParts and 6 Beams/Lights.
 - Static verification remained green: 19 pure-Luau test files, 16,000/16,000 reachability placements, Selene 0/0, StyLua, Rojo build and git diff check.
+
+## Concept-fidelity pass 3
+
+- Added a live, native concept composition for medium/large landscape viewports: featured Sky Shop, Clear Progress, five-day Daily Rewards, native ViewportFrame visual preview and compact action rail.
+- The cards use real Rising Steps cosmetics/progression instead of fake screenshot content; featured buttons open the production shop.
+- Legacy Height/PB/Streak blocks are removed from the medium/large concept composition while the compact-phone HUD remains lean and functional.
+- Onboarding copy was moved to a compact bottom-center banner so the central avatar/route stays unobstructed.
+- World grade was shifted toward the approved lavender/warm-sunset reference with denser atmosphere, warmer decay/fog/tint and stronger sun/bloom separation.
+- Final concept-fidelity PlaySolo recheck: `0 CreatorErrors`, 789 BaseParts / 6 Beams+Lights, with the medium/large concept composition visible and the onboarding banner clear of the central route.

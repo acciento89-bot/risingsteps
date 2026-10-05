@@ -342,3 +342,4 @@ P15 final-store capture reconciliation (2026-10-04): the authoritative acceptanc
 
 - [x] Concept-fidelity source synced to the existing production Place `133160458509988` and published successfully as `v22`.
 - [x] No new Place/Experience created; canonical `main` remained the only source line.
+- [x] Concept-fidelity pass 3: live featured shop + progress/daily/visual cards, unobstructed medium/large hero vista and warmer lavender/sunset world grade are implemented and test-guarded.

@@ -3,13 +3,13 @@
 local ArtConfig = {
 	VisualIdentity = "fantasy-sky-realms",
 	Lighting = table.freeze({
-		ClockTime = 17.4,
-		Brightness = 2.7,
-		ExposureCompensation = 0.22,
-		AtmosphereDensity = 0.27,
-		AtmosphereHaze = 1.65,
-		CloudCover = 0.34,
-		CloudDensity = 0.40,
+		ClockTime = 17.78,
+		Brightness = 2.65,
+		ExposureCompensation = 0.28,
+		AtmosphereDensity = 0.34,
+		AtmosphereHaze = 2.15,
+		CloudCover = 0.30,
+		CloudDensity = 0.34,
 	}),
 	Fantasy = table.freeze({
 		FloatingIslandClusters = 7,

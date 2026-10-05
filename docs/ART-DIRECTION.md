@@ -43,3 +43,9 @@ The player's Roblox avatar remains visible during the core loop. Landing feedbac
 ## Quality gate
 
 Release screenshots must look like the same product family as the approved Fantasy Sky Realms concept. Raw primitives, industrial leftovers, default UI, unreadable dark scenes, debug artifacts or large empty areas fail the visual gate.
+
+## Approved concept fidelity
+- **Fantasy Sky Realms** is the canonical presentation: warm lavender/sunset atmosphere, floating grass islands, rock cliff undersides, portals, waterfalls and luminous rune accents.
+- Medium/large landscape layouts use the concept composition: Rising Steps wordmark, top milestone bar + coins, featured shop card, compact vertical actions, progress/daily/visual cards and an unobstructed central avatar route.
+- The onboarding instruction is a compact bottom-center banner on medium/large viewports so it never covers the hero gameplay vista.
+- Compact phones retain the lean gameplay HUD instead of squeezing the full showcase composition into an unsafe viewport.

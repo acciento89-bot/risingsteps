@@ -478,6 +478,371 @@ local function createHud()
 		COLORS.Foundation
 	)
 
+	-- Desktop composition mirrors the approved concept sheet without turning the
+	-- actual game into a static mockup. These cards are native Roblox UI and use
+	-- live progression/profile state; compact and tablet layouts keep the lean HUD.
+	local conceptShowcase = Instance.new("Frame")
+	conceptShowcase.Name = "ConceptShowcase"
+	conceptShowcase.Size = UDim2.fromScale(1, 1)
+	conceptShowcase.BackgroundTransparency = 1
+	conceptShowcase.Visible = false
+	conceptShowcase.Parent = gui
+
+	local shopShowcase = Instance.new("Frame")
+	shopShowcase.Name = "ConceptShopShowcase"
+	shopShowcase.AnchorPoint = Vector2.new(0, 1)
+	shopShowcase.Position = UDim2.new(0, 18, 1, -18)
+	shopShowcase.Size = UDim2.fromOffset(308, 214)
+	shopShowcase.BackgroundColor3 = Color3.fromRGB(52, 42, 91)
+	shopShowcase.BackgroundTransparency = 0.04
+	shopShowcase.BorderSizePixel = 0
+	shopShowcase.Parent = conceptShowcase
+	addCorner(shopShowcase, 22)
+	addStroke(shopShowcase, Color3.fromRGB(215, 197, 255), 0.28, 1.5)
+	addGradient(shopShowcase, Color3.fromRGB(97, 72, 151), Color3.fromRGB(42, 37, 78), 115)
+
+	local shopShowcaseTitle = makeLabel(
+		shopShowcase,
+		"Title",
+		"SKY SHOP",
+		UDim2.fromOffset(156, 28),
+		UDim2.fromOffset(16, 10),
+		Enum.Font.GothamBlack,
+		18,
+		COLORS.Text
+	)
+	shopShowcaseTitle.TextStrokeColor3 = Color3.fromRGB(92, 66, 137)
+	shopShowcaseTitle.TextStrokeTransparency = 0.42
+
+	local shopShowcaseHint = makeLabel(
+		shopShowcase,
+		"Hint",
+		"FEATURED",
+		UDim2.fromOffset(92, 22),
+		UDim2.fromOffset(198, 13),
+		Enum.Font.GothamBold,
+		10,
+		Color3.fromRGB(224, 214, 255)
+	)
+	shopShowcaseHint.TextXAlignment = Enum.TextXAlignment.Right
+
+	local conceptShopButtons: { TextButton } = {}
+	local showcaseItems = {
+		{ Category = "Trails", ItemId = "ion" },
+		{ Category = "LandingEffects", ItemId = "pulse" },
+		{ Category = "StepThemes", ItemId = "forge" },
+	}
+	for index, reference in showcaseItems do
+		local categoryConfig = CosmeticConfig.Categories[reference.Category]
+		local item = categoryConfig.Items[reference.ItemId]
+		local card = Instance.new("Frame")
+		card.Name = ("Featured%02d"):format(index)
+		card.Position = UDim2.fromOffset(14 + (index - 1) * 98, 48)
+		card.Size = UDim2.fromOffset(88, 150)
+		card.BackgroundColor3 = Color3.fromRGB(62, 52, 108)
+		card.BackgroundTransparency = 0.02
+		card.BorderSizePixel = 0
+		card.Parent = shopShowcase
+		addCorner(card, 15)
+		addStroke(card, Color3.fromRGB(202, 185, 255), 0.48, 1)
+		addGradient(card, Color3.fromRGB(81, 65, 134), Color3.fromRGB(45, 40, 84), 90)
+
+		local preview = Instance.new("Frame")
+		preview.Name = "Preview"
+		preview.Position = UDim2.fromOffset(8, 8)
+		preview.Size = UDim2.fromOffset(72, 58)
+		preview.BackgroundColor3 = PREVIEW_COLORS[reference.ItemId] or COLORS.Active
+		preview.BorderSizePixel = 0
+		preview.Parent = card
+		addCorner(preview, 12)
+		addStroke(preview, COLORS.Text, 0.68)
+		makePreviewArt(preview, reference.Category, reference.ItemId)
+
+		local title = makeLabel(
+			card,
+			"ItemTitle",
+			item.DisplayName,
+			UDim2.fromOffset(76, 36),
+			UDim2.fromOffset(6, 69),
+			Enum.Font.GothamBold,
+			10,
+			COLORS.Text
+		)
+		title.TextWrapped = true
+		title.TextXAlignment = Enum.TextXAlignment.Center
+
+		local price = makeLabel(
+			card,
+			"Price",
+			if item.Price == 0 then "INCLUDED" else ("◈ %d"):format(item.Price),
+			UDim2.fromOffset(76, 16),
+			UDim2.fromOffset(6, 105),
+			Enum.Font.GothamBold,
+			10,
+			COLORS.Warm
+		)
+		price.TextXAlignment = Enum.TextXAlignment.Center
+
+		local openButton = makeButton(
+			card,
+			"OpenShop",
+			"OPEN",
+			UDim2.fromOffset(68, 25),
+			UDim2.fromOffset(10, 122),
+			Color3.fromRGB(95, 224, 130),
+			Color3.fromRGB(35, 42, 55)
+		)
+		openButton.TextSize = 10
+		table.insert(conceptShopButtons, openButton)
+	end
+
+	local rightShowcase = Instance.new("Frame")
+	rightShowcase.Name = "ConceptRightColumn"
+	rightShowcase.AnchorPoint = Vector2.new(1, 0)
+	rightShowcase.Position = UDim2.new(1, -18, 0, 88)
+	rightShowcase.Size = UDim2.fromOffset(232, 374)
+	rightShowcase.BackgroundTransparency = 1
+	rightShowcase.Parent = conceptShowcase
+
+	local conceptProgressCard = Instance.new("Frame")
+	conceptProgressCard.Name = "ConceptProgressCard"
+	conceptProgressCard.Size = UDim2.fromOffset(232, 90)
+	conceptProgressCard.BackgroundColor3 = Color3.fromRGB(56, 46, 96)
+	conceptProgressCard.BackgroundTransparency = 0.04
+	conceptProgressCard.BorderSizePixel = 0
+	conceptProgressCard.Parent = rightShowcase
+	addCorner(conceptProgressCard, 18)
+	addStroke(conceptProgressCard, Color3.fromRGB(220, 205, 255), 0.34, 1.3)
+	addGradient(conceptProgressCard, Color3.fromRGB(102, 78, 156), Color3.fromRGB(47, 41, 84), 115)
+
+	makeLabel(
+		conceptProgressCard,
+		"Title",
+		"CLEAR PROGRESS",
+		UDim2.fromOffset(196, 22),
+		UDim2.fromOffset(14, 8),
+		Enum.Font.GothamBlack,
+		13,
+		COLORS.Text
+	)
+	local conceptProgressText = makeLabel(
+		conceptProgressCard,
+		"StageText",
+		"STAGE 0 / 12",
+		UDim2.fromOffset(198, 20),
+		UDim2.fromOffset(14, 31),
+		Enum.Font.GothamBold,
+		10,
+		COLORS.Muted
+	)
+	conceptProgressText.TextXAlignment = Enum.TextXAlignment.Center
+
+	local conceptProgressTrack = Instance.new("Frame")
+	conceptProgressTrack.Name = "Track"
+	conceptProgressTrack.Position = UDim2.fromOffset(14, 57)
+	conceptProgressTrack.Size = UDim2.fromOffset(204, 15)
+	conceptProgressTrack.BackgroundColor3 = Color3.fromRGB(24, 22, 46)
+	conceptProgressTrack.BorderSizePixel = 0
+	conceptProgressTrack.ClipsDescendants = true
+	conceptProgressTrack.Parent = conceptProgressCard
+	addCorner(conceptProgressTrack, 99)
+	local conceptProgressFill = Instance.new("Frame")
+	conceptProgressFill.Name = "Fill"
+	conceptProgressFill.Size = UDim2.fromScale(0, 1)
+	conceptProgressFill.BackgroundColor3 = Color3.fromRGB(103, 232, 159)
+	conceptProgressFill.BorderSizePixel = 0
+	conceptProgressFill.Parent = conceptProgressTrack
+	addCorner(conceptProgressFill, 99)
+	addGradient(conceptProgressFill, Color3.fromRGB(113, 243, 164), Color3.fromRGB(122, 232, 255), 0)
+
+	local conceptDailyRewards = Instance.new("Frame")
+	conceptDailyRewards.Name = "ConceptDailyRewards"
+	conceptDailyRewards.Position = UDim2.fromOffset(0, 100)
+	conceptDailyRewards.Size = UDim2.fromOffset(232, 132)
+	conceptDailyRewards.BackgroundColor3 = Color3.fromRGB(57, 47, 98)
+	conceptDailyRewards.BackgroundTransparency = 0.04
+	conceptDailyRewards.BorderSizePixel = 0
+	conceptDailyRewards.Parent = rightShowcase
+	addCorner(conceptDailyRewards, 18)
+	addStroke(conceptDailyRewards, Color3.fromRGB(220, 205, 255), 0.36, 1.3)
+	addGradient(conceptDailyRewards, Color3.fromRGB(99, 75, 154), Color3.fromRGB(46, 41, 83), 115)
+
+	makeLabel(
+		conceptDailyRewards,
+		"Title",
+		"DAILY REWARDS",
+		UDim2.fromOffset(198, 22),
+		UDim2.fromOffset(14, 8),
+		Enum.Font.GothamBlack,
+		13,
+		COLORS.Text
+	)
+	local conceptDailyCaption = makeLabel(
+		conceptDailyRewards,
+		"Caption",
+		"COME BACK TOMORROW",
+		UDim2.fromOffset(196, 16),
+		UDim2.fromOffset(14, 29),
+		Enum.Font.GothamBold,
+		8,
+		COLORS.Muted
+	)
+	conceptDailyCaption.TextXAlignment = Enum.TextXAlignment.Center
+
+	local conceptDailyTiles: { Frame } = {}
+	for index = 1, 5 do
+		local tile = Instance.new("Frame")
+		tile.Name = ("Day%02d"):format(index)
+		tile.Position = UDim2.fromOffset(9 + (index - 1) * 44, 50)
+		tile.Size = UDim2.fromOffset(39, 70)
+		tile.BackgroundColor3 = Color3.fromRGB(70, 59, 116)
+		tile.BackgroundTransparency = 0.04
+		tile.BorderSizePixel = 0
+		tile.Parent = conceptDailyRewards
+		addCorner(tile, 10)
+		addStroke(tile, Color3.fromRGB(212, 198, 255), 0.58, 1)
+
+		local dayLabel = makeLabel(
+			tile,
+			"Day",
+			("D%d"):format(index),
+			UDim2.fromOffset(35, 14),
+			UDim2.fromOffset(2, 5),
+			Enum.Font.GothamBold,
+			8,
+			COLORS.Muted
+		)
+		dayLabel.TextXAlignment = Enum.TextXAlignment.Center
+		local rewardLabel = makeLabel(
+			tile,
+			"Reward",
+			if index == 1
+				then "✓"
+				elseif index == 2 then "◈"
+				elseif index == 3 then "✦"
+				elseif index == 4 then "♢"
+				else "★",
+			UDim2.fromOffset(35, 34),
+			UDim2.fromOffset(2, 22),
+			Enum.Font.GothamBlack,
+			16,
+			if index == 1 then Color3.fromRGB(103, 232, 159) else COLORS.Warm
+		)
+		rewardLabel.TextXAlignment = Enum.TextXAlignment.Center
+		table.insert(conceptDailyTiles, tile)
+	end
+
+	local conceptVistaCard = Instance.new("Frame")
+	conceptVistaCard.Name = "ConceptVistaCard"
+	conceptVistaCard.Position = UDim2.fromOffset(0, 242)
+	conceptVistaCard.Size = UDim2.fromOffset(232, 132)
+	conceptVistaCard.BackgroundColor3 = Color3.fromRGB(57, 47, 98)
+	conceptVistaCard.BackgroundTransparency = 0.04
+	conceptVistaCard.BorderSizePixel = 0
+	conceptVistaCard.Parent = rightShowcase
+	addCorner(conceptVistaCard, 18)
+	addStroke(conceptVistaCard, Color3.fromRGB(220, 205, 255), 0.36, 1.3)
+	addGradient(conceptVistaCard, Color3.fromRGB(100, 76, 154), Color3.fromRGB(45, 40, 82), 115)
+
+	makeLabel(
+		conceptVistaCard,
+		"Title",
+		"BETTER VISUALS",
+		UDim2.fromOffset(198, 22),
+		UDim2.fromOffset(14, 7),
+		Enum.Font.GothamBlack,
+		13,
+		COLORS.Text
+	)
+
+	local conceptViewport = Instance.new("ViewportFrame")
+	conceptViewport.Name = "SkyPreview"
+	conceptViewport.Position = UDim2.fromOffset(12, 32)
+	conceptViewport.Size = UDim2.fromOffset(208, 88)
+	conceptViewport.BackgroundColor3 = Color3.fromRGB(190, 151, 235)
+	conceptViewport.BackgroundTransparency = 0
+	conceptViewport.BorderSizePixel = 0
+	conceptViewport.Ambient = Color3.fromRGB(190, 170, 235)
+	conceptViewport.LightColor = Color3.fromRGB(255, 223, 185)
+	conceptViewport.LightDirection = Vector3.new(-1, -1, -0.5)
+	conceptViewport.Parent = conceptVistaCard
+	addCorner(conceptViewport, 13)
+
+	local conceptWorld = Instance.new("WorldModel")
+	conceptWorld.Name = "PreviewWorld"
+	conceptWorld.Parent = conceptViewport
+	local conceptCamera = Instance.new("Camera")
+	conceptCamera.Name = "PreviewCamera"
+	conceptCamera.CFrame = CFrame.lookAt(Vector3.new(11, 7, 13), Vector3.new(0, 1, 0))
+	conceptCamera.FieldOfView = 40
+	conceptCamera.Parent = conceptViewport
+	conceptViewport.CurrentCamera = conceptCamera
+
+	local function previewPart(
+		name: string,
+		size: Vector3,
+		cframe: CFrame,
+		material: Enum.Material,
+		color: Color3,
+		shape: Enum.PartType?
+	): Part
+		local part = Instance.new("Part")
+		part.Name = name
+		part.Size = size
+		part.CFrame = cframe
+		part.Anchored = true
+		part.CanCollide = false
+		part.Material = material
+		part.Color = color
+		part.Shape = shape or Enum.PartType.Block
+		part.Parent = conceptWorld
+		return part
+	end
+
+	previewPart(
+		"IslandRock",
+		Vector3.new(8, 3.8, 7),
+		CFrame.new(0, -1, 0),
+		Enum.Material.Rock,
+		Color3.fromRGB(111, 82, 124),
+		Enum.PartType.Ball
+	)
+	previewPart(
+		"IslandGrass",
+		Vector3.new(7.2, 0.55, 6.6),
+		CFrame.new(0, 1.05, 0),
+		Enum.Material.Grass,
+		Color3.fromRGB(121, 166, 91)
+	)
+	previewPart(
+		"PortalLeft",
+		Vector3.new(0.45, 4.4, 0.45),
+		CFrame.new(-1.8, 3.3, -0.6),
+		Enum.Material.Neon,
+		Color3.fromRGB(246, 188, 255)
+	)
+	previewPart(
+		"PortalRight",
+		Vector3.new(0.45, 4.4, 0.45),
+		CFrame.new(1.8, 3.3, -0.6),
+		Enum.Material.Neon,
+		Color3.fromRGB(246, 188, 255)
+	)
+	previewPart(
+		"PortalTop",
+		Vector3.new(4.05, 0.45, 0.45),
+		CFrame.new(0, 5.3, -0.6),
+		Enum.Material.Neon,
+		Color3.fromRGB(255, 215, 125)
+	)
+	previewPart(
+		"Waterfall",
+		Vector3.new(1.0, 5.2, 0.22),
+		CFrame.new(3.15, -1.0, 0.2),
+		Enum.Material.Neon,
+		Color3.fromRGB(113, 229, 255)
+	)
+
 	local tutorial = Instance.new("Frame")
 	tutorial.Name = "Tutorial"
 	tutorial.AnchorPoint = Vector2.new(0.5, 0)
@@ -495,8 +860,8 @@ local function createHud()
 		tutorial,
 		"Title",
 		"LAND ANYWHERE  ↑",
-		UDim2.new(1, -28, 0, 34),
-		UDim2.fromOffset(14, 8),
+		UDim2.new(1, -28, 0, 26),
+		UDim2.fromOffset(14, 4),
 		Enum.Font.GothamBlack,
 		19,
 		COLORS.Text
@@ -507,10 +872,10 @@ local function createHud()
 		tutorial,
 		"Body",
 		"Any part of the next platform counts. The glowing center is BONUS precision — not required.",
-		UDim2.new(1, -28, 0, 38),
-		UDim2.fromOffset(14, 44),
+		UDim2.new(1, -28, 0, 32),
+		UDim2.fromOffset(14, 30),
 		Enum.Font.GothamMedium,
-		13,
+		11,
 		COLORS.Muted
 	)
 	tutorialBody.TextWrapped = true
@@ -1016,7 +1381,14 @@ local function createHud()
 		scale.Scale = ViewportRules.uiScale(width)
 
 		local rightInset, topOffset = ViewportRules.topRightHudOffsets(width, UserInputService.TouchEnabled)
-		topRight.Position = UDim2.new(1, -rightInset, 0, topOffset)
+		conceptShowcase.Visible = viewportClass ~= "compact"
+		metrics.Visible = viewportClass == "compact"
+		streak.Visible = viewportClass == "compact"
+		if viewportClass ~= "compact" then
+			topRight.Position = UDim2.new(0.80, 0, 0, 18)
+		else
+			topRight.Position = UDim2.new(1, -rightInset, 0, topOffset)
+		end
 
 		if viewportClass == "compact" then
 			logo.Visible = false
@@ -1033,22 +1405,22 @@ local function createHud()
 			logo.Position = UDim2.fromOffset(16, 10)
 			metrics.Position = UDim2.fromOffset(16, 98)
 			streak.Position = UDim2.fromOffset(16, 194)
-			quickActions.Position = UDim2.fromOffset(16, 246)
-			stageProgress.Size = UDim2.fromOffset(286, 56)
+			quickActions.Position = UDim2.fromOffset(326, 224)
+			stageProgress.Size = UDim2.fromOffset(330, 58)
 			stageProgress.Position = UDim2.new(0.5, 0, 0, 12)
-			tutorial.Position = UDim2.new(0.5, 0, 0, 82)
-			tutorial.Size = UDim2.fromOffset(420, 94)
+			tutorial.Position = UDim2.new(0.5, 0, 1, -76)
+			tutorial.Size = UDim2.fromOffset(350, 68)
 		else
 			logo.Visible = true
 			quickActions.Visible = true
 			logo.Position = UDim2.fromOffset(18, 10)
 			metrics.Position = UDim2.fromOffset(18, 98)
 			streak.Position = UDim2.fromOffset(18, 194)
-			quickActions.Position = UDim2.fromOffset(18, 246)
-			stageProgress.Size = UDim2.fromOffset(304, 56)
+			quickActions.Position = UDim2.fromOffset(326, 224)
+			stageProgress.Size = UDim2.fromOffset(330, 58)
 			stageProgress.Position = UDim2.new(0.5, 0, 0, 12)
 			tutorial.Position = UDim2.new(0.5, 0, 0, 82)
-			tutorial.Size = UDim2.fromOffset(370, 94)
+			tutorial.Size = UDim2.fromOffset(350, 68)
 		end
 	end
 
@@ -1071,6 +1443,10 @@ local function createHud()
 		local progress = math.clamp((height - milestoneStart) / math.max(1, milestoneTarget - milestoneStart), 0, 1)
 		stageProgressText.Text = ("HEIGHT %d / %d"):format(height, milestoneTarget)
 		TweenService:Create(progressFill, TweenInfo.new(0.24, Enum.EasingStyle.Quint), {
+			Size = UDim2.fromScale(progress, 1),
+		}):Play()
+		conceptProgressText.Text = ("STAGE %d / %d"):format(height, milestoneTarget)
+		TweenService:Create(conceptProgressFill, TweenInfo.new(0.24, Enum.EasingStyle.Quint), {
 			Size = UDim2.fromScale(progress, 1),
 		}):Play()
 	end
@@ -1179,9 +1555,19 @@ local function createHud()
 			dailyButton.Active = daily.Claimable == true
 			dailyButton.Text = if daily.Claimable == true then "CLAIM" else "CLAIMED"
 			dailyButton.BackgroundColor3 = if daily.Claimable == true then COLORS.Warm else COLORS.Concrete
-			dailyDetail.Text = ("Daily Coins  •  streak %d"):format(
-				if type(daily.ClaimStreak) == "number" then daily.ClaimStreak else 0
-			)
+			local dailyStreak = if type(daily.ClaimStreak) == "number" then daily.ClaimStreak else 0
+			dailyDetail.Text = ("Daily Coins  •  streak %d"):format(dailyStreak)
+			conceptDailyCaption.Text = if daily.Claimable == true
+				then "READY TO CLAIM"
+				else ("STREAK %d DAYS"):format(dailyStreak)
+			for index, tile in conceptDailyTiles do
+				local claimed = index <= math.clamp(dailyStreak, 0, 5)
+				local current = daily.Claimable == true and index == math.clamp(dailyStreak + 1, 1, 5)
+				tile.BackgroundColor3 = if claimed
+					then Color3.fromRGB(66, 126, 101)
+					elseif current then Color3.fromRGB(125, 86, 166)
+					else Color3.fromRGB(70, 59, 116)
+			end
 		end
 
 		local challenge = profile.Challenge
@@ -1232,6 +1618,12 @@ local function createHud()
 		elseif GuiService.SelectedObject and GuiService.SelectedObject:IsDescendantOf(shop) then
 			GuiService.SelectedObject = shopButton
 		end
+	end
+
+	for _, conceptButton in conceptShopButtons do
+		conceptButton.Activated:Connect(function()
+			setShopVisible(true)
+		end)
 	end
 
 	shopButton.Activated:Connect(function()
