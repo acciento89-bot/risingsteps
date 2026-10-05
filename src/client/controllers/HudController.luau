@@ -226,6 +226,7 @@ local function createHud()
 	assert(requestBootstrap:IsA("RemoteFunction"), "RequestBootstrap must be a RemoteFunction")
 
 	local profile: any = nil
+	local dailyClaimPending = false
 	local itemButtons: { [string]: { [string]: TextButton } } = {}
 	local gradeTween: Tween? = nil
 	local warningTween: Tween? = nil
@@ -1669,6 +1670,9 @@ local function createHud()
 
 	local function showFailure(height: number, pb: number, revives: number, revivesUsed: number)
 		resultDetail.Text = ("Height %d  •  PB %d"):format(height, pb)
+		retryButton.Active = true
+		retryButton.AutoButtonColor = true
+		retryButton.Text = "RETRY"
 		result.Visible = true
 		reviveButton.Visible = revives > 0 and revivesUsed < 1 and height > 0
 		if reviveButton.Visible then
@@ -1687,16 +1691,23 @@ local function createHud()
 
 		local daily = profile.Daily
 		if type(daily) == "table" then
-			dailyButton.Active = daily.Claimable == true
-			dailyButton.Text = if daily.Claimable == true then "CLAIM" else "CLAIMED"
+			local claimable = daily.Claimable == true and not dailyClaimPending
+			dailyButton.Active = claimable
+			dailyButton.AutoButtonColor = claimable
+			dailyButton.Text = if dailyClaimPending
+				then "CLAIMING..."
+				else if daily.Claimable == true then "CLAIM" else "CLAIMED"
 			dailyButton.BackgroundColor3 = if daily.Claimable == true then COLORS.Warm else COLORS.Concrete
 			local dailyStreak = if type(daily.ClaimStreak) == "number" then daily.ClaimStreak else 0
 			dailyDetail.Text = ("Daily Coins  •  streak %d"):format(dailyStreak)
 			conceptDailyCaption.Text = if daily.Claimable == true
 				then "READY TO CLAIM"
 				else ("STREAK %d DAYS"):format(dailyStreak)
-			dailyModalButton.Active = daily.Claimable == true
-			dailyModalButton.Text = if daily.Claimable == true then "CLAIM REWARD" else "CLAIMED"
+			dailyModalButton.Active = claimable
+			dailyModalButton.AutoButtonColor = claimable
+			dailyModalButton.Text = if dailyClaimPending
+				then "CLAIMING..."
+				else if daily.Claimable == true then "CLAIM REWARD" else "CLAIMED"
 			dailyModalButton.BackgroundColor3 = if daily.Claimable == true
 				then Color3.fromRGB(95, 224, 130)
 				else Color3.fromRGB(92, 91, 119)
@@ -1756,6 +1767,49 @@ local function createHud()
 		local reduced = profile.Settings and profile.Settings.ReducedMotion == true
 		reducedMotionButton.Text = if reduced then "ON" else "OFF"
 		reducedMotionButton.BackgroundColor3 = if reduced then COLORS.Active else COLORS.Steel
+	end
+
+	local function setDailyClaimPending(pending: boolean)
+		dailyClaimPending = pending
+		if profile then
+			refreshShop(profile)
+		end
+	end
+
+	local function requestDailyClaim()
+		if dailyClaimPending then
+			return
+		end
+
+		local daily = profile and profile.Daily
+		if type(daily) ~= "table" or daily.Claimable ~= true then
+			task.spawn(function()
+				local ok, bootstrap = pcall(function()
+					return requestBootstrap:InvokeServer()
+				end)
+				if ok and type(bootstrap) == "table" then
+					refreshShop(bootstrap)
+				end
+			end)
+			return
+		end
+
+		setDailyClaimPending(true)
+		shopCommand:FireServer({ Action = "ClaimDaily" })
+
+		-- Recovery guard: a throttled/lost response must never leave Claim looking dead.
+		task.delay(1.25, function()
+			if not dailyClaimPending then
+				return
+			end
+			local ok, bootstrap = pcall(function()
+				return requestBootstrap:InvokeServer()
+			end)
+			if ok and type(bootstrap) == "table" then
+				profile = bootstrap
+			end
+			setDailyClaimPending(false)
+		end)
 	end
 
 	local function setShopVisible(visible: boolean)
@@ -1823,18 +1877,29 @@ local function createHud()
 	end)
 
 	retryButton.Activated:Connect(function()
+		if not retryButton.Active then
+			return
+		end
+		retryButton.Active = false
+		retryButton.AutoButtonColor = false
+		retryButton.Text = "RESTARTING..."
 		playerCommand:FireServer({ Action = "Retry" })
+
+		-- If the request is interrupted, restore the control instead of trapping the player.
+		task.delay(2.0, function()
+			if retryButton.Parent and result.Visible and retryButton.Text == "RESTARTING..." then
+				retryButton.Active = true
+				retryButton.AutoButtonColor = true
+				retryButton.Text = "RETRY"
+			end
+		end)
 	end)
 	reviveButton.Activated:Connect(function()
 		playerCommand:FireServer({ Action = "UseRevive" })
 	end)
 
-	dailyButton.Activated:Connect(function()
-		shopCommand:FireServer({ Action = "ClaimDaily" })
-	end)
-	dailyModalButton.Activated:Connect(function()
-		shopCommand:FireServer({ Action = "ClaimDaily" })
-	end)
+	dailyButton.Activated:Connect(requestDailyClaim)
+	dailyModalButton.Activated:Connect(requestDailyClaim)
 
 	reducedMotionButton.Activated:Connect(function()
 		shopCommand:FireServer({
@@ -1864,6 +1929,7 @@ local function createHud()
 		end
 
 		if snapshot.Kind == "Profile" and type(snapshot.Profile) == "table" then
+			dailyClaimPending = false
 			refreshShop(snapshot.Profile)
 			local resultPayload = snapshot.Result
 			if type(resultPayload) == "table" and resultPayload.Ok == false then
@@ -1899,6 +1965,9 @@ local function createHud()
 				if type(snapshot.RevivesUsed) == "number" then snapshot.RevivesUsed else 0
 			)
 		elseif snapshot.Kind == "RunReset" then
+			retryButton.Active = true
+			retryButton.AutoButtonColor = true
+			retryButton.Text = "RETRY"
 			result.Visible = false
 			warning.Visible = false
 		elseif snapshot.Kind == "Revived" then

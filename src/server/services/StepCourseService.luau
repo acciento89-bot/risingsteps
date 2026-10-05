@@ -756,13 +756,10 @@ local function bindCharacter(course: Course, character: Model)
 			end
 			sendSnapshot(course, "Revived")
 		end)
-	elseif course.Failed then
-		task.delay(CourseConfig.RespawnResetDelaySeconds, function()
-			if courses[course.Player] == course then
-				resetCourse(course)
-			end
-		end)
 	end
+
+	-- If the course is already failed, the respawned character stays non-ready.
+	-- The result remains visible until Retry or Revive explicitly changes state.
 
 	local humanoid = character:WaitForChild("Humanoid", 10)
 	if humanoid and humanoid:IsA("Humanoid") then
@@ -790,6 +787,20 @@ local function reloadCharacter(player: Player)
 			})
 		end
 	end)
+end
+
+local function restartFailedCourse(course: Course)
+	resetCourse(course)
+
+	local character = course.Player.Character
+	local humanoid = character and character:FindFirstChildOfClass("Humanoid")
+	if character and humanoid and humanoid.Health > 0 then
+		character:PivotTo(course.Spawn.CFrame)
+		bindCharacter(course, character)
+		return
+	end
+
+	reloadCharacter(course.Player)
 end
 
 local function bindPlayer(player: Player)
@@ -973,8 +984,7 @@ end
 function StepCourseService.qaRetry(player: Player)
 	local course = requireStudioCourse(player)
 	assert(course.Failed, "QA retry requires failed course")
-	course.RunToken += 1
-	reloadCharacter(player)
+	restartFailedCourse(course)
 end
 
 function StepCourseService.qaUseRevive(player: Player): boolean
@@ -1069,8 +1079,7 @@ function StepCourseService.start()
 		end
 
 		if payload.Action == "Retry" then
-			course.RunToken += 1
-			reloadCharacter(player)
+			restartFailedCourse(course)
 		elseif payload.Action == "UseRevive" then
 			if course.RevivesUsed >= GameConfig.Failure.MaxPaidRevivesPerRun or course.Height < 1 then
 				return
