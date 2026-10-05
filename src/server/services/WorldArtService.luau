@@ -282,6 +282,28 @@ local function addCloudWisps(parent: Instance, center: Vector3, scale: number)
 	end
 end
 
+local function addCloudRibbon(parent: Instance, center: Vector3, scale: number, color: Color3)
+	for index = 1, 5 do
+		local ribbon = decorativePart(
+			parent,
+			"CloudRibbon",
+			Vector3.new(14 + index * 2.2, 1.0 + (index % 2) * 0.35, 2.8 + (index % 3) * 0.8) * scale,
+			CFrame.new(
+				center
+					+ Vector3.new(
+						(index - 3) * 7.5 * scale,
+						math.sin(index * 1.4) * 1.4 * scale,
+						(index % 2) * 3.2 * scale
+					)
+			) * CFrame.Angles(0, math.rad(-12 + index * 5), math.rad(-2 + index)),
+			Enum.Material.SmoothPlastic,
+			color,
+			0.68
+		)
+		ribbon.CastShadow = false
+	end
+end
+
 local function buildServiceDecks(parent: Instance, origin: Vector3)
 	local folder = Instance.new("Folder")
 	folder.Name = "DawnGardensArt"
@@ -329,6 +351,36 @@ local function buildServiceDecks(parent: Instance, origin: Vector3)
 	sun.CastShadow = false
 	addGlow(sun, Color3.fromRGB(255, 193, 132), 1.2, 42)
 
+	local sunHalo = ball(
+		folder,
+		"SkySunHalo",
+		origin + Vector3.new(39, 20, -120),
+		Vector3.new(38, 38, 38),
+		Enum.Material.Neon,
+		Color3.fromRGB(255, 218, 177),
+		0.91
+	)
+	sunHalo.CastShadow = false
+
+	local distantChain = Instance.new("Folder")
+	distantChain.Name = "DistantIslandChain"
+	distantChain.Parent = folder
+	for index, definition in
+		{
+			{ Vector3.new(-58, 18, -118), 6.4 },
+			{ Vector3.new(-25, 31, -136), 5.3 },
+			{ Vector3.new(12, 43, -151), 6.0 },
+			{ Vector3.new(49, 57, -166), 5.1 },
+		}
+	do
+		local position = origin + definition[1]
+		addFloatingIsland(distantChain, position, definition[2], 20 + index)
+		if index % 2 == 0 then
+			addTree(distantChain, position + Vector3.new(0.6, 0.4, -0.2), 0.42)
+		end
+	end
+	addCloudRibbon(distantChain, origin + Vector3.new(-4, 24, -108), 1.15, Color3.fromRGB(239, 226, 255))
+
 	local foregroundCloudBank = Instance.new("Folder")
 	foregroundCloudBank.Name = "ForegroundCloudBank"
 	foregroundCloudBank.Parent = folder
@@ -351,6 +403,35 @@ local function buildCloudline(parent: Instance, origin: Vector3)
 	addWaterfall(folder, islandB + Vector3.new(-7.5, 0, 0), 22)
 	addRuin(folder, islandA + Vector3.new(-1, 0.4, 0), 0.82)
 	addPortal(folder, islandB + Vector3.new(0, 6.4, 0), 4.3, COLORS.Cyan)
+
+	local bridge = Instance.new("Folder")
+	bridge.Name = "SkyBridgeRuin"
+	bridge.Parent = folder
+	for segment = -2, 2 do
+		if segment ~= 0 then
+			decorativePart(
+				bridge,
+				"BridgeFragment",
+				Vector3.new(5.8, 0.7, 2.6),
+				CFrame.new(origin + Vector3.new(segment * 6.3, 79 + math.abs(segment) * 0.5, -8 + segment * 0.9))
+					* CFrame.Angles(math.rad(segment * 2), math.rad(segment * -4), math.rad(segment * 3)),
+				Enum.Material.Marble,
+				COLORS.Stone
+			)
+		end
+	end
+	for _, side in { -1, 1 } do
+		decorativePart(
+			bridge,
+			"BridgeRuinPillar",
+			Vector3.new(1.2, 7.8, 1.2),
+			CFrame.new(origin + Vector3.new(side * 17.5, 82.4, -10)),
+			Enum.Material.Marble,
+			COLORS.Stone
+		)
+	end
+
+	addCloudRibbon(folder, origin + Vector3.new(0, 64, -42), 1.25, Color3.fromRGB(231, 241, 255))
 	addCloudWisps(folder, origin + Vector3.new(3, 58, -54), 1.5)
 end
 
@@ -368,6 +449,7 @@ local function buildStratosphere(parent: Instance, origin: Vector3)
 	addTree(folder, islandB + Vector3.new(-3, 0.5, -2), 0.58)
 	addWaterfall(folder, islandB + Vector3.new(7.8, 0, 0), 26)
 	addPortal(folder, islandB + Vector3.new(0, 7.2, 0), 5.0, COLORS.Lavender)
+	addCloudRibbon(folder, origin + Vector3.new(4, 133, -48), 1.45, Color3.fromRGB(236, 224, 255))
 	addCloudWisps(folder, origin + Vector3.new(-2, 118, -62), 1.7)
 end
 
