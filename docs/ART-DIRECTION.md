@@ -49,3 +49,6 @@ Release screenshots must look like the same product family as the approved Fanta
 - Medium/large landscape layouts use the concept composition: Rising Steps wordmark, top milestone bar + coins, featured shop card, compact vertical actions, progress/daily/visual cards and an unobstructed central avatar route.
 - The onboarding instruction is a compact bottom-center banner on medium/large viewports so it never covers the hero gameplay vista.
 - Compact phones retain the lean gameplay HUD instead of squeezing the full showcase composition into an unsafe viewport.
+
+## Concept interaction rule
+The approved concept image is a feature montage, not a simultaneous gameplay HUD; Shop, Daily Rewards, Style/Cosmetics and Revive stay hidden until the player opens them or the matching gameplay state triggers them.

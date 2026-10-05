@@ -478,9 +478,9 @@ local function createHud()
 		COLORS.Foundation
 	)
 
-	-- Desktop composition mirrors the approved concept sheet without turning the
-	-- actual game into a static mockup. These cards are native Roblox UI and use
-	-- live progression/profile state; compact and tablet layouts keep the lean HUD.
+	-- The concept sheet is a feature montage, not a simultaneous gameplay layout.
+	-- Keep the reference composition hidden; actual Shop/Daily/Style/Revive panels
+	-- are contextual and open only from their actions or gameplay state.
 	local conceptShowcase = Instance.new("Frame")
 	conceptShowcase.Name = "ConceptShowcase"
 	conceptShowcase.Size = UDim2.fromScale(1, 1)
