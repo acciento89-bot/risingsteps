@@ -1,63 +1,45 @@
 # Rising Steps V1 Master Plan
 
-## Product objective
-Ship a tiny, immediately understandable Roblox game with a visible avatar, strong retry compulsion, polished presentation and ethical acceleration/cosmetic monetization.
+## Objective
+Ship a bright fantasy mobile platformer with clear upward routing, player-owned camera control and a polished concept-matched UI.
 
-## P00 Product Definition
-Naming, experience identity, score vocabulary, gameplay constants and monetization boundaries.
+## P00 Product lock
+12-step realm loop, currency, style progression, daily loop and visual identity.
 
-## P01 Technical Foundation
-Rojo project, strict source layout, remotes, config, tests, CI and release-readiness script.
+## P01 Unity mobile foundation
+Project, bundle IDs, scene bootstrap, portrait, safe-area and 60 FPS target.
 
-## P02 Core Character Loop
-Spawn, camera, avatar framing, input abstraction and deterministic state machine.
+## P02 Character/camera
+Touch movement, jump, keyboard fallback, swipe orbit and instant fall recovery.
 
-## P03 Primary Mechanic
-Implement and verify the complete mechanic: Read the next step, move/jump upward before lower steps expire, chain clean landings, climb for height and score.
+## P03 Step course
+Reachable 12-step sequences, route readability, realm completion and replay.
 
-## P04 Scoring & Combo
-Score, best score, Perfect/Good/Miss grades, combo rules, anti-exploit validation and feedback.
+## P04 UI
+Height meter, currency, Shop/Daily/Style buttons, menus, settings and localization.
 
-## P05 Procedural Challenge Generation
-Deterministic challenge/platform generation, difficulty curve, safe bounds and replay variety.
+## P05 World art
+Floating islands, waterfalls, portal focal point, vegetation, clouds and optimized fantasy lighting.
 
-## P06 Progression
-Coins, lightweight unlock curve, cosmetic ownership and persistent player profile.
+## P06 Game feel
+Animations, jump/landing VFX, audio, haptics and camera polish.
 
-## P07 Retention
-Daily reward, simple daily challenge, achievement hooks and personal best celebration.
+## P07 Progression
+Crystals, player level, style ownership, realm unlocks and versioned profile.
 
-## P08 Monetization
-Developer Products/Game Passes, receipt idempotency, revive/boost rules and entitlement UI.
+## P08 Retention
+Real daily reward, daily challenge, achievements and streaks.
 
-## P09 UI/UX
-Production HUD, retry flow, shop/cosmetics, compact-phone layout, desktop/tablet and controller navigation.
+## P09 Monetization
+Cosmetics/themes only plus optional convenience; StoreKit/Google Play Billing with restore/retry.
 
-## P10 Production Art
-Environment kit, gameplay asset polish, lighting/material pass, character readability and cosmetic presentation.
-
-## P11 Audio & VFX
-Action/landing/failure/reward audio, Perfect-chain escalation, particles/tweens and reduced-motion handling.
-
-## P12 Security & Persistence
-Server authority audit, remote validation/rate limits, DataStore migration/recovery and receipt safety.
-
-## P13 Runtime QA
-Representative play sessions, failure/retry, persistence, exploit attempts, jump/collision edge cases and performance.
-
-## P14 Device & Input QA
-Compact phone, tablet, desktop, touch, keyboard/mouse and controller.
-
-## P15 Release
-Store metadata/assets, content questionnaire, private publish, rollback, real purchase sandbox/live receipt evidence, controlled public launch.
-
-## P16 Live Operations
-Telemetry review, evidence-based balance adjustment and content/cosmetic cadence.
+## P10 QA/release
+Rules tests, device matrix, performance, store assets/privacy and staged rollout.
 
 ## Definition of Done
-- Code/config committed.
-- Acceptance criteria pass.
-- No known P0/P1 gameplay or purchase defects.
-- Production presentation passes screenshot-quality review.
-- Ledger matches reality.
-- Public exposure remains blocked until purchase/persistence gates are verified.
+- Player controls camera rotation.
+- Next steps are readable on compact phones.
+- Fall recovery is immediate.
+- Shop/Daily/Style are functional and visually consistent.
+- Stable 60 FPS target on supported devices.
+- iOS/Android store validation passes.

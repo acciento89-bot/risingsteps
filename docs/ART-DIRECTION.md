@@ -1,60 +1,29 @@
 # Rising Steps Art Direction
 
-## Approved concept — Fantasy Sky Realms
-
-Rising Steps is a bright fantasy climb through miniature floating worlds. The approved reference is the pastel sky concept: warm sunset light, lavender/cyan atmosphere, grass-topped stone islands, waterfalls, glowing portal ruins and a clear upward path. It must read as an adventurous premium Roblox world, not as an industrial obby or a collection of raw blocks.
-
-## Screenshot target
-
-A normal gameplay screenshot should immediately show all of the following without developer explanation:
-- the avatar as the visual anchor;
-- a readable chain of floating grass/stone steps rising into the sky;
-- at least one scenic floating-island landmark in depth;
-- warm sky light plus cool lavender/cyan atmospheric separation;
-- compact glossy UI that leaves the route visible;
-- magical rune/glow accents used as guidance, not broad neon surfaces.
-
-## Graphic fidelity
-- The **parallax sky-island identity** uses a readable foreground route, hero islands in the mid-ground and a softer distant island chain to create depth without hiding the next landing target.
-- The sunset focal point is layered with a broad halo; cloud ribbons and broken sky-bridge ruins give the climb stronger directional flow.
-- Generated steps keep invisible deterministic collision but gain sparse moss-edge and hanging-crystal detail so repeated platforms feel authored without exceeding the mobile presentation budget.
-- Scenic island, cloud, ruin and crystal additions remain decorative and non-colliding.
-
-## World language
-
-- **Foreground:** grass-topped floating stone platforms, moss, small crystals and subtle golden/cyan rune edges.
-- **Mid-ground:** larger islands with stylized trees, ruins, portals and waterfalls.
-- **Background:** layered clouds, distant islands and a warm low sun focal point.
-- Platform collision primitives may stay simple for deterministic gameplay but must be visually hidden behind authored art geometry.
-- Avoid industrial beams, exposed mechanical braces, generic black slabs, empty void composition and default Roblox baseplate language.
+## Target
+Bright fantasy sky realms that remain feasible on mobile: authored grass/rock islands, warm gold route glow, cyan sky, soft clouds and one portal focal point.
 
 ## Palette
+- Sky cyan: #47A9FF
+- Cloud: #F5FBFF
+- Grass: #68A94C
+- Rock: #6E687E
+- Gold route: #FFD43D
+- Purple Shop: #7A35F5
+- Orange Daily: #FF8A1E
+- Blue Style: #1598FF
+- Navy UI: #0A2342
 
-- Foundation rock: plum/slate stone.
-- Vegetation: fresh desaturated greens with lighter moss highlights.
-- Magic: warm gold for reward/hero accents, cyan for route/state accents, lavender for high-altitude magic.
-- Sky: peach sunset light fading through lavender into cyan.
+## World
+- 12 clear platforms per realm.
+- Larger destination island and glowing portal.
+- Decorative islands/waterfalls remain non-colliding.
+- Final production art uses optimized authored meshes and atlas materials.
 
 ## UI
-
-- Rounded glossy panels with soft purple/navy foundations, thin lavender/cyan strokes and bright readable text.
-- Strong progress/coin/shop hierarchy similar to the approved concept while preserving Rising Steps gameplay vocabulary.
-- Shop cards should visually sell fantasy trails, landing effects, step themes and sky environments rather than industrial equipment.
-- Mobile safe areas and the next landing target take priority over decorative UI.
-
-## Character and feedback
-
-The player's Roblox avatar remains visible during the core loop. Landing feedback escalates from safe landing to Clean/Perfect through brief rune glow, particles/text and audio; failure feedback stays fast so retry is immediate.
-
-## Quality gate
-
-Release screenshots must look like the same product family as the approved Fantasy Sky Realms concept. Raw primitives, industrial leftovers, default UI, unreadable dark scenes, debug artifacts or large empty areas fail the visual gate.
-
-## Approved concept fidelity
-- **Fantasy Sky Realms** is the canonical presentation: warm lavender/sunset atmosphere, floating grass islands, rock cliff undersides, portals, waterfalls and luminous rune accents.
-- Medium/large landscape layouts use the concept composition: Rising Steps wordmark, top milestone bar + coins, featured shop card, compact vertical actions, progress/daily/visual cards and an unobstructed central avatar route.
-- The onboarding instruction is a compact bottom-center banner on medium/large viewports so it never covers the hero gameplay vista.
-- Compact phones retain the lean gameplay HUD instead of squeezing the full showcase composition into an unsafe viewport.
-
-## Concept interaction rule
-The approved concept image is a feature montage, not a simultaneous gameplay HUD; Shop, Daily Rewards, Style/Cosmetics and Revive stay hidden until the player opens them or the matching gameplay state triggers them.
+Top-left: settings, inbox, audio.
+Top-center: Height 0/12 progress.
+Top-right: crystal currency.
+Left middle: Shop, Daily, Style.
+Bottom: joystick left, jump right.
+The center route remains unobstructed.
