@@ -14,7 +14,7 @@ Status: `[ ]` open · `[~]` implemented/not device verified · `[x]` verified ·
 - [x] P01-T02 editor scene bootstrap
 - [x] P01-T03 portrait + 60 FPS
 - [x] P01-T04 safe-area Canvas
-- [~] P01-T05 first editor compile
+- [x] P01-T05 first editor compile
 - [ ] P01-T06 iOS dev build
 - [ ] P01-T07 Android dev build
 
@@ -96,3 +96,9 @@ Status: `[ ]` open · `[~]` implemented/not device verified · `[x]` verified ·
 
 ## Next open task
 P01-T05: first Unity compile/import and Play Mode verification.
+
+
+## Unity 6.6 bootstrap verification - 2026-10-06
+- [x] Project imported and compiled successfully with Unity 6000.6.4f1.
+- [x] Canonical Assets/Scenes/Main.unity generated and registered in Build Settings.
+- [x] iOS and Android application identifiers are configured in PlayerSettings.
