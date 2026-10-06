@@ -18,6 +18,11 @@
           "$path": "src/client"
         }
       }
+    },
+    "Workspace": {
+      "$attributes": {
+        "RisingStepsBuildRevision": "2026-10-06-camera-retry-claim"
+      }
     }
   }
 }
