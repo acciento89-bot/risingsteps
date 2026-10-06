@@ -351,3 +351,17 @@ P15 final-store capture reconciliation (2026-10-04): the authoritative acceptanc
 - [x] CI verification green on run `37288709962`; merged source commit `3a41806`.
 - [x] Fresh Roblox Studio PlaySolo visual acceptance passed: Fantasy Sky Realms route/avatar readability verified; contextual menus remained closed by default; runtime log reported 859 BaseParts / 6 Beams+Lights with no gameplay CreatorError/ScriptError match.
 - [x] Graphic-fidelity source published to existing canonical Place `133160458509988` as `v24`; no new Place/Experience created. Evidence: `docs/evidence/2026-10-05-graphic-fidelity-runtime-publish.md`.
+
+
+## 2026-10-06 camera / retry / claim corrective pass
+
+- [x] Camera ownership corrected: production gameplay uses Roblox `Custom` camera control; no `Scriptable` mode, per-frame forced `Camera.CFrame`, or automatic yaw-follow remains.
+- [x] Failure retry corrected: the old delayed failed-respawn reset was removed; `Retry` now uses the immediate authoritative `restartFailedCourse` path and the HUD acknowledges the press with `RESTARTING...`.
+- [x] Daily Claim corrected: both claim surfaces share one pending-guarded action, show `CLAIMING...` immediately, and bootstrap/re-sync after a lost or throttled response.
+- [x] Regression protection added in `camera-manual-control.spec.luau` and `retry-claim-response.spec.luau`.
+- [x] Fresh verification: Selene 0/0, 24 pure-Luau test files, 16,000 reachability placements, release-readiness and Rojo build all pass.
+- [x] Studio functional runtime QA passed `retry_respawn_ready`, `retry_resets_run`, `daily_reward_path`, full 42-step climb, `FUNCTIONAL_COMPLETE` and `COMPLETE`.
+- [x] Existing production Universe `10768815106` / Place `133160458509988` received the corrected source; no replacement Place/Experience was created.
+- [x] Direct cloud-DataModel parity probe confirmed `retry=true scriptable=false claiming=true`.
+- [x] Studio publish succeeded as Place version `v25`. Evidence: `docs/evidence/2026-10-06-camera-retry-claim-corrective-pass.md`.
+
