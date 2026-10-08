@@ -129,3 +129,10 @@ Own unpublished AdMob apps/50Crystals rewarded blocks now created and confirmed:
 - Runtime asset lifetime RED showed original island meshes surviving root destruction. ArtLifetime owns generated meshes/instance materials; MeshArt.Batch owns combined buffers; green9067 combined editor assertions. Real30-minute rendering/memory soak remains pending.
 - Build5 is QA iteration, not uploaded build number. App Store Connect presently contains no Rising Steps builds.
 - Own AdMob unpublished app/reward IDs created: iOS app~8613336153 reward/8421764469; Android app~6808290736 reward/7045103615 (publisher8944085355624754). Internal test units remain enabled. Own consent/privacy URL and genuine native reward/purchase acceptance remain open.
+
+## Optional commerce integration — 2026-10-08
+- Native adapters use Unity IAP5.4.4, GoogleMobileAds11.5.0, EDM1.2.187; actual iOS13.11.0 GMA /3.1.0 UMP export and Xcode workspace simulator build succeeded. Own Info.plist GAD identifier verified plus50 SKAdNetworks.
+- CommerceRules/RewardRules23 red→green assertions: starter/replay/restore/persistence rollback, premium revocation/selection, cooldown/five-per-UTC-day and invalidated stale ad loads. Free earned four styles migrate into eight-style profile. Premium cosmetics only; no gameplay advantage, forced ads or mock prices.
+- Native SDK QA player retained outside disposable build cache; actual36-step routes passed again and1800-second rendering/memory soak running. Functional QA uses isolated profiles and skips network purchasing, so it does not prove genuine store transactions or completed native ad views. Separate normal SDK startup still pending.
+- Apple starter product draft6820413465 / com.kamilunavo.risingsteps.starter saved, Germany1.99EUR,175territories,DE/EN localized. Sky collection draft, actual transaction/review screenshots and live consent remain pending. No AppReview/public submission.
+- Latest editor suite9067 PASS with fixture lifecycle assertion removed (direct reflection setup instead of Unity SendMessage outside Play mode).

@@ -14,7 +14,8 @@ namespace Kamilunavo.RisingSteps.Gameplay
         public RisingProfile Profile{get;private set;}public int Height=>Profile?.Step??0;public IReadOnlyList<StepMarker> Steps=>_steps;
         public event Action Changed,RunStarted;public event Action<bool> Landed;public event Action Fell,PortalCompleted;
         public bool Paused{get=>_paused||!_focused||_applicationPaused;set{_paused=value;var m=Player!=null?Player.GetComponent<PlayerMotor>():null;if(m!=null){m.Paused=Paused;m.ResetInput();}}}
-        public Vector3 SafePosition=>_safe;
+        public Vector3 SafePosition=>_safe;public Kamilunavo.RisingSteps.UI.RisingHud Hud;public Kamilunavo.RisingSteps.Monetization.StorePurchases Store;public Kamilunavo.RisingSteps.Monetization.RewardedVideos Videos;
+        public void RefreshProfile()=>Refresh();
         private static readonly Color Rock=new(.32f,.30f,.39f);private static readonly Color Grass=new(.28f,.58f,.25f);private static readonly Color Gold=new(1f,.80f,.20f);
 
         public void Build(){Profile=RisingSave.Load();SkyArt.Build();BuildScenery();BuildRoute();}
@@ -43,7 +44,7 @@ namespace Kamilunavo.RisingSteps.Gameplay
         public bool SelectStyle(int style){bool selected=RisingRules.SelectStyle(Profile,style);if(selected)Save();Refresh();return selected;}
         public void CycleStyle()=>SelectStyle((Profile.Style+1)%4);
         public int CompletePortal(){int stars=RisingRules.Complete(Profile,DateTime.UtcNow);if(stars>0){Save();Refresh();PortalCompleted?.Invoke();}return stars;}
-        private void Save(){try{RisingSave.Save(Profile);}catch(Exception e){Debug.LogWarning("Profile save unavailable: "+e.Message);if(Toast!=null)Toast.text="SAVE UNAVAILABLE";}}
+        public void Save(){try{RisingSave.Save(Profile);}catch(Exception e){Debug.LogWarning("Profile save unavailable: "+e.Message);if(Toast!=null)Toast.text="SAVE UNAVAILABLE";}}
         private void OnApplicationPause(bool pause){_applicationPaused=pause;SyncFocus();}
         private void OnApplicationFocus(bool focus){Debug.Log("RISING_FOCUS "+focus);_focused=focus;SyncFocus();}
         private void SyncFocus(){if(Profile!=null)Save();if(Player!=null){var motor=Player.GetComponent<PlayerMotor>();if(motor!=null){motor.Paused=Paused;motor.ResetInput();}}}

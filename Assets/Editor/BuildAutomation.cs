@@ -26,7 +26,7 @@ public static class BuildAutomation
         var previousSdk = PlayerSettings.iOS.sdkVersion;
         try
         {
-            PlayerSettings.iOS.appleDeveloperTeamID = "TKG684N5GL";
+            PlayerSettings.iOS.appleDeveloperTeamID = "TKG684N5GL";PlayerSettings.iOS.appleEnableAutomaticSigning=true;
             PlayerSettings.iOS.sdkVersion = iOSSdkVersion.DeviceSDK;
             ApplyVersionArguments();
             Build(BuildTarget.iOS, GetOutput("-buildOutput", "Builds/iOS"), development: false);
@@ -76,7 +76,7 @@ public static class BuildAutomation
     private static void Build(BuildTarget target, string output, bool development)
     {
         RisingArtImports.Ensure();
-        RisingValidation.ValidateAll();
+        RisingValidation.ValidateAll();Kamilunavo.RisingSteps.Editor.CommerceConfiguration.Configure();
         if (target == BuildTarget.iOS)
         {
             Directory.CreateDirectory(output);
@@ -106,6 +106,7 @@ public static class BuildAutomation
         if((target==BuildTarget.iOS || target==BuildTarget.Android) && EditorUserBuildSettings.activeBuildTarget!=target)
             throw new InvalidOperationException("Native SDK postprocessors require launching Unity with -buildTarget "+target+" before this build.");
         var report = BuildPipeline.BuildPlayer(options);
+        if(report.summary.result==BuildResult.Succeeded&&target==BuildTarget.iOS)Kamilunavo.RisingSteps.Editor.CommerceBuildHooks.ValidateIosAds(output);
         
         foreach(var shader in UnityEngine.Resources.LoadAll<UnityEngine.Shader>(""))
             if(ShaderUtil.ShaderHasError(shader))throw new InvalidOperationException("Build contains a shader compilation error: "+shader.name);

@@ -20,6 +20,7 @@ Screen.orientation=ScreenOrientation.AutoRotation;Screen.autorotateToPortrait=tr
    var course=new GameObject("RisingCourse",typeof(RisingCourse)).GetComponent<RisingCourse>();course.Player=player.transform;motor.Course=course;motor.CameraTransform=camera.transform;course.Build();cameraObject.transform.position=player.transform.position+new Vector3(0,3,-7);
    var hud=new GameObject("RisingHud",typeof(RisingHud)).GetComponent<RisingHud>();hud.Initialize(course);motor.Joystick=hud.Joystick;motor.Jump=hud.Jump;
    var feedback=new GameObject("RisingFeedback",typeof(RisingFeedback)).GetComponent<RisingFeedback>();feedback.Initialize(course,motor,hud);
+   course.Hud=hud;course.Store=gameObject.AddComponent<Kamilunavo.RisingSteps.Monetization.StorePurchases>();course.Videos=gameObject.AddComponent<Kamilunavo.RisingSteps.Monetization.RewardedVideos>();course.Store.Initialize(course);course.Videos.Initialize(course);hud.AttachCommerce();
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
    Kamilunavo.RisingSteps.QA.RisingRuntimeQa.MaybeStart(course,hud,motor);
 #endif

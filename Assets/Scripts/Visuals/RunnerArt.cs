@@ -29,6 +29,9 @@ namespace Kamilunavo.RisingSteps.Visuals
    for(int side=-1;side<=1;side+=2){MeshArt.Oval(a.Head,"Ear",new Vector3(side*.27f,-.035f,0),new Vector3(.11f,.16f,.10f),skin);MeshArt.Oval(a.Head,"EyeWhite",new Vector3(side*.12f,.04f,.235f),new Vector3(.10f,.13f,.035f),white);MeshArt.Oval(a.Head,"Eye",new Vector3(side*.12f,.035f,.252f),new Vector3(.05f,.075f,.02f),dark);}
    MeshArt.Oval(a.Head,"HairCap",new Vector3(0,.19f,-.025f),new Vector3(.63f,.37f,.56f),MeshArt.Mat("HairChestnut",new Color(.20f,.065f,.018f)),24);
    for(int i=0;i<19;i++){float angle=i*2.399963f;float r=i<7?.13f:.25f;var pos=new Vector3(Mathf.Cos(angle)*r,.20f+(i%3)*.035f,Mathf.Sin(angle)*r);var clump=MeshArt.Lathe(a.Head,"SweptHairLock",new[]{0f,.08f,.19f,.28f},new[]{.105f,.11f,.07f,0f},10,MeshArt.Mat("HairLock"+(i%3),new Color(.29f+.045f*(i%3),.11f+.025f*(i%3),.025f)),new Vector3(1,1,.65f));clump.transform.localPosition=pos;clump.transform.localRotation=Quaternion.Euler(Mathf.Sin(angle)*45,angle*Mathf.Rad2Deg,Mathf.Cos(angle)*-38);}
+   for(int style=4;style<8;style++){var crest=Pivot(a.Hips,"PremiumCrest"+style,new Vector3(0,.43f,-.226f));var gold=MeshArt.Mat("PremiumThread",new Color(1,.88f,.39f),-1,true);
+    for(int k=0;k<(style==5?4:style==7?5:3);k++){var stitch=MeshArt.Box(crest,"EmbroideredThread",new Vector3((k-1)*.035f,0,0),new Vector3(.014f,.16f,.014f),gold);stitch.transform.localRotation=Quaternion.Euler(0,0,style==5?(k%2==0?45:-45):k*60);}
+    crest.gameObject.SetActive(false);}
    return a;
   }
   private static Transform Pivot(Transform p,string name,Vector3 at){var t=new GameObject(name).transform;t.SetParent(p,false);t.localPosition=at;return t;}

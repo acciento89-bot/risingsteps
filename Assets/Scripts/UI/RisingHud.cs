@@ -9,7 +9,7 @@ namespace Kamilunavo.RisingSteps.UI
 {
  public sealed class RisingHud:MonoBehaviour
  {
-  public RisingCourse Course{get;private set;}public VirtualJoystick Joystick{get;private set;}public PressButton Jump{get;private set;}public bool ModalOpen=>_modal!=null;public event Action UiPressed;
+  public RisingCourse Course{get;private set;}public VirtualJoystick Joystick{get;private set;}public PressButton Jump{get;private set;}public bool ModalOpen=>_modal!=null;public bool ShopOpen=>_page=="shop";public event Action UiPressed;
   private RectTransform _safe,_modal,_content;private Text _height,_coins,_hint;private Image _progress;private Button _menu;private int _width,_heightScreen;private Vector2 _safeSize;private string _page="";private float _hintUntil;
   private static readonly Color Navy=new(.025f,.085f,.18f,.95f),Gold=new(1,.73f,.12f),Purple=new(.40f,.10f,.86f),Blue=new(.04f,.48f,.90f);
   private RisingProfile P=>Course.Profile;public string T(string de,string en)=>P.Language=="en"?en:de;
@@ -35,7 +35,7 @@ namespace Kamilunavo.RisingSteps.UI
    _height.text=T("HÖHE ","HEIGHT ")+Course.Height+" / 12";_coins.text=P.Crystals.ToString("N0",System.Globalization.CultureInfo.GetCultureInfo(P.Language=="de"?"de-DE":"en-US"));_progress.fillAmount=Course.Height/12f;var runner=Course.Player.GetComponentInChildren<RunnerAnimator>();runner?.Style(P.Style);}
   private void Hint(string text){_hint.text=text;_hintUntil=Time.unscaledTime+2.2f;}
   private void Tap(){UiPressed?.Invoke();}
-  public void Close(){Tap();if(_modal!=null){_modal.gameObject.SetActive(false);Destroy(_modal.gameObject);}_modal=null;_content=null;_page="";Course.Paused=false;}
+  public void Close(){if(Course.Store?.IsPresenting==true||Course.Videos?.IsPresenting==true)return;Tap();if(_modal!=null){_modal.gameObject.SetActive(false);Destroy(_modal.gameObject);}_modal=null;_content=null;_page="";Course.Paused=false;}
   private void Begin(string page,string title){UiFactory.HighContrast=P.HighContrast;Tap();if(_modal!=null){_modal.gameObject.SetActive(false);Destroy(_modal.gameObject);}_page=page;Course.Paused=true;
    _modal=UiFactory.Panel(_safe,"ModalBackdrop",new Color(.015f,.045f,.09f,.52f),Vector2.zero,Vector2.one);
    float sw=_safe.rect.width,sh=_safe.rect.height,w=Mathf.Min(sw-24,540),h=sh-32;var card=UiFactory.Panel(_modal,"ModalCard",Navy,Vector2.zero,Vector2.one);Place(card,(sw-w)/2,16,w,h);
@@ -53,9 +53,21 @@ namespace Kamilunavo.RisingSteps.UI
    Row("DailyChallenge",T("TAGESROUTE · 8 perfekte Landungen: +75","DAILY ROUTE · 8 perfect landings: +75"),Purple,()=>{int seed=DateTime.UtcNow.DayOfYear%(P.UnlockedRealm+1);Course.StartRun(seed,true);Close();});
    Row("Shop",T("SHOP · DESIGN & KRISTALLE","SHOP · DESIGNS & CRYSTALS"),Purple,ShowShop);Row("Daily",T("TAGESGESCHENK","DAILY GIFT"),new Color(1,.40f,.06f),ShowDaily);Row("Style",T("DEIN STIL","YOUR STYLE"),Blue,ShowStyle);Row("Achievements",T("ERFOLGE","ACHIEVEMENTS"),Navy,ShowAchievements);Row("Settings",T("EINSTELLUNGEN","SETTINGS"),Navy,ShowSettings);
   }
-  public void ShowShop(){Begin("shop",T("DESIGN-SHOP","DESIGN SHOP"));Note(T("Verdiene Kristalle beim Springen.\nFreigeschaltete Designs bleiben dauerhaft dein.","Earn crystals by jumping.\nUnlocked designs remain yours."),76);StyleRows();}
+  public void ShowShop(){Begin("shop",T("DESIGN-SHOP","DESIGN SHOP"));Note(T("Verdiene Kristalle beim Springen.\nFreigeschaltete Designs bleiben dauerhaft dein.","Earn crystals by jumping.\nUnlocked designs remain yours."),76);StyleRows();CommerceRows();}
   public void ShowStyle(){Begin("style",T("DEIN LÄUFER","YOUR RUNNER"));StyleRows();}
-  private void StyleRows(){string[] de={"Waldgrün","Himmelsblau","Sonnenkupfer","Auroraviolett"},en={"Forest Green","Sky Blue","Sun Copper","Aurora Violet"};int[] prices={0,75,150,250};for(int i=0;i<4;i++){int s=i;Row("Style"+i,T(de[i],en[i])+"  ·  "+(P.Style==i?T("AKTIV","ACTIVE"):P.Styles[i]?T("AUSWÄHLEN","SELECT"):prices[i]+T(" Kristalle"," crystals")),i==P.Style?Blue:Purple,()=>{if(Course.SelectStyle(s)){Reopen();}else Note(T("Nicht genug Kristalle. Spiele die nächsten Etappen!","Not enough crystals. Play the next steps!"));},P.Styles[i]||P.Crystals>=prices[i]);}}
+  private void StyleRows(){string[] de={"Waldgrün","Himmelsblau","Sonnenkupfer","Auroraviolett","Goldener Pfad","Himmelsflügel","Nordlicht","Sternennacht"},en={"Forest Green","Sky Blue","Sun Copper","Aurora Violet","Golden Trail","Sky Wings","Northern Lights","Starry Night"};int[] prices={0,75,150,250};for(int i=0;i<8;i++){int s=i;Row("Style"+i,T(de[i],en[i])+"  ·  "+(P.Style==i?T("AKTIV","ACTIVE"):P.Styles[i]?T("AUSWÄHLEN","SELECT"):i>=4?T("EXTRA-DESIGN","EXTRA DESIGN"):prices[i]+T(" Kristalle"," crystals")),i==P.Style?Blue:Purple,()=>{if(Course.SelectStyle(s)){Reopen();}else Note(T("Nicht genug Kristalle. Spiele die nächsten Etappen!","Not enough crystals. Play the next steps!"));},P.Styles[i]||(i<4&&P.Crystals>=prices[i]));}}
+  public void AttachCommerce(){Course.Store.Changed+=CommerceChanged;Course.Videos.Changed+=CommerceChanged;}
+  private void CommerceChanged(){Refresh();if(ShopOpen)ShowShop();}
+  private void CommerceRows(){var store=Course.Store;var videos=Course.Videos;if(store==null||videos==null)return;
+   Note(T("EXTRA-DESIGNS · FREIWILLIG","EXTRA DESIGNS · OPTIONAL"),52);
+   void Product(string id,string title,string description){Note(description,76);var price=store.Price(id);Row(id,title+" · "+(store.Owned(id)?T("GEKAUFT","OWNED"):string.IsNullOrWhiteSpace(price)?T("NICHT VERFÜGBAR","UNAVAILABLE"):price),Purple,()=>store.Buy(id),store.CanBuy(id));}
+   Product(Kamilunavo.RisingSteps.Monetization.CommerceRules.Starter,T("STARTERPAKET","STARTER PACK"),T("Goldener Pfad als dauerhaftes Design und einmalig 500 Kristalle.","Golden Trail permanent design and 500 crystals once."));
+   Product(Kamilunavo.RisingSteps.Monetization.CommerceRules.Collection,T("HIMMELSKOLLEKTION","SKY COLLECTION"),T("Drei dauerhafte Designs: Himmelsflügel, Nordlicht und Sternennacht.","Three permanent designs: Sky Wings, Northern Lights and Starry Night."));
+   Note(store.Status,72);Row("Restore",T("KÄUFE WIEDERHERSTELLEN","RESTORE PURCHASES"),Navy,store.Restore,store.Ready&&!store.Busy);
+   Note(videos.Status,76);int remaining=Kamilunavo.RisingSteps.Monetization.RewardRules.Remaining(P,DateTime.UtcNow);Row("RewardVideo",T("FREIWILLIGES VIDEO · +50 KRISTALLE","OPTIONAL VIDEO · +50 CRYSTALS")+" · "+remaining+"/5",Blue,videos.Watch,videos.CanWatch);
+   Row("PrepareVideo",T("VIDEO VORBEREITEN","PREPARE VIDEO"),Navy,videos.Prepare,!videos.IsPresenting);if(videos.PrivacyRequired)Row("PrivacyOptions",T("DATENSCHUTZEINSTELLUNGEN","PRIVACY OPTIONS"),Navy,videos.ShowPrivacy,!videos.IsPresenting);
+   if(Kamilunavo.RisingSteps.Monetization.MonetizationConfig.Load().InternalTestAds)Note(T("Interner Test: Videos verwenden Testanzeigen.","Internal test: videos use test ads."),62);
+  }
   public void ShowDaily(){Begin("daily",T("TAGESGESCHENK","DAILY GIFT"));bool ready=string.CompareOrdinal(RisingRules.Day(DateTime.UtcNow),P.DailyDay)>0;Note(T("Einmal je UTC-Tag. Deine Serie erhöht die Belohnung bis auf 160 Kristalle.","Once each UTC day. Your streak increases the reward up to 160 crystals."),100);Note(T("Serie: ","Streak: ")+P.DailyStreak+" / 7");Row("ClaimDaily",ready?T("GESCHENK ABHOLEN","CLAIM GIFT"):T("HEUTE BEREITS ABGEHOLT","ALREADY CLAIMED TODAY"),new Color(1,.4f,.06f),()=>{Course.ClaimDaily();ShowDaily();},ready);}
   public void ShowSettings(){Begin("settings",T("EINSTELLUNGEN","SETTINGS"));void Toggle(Action act){act();RisingSave.Save(P);Refresh();ShowSettings();}
    Row("Language",T("SPRACHE: DEUTSCH","LANGUAGE: ENGLISH"),Blue,()=>Toggle(()=>P.Language=P.Language=="de"?"en":"de"));

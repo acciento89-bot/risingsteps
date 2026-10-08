@@ -11,7 +11,7 @@ public static class RisingValidation
  public static void ValidateInput(){
  var canvas=Kamilunavo.RisingSteps.UI.UiFactory.Canvas();var j=Kamilunavo.RisingSteps.Input.VirtualJoystick.Create(canvas.transform,Vector2.zero,Vector2.one);
  var r=(RectTransform)j.transform;r.anchorMin=r.anchorMax=Vector2.zero;r.pivot=Vector2.zero;r.sizeDelta=new Vector2(112,112);Canvas.ForceUpdateCanvases();
- var pointer=new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current){pointerId=100,position=RectTransformUtility.WorldToScreenPoint(null,r.TransformPoint(r.rect.center))};j.SendMessage("Awake");j.OnPointerDown(pointer);Check(j.Value.sqrMagnitude<.001f,"joystick center is neutral with bottom-left pivot");
+ var pointer=new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current){pointerId=100,position=RectTransformUtility.WorldToScreenPoint(null,r.TransformPoint(r.rect.center))};typeof(Kamilunavo.RisingSteps.Input.VirtualJoystick).GetMethod("Awake",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic).Invoke(j,null);j.OnPointerDown(pointer);Check(j.Value.sqrMagnitude<.001f,"joystick center is neutral with bottom-left pivot");
  pointer.position=RectTransformUtility.WorldToScreenPoint(null,r.TransformPoint(r.rect.center+Vector2.left*50));j.OnDrag(pointer);Check(j.Value.x<-.8f&&Mathf.Abs(j.Value.y)<.01f,"joystick can move left");j.ResetInput();UnityEngine.Object.DestroyImmediate(canvas.gameObject);Debug.Log("RISING_INPUT_PASS checks="+checks);
  }
  public static void ValidateLifetime(){
@@ -51,7 +51,7 @@ public static class RisingValidation
  var restored=RisingSave.Parse(JsonUtility.ToJson(p));Check(restored.Step==12&&restored.Styles[1]&&restored.Stars[0]==3,"roundtrip");
  Check(RisingSave.Parse("garbage").Step==0,"corrupt fallback");
  restored=RisingSave.Parse("{\"Schema\":1,\"Step\":90,\"Crystals\":-3,\"Styles\":[],\"Stars\":[]}");
- Check(restored.Step==12&&restored.Crystals==0&&restored.Styles.Length==4&&restored.Stars.Length==3,"normalization");
+ Check(restored.Step==12&&restored.Crystals==0&&restored.Styles.Length==8&&restored.Stars.Length==3,"normalization");
  for(int realm=0;realm<3;realm++)for(int seed=0;seed<30;seed++){
  var a=CoursePatterns.Points(realm,seed);var b=CoursePatterns.Points(realm,seed);Check(a.Length==13,"13 islands");
  for(int i=1;i<a.Length;i++){Check(a[i]==b[i],"determinism");var d=a[i]-a[i-1];
