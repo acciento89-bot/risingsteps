@@ -40,9 +40,15 @@ namespace Kamilunavo.RisingSteps.Monetization
             ConsentInformation.Update(new ConsentRequestParameters(),error=>Main(()=>
             {
                 if(error!=null){_prepared=false;_retryAt=Time.realtimeSinceStartupAsDouble+60;AfterConsent();return;}
-                _game.Save();IsPresenting=true;
-                ConsentForm.LoadAndShowConsentFormIfRequired(formError=>Main(()=>{IsPresenting=false;AfterConsent();}));
+                if(!TryPresentConsent(()=>ConsentForm.LoadAndShowConsentFormIfRequired(formError=>Main(()=>{IsPresenting=false;AfterConsent();})))){_prepared=false;AfterConsent();}
             }));
+        }
+        private bool TryPresentConsent(Action show)
+        {
+            // The asynchronous update may finish after the player has left the shop.
+            if(_game==null || _game.Hud==null || !_game.Hud.ShopOpen || !_game.Paused || _game.Store?.IsPresenting==true)return false;
+            _game.Save();IsPresenting=true;Changed?.Invoke();
+            try{show();return true;}catch(Exception){IsPresenting=false;_prepared=false;Changed?.Invoke();return false;}
         }
         private void AfterConsent()
         {
