@@ -43,5 +43,5 @@ Interfaces: BuildMacPreview(), BuildIOSSimulatorQa(), BuildIOS(), BuildAndroidRe
 - [x] Native iPhone captures/UI raycast/input matrix; official Duo available poses, explicit blocked state if unavailable.30-minute real-time soak and shader/Console checks; commit evidence.
 - [x] Add optional commerce using own IDs/catalog and verified adapters, native SDK compilation/restore/replay checks. Keep genuine sandbox/reward/consent blockers open.
 - [x] Fresh whole-change reviewer checks rules/input/save/native gates; fix justified findings with regressions.
-- [ ] Signed Release archive/internal TestFlight process/tester and Android AAB existing central key; verify signatures/payload/manifest. Update ledger with precise proven/unverified states.
-- [ ] Commit/push full Unity project and compare remote tree; retain final builds/QA evidence, clean regenerable caches, continue next game per authorized order.
+- [x] Signed Release archive/internal TestFlight process/tester and Android AAB existing central key; verify signatures/payload/manifest. Update ledger with precise proven/unverified states.
+- [x] Commit/push full Unity project and compare remote tree; retain final builds/QA evidence, clean regenerable caches, continue next game per authorized order.
