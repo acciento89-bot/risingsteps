@@ -32,6 +32,7 @@ public static class RisingValidation
  UnityEngine.Object.DestroyImmediate(root);Debug.Log("RISING_GEOMETRY_PASS checks="+checks);
  }
  public static void ValidateUI(){
+ var safe=new Rect(0,0,1,1);var division=new Rect(.48f,0,.04f,1);var pane=Kamilunavo.RisingSteps.UI.UsableRegion.Choose(safe,division);Check(pane.xMax<=division.xMin+.001f||pane.xMin>=division.xMax-.001f,"either maximum-area pane excludes division despite float tie");
  var canvas=Kamilunavo.RisingSteps.UI.UiFactory.Canvas();var root=Kamilunavo.RisingSteps.UI.UiFactory.Panel(canvas.transform,"SafeArea",Color.clear,Vector2.zero,Vector2.one);
  Check(!root.GetComponent<UnityEngine.UI.Image>().raycastTarget,"transparent root camera touch");
  var label=Kamilunavo.RisingSteps.UI.UiFactory.Label(root,"Label","Text",30,Vector2.zero,Vector2.one,TextAnchor.MiddleCenter,Color.white);
