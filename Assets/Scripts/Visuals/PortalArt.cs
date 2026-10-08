@@ -11,7 +11,9 @@ namespace Kamilunavo.RisingSteps.Visuals
     for(int i=0;i<3;i++)MeshArt.Box(root.transform,"PillarBand",pos+Vector3.up*(.28f+i*1.15f),new Vector3(.38f,.07f,.38f),gold);
     MeshArt.Oval(root.transform,"GoldenCrown",pos+Vector3.up*3,new Vector3(.14f,.36f,.14f),gold,12);}
    var ring=MeshArt.Ring(root.transform,"RadiantArch",1.23f,.11f,0,gold,80);ring.transform.localRotation=Quaternion.Euler(90,0,0);ring.transform.localPosition=new Vector3(0,2.13f,.60f);
+   var back=MeshArt.Ring(root.transform,"RadiantArchBack",1.23f,.11f,0,gold,80);back.transform.localRotation=Quaternion.Euler(-90,0,0);back.transform.localPosition=ring.transform.localPosition;
    var outer=MeshArt.Ring(root.transform,"IvoryArch",1.36f,.10f,0,stone,80);outer.transform.localRotation=ring.transform.localRotation;outer.transform.localPosition=ring.transform.localPosition;
+   var outerBack=MeshArt.Ring(root.transform,"IvoryArchBack",1.36f,.10f,0,stone,80);outerBack.transform.localRotation=back.transform.localRotation;outerBack.transform.localPosition=ring.transform.localPosition;
    var star=MeshArt.Box(root.transform,"PortalStar",new Vector3(0,2.18f,.58f),new Vector3(.10f,.8f,.10f),gold);star.transform.localRotation=Quaternion.Euler(0,0,35);
    var cross=MeshArt.Box(root.transform,"PortalStarCross",new Vector3(0,2.18f,.58f),new Vector3(.08f,.65f,.08f),gold);cross.transform.localRotation=Quaternion.Euler(0,0,-35);
    for(int i=0;i<3;i++)MeshArt.Box(root.transform,"ArrivalSteps",new Vector3(0,.65f+i*.04f,-.7f+i*.28f),new Vector3(1.6f,.06f,.23f),gold);

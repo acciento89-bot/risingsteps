@@ -22,19 +22,23 @@ namespace Kamilunavo.RisingSteps.Gameplay
             var points=CoursePatterns.Points(Profile.Realm,Profile.Challenge?DaySeed(Profile.RunDay):260906+Profile.Realm);
             for(int i=0;i<points.Length;i++){var root=new GameObject($"Island_{i:00}");root.transform.SetParent(transform,false);root.transform.position=points[i];
                 var marker=IslandArt.Build(root.transform,i,Profile.Realm);_steps.Add(marker);if(i==12)PortalArt.Build(root.transform,this);
-                StaticBatchingUtility.Combine(root);
-            }SetSafe();MoveToSafe();Refresh();RunStarted?.Invoke();}
-        private void BuildScenery(){for(int i=0;i<14;i++){var root=new GameObject("DistantMeadow");root.transform.SetParent(transform,false);root.transform.position=new Vector3((i%2==0?-1:1)*(10+i%4*4),-3+i%4*3,4+i*5);root.transform.localScale=Vector3.one*(1.5f+i%3*.5f);IslandArt.Build(root.transform,i,0,true);StaticBatchingUtility.Combine(root);}}
+                MeshArt.Batch(root);
+            }Physics.SyncTransforms();SetSafe();MoveToSafe();Refresh();RunStarted?.Invoke();}
+        private void BuildScenery(){for(int i=0;i<14;i++){var root=new GameObject("DistantMeadow");root.transform.SetParent(transform,false);root.transform.position=new Vector3((i%2==0?-1:1)*(10+i%4*4),-3+i%4*3,4+i*5);root.transform.localScale=Vector3.one*(1.5f+i%3*.5f);IslandArt.Build(root.transform,i,0,true);MeshArt.Batch(root);}}
         private static int DaySeed(string day){unchecked{int hash=17;foreach(char c in day)hash=hash*31+c;return hash;}}
         public void StartRun(int realm,bool challenge){if(realm<0||realm>Profile.UnlockedRealm)return;Profile.Realm=realm;Profile.Step=0;Profile.Elapsed=0;Profile.Falls=0;Profile.Perfects=0;Profile.Completed=false;Profile.Challenge=challenge;Profile.RunDay=RisingRules.Day(DateTime.UtcNow);Save();BuildRoute();}
         private void SetSafe()=>_safe=_steps[Height].transform.position+Vector3.up*.65f;
-        private void MoveToSafe(){var cc=Player.GetComponent<CharacterController>();if(cc!=null)cc.enabled=false;Player.position=_safe;if(cc!=null)cc.enabled=true;Player.GetComponent<PlayerMotor>()?.ResetMotion();}
+        private void MoveToSafe(){var cc=Player.GetComponent<CharacterController>();if(cc!=null)cc.enabled=false;Player.position=_safe;Physics.SyncTransforms();if(cc!=null)cc.enabled=true;Player.GetComponent<PlayerMotor>()?.ResetMotion();}
         private void Update(){if(_steps.Count==0||Player==null||Paused)return;
             if(!Profile.Completed){Profile.Elapsed+=Time.deltaTime;_saveTimer+=Time.deltaTime;if(_saveTimer>=5){_saveTimer=0;Save();}}
             if(Player.position.y<_steps[Height].transform.position.y-8)Respawn();}
         public void Land(StepMarker step){if(Paused||Profile==null)return;var delta=Player.position-step.transform.position;bool perfect=new Vector2(delta.x,delta.z).magnitude<=.8f;
             if(!RisingRules.Land(Profile,step.Index,perfect))return;SetSafe();Save();if(Toast!=null)Toast.text=Height==12?"PORTAL READY":perfect?"PERFECT!":"STEP CLEARED";Refresh();Landed?.Invoke(perfect);}
-        public void Respawn(){if(Profile==null)return;Profile.Falls++;MoveToSafe();Save();Refresh();Fell?.Invoke();}
+        public void Respawn(){if(Profile==null)return;
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
+ Debug.Log("RISING_RECOVERY frame="+Time.frameCount+" player="+Player.position+" safe="+_safe+" fallsBefore="+Profile.Falls);
+#endif
+ Profile.Falls++;MoveToSafe();Save();Refresh();Fell?.Invoke();}
         public bool ClaimDaily(){bool claimed=RisingRules.ClaimDaily(Profile,DateTime.UtcNow);if(claimed)Save();Refresh();return claimed;}
         public bool SelectStyle(int style){bool selected=RisingRules.SelectStyle(Profile,style);if(selected)Save();Refresh();return selected;}
         public void CycleStyle()=>SelectStyle((Profile.Style+1)%4);

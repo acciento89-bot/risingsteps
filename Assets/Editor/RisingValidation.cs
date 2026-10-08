@@ -5,7 +5,7 @@ using Kamilunavo.RisingSteps.Core;
 using Kamilunavo.RisingSteps.Gameplay;
 public static class RisingValidation
 {
- public static void ValidateAll(){Validate();ValidateUI();ValidateInput();ValidateGeometry();}
+ public static void ValidateAll(){Validate();ValidateUI();ValidateInput();ValidateGeometry();ValidateLifetime();}
  static int checks;
  static void Check(bool ok,string name){checks++;if(!ok)throw new Exception(name);}
  public static void ValidateInput(){
@@ -13,6 +13,13 @@ public static class RisingValidation
  var r=(RectTransform)j.transform;r.anchorMin=r.anchorMax=Vector2.zero;r.pivot=Vector2.zero;r.sizeDelta=new Vector2(112,112);Canvas.ForceUpdateCanvases();
  var pointer=new UnityEngine.EventSystems.PointerEventData(UnityEngine.EventSystems.EventSystem.current){pointerId=100,position=RectTransformUtility.WorldToScreenPoint(null,r.TransformPoint(r.rect.center))};j.SendMessage("Awake");j.OnPointerDown(pointer);Check(j.Value.sqrMagnitude<.001f,"joystick center is neutral with bottom-left pivot");
  pointer.position=RectTransformUtility.WorldToScreenPoint(null,r.TransformPoint(r.rect.center+Vector2.left*50));j.OnDrag(pointer);Check(j.Value.x<-.8f&&Mathf.Abs(j.Value.y)<.01f,"joystick can move left");j.ResetInput();UnityEngine.Object.DestroyImmediate(canvas.gameObject);Debug.Log("RISING_INPUT_PASS checks="+checks);
+ }
+ public static void ValidateLifetime(){
+ var root=new GameObject("LifetimeProbe");Kamilunavo.RisingSteps.Visuals.IslandArt.Build(root.transform,0,0);
+ var originals=new System.Collections.Generic.HashSet<Mesh>();foreach(var f in root.GetComponentsInChildren<MeshFilter>())originals.Add(f.sharedMesh);
+ Kamilunavo.RisingSteps.Visuals.MeshArt.Batch(root);var combined=new System.Collections.Generic.HashSet<Mesh>();foreach(var f in root.GetComponentsInChildren<MeshFilter>())combined.Add(f.sharedMesh);
+ UnityEngine.Object.DestroyImmediate(root);
+ foreach(var mesh in originals)Check(mesh==null,"rebuilt island releases original mesh");foreach(var mesh in combined)Check(mesh==null,"rebuilt island releases batched mesh");Debug.Log("RISING_LIFETIME_PASS checks="+checks);
  }
  public static void ValidateGeometry(){
  var root=new GameObject("GeometryProbe");Kamilunavo.RisingSteps.Visuals.IslandArt.Build(root.transform,0,0);

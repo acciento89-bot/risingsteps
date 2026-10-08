@@ -4,10 +4,12 @@ namespace Kamilunavo.RisingSteps.Visuals
  public static class RunnerArt
  {
   public static RunnerAnimator Build(Transform parent){var root=new GameObject("HoodieRunner",typeof(RunnerAnimator));root.transform.SetParent(parent,false);var a=root.GetComponent<RunnerAnimator>();
-   var skin=MeshArt.Mat("WarmSkin",new Color(.91f,.54f,.28f));var dark=MeshArt.Mat("CharcoalFabric",new Color(.09f,.12f,.15f));var white=MeshArt.Mat("ShoeIvory",new Color(.94f,.97f,.92f));var green=new Material(MeshArt.Mat("HoodieBase",new Color(.035f,.43f,.23f)));a.Hoodie=green;
+   var skin=MeshArt.Mat("WarmSkin",new Color(.91f,.54f,.28f));var dark=MeshArt.Mat("CharcoalFabric",new Color(.09f,.12f,.15f));var white=MeshArt.Mat("ShoeIvory",new Color(.94f,.97f,.92f));var green=new Material(MeshArt.Mat("HoodieBase",new Color(.035f,.43f,.23f)));a.Hoodie=green;ArtLifetime.Own(root,green);
    a.Hips=Pivot(root.transform,"Hips",new Vector3(0,.76f,0));
    MeshArt.Oval(a.Hips,"CargoShorts",new Vector3(0,.08f,0),new Vector3(.63f,.38f,.39f),dark);
    MeshArt.Lathe(a.Hips,"HoodieTorso",new[]{.14f,.20f,.39f,.61f,.71f},new[]{.30f,.31f,.30f,.27f,.18f},20,green,new Vector3(1,1,.72f));
+   MeshArt.Oval(a.Hips,"HoodiePocket",new Vector3(0,.36f,.225f),new Vector3(.38f,.16f,.065f),green);
+   for(int side=-1;side<=1;side+=2)MeshArt.Box(a.Hips,"HoodieCord",new Vector3(side*.07f,.61f,.21f),new Vector3(.018f,.16f,.018f),white);
    MeshArt.Oval(a.Hips,"HoodFold",new Vector3(0,.66f,-.10f),new Vector3(.5f,.24f,.40f),white);
    MeshArt.Oval(a.Hips,"HoodLining",new Vector3(0,.70f,-.13f),new Vector3(.36f,.14f,.30f),green);
    for(int side=-1;side<=1;side+=2){var leg=Pivot(a.Hips,side<0?"LeftLeg":"RightLeg",new Vector3(side*.16f,-.05f,0));if(side<0)a.LeftLeg=leg;else a.RightLeg=leg;

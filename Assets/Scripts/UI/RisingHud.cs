@@ -10,25 +10,29 @@ namespace Kamilunavo.RisingSteps.UI
  public sealed class RisingHud:MonoBehaviour
  {
   public RisingCourse Course{get;private set;}public VirtualJoystick Joystick{get;private set;}public PressButton Jump{get;private set;}public bool ModalOpen=>_modal!=null;public event Action UiPressed;
-  private RectTransform _safe,_modal,_content;private Text _height,_coins,_hint;private Image _progress;private Button _menu;private int _width,_heightScreen;private string _page="";private float _hintUntil;
+  private RectTransform _safe,_modal,_content;private Text _height,_coins,_hint;private Image _progress;private Button _menu;private int _width,_heightScreen;private Vector2 _safeSize;private string _page="";private float _hintUntil;
   private static readonly Color Navy=new(.025f,.085f,.18f,.95f),Gold=new(1,.73f,.12f),Purple=new(.40f,.10f,.86f),Blue=new(.04f,.48f,.90f);
   private RisingProfile P=>Course.Profile;public string T(string de,string en)=>P.Language=="en"?en:de;
   public void Initialize(RisingCourse course){Course=course;var canvas=UiFactory.Canvas();_safe=UiFactory.Panel(canvas.transform,"SafeArea",Color.clear,Vector2.zero,Vector2.one);_safe.gameObject.AddComponent<SafeAreaFitter>();
    _menu=UiFactory.Button(_safe,"Menu","",Navy,Color.white,Vector2.zero,Vector2.one,ShowHome);HudIcons.Add(_menu.transform,HudIcons.Kind.Menu);
    var height=UiFactory.Panel(_safe,"Height",Navy,Vector2.zero,Vector2.one);_height=UiFactory.Label(height,"Value","",20,new Vector2(.05f,.33f),new Vector2(.95f,.97f),TextAnchor.MiddleCenter,Color.white,FontStyle.Bold);_progress=UiFactory.Progress(height,new Vector2(.10f,.14f),new Vector2(.90f,.25f),new Color(.16f,.23f,.36f),Gold);
-   var coins=UiFactory.Panel(_safe,"Crystals",Navy,Vector2.zero,Vector2.one);_coins=UiFactory.Label(coins,"Value","",20,new Vector2(.05f,.05f),new Vector2(.95f,.95f),TextAnchor.MiddleCenter,Gold,FontStyle.Bold);
+   var coins=UiFactory.Panel(_safe,"Crystals",Navy,Vector2.zero,Vector2.one);var gem=UiFactory.Panel(coins,"CrystalIcon",Color.clear,new Vector2(.04f,.18f),new Vector2(.31f,.82f));HudIcons.Add(gem,HudIcons.Kind.Crystal);gem.GetComponentInChildren<HudIcons>().color=Gold;_coins=UiFactory.Label(coins,"Value","",20,new Vector2(.30f,.05f),new Vector2(.95f,.95f),TextAnchor.MiddleCenter,Gold,FontStyle.Bold);
    _hint=UiFactory.Label(_safe,"RouteHint","",17,Vector2.zero,Vector2.one,TextAnchor.MiddleCenter,Color.white,FontStyle.Bold);
+   var outline=_hint.gameObject.AddComponent<Outline>();outline.effectColor=new Color(.01f,.04f,.09f,.95f);outline.effectDistance=new Vector2(1,-1);
    Joystick=VirtualJoystick.Create(_safe,Vector2.zero,Vector2.one);Jump=PressButton.Create(_safe,"",Vector2.zero,Vector2.one);HudIcons.Add(Jump.transform,HudIcons.Kind.Jump);
    course.Changed+=Refresh;course.Landed+=perfect=>Hint(perfect?T("PERFEKT! +5","PERFECT! +5"):T("Etappe geschafft","Step cleared"));course.Fell+=()=>Hint(T("Zurück am Kontrollpunkt","Back at checkpoint"));course.PortalCompleted+=ShowCompletion;
    Layout();Refresh();ShowHome();
   }
   private static void Place(RectTransform r,float x,float y,float w,float h,bool bottom=false){r.anchorMin=r.anchorMax=new Vector2(0,bottom?0:1);r.pivot=new Vector2(0,bottom?0:1);r.anchoredPosition=new Vector2(x,bottom?y:-y);r.sizeDelta=new Vector2(w,h);}
   private void Layout(){Canvas.ForceUpdateCanvases();float w=_safe.rect.width,h=_safe.rect.height;Place((RectTransform)_menu.transform,12,12,52,52);Place((RectTransform)_height.transform.parent,74,12,Mathf.Max(90,w-192),52);Place((RectTransform)_coins.transform.parent,w-108,12,96,52);Place((RectTransform)_hint.transform,74,70,w-148,26);
-   float stick=h<420?90:112,jump=h<420?82:94;Place((RectTransform)Joystick.transform,16,16,stick,stick,true);Place((RectTransform)Jump.transform,w-jump-16,20,jump,jump,true);
-   _width=Screen.width;_heightScreen=Screen.height;
+   if(w<280){Place((RectTransform)_height.transform.parent,74,12,w-86,52);Place((RectTransform)_coins.transform.parent,w-90,72,78,52);Place((RectTransform)_hint.transform,12,130,w-24,24);}
+   float stick=w<220?68:h<420?90:112,jump=w<220?68:h<420?82:94;Place((RectTransform)Joystick.transform,16,16,stick,stick,true);Place((RectTransform)Jump.transform,w-jump-16,20,jump,jump,true);
+   _width=Screen.width;_heightScreen=Screen.height;_safeSize=_safe.rect.size;
   }
-  private void Update(){if(_width!=Screen.width||_heightScreen!=Screen.height){Layout();if(ModalOpen)Reopen();}if(!ModalOpen&&Time.unscaledTime>_hintUntil)_hint.text=Course.Height==12?T("Betritt das goldene Portal","Enter the golden portal"):T("Nächste Insel: ","Next island: ")+(Course.Height+1);}
-  public void Refresh(){if(Course==null||P==null)return;UiFactory.HighContrast=P.HighContrast;_height.text=T("HÖHE ","HEIGHT ")+Course.Height+" / 12";_coins.text=P.Crystals.ToString("N0");_progress.fillAmount=Course.Height/12f;var runner=Course.Player.GetComponentInChildren<RunnerAnimator>();runner?.Style(P.Style);}
+  private void Update(){if(_width!=Screen.width||_heightScreen!=Screen.height||_safeSize!=_safe.rect.size){Layout();if(ModalOpen)Reopen();}if(!ModalOpen&&Time.unscaledTime>_hintUntil)_hint.text=Course.Height==12?T("Betritt das goldene Portal","Enter the golden portal"):T("Nächste Insel: ","Next island: ")+(Course.Height+1);}
+  public void Refresh(){if(Course==null||P==null)return;UiFactory.HighContrast=P.HighContrast;var navy=Navy;navy.a=P.HighContrast?1:.95f;_menu.GetComponent<Image>().color=navy;_height.transform.parent.GetComponent<Image>().color=navy;_coins.transform.parent.GetComponent<Image>().color=navy;Jump.GetComponent<Image>().color=new Color(.03f,.06f,.10f,P.HighContrast?1:.74f);Joystick.GetComponent<Image>().color=new Color(.03f,.06f,.10f,P.HighContrast?.94f:.62f);
+   foreach(var step in Course.Steps){var contrast=step.transform.parent.Find("RouteContrastRim");if(contrast!=null)contrast.gameObject.SetActive(P.HighContrast);}
+   _height.text=T("HÖHE ","HEIGHT ")+Course.Height+" / 12";_coins.text=P.Crystals.ToString("N0",System.Globalization.CultureInfo.GetCultureInfo(P.Language=="de"?"de-DE":"en-US"));_progress.fillAmount=Course.Height/12f;var runner=Course.Player.GetComponentInChildren<RunnerAnimator>();runner?.Style(P.Style);}
   private void Hint(string text){_hint.text=text;_hintUntil=Time.unscaledTime+2.2f;}
   private void Tap(){UiPressed?.Invoke();}
   public void Close(){Tap();if(_modal!=null){_modal.gameObject.SetActive(false);Destroy(_modal.gameObject);}_modal=null;_content=null;_page="";Course.Paused=false;}
@@ -53,7 +57,7 @@ namespace Kamilunavo.RisingSteps.UI
   public void ShowStyle(){Begin("style",T("DEIN LÄUFER","YOUR RUNNER"));StyleRows();}
   private void StyleRows(){string[] de={"Waldgrün","Himmelsblau","Sonnenkupfer","Auroraviolett"},en={"Forest Green","Sky Blue","Sun Copper","Aurora Violet"};int[] prices={0,75,150,250};for(int i=0;i<4;i++){int s=i;Row("Style"+i,T(de[i],en[i])+"  ·  "+(P.Style==i?T("AKTIV","ACTIVE"):P.Styles[i]?T("AUSWÄHLEN","SELECT"):prices[i]+T(" Kristalle"," crystals")),i==P.Style?Blue:Purple,()=>{if(Course.SelectStyle(s)){Reopen();}else Note(T("Nicht genug Kristalle. Spiele die nächsten Etappen!","Not enough crystals. Play the next steps!"));},P.Styles[i]||P.Crystals>=prices[i]);}}
   public void ShowDaily(){Begin("daily",T("TAGESGESCHENK","DAILY GIFT"));bool ready=string.CompareOrdinal(RisingRules.Day(DateTime.UtcNow),P.DailyDay)>0;Note(T("Einmal je UTC-Tag. Deine Serie erhöht die Belohnung bis auf 160 Kristalle.","Once each UTC day. Your streak increases the reward up to 160 crystals."),100);Note(T("Serie: ","Streak: ")+P.DailyStreak+" / 7");Row("ClaimDaily",ready?T("GESCHENK ABHOLEN","CLAIM GIFT"):T("HEUTE BEREITS ABGEHOLT","ALREADY CLAIMED TODAY"),new Color(1,.4f,.06f),()=>{Course.ClaimDaily();ShowDaily();},ready);}
-  public void ShowSettings(){Begin("settings",T("EINSTELLUNGEN","SETTINGS"));void Toggle(Action act){act();RisingSave.Save(P);ShowSettings();}
+  public void ShowSettings(){Begin("settings",T("EINSTELLUNGEN","SETTINGS"));void Toggle(Action act){act();RisingSave.Save(P);Refresh();ShowSettings();}
    Row("Language",T("SPRACHE: DEUTSCH","LANGUAGE: ENGLISH"),Blue,()=>Toggle(()=>P.Language=P.Language=="de"?"en":"de"));
    Row("Sound",T("TON: ","SOUND: ")+On(P.Sound),Navy,()=>Toggle(()=>P.Sound=!P.Sound));Row("Haptics",T("HAPTIK: ","HAPTICS: ")+On(P.Haptics),Navy,()=>Toggle(()=>P.Haptics=!P.Haptics));Row("Motion",T("WENIGER BEWEGUNG: ","REDUCED MOTION: ")+On(P.ReducedMotion),Navy,()=>Toggle(()=>P.ReducedMotion=!P.ReducedMotion));Row("Contrast",T("HOHER KONTRAST: ","HIGH CONTRAST: ")+On(P.HighContrast),Navy,()=>Toggle(()=>P.HighContrast=!P.HighContrast));}
   private string On(bool b)=>b?T("AN","ON"):T("AUS","OFF");
