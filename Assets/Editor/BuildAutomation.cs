@@ -7,6 +7,8 @@ using UnityEditor.Build.Reporting;
 
 public static class BuildAutomation
 {
+    public static void BuildMacPreview()=>Build(BuildTarget.StandaloneOSX,GetOutput("-buildOutput","Builds/Mac/RisingSteps.app"));
+
     public static void BuildAndroid()
     {
         EditorUserBuildSettings.buildAppBundle = false;
@@ -21,6 +23,8 @@ public static class BuildAutomation
 
     private static void Build(BuildTarget target, string output)
     {
+        RisingArtImports.Ensure();
+        RisingValidation.ValidateAll();
         if (target == BuildTarget.iOS)
         {
             Directory.CreateDirectory(output);

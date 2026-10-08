@@ -23,10 +23,10 @@
 ### Task1: persisted adventure rules and course integration
 Create Core/RisingProfile.cs, RisingSave.cs, RisingRules.cs; Gameplay/CoursePatterns.cs; Editor/RisingValidation.cs. Modify RisingCourse.cs/PlayerMotor.cs/GameBootstrap.cs only at their integration points.
 Interfaces: RisingSave.Parse(string)->RisingProfile, Load(), Save(RisingProfile); RisingRules.ClaimDaily(RisingProfile,DateTime)->bool, SelectStyle(RisingProfile,int)->bool, Land(RisingProfile,int,bool)->bool, Complete(RisingProfile,DateTime)->int; CoursePatterns.Points(int realm,int seed)->Vector3[13]. RisingCourse owns profile and exposes Height/Player/Steps/Paused plus StartRun(int,bool), Respawn(), ClaimDaily(), SelectStyle(int), CompletePortal().
-- [ ] Write missing-rule red tests: daily same/earlier/next day,7-day cap; duplicate/skipped landings; stars/unlock; owned-style replay; parse/range/array normalization; save roundtrip and seeded reachability.
-- [ ] Run batch editor execute RisingValidation.Validate and record failure before product implementation.
-- [ ] Implement pure rules/save/patterns; run tests green.
-- [ ] Integrate current motor/course, persistent checkpoint/portal, suppress duplicate callbacks and reset velocity on recovery; compile, runtime route baseline; commit.
+- [x] Write missing-rule red tests: daily same/earlier/next day,7-day cap; duplicate/skipped landings; stars/unlock; owned-style replay; parse/range/array normalization; save roundtrip and seeded reachability.
+- [x] Run batch editor execute RisingValidation.Validate and record failure before product implementation.
+- [x] Implement pure rules/save/patterns; run tests green.
+- [x] Integrate current motor/course, persistent checkpoint/portal, suppress duplicate callbacks and reset velocity on recovery; compile, runtime route baseline; commit.
 
 ### Task2: concept art, contextual controls and feedback
 Create Visuals/SkyArt.cs, IslandArt.cs, RunnerArt.cs, RunnerAnimator.cs, PortalArt.cs, RisingFeedback.cs; UI/RisingHud.cs, HudIcons.cs; QA/RisingRuntimeQa.cs. Modify UiFactory/VirtualJoystick/PressButton/OrbitCamera/GameBootstrap and native haptics plugins. Assets/Art stores generated raster textures/provenance; Resources stores fonts/audio/shaders.
