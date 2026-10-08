@@ -32,16 +32,16 @@ Interfaces: RisingSave.Parse(string)->RisingProfile, Load(), Save(RisingProfile)
 Create Visuals/SkyArt.cs, IslandArt.cs, RunnerArt.cs, RunnerAnimator.cs, PortalArt.cs, RisingFeedback.cs; UI/RisingHud.cs, HudIcons.cs; QA/RisingRuntimeQa.cs. Modify UiFactory/VirtualJoystick/PressButton/OrbitCamera/GameBootstrap and native haptics plugins. Assets/Art stores generated raster textures/provenance; Resources stores fonts/audio/shaders.
 Interfaces: RisingHud.Initialize(RisingCourse), ModalOpen, Refresh(), ShowHome(), ShowSettings(), ShowDaily(), ShowStyle(); motor Paused/ResetMotion(); joystick ResetInput() and pointer ownership; feedback Jump/Land/Perfect/Fall/UI/Complete. World builders return actual meshes and collide only on route islands. Runner animator consumes velocity/grounded, never rotates camera.
 - [ ] Add runtime failure probes for modal pause/stale jump, actual UI raycasts, transparent-root camera access, daily/style idempotence and saved checkpoint reload.
-- [ ] Generate/inspect project-bound sky/terrain/foliage art via imagegen, author runner/islands/temple geometry; commit all assets/metas and provenance.
+- [x] Generate/inspect project-bound sky/terrain/foliage art via imagegen, author runner/islands/temple geometry; commit all assets/metas and provenance.
 - [ ] Implement48-point responsive contextual UI/DE-EN/settings, safe area; fix root raycast interception and multi-touch ownership; inspect compact/tablet/landscape/division surfaces.
-- [ ] Add sound/haptics/VFX/reduced-motion/high-contrast, actual runner animation; run probes and inspect actual game captures; commit.
+- [x] Add sound/haptics/VFX/reduced-motion/high-contrast, actual runner animation; run probes and inspect actual game captures; commit.
 
 ### Task3: complete runtime/native delivery
 Modify Editor/BuildAutomation.cs/ProjectBootstrap.cs for preserved build numbers, explicit target/release/simulator paths and icons. Add development-only QA input bridge/real-time soak; docs ledger and store delivery evidence.
 Interfaces: BuildMacPreview(), BuildIOSSimulatorQa(), BuildIOS(), BuildAndroidRelease(), -versionName/-buildNumber/-buildOutput; QA -qaRising/-qaRisingSoak with isolated output/profile, no release probes.
 - [ ] Drive actual CharacterController/joystick/jump through12 steps for each pattern, portal next/replay, forced fall/recovery, pause/lifecycle/reload/daily/style. No teleport success claims.
 - [ ] Native iPhone captures/UI raycast/input matrix; official Duo available poses, explicit blocked state if unavailable.30-minute real-time soak and shader/Console checks; commit evidence.
-- [ ] Add optional commerce using own IDs/catalog and verified adapters, native SDK compilation/restore/replay checks. Keep genuine sandbox/reward/consent blockers open.
-- [ ] Fresh whole-change reviewer checks rules/input/save/native gates; fix justified findings with regressions.
+- [x] Add optional commerce using own IDs/catalog and verified adapters, native SDK compilation/restore/replay checks. Keep genuine sandbox/reward/consent blockers open.
+- [x] Fresh whole-change reviewer checks rules/input/save/native gates; fix justified findings with regressions.
 - [ ] Signed Release archive/internal TestFlight process/tester and Android AAB existing central key; verify signatures/payload/manifest. Update ledger with precise proven/unverified states.
 - [ ] Commit/push full Unity project and compare remote tree; retain final builds/QA evidence, clean regenerable caches, continue next game per authorized order.

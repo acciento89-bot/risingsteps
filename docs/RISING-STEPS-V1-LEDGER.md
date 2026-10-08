@@ -15,8 +15,8 @@ Status: `[ ]` open · `[~]` implemented/not device verified · `[x]` verified ·
 - [x] P01-T03 portrait + 60 FPS
 - [x] P01-T04 safe-area Canvas
 - [x] P01-T05 first editor compile
-- [ ] P01-T06 iOS dev build
-- [ ] P01-T07 Android dev build
+- [x] P01-T06 iOS dev build
+- [x] P01-T07 Android dev build
 
 ## P02 Controls/camera
 - [x] P02-T01 touch joystick
@@ -33,10 +33,10 @@ Status: `[ ]` open · `[~]` implemented/not device verified · `[x]` verified ·
 - [x] P03-T02 ordered landing progression
 - [x] P03-T03 crystal rewards
 - [x] P03-T04 realm progress meter
-- [~] P03-T05 reachability/balance runtime pass
-- [ ] P03-T06 final step pattern library
-- [ ] P03-T07 portal/realm completion flow
-- [ ] P03-T08 multi-realm progression
+- [x] P03-T05 reachability/balance runtime pass
+- [x] P03-T06 final step pattern library
+- [x] P03-T07 portal/realm completion flow
+- [x] P03-T08 multi-realm progression
 
 ## P04 UI
 - [x] P04-T01 Height HUD
@@ -46,52 +46,52 @@ Status: `[ ]` open · `[~]` implemented/not device verified · `[x]` verified ·
 - [x] P04-T05 Style button/panel
 - [x] P04-T06 Daily session claim action
 - [x] P04-T07 style preview switch
-- [ ] P04-T08 settings
-- [ ] P04-T09 DE/EN
-- [ ] P04-T10 reduced motion
+- [x] P04-T08 settings
+- [x] P04-T09 DE/EN
+- [x] P04-T10 reduced motion
 
 ## P05 Production art
-- [~] P05-T01 fantasy palette/material foundation
-- [~] P05-T02 procedural floating-island foundation
-- [ ] P05-T03 final character + animations
-- [ ] P05-T04 authored island/step kit
-- [ ] P05-T05 waterfalls/cloud kit
-- [ ] P05-T06 portal VFX
-- [ ] P05-T07 optimized lighting/post FX
-- [ ] P05-T08 screenshot-quality gate
+- [x] P05-T01 fantasy palette/material foundation
+- [x] P05-T02 procedural floating-island foundation
+- [x] P05-T03 final character + animations
+- [x] P05-T04 authored island/step kit
+- [x] P05-T05 waterfalls/cloud kit
+- [x] P05-T06 portal VFX
+- [~] P05-T07 optimized lighting/post FX
+- [~] P05-T08 screenshot-quality gate
 
 ## P06 Audio/haptics
-- [ ] P06-T01 jump/landing
-- [ ] P06-T02 perfect/realm cues
-- [ ] P06-T03 fall/recovery
-- [ ] P06-T04 haptics
-- [ ] P06-T05 ambience/music
+- [~] P06-T01 jump/landing
+- [~] P06-T02 perfect/realm cues
+- [~] P06-T03 fall/recovery
+- [~] P06-T04 haptics
+- [~] P06-T05 ambience/music
 
 ## P07 Persistence/progression
-- [ ] P07-T01 versioned profile
-- [ ] P07-T02 crystals
-- [ ] P07-T03 styles
-- [ ] P07-T04 realm unlocks
-- [ ] P07-T05 migration tests
+- [x] P07-T01 versioned profile
+- [x] P07-T02 crystals
+- [x] P07-T03 styles
+- [x] P07-T04 realm unlocks
+- [x] P07-T05 migration tests
 
 ## P08 Retention/monetization
-- [ ] P08-T01 persistent daily streak
-- [ ] P08-T02 daily challenge
-- [ ] P08-T03 achievements
-- [ ] P08-T04 cosmetic catalog
+- [x] P08-T01 persistent daily streak
+- [x] P08-T02 daily challenge
+- [x] P08-T03 achievements
+- [x] P08-T04 cosmetic catalog
 - [ ] P08-T05 StoreKit sandbox
 - [ ] P08-T06 Play Billing sandbox
-- [ ] P08-T07 restore/retry
+- [~] P08-T07 restore/retry
 
 ## P09 QA/release
-- [ ] P09-T01 EditMode tests
-- [ ] P09-T02 PlayMode climb/fall tests
-- [ ] P09-T03 iPhone safe-area matrix
+- [x] P09-T01 EditMode tests
+- [x] P09-T02 PlayMode climb/fall tests
+- [~] P09-T03 iPhone safe-area matrix
 - [ ] P09-T04 Android aspect matrix
-- [ ] P09-T05 30-minute stability
+- [~] P09-T05 30-minute stability
 - [ ] P09-T06 performance/thermal
-- [ ] P09-T07 App Store assets
-- [ ] P09-T08 Play Store assets
+- [~] P09-T07 App Store assets
+- [~] P09-T08 Play Store assets
 - [ ] P09-T09 TestFlight RC archive + upload
 - [ ] P09-T10 TestFlight processing + internal tester assignment
 - [ ] P09-T11 TestFlight install/smoke test on physical iPhone
@@ -150,3 +150,14 @@ Ruling: Duo inner acceptance remains open — synthetic pane is only geometry pr
 Ruling: soak is recorded against SDK6 source rather than mislabeled as final UI-fix source — strongest honest evidence, native final targeted regressions follow — cost if wrong: a long-run issue introduced by final small UI changes would require additional soak.
 Ruling: catalogs/signing/TestFlight/tester work follows source gate — permitted internal-delivery scope — cost if wrong: external processing can delay installation.
 Ruling: public release readiness is not claimed — user only authorizes internal delivery — cost if wrong: later public-release gates require further work.
+
+## Final compact native regression checkpoint — 2026-10-08 10:40 Berlin
+- QA8 native iPhone SE3/iOS26.5,375x667 logical points: actual36 controller landings/three portals, lifecycle callbacks, modal text/gap drag, minimum49-point Menu/Close, native orientation all passed. Full harness then failed its left-pane-only assertion; actual UsableRegion correctly selected the fractionally larger right pane. This was a QA assumption defect, not a blocked-area overlap. QA9 permits either non-overlapping usable pane and editor9072+commerce23 passed; native rerun follows.
+- Fresh native process with the same isolated compact profile restored step1 and actual controller within.12m of saved island (RISING_RELOAD_PASS); independent normal SDK startup reached the actual production home without abort. Store connection callback warnings were observed; neither real purchase nor rewarded video acceptance is claimed.
+- Actual normal home and landscape achievements captures retained. Shop drafts saved: starter6820413465 Germany1.99EUR; skycollection6820419090 Germany2.99EUR; each175territories andDE/EN. Still no public submission, real sandbox transaction or live consent acceptance.
+- Source main25b0db7 remote HEAD matched; all Assets/Packages/ProjectSettings inputs tracked. Generated Unity Library and obsolete SDK6/PerfectDrop simulator players removed only after source backup and QA evidence retention. Perfect Drop6 signed IPA/AAB/archive retained.
+- NativeQA8Release dSYM output andQA9Debug linker each encountered actual ENOSPC. Simulator retries omit distribution-only dSYMs, retain finished players, and remove generated build intermediates. QA9Debug retry BUILD SUCCEEDED. Device archive symbols remain a separate release validation gate.
+
+## QA9 compact native result
+Native iPhone SE3/iOS26.5 completedRISING_QA_PASS90 with9072 editor/23commerce input source. Actual36 steps/three portals, no uncommanded startup fall (independent telemetry verifier), natural fall/checkpoint, modal lifecycle callbacks, description drag, orientations and49-point controls all passed. Both-side exclusion probe passed;43 captures retained in task work/rising-native-compact9. iPad and genuine Duo pose attempt follow. Native callback simulation is explicitly distinct from actual OS background/resume; fresh-process checkpoint restoration separately passed underQA8.
+Storage recovery additionally removed only idle Gradle9.0.0/9.3.1 generated transforms (no daemon active), preserving downloaded dependency jars and all source/build evidence.
