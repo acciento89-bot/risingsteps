@@ -22,6 +22,7 @@ namespace Kamilunavo.RisingSteps.QA
    Check(_hud.ModalOpen&&_course.Paused,"initial home paused");yield return Capture("home");
    if(Environment.GetEnvironmentVariable("RISING_QA_RELOAD")=="1"){Check(_course.Height>0,"saved non-origin step restored on fresh native boot");Check(Vector3.Distance(_motor.transform.position,_course.SafePosition)<.12f,"fresh boot puts actual controller at saved island");yield return Capture("restored-checkpoint");File.WriteAllText(Path.Combine(_out,"RELOAD-PASS.txt"),"Fresh native bootstrap restored step="+_course.Height+" realm="+_course.Profile.Realm+" safe="+_course.SafePosition);Debug.Log("RISING_RELOAD_PASS step="+_course.Height);yield break;}
 _hud.Close();_course.StartRun(0,false);yield return new WaitForSeconds(.5f);
+   if(Environment.GetEnvironmentVariable("RISING_QA_CAMERA")=="1"){yield return CameraFeedback();File.WriteAllText(Path.Combine(_out,"PASS.txt"),"RISING_CAMERA_PASS "+_checks);Debug.Log("RISING_CAMERA_PASS "+_checks);yield break;}
    var center=new Vector2(Screen.width*.55f,Screen.height*.55f);var e=new PointerEventData(EventSystem.current){position=center};var hits=new List<RaycastResult>();EventSystem.current.RaycastAll(e,hits);Check(hits.Count==0,"world route does not intercept camera input");
    _motor.Jump.OnPointerDown(e);_hud.ShowSettings();float before=_course.Profile.Elapsed;yield return new WaitForSeconds(.15f);Check(Mathf.Abs(before-_course.Profile.Elapsed)<.01f&&_motor.Paused,"modal pauses motor and timer");_hud.Close();Check(!_motor.Jump.Consume(),"modal clears stale jump");
    _motor.Jump.OnPointerDown(e);float focusTime=_course.Profile.Elapsed;_course.SendMessage("OnApplicationFocus",false);yield return new WaitForSeconds(.12f);Check(_motor.Paused&&_course.Profile.Elapsed==focusTime&&!_motor.Jump.Consume(),"runtime focus-loss callback pauses timer and clears jump");_course.SendMessage("OnApplicationPause",true);_course.SendMessage("OnApplicationFocus",true);Check(_motor.Paused,"focus return does not override application pause");_course.SendMessage("OnApplicationPause",false);Check(!_motor.Paused,"runtime lifecycle callbacks resume after both return");
@@ -42,7 +43,11 @@ _hud.Close();_course.StartRun(0,false);yield return new WaitForSeconds(.5f);
    File.WriteAllText(Path.Combine(_out,"PASS.txt"),"RISING_QA_PASS checks="+_checks+" actual controller 36 steps and natural fall; isolated save; no FPS claim");Debug.Log("RISING_QA_PASS checks="+_checks);
    if(Array.Exists(Environment.GetCommandLineArgs(),a=>a=="-qaExit"))Application.Quit();
   }
-  private IEnumerator WaitOrientation(bool landscape){float start=Time.realtimeSinceStartup;while((Screen.width>Screen.height)!=landscape&&Time.realtimeSinceStartup-start<4)yield return null;
+  private IEnumerator WaitOrientation(bool landscape){
+   // Desktop orientation requests do not rotate a window; exercise the actual
+   // landscape layout before asserting that its clipped content can scroll.
+   if(!Application.isMobilePlatform)Screen.SetResolution(landscape?956:540,landscape?440:960,false);
+   float start=Time.realtimeSinceStartup;while((Screen.width>Screen.height)!=landscape&&Time.realtimeSinceStartup-start<4)yield return null;
 #if UNITY_IOS && !UNITY_EDITOR
    Check((Screen.width>Screen.height)==landscape,"native orientation settled "+(landscape?"landscape":"portrait")+" "+Screen.width+"x"+Screen.height);
 #endif
@@ -55,6 +60,29 @@ _hud.Close();_course.StartRun(0,false);yield return new WaitForSeconds(.5f);
    while(Time.realtimeSinceStartup-start<1800){if(Time.realtimeSinceStartup-start>=next){next+=60;phase++;_hud.Close();ReservedRegionProvider.QaDivision=null;Screen.orientation=phase%2==0?ScreenOrientation.Portrait:ScreenOrientation.LandscapeLeft;_course.StartRun(phase%3,false);if(phase%5==0)_hud.ShowStyle();if(phase%5==1)_hud.ShowDaily();if(phase%5==2)_hud.ShowSettings();if(phase%5==3)ReservedRegionProvider.QaDivision=new Rect(.48f,0,.04f,1);if(phase%5==4){yield return Climb(1);yield return Climb(2);}yield return Capture("soak-phase"+phase);}
     peakMemory=Math.Max(peakMemory,UnityEngine.Profiling.Profiler.GetTotalAllocatedMemoryLong());frames.Add(Time.unscaledDeltaTime*1000);yield return null;}
    Application.logMessageReceived-=handler;ReservedRegionProvider.QaDivision=null;frames.Sort();float elapsed=Time.realtimeSinceStartup-start;int p95=Mathf.Clamp(Mathf.FloorToInt(frames.Count*.95f),0,frames.Count-1);File.WriteAllText(Path.Combine(_out,"soak.json"),"{\"elapsedSeconds\":"+elapsed.ToString(System.Globalization.CultureInfo.InvariantCulture)+",\"frames\":"+frames.Count+",\"p95FrameMs\":"+frames[p95].ToString(System.Globalization.CultureInfo.InvariantCulture)+",\"startAllocatedBytes\":"+startMemory+",\"endAllocatedBytes\":"+UnityEngine.Profiling.Profiler.GetTotalAllocatedMemoryLong()+",\"peakAllocatedBytes\":"+peakMemory+",\"errors\":"+errors.Count+",\"note\":\"simulator/host rendering only; not physical device thermal acceptance\"}");Check(elapsed>=1800&&errors.Count==0,"30-minute real-time rendering soak");
+  }
+  private IEnumerator CameraFeedback(){
+   var orbit=_motor.CameraTransform.GetComponent<Kamilunavo.RisingSteps.CameraSystem.OrbitCamera>();
+   var pitchField=typeof(Kamilunavo.RisingSteps.CameraSystem.OrbitCamera).GetField("_pitch",System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance);
+   var yawField=typeof(Kamilunavo.RisingSteps.CameraSystem.OrbitCamera).GetField("_yaw",System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance);
+   var cases=new[]{new Vector2(0,1),new Vector2(.55f,.8f),new Vector2(-.55f,.8f)};
+   for(int scenario=0;scenario<cases.Length;scenario++){
+    _motor.ResetInput();_course.StartRun(0,false);yawField.SetValue(orbit,scenario==2?35f:0f);yield return new WaitForSecondsRealtime(.6f);
+    Canvas.ForceUpdateCanvases();var rect=(RectTransform)_hud.Joystick.transform;
+    var jumpRect=(RectTransform)_hud.Jump.transform;var jumpCenter=RectTransformUtility.WorldToScreenPoint(null,jumpRect.TransformPoint(jumpRect.rect.center));
+    var raycasts=new List<RaycastResult>();EventSystem.current.RaycastAll(new PointerEventData(EventSystem.current){position=jumpCenter},raycasts);
+    Check(raycasts.Exists(hit=>hit.gameObject.GetComponentInParent<Kamilunavo.RisingSteps.Input.PressButton>()==_hud.Jump),"jump center raycast belongs to actual jump UI");
+    var local=rect.rect.center+cases[scenario]*Mathf.Min(rect.rect.width,rect.rect.height)*.5f;
+    var pointer=new PointerEventData(EventSystem.current){pointerId=220,position=RectTransformUtility.WorldToScreenPoint(null,rect.TransformPoint(local))};
+    raycasts.Clear();EventSystem.current.RaycastAll(pointer,raycasts);Check(raycasts.Exists(hit=>hit.gameObject.GetComponentInParent<Kamilunavo.RisingSteps.Input.VirtualJoystick>()==_hud.Joystick),"joystick raycast belongs to actual joystick UI");
+    Check(_motor.Grounded,"camera probe begins on real collider");float startY=_motor.transform.position.y;
+    _hud.Joystick.OnPointerDown(pointer);var held=_hud.Joystick.Value;_hud.Jump.OnPointerDown(new PointerEventData(EventSystem.current){position=jumpCenter,pointerId=221});
+    float maxYaw=0,maxPitch=0;bool rose=false;var trace=new System.Text.StringBuilder("frame,storedYaw,renderYaw,storedPitch,renderPitch,x,y,z,joyX,joyY\n");
+    for(int frame=0;frame<18;frame++){yield return new WaitForEndOfFrame();float pitch=(float)pitchField.GetValue(orbit);var angles=_motor.CameraTransform.eulerAngles;maxYaw=Mathf.Max(maxYaw,Mathf.Abs(Mathf.DeltaAngle(orbit.Yaw,angles.y)));maxPitch=Mathf.Max(maxPitch,Mathf.Abs(Mathf.DeltaAngle(pitch,angles.x)));rose|=_motor.transform.position.y>startY+.05f;Check((_hud.Joystick.Value-held).sqrMagnitude<.000001f,"actual joystick unchanged during jump frame"+frame);var pos=_motor.transform.position;trace.AppendLine(string.Join(",",frame,orbit.Yaw,angles.y,pitch,angles.x,pos.x,pos.y,pos.z,held.x,held.y));}
+    File.WriteAllText(Path.Combine(_out,"camera-fixed-thumb-"+scenario+".csv"),trace.ToString());yield return Capture("camera-fixed-thumb-"+scenario);_motor.ResetInput();
+    Check(rose,"actual CharacterController jump occurred");Debug.Log("RISING_CAMERA_MEASURE scenario="+scenario+" maxRenderedYawDrift="+maxYaw+" maxRenderedPitchDrift="+maxPitch);
+    Check(maxYaw<.05f&&maxPitch<.05f,"jump/follow never alters rendered player-owned camera angles scenario"+scenario+" yaw="+maxYaw+" pitch="+maxPitch);
+   }
   }
   private void Drive(Vector3 direction,bool start=false){direction.y=0;var f=_motor.CameraTransform.forward;f.y=0;f.Normalize();var r=_motor.CameraTransform.right;r.y=0;r.Normalize();var axis=new Vector2(Vector3.Dot(direction.normalized,r),Vector3.Dot(direction.normalized,f));var rect=(RectTransform)_hud.Joystick.transform;var local=rect.rect.center+(Vector2)axis*Mathf.Min(rect.rect.width,rect.rect.height)*.5f;var ev=new PointerEventData(EventSystem.current){pointerId=200,position=RectTransformUtility.WorldToScreenPoint(null,rect.TransformPoint(local))};if(start)_hud.Joystick.OnPointerDown(ev);else _hud.Joystick.OnDrag(ev);}
   private IEnumerator Climb(int step){var origin=_course.Steps[step-1].transform.position;var target=_course.Steps[step].transform.position;bool jumped=false;float start=Time.realtimeSinceStartup;Drive(target-_motor.transform.position,true);
