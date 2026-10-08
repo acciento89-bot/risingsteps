@@ -21,7 +21,7 @@ namespace Kamilunavo.RisingSteps.Monetization
         public bool PrivacyRequired=>_prepared && ConsentInformation.PrivacyOptionsRequirementStatus==PrivacyOptionsRequirementStatus.Required;
         public event Action Changed;
         public string Status {get;private set;}="";
-        public bool CanWatch=>Application.isMobilePlatform && !IsPresenting && _ad!=null && _ad.CanShowAd() && Time.realtimeSinceStartupAsDouble-_loadedAt<3500 && ConsentInformation.CanRequestAds() && RewardRules.CanClaim(_game.Profile,DateTime.UtcNow);
+        public bool CanWatch=>RisingSave.Writable && Application.isMobilePlatform && !IsPresenting && _ad!=null && _ad.CanShowAd() && Time.realtimeSinceStartupAsDouble-_loadedAt<3500 && ConsentInformation.CanRequestAds() && RewardRules.CanClaim(_game.Profile,DateTime.UtcNow);
         private string T(string de,string en)=>_game.Hud.T(de,en);
         private void Main(Action action)=>MobileAdsEventExecutor.ExecuteInUpdate(()=>{if(this!=null)action();});
         public void Initialize(RisingCourse game)
@@ -74,7 +74,7 @@ namespace Kamilunavo.RisingSteps.Monetization
                     _ad=ad;_loadedAt=Time.realtimeSinceStartupAsDouble;
                     ad.OnAdFullScreenContentClosed+=()=>Main(()=>Finish(ad,false));
                     ad.OnAdFullScreenContentFailed+=failure=>Main(()=>Finish(ad,true));
-                    SetStatus(T("Freiwilliges Video: +50 crystals","Optional video: +50 crystals"));
+                    SetStatus(T("Freiwilliges Video: +50 Kristalle","Optional video: +50 crystals"));
                 });
             });
         }

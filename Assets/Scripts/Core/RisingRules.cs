@@ -6,7 +6,7 @@ namespace Kamilunavo.RisingSteps.Core
  {
   public static string Day(DateTime date)=>date.ToUniversalTime().ToString("yyyy-MM-dd",CultureInfo.InvariantCulture);
   public static bool ClaimDaily(RisingProfile p,DateTime now){string day=Day(now);if(string.CompareOrdinal(day,p.DailyDay)<=0)return false;
-   bool successive=DateTime.TryParseExact(p.DailyDay,"yyyy-MM-dd",CultureInfo.InvariantCulture,DateTimeStyles.AssumeUniversal,out var old)&&old.Date.AddDays(1)==now.ToUniversalTime().Date;
+   bool successive=DateTime.TryParseExact(p.DailyDay,"yyyy-MM-dd",CultureInfo.InvariantCulture,DateTimeStyles.AssumeUniversal|DateTimeStyles.AdjustToUniversal,out var old)&&old.Date.AddDays(1)==now.ToUniversalTime().Date;
    p.DailyStreak=successive?Math.Min(7,p.DailyStreak+1):1;p.BestDailyStreak=Math.Max(p.BestDailyStreak,p.DailyStreak);p.DailyDay=day;p.Crystals+=100+10*(p.DailyStreak-1);return true;}
   public static bool SelectStyle(RisingProfile p,int style){if(style<0||style>=8)return false;if(style>=4){if(!p.Styles[style])return false;p.Style=style;return true;}int[] price={0,75,150,250};if(!p.Styles[style]){if(p.Crystals<price[style])return false;p.Crystals-=price[style];p.Styles[style]=true;}p.Style=style;return true;}
   public static bool Land(RisingProfile p,int step,bool perfect){if(p.Completed||step!=p.Step+1||step>12)return false;p.Step=step;p.Crystals+=10+2*step+(perfect?5:0);if(perfect)p.Perfects++;p.BestPerfects=Math.Max(p.BestPerfects,p.Perfects);return true;}

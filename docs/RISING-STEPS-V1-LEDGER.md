@@ -136,3 +136,17 @@ Own unpublished AdMob apps/50Crystals rewarded blocks now created and confirmed:
 - Native SDK QA player retained outside disposable build cache; actual36-step routes passed again and1800-second rendering/memory soak running. Functional QA uses isolated profiles and skips network purchasing, so it does not prove genuine store transactions or completed native ad views. Separate normal SDK startup still pending.
 - Apple starter product draft6820413465 / com.kamilunavo.risingsteps.starter saved, Germany1.99EUR,175territories,DE/EN localized. Sky collection draft, actual transaction/review screenshots and live consent remain pending. No AppReview/public submission.
 - Latest editor suite9067 PASS with fixture lifecycle assertion removed (direct reflection setup instead of Unity SendMessage outside Play mode).
+
+## Whole-change review and fix pass
+Fresh read-only review of9ae3921..429c8cb found no Critical and three Important findings. All reproduced before fixing:
+- UTC streak in negative offset: bundled Mono TZ=America/Los_Angeles actual RisingRules RED(1day/200instead2/210), GREEN with AdjustToUniversal.
+- Modal notes/gaps could not start scroll: actual HUD fixture viewport raycast RED→GREEN; transparent gameplay root remains non-intercepting.
+-375x667point phone: actual HUD fixture52-unit Menu scaled below48points RED→GREEN; control and modal-row minimum sizes use native density/canvas scale,49point floor to absorb pixel rounding. Dynamic header spacing avoids overlap.
+Whole editor suite9071 PASS pluscommerce23 PASS; native SDK export8 includes the fixes and explicit scroll/lifecycle/fresh-boot reload probes. Native player validation of this source follows. No re-review: executing-plans requires one fresh review followed by one regression-covered fix pass.
+SDK6 baseline actual real-time soak:1800.239s,105846frames, errors0; allocated125786301→126302222bytes, peak126355995; p95frame16.88008ms on simulator/host while other source work ran.30phasecaptures. This is simulator evidence for the SDK6 rendering/memory baseline; it predates the review UI/date fixes and proves neither physical thermal performance nor real commerce.
+Ruling: physical-device ergonomics/heat/haptics remain open — host simulation cannot establish them — cost if wrong: internal tester may find device-only issues.
+Ruling: real purchase/restore/reward/live-consent acceptance remains open — QA disables network commerce and approved app privacy URL is pending — cost if wrong: catalog/account configuration may still prevent transactions.
+Ruling: Duo inner acceptance remains open — synthetic pane is only geometry proof, existing official emulator inner renderer stalled — cost if wrong: a device-specific rendering/input defect may remain.
+Ruling: soak is recorded against SDK6 source rather than mislabeled as final UI-fix source — strongest honest evidence, native final targeted regressions follow — cost if wrong: a long-run issue introduced by final small UI changes would require additional soak.
+Ruling: catalogs/signing/TestFlight/tester work follows source gate — permitted internal-delivery scope — cost if wrong: external processing can delay installation.
+Ruling: public release readiness is not claimed — user only authorizes internal delivery — cost if wrong: later public-release gates require further work.
