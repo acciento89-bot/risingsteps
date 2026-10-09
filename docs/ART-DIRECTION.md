@@ -41,3 +41,8 @@ This image is the binding visual target for the sky-realm palette, floating-isla
 - The destination temple/portal must remain a visible long-range focal point.
 - Character, islands and UI require a coherent non-Roblox visual language.
 
+
+## 2026-10-09 menu correction
+The home is a bright sky atlas: cream surfaces, dark green ink, cyan illustrated islands, and one fixed warm-gold Continue/Start action. Each realm has its own grass, waterfall or temple preview and actual stars/unlock state. Secondary destinations are paired adventure tiles, not a uniform vertical stack of blue pills. Context pages use the same cream/ink palette with restrained category accents. Main gameplay keeps its center clear; deliberate camera orbit belongs to the small View pad on the left edge, outside the route. Hands-on tutorial guidance occupies the unused gap between the movement and jump controls, with a compact edge fallback in a narrow reserved pane.
+
+Native compact inspection rejected overlapping hero lettering and repeated flat island diagrams. Revised gallery uses the existing painted panorama's distinct meadow/waterfall subjects and the authored adventurer/temple icon. Hero text and artwork occupy disjoint columns with a4%gutter. Gallery uses10unit corner radii, flat cream surfaces and a subtle1unit dark edge; the gold accent is reserved for Continue.

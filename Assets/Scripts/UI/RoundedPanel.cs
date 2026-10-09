@@ -4,6 +4,10 @@ namespace Kamilunavo.RisingSteps.UI
 {
  public sealed class RoundedPanel:Image
  {
+  private static Material _gallery;
+  public static Material GalleryMaterial=>_gallery!=null?_gallery:(_gallery=new Material(Shader.Find("Rising/Gallery")));
+  public void UseGallery(){material=GalleryMaterial;SetVerticesDirty();}
+  public static void SetGalleryCoordinates(VertexHelper vh,Rect rect){var vertex=new UIVertex();for(int i=0;i<vh.currentVertCount;i++){vh.PopulateUIVertex(ref vertex,i);vertex.uv1=new Vector4((vertex.position.x-rect.xMin)/Mathf.Max(1,rect.width),(vertex.position.y-rect.yMin)/Mathf.Max(1,rect.height),rect.width,rect.height);vh.SetUIVertex(vertex,i);}}
   private static Material _panel;protected override void Awake(){base.Awake();if(_panel==null)_panel=new Material(Shader.Find("Rising/Panel"));material=_panel;}
   protected override void OnPopulateMesh(VertexHelper vh){base.OnPopulateMesh(vh);var rect=rectTransform.rect;var v=new UIVertex();for(int i=0;i<vh.currentVertCount;i++){vh.PopulateUIVertex(ref v,i);v.uv1=new Vector4((v.position.x-rect.xMin)/Mathf.Max(1,rect.width),(v.position.y-rect.yMin)/Mathf.Max(1,rect.height),rect.width,rect.height);vh.SetUIVertex(v,i);}}
  }

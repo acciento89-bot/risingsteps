@@ -5,6 +5,7 @@ namespace Kamilunavo.RisingSteps.Core
  [Serializable] public sealed class RisingProfile
  {
   public int Schema=1,Crystals,Realm,Step,UnlockedRealm,Style,Falls,Perfects,DailyStreak,BestDailyStreak,BestPerfects;
+  public bool TutorialDone;
   public float Elapsed; public bool Completed,Challenge,Sound=true,Haptics=true,ReducedMotion,HighContrast;
   public string Language="de",DailyDay="",ChallengeDay="",RunDay="";
   public Kamilunavo.RisingSteps.Monetization.CommerceProfile Commerce=new();public Kamilunavo.RisingSteps.Monetization.RewardProfile Rewards=new();

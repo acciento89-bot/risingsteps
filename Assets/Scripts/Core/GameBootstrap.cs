@@ -18,7 +18,7 @@ Screen.orientation=ScreenOrientation.AutoRotation;Screen.autorotateToPortrait=tr
    var motor=player.GetComponent<PlayerMotor>();var runner=RunnerArt.Build(player.transform);runner.Motor=motor;
    var cameraObject=new GameObject("Main Camera",typeof(Camera),typeof(AudioListener),typeof(OrbitCamera),typeof(RisingBloom));cameraObject.tag="MainCamera";var camera=cameraObject.GetComponent<Camera>();camera.fieldOfView=58;camera.nearClipPlane=.12f;camera.farClipPlane=260;camera.clearFlags=CameraClearFlags.Skybox;camera.allowHDR=true;var orbit=cameraObject.GetComponent<OrbitCamera>();orbit.Target=player.transform;orbit.Height=1.9f;orbit.Distance=7.2f;
    var course=new GameObject("RisingCourse",typeof(RisingCourse)).GetComponent<RisingCourse>();course.Player=player.transform;motor.Course=course;motor.CameraTransform=camera.transform;course.Build();cameraObject.transform.position=player.transform.position+new Vector3(0,3,-7);
-   var hud=new GameObject("RisingHud",typeof(RisingHud)).GetComponent<RisingHud>();hud.Initialize(course);motor.Joystick=hud.Joystick;motor.Jump=hud.Jump;
+   var hud=new GameObject("RisingHud",typeof(RisingHud)).GetComponent<RisingHud>();hud.Initialize(course);motor.Joystick=hud.Joystick;motor.Jump=hud.Jump;hud.Look.Camera=orbit;course.RunStarted+=orbit.ResetView;
    var feedback=new GameObject("RisingFeedback",typeof(RisingFeedback)).GetComponent<RisingFeedback>();feedback.Initialize(course,motor,hud);
    course.Hud=hud;course.Store=gameObject.AddComponent<Kamilunavo.RisingSteps.Monetization.StorePurchases>();course.Videos=gameObject.AddComponent<Kamilunavo.RisingSteps.Monetization.RewardedVideos>();course.Store.Initialize(course);course.Videos.Initialize(course);hud.AttachCommerce();
 #if DEVELOPMENT_BUILD || UNITY_EDITOR

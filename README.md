@@ -19,9 +19,11 @@ Climb a chain of glowing floating islands toward a portal in the sky. Each realm
 ## Current vertical slice
 - 12-step fantasy climb
 - touch joystick + jump
-- player-controlled swipe camera
+- player-controlled View-pad camera
 - instant fall recovery
 - Height / crystal HUD
+- illustrated sky-atlas menu with realm previews and a fixed Continue action
+- playable joystick/jump/first-landing tutorial with skip and replay
 - functional Shop, Daily and Style panels
 - one-session daily reward
 - live style color switching
