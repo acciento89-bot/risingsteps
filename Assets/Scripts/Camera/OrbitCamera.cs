@@ -18,7 +18,10 @@ namespace Kamilunavo.RisingSteps.CameraSystem
         {
             if(Target==null)return;
             if(_motor==null)_motor=Target.GetComponent<Kamilunavo.RisingSteps.Gameplay.PlayerMotor>();
-            if((_motor==null||!_motor.Paused)&&UnityEngine.Input.GetMouseButton(1))
+            // Unity synthesizes a right mouse button from two touches. A movement
+            // finger followed by Jump must never enter the desktop orbit path.
+            if(!Application.isMobilePlatform&&UnityEngine.Input.touchCount==0&&
+                (_motor==null||!_motor.Paused)&&UnityEngine.Input.GetMouseButton(1))
                 Orbit(new Vector2(UnityEngine.Input.GetAxis("Mouse X")*20,UnityEngine.Input.GetAxis("Mouse Y")*(2/Sensitivity)));
             var rotation=Quaternion.Euler(_pitch,_yaw,0);
             var focus=Target.position+Vector3.up*Height;

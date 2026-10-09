@@ -37,7 +37,17 @@ public static class RisingValidation
  UnityEngine.Object.DestroyImmediate(root);
  foreach(var mesh in originals)Check(mesh==null,"rebuilt island releases original mesh");foreach(var mesh in combined)Check(mesh==null,"rebuilt island releases batched mesh");Debug.Log("RISING_LIFETIME_PASS checks="+checks);
  }
- public static void ValidateGeometry(){
+ public static void ValidateRealms(){
+ for(int realm=0;realm<3;realm++){var root=new GameObject("RealmGeometryProbe"+realm);try{
+ var marker=Kamilunavo.RisingSteps.Visuals.IslandArt.Build(root.transform,1,realm);
+ Check(marker!=null&&marker.Index==1,"theme retains landing marker");Check(root.GetComponentsInChildren<Collider>().Length==1,"decorative theme adds no course obstacles");
+ var surface=root.transform.Find(realm==2?"TempleSurface":realm==1?"CascadeSurface":"MeadowSurface");Check(surface!=null,"realm owns distinct surface");
+ Check(surface.GetComponent<Renderer>().sharedMaterial.name=="Realm"+realm+"Ground","cached material cannot alias other realm colors");
+ if(realm==1)Check(root.transform.Find("CascadePool/AzurePool")!=null&&root.transform.Find("Waterfall")!=null,"cascade realm includes pools and flowing falls");
+ if(realm==2)Check(root.transform.Find("TempleColumn")!=null&&root.transform.Find("TemplePaving")!=null&&root.transform.Find("Waterfall")==null,"temple architecture replaces meadow waterfall composition");
+ }finally{UnityEngine.Object.DestroyImmediate(root);}}
+ }
+ public static void ValidateGeometry(){ValidateRealms();
  var root=new GameObject("GeometryProbe");Kamilunavo.RisingSteps.Visuals.IslandArt.Build(root.transform,0,0);
  foreach(var filter in root.GetComponentsInChildren<MeshFilter>())foreach(var normal in filter.sharedMesh.normals)Check(normal.sqrMagnitude>.5f,"valid lighting normal "+filter.name);
  UnityEngine.Object.DestroyImmediate(root);Debug.Log("RISING_GEOMETRY_PASS checks="+checks);

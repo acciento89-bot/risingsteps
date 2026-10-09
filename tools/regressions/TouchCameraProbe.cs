@@ -14,7 +14,8 @@ namespace UnityEngine {
  public static class Time {public static float deltaTime=.016f;}
  public enum TouchPhase {Began,Moved,Stationary,Ended,Canceled}
  public struct Touch {public int fingerId;public TouchPhase phase;public Vector2 position;}
- public static class Input {public static Touch[] touches=new Touch[0];public static int touchCount=>touches.Length;public static Touch GetTouch(int n)=>touches[n];public static bool GetMouseButton(int n)=>false;public static float GetAxis(string n)=>0;}
+ public static class Application {public static bool isMobilePlatform=true;}
+ public static class Input {public static Touch[] touches=new Touch[0];public static int touchCount=>touches.Length;public static Touch GetTouch(int n)=>touches[n];public static bool mousePresent=true;public static bool RightDown;public static float MouseX,MouseY;public static bool GetMouseButton(int n)=>n==1&&RightDown;public static float GetAxis(string n)=>n=="Mouse X"?MouseX:MouseY;}
 }
 namespace UnityEngine.EventSystems {public interface IPointerDownHandler{}public interface IDragHandler{}public interface IPointerUpHandler{}public class PointerEventData {public int pointerId;public UnityEngine.Vector2 position;}public class EventSystem {public static EventSystem current=new EventSystem(); public bool IsPointerOverGameObject(int id)=>id==11||id==22;}}
 namespace Kamilunavo.RisingSteps.Gameplay {public class PlayerMotor {public bool Paused;}}
@@ -23,6 +24,22 @@ class TouchCameraProbe {
  static UnityEngine.Touch T(int id,UnityEngine.TouchPhase phase,float x,float y)=>new UnityEngine.Touch{fingerId=id,phase=phase,position=new UnityEngine.Vector2(x,y)};
  static void Frame(OrbitCamera c,params UnityEngine.Touch[] t){UnityEngine.Input.touches=t;typeof(OrbitCamera).GetMethod("LateUpdate",BindingFlags.NonPublic|BindingFlags.Instance).Invoke(c,null);}
  static int Main(){var camera=new OrbitCamera{Target=new UnityEngine.Transform()};
+  // Unity legacy input can report a held movement touch plus a new jump touch
+  // as right mouse down. Exercise the real LateUpdate, not only UI handlers.
+  Frame(camera,T(11,UnityEngine.TouchPhase.Began,55,100));
+  UnityEngine.Input.RightDown=true;UnityEngine.Input.MouseX=-10;UnityEngine.Input.MouseY=4;
+  Frame(camera,T(11,UnityEngine.TouchPhase.Moved,55,140),T(22,UnityEngine.TouchPhase.Began,330,100));
+  if(Math.Abs(camera.Yaw)>.001f){Console.WriteLine("FAIL move-before-jump synthesized right mouse rotated yaw="+camera.Yaw);return 1;}
+  Frame(camera,T(22,UnityEngine.TouchPhase.Began,330,100),T(11,UnityEngine.TouchPhase.Moved,55,140));
+  if(Math.Abs(camera.Yaw)>.001f){Console.WriteLine("FAIL reversed touch order rotated camera");return 1;}
+  Frame(camera); // stale synthesized mouse state must not rotate on mobile either.
+  if(Math.Abs(camera.Yaw)>.001f){Console.WriteLine("FAIL mobile mouse tail rotated camera");return 1;}
+  UnityEngine.Application.isMobilePlatform=false;
+  Frame(camera,T(11,UnityEngine.TouchPhase.Moved,55,140),T(22,UnityEngine.TouchPhase.Began,330,100));
+  if(Math.Abs(camera.Yaw)>.001f){Console.WriteLine("FAIL desktop touchscreen leaked synthesized mouse");return 1;}
+  Frame(camera);if(Math.Abs(camera.Yaw+30)>.001f){Console.WriteLine("FAIL genuine desktop right mouse stopped orbiting yaw="+camera.Yaw);return 1;}
+  camera.ResetView();UnityEngine.Application.isMobilePlatform=true;UnityEngine.Input.RightDown=false;
+  Console.WriteLine("PASS movement-before-jump, reversed touch order, mobile mouse tail, touchscreen and genuine desktop orbit");
   // 11 is the held joystick, 22 the simultaneous jump, 33 an unintended free-view brush.
   Frame(camera,T(11,UnityEngine.TouchPhase.Began,55,100),T(22,UnityEngine.TouchPhase.Began,330,100),T(33,UnityEngine.TouchPhase.Began,210,350));
   Frame(camera,T(11,UnityEngine.TouchPhase.Moved,55,140),T(22,UnityEngine.TouchPhase.Stationary,330,100),T(33,UnityEngine.TouchPhase.Moved,10,350));
