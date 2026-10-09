@@ -1,0 +1,29 @@
+{
+  "game": "RisingSteps",
+  "repository": "acciento89-bot/risingsteps",
+  "nativeSourceCommit": "5efc93b13d7f4c7d7673502714a0e2027b302875",
+  "internalVersion": "1.0(4)",
+  "testflight": {
+    "appId": "6819872415",
+    "buildId": "e4862a1e-0354-4c1d-bcc7-988f283d3b3d",
+    "version": "1.0",
+    "build": 4,
+    "status": "Im Test",
+    "group": "Kamilunavo Intern",
+    "groupId": "ec681c3b-3166-4239-ab1b-7916d257a829",
+    "testers": 1,
+    "notesSaved": true,
+    "observedVia": "Authenticated Safari App Store Connect UI",
+    "publicRelease": false
+  },
+  "ipa": "/Users/piotrkaminski/Developer/KamilunavoDelivery-20261009/outputs/RisingSteps-1.0-build4-AppStore.ipa",
+  "ipaSHA256": "e512c8fd43ade9b3ca8ec210285b83b7fbc33b2db1437829bb02905f3498dfa9",
+  "android": "/Users/piotrkaminski/Developer/KamilunavoDelivery-20261009/outputs/risingsteps-build4-central-signed/RisingSteps-1.0-build4.aab",
+  "androidSHA256": "af040cd5ae3db9ea8b61d791356809ea406c2647037e86f408abb631f1e2d512",
+  "androidPayloadEntries": 575,
+  "signingRun": "37987103423",
+  "unpublishedBackupTag": "risingsteps-build4-presentation-tutorial",
+  "archiveSHA256": "e147c43186db05d5b074907e09cff91a29340c9bd82b73f1bce83300a1062afe",
+  "archiveFilesByteVerified": 61,
+  "vendorSymbolWarning": "UnityRuntime.framework dSYM UUID392D7A7F-6A4F-3A7A-8788-4089FA96FF38 missing; own framework symbols retained in verified archive"
+}
