@@ -7,7 +7,7 @@ public static class RisingValidation
 {
  public static void ValidateAll(){
  var loggedErrors=new System.Collections.Generic.List<string>();Application.LogCallback capture=(message,stack,type)=>{if(type==LogType.Error||type==LogType.Exception||type==LogType.Assert)loggedErrors.Add(message);};Application.logMessageReceived+=capture;
- try{Validate();ValidateUI();ValidateInput();ValidateGeometry();ValidateLifetime();ValidateReviewRegressions();RisingTouchTutorialValidation.Validate();Canvas.ForceUpdateCanvases();}
+ try{Validate();ValidateUI();ValidateInput();ValidateGeometry();RisingConceptValidation.Validate();ValidateLifetime();ValidateReviewRegressions();RisingTouchTutorialValidation.Validate();Canvas.ForceUpdateCanvases();}
  finally{Application.logMessageReceived-=capture;}
  if(loggedErrors.Count>0)throw new InvalidOperationException("Validation logged unexpected errors: "+string.Join("; ",loggedErrors));
  }

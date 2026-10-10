@@ -49,3 +49,18 @@ Native compact inspection rejected overlapping hero lettering and repeated flat 
 
 ## 2026-10-09 realm scenery revision
 Realm choice rebuilds both route islands and owned distant scenery. Meadow retains limestone, grass and trees. Cascade adds cool cliffs, azure edge pools/lilies and broader recurring falls. Temple replaces grass caps and falls with sandstone paving, carved perimeter columns and distant ruined lintels. Decorative additions have no colliders and remain outside the landing ring; the same deterministic course geometry remains authoritative. Sky/cloud materials belong to the rebuilt scenery root; old roots disable immediately and release their meshes/materials on destruction. This is a practical mobile art step toward the concept, not a claim that concept-quality rendering or physical-device performance is fully accepted.
+
+## Approved October 10 world direction
+
+The approved three-view board is `rising-steps-3-ansichten.png`, retained in the owned October 10 concepts delivery directory. It supersedes the old primary image for this revision; the user's deletion of `docs/concepts/PRIMARY-CONCEPT.png` is preserved.
+
+Keep the current cream/green illustrated atlas readable: separate hero copy and art, actual stars/unlock state, short DE/EN descriptions, and a fixed gold Continue action. Gameplay comes from real island, flora and architecture meshes, rather than a painted world in the skybox.
+
+- **Meadow Sky:** pale limestone, a green landing cap with perimeter grass and daisies, rounded tree crowns, clear blue gradient sky. Water gardens and falls belong to the water realm.
+- **Waterfall Realm:** pale mineral landing caps, terraced cliff shoulders, turquoise shallow perimeter pools, segmented lily pads and petal blossoms, reeds, layered waterfall ribbons and foam. Its larger distant cliffs have their own layout. No meadow grass, daisies or tree kit.
+- **Temple Trail:** dry ochre stone landforms, paving joints, perimeter carved friezes, fluted columns with gold bands, stairs, purple banners, broken lintels and fallen stone. Warm sun and lavender/peach sky. No grass/daisies, trees, pools or falls.
+- **Destination:** a genuine thick segmented masonry arch, jambs, gold carvings/keystone and cornice; portal arrival behavior remains unchanged.
+
+The deterministic landing fan and its collision remain unchanged. Scenic additions have no colliders and share the existing cached atlas materials/static batch boundary. Generated original/batched meshes and per-world sky/cloud materials remain owned by their roots. Each waterfall caches its ribbon renderers and uses one property-block driver; reduced motion suppresses the shimmer.
+
+This is an achievable mobile geometry direction. Source checks and image similarity do not establish physical frame rate, thermal behavior, genuine commerce, or full cinematic equivalence to the board. The coordinated actual player screenshots and course gate must be inspected before visual acceptance.

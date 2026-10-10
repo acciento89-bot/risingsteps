@@ -35,6 +35,13 @@ _hud.Close();_course.StartRun(0,false);yield return new WaitForSeconds(.5f);
     Check(scenery.Find(realm==1?"DistantCascade":realm==2?"DistantTemple":"DistantMeadow")!=null,"selected realm changes distant island architecture "+realm);
     Check(Array.Exists(scenery.GetComponentsInChildren<Transform>(),t=>t.name==(realm==1?"CascadePool":realm==2?"TempleColumn":"WindTree")),"selected realm contains unique visible landmarks "+realm);
     Check(_course.GetComponentsInChildren<Kamilunavo.RisingSteps.Visuals.CloudBillboard>().Length==9,"world selection replaces cloud scenery instead of accumulating it");
+    var worldParts=scenery.GetComponentsInChildren<Transform>();
+    Check(!RenderSettings.skybox.HasProperty("_MainTex"),"actual sky has no illustrated course backdrop "+realm);
+    Check(Array.Exists(worldParts,t=>t.name=="MeadowBlades")== (realm==0)&&Array.Exists(worldParts,t=>t.name=="DaisyPetal")== (realm==0),"realm vegetation never copies meadow into water or temple "+realm);
+    Check(Array.Exists(worldParts,t=>t.name=="Waterfall")== (realm==1),"waterfalls exist only in their actual water realm "+realm);
+    if(realm==1)Check(Array.Exists(worldParts,t=>t.name=="WaterTerrace")&&Array.Exists(worldParts,t=>t.name=="ReedStem")&&Array.Exists(worldParts,t=>t.name=="LilyPad"),"real water meshes provide terraces reeds and lilies");
+    if(realm==2)Check(Array.Exists(worldParts,t=>t.name=="TempleBanner")&&Array.Exists(worldParts,t=>t.name=="RuinedLintel")&&Array.Exists(worldParts,t=>t.name=="TempleStair"),"real dry temple has banners ruins and stairs");
+    Check(scenery.GetComponentsInChildren<Collider>().Length==0,"distant world details cannot obstruct actual jump route "+realm);
     yield return Capture("realm"+realm+"-start");for(int step=1;step<=12;step++){yield return Climb(step);yield return Capture("realm"+realm+"-step"+step);}
     yield return WalkTo(_course.Steps[12].transform.position+Vector3.forward*.5f,2);yield return new WaitForSeconds(.2f);Check(_course.Profile.Completed&&_hud.ModalOpen,"actual portal completion realm"+realm);Check(_course.Profile.Stars[realm]>0,"realm stars saved");_hud.Close();}
    Check(Mathf.Abs(_motor.CameraTransform.GetComponent<Kamilunavo.RisingSteps.CameraSystem.OrbitCamera>().Yaw)<.01f,"player movement never forces camera yaw");
