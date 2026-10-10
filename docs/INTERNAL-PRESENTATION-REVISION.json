@@ -1,29 +1,60 @@
 {
   "game": "RisingSteps",
   "repository": "acciento89-bot/risingsteps",
-  "nativeSourceCommit": "5efc93b13d7f4c7d7673502714a0e2027b302875",
-  "internalVersion": "1.0(4)",
+  "nativeSourceCommit": "fbc08fb1cccb9b564fad7ca43e83e22717a2eef1",
+  "verifiedRemoteMain": "fbc08fb1cccb9b564fad7ca43e83e22717a2eef1",
+  "internalVersion": "1.0(5)",
   "testflight": {
     "appId": "6819872415",
-    "buildId": "e4862a1e-0354-4c1d-bcc7-988f283d3b3d",
+    "buildId": "800cea11-6538-4bdf-aa41-3b3e9fd59bfd",
     "version": "1.0",
-    "build": 4,
+    "build": 5,
     "status": "Im Test",
     "group": "Kamilunavo Intern",
     "groupId": "ec681c3b-3166-4239-ab1b-7916d257a829",
     "testers": 1,
     "notesSaved": true,
     "observedVia": "Authenticated Safari App Store Connect UI",
+    "observedAtUTC": "2026-10-10T18:22:05.279444+00:00",
     "publicRelease": false
   },
-  "ipa": "/Users/piotrkaminski/Developer/KamilunavoDelivery-20261009/outputs/RisingSteps-1.0-build4-AppStore.ipa",
-  "ipaSHA256": "e512c8fd43ade9b3ca8ec210285b83b7fbc33b2db1437829bb02905f3498dfa9",
-  "android": "/Users/piotrkaminski/Developer/KamilunavoDelivery-20261009/outputs/risingsteps-build4-central-signed/RisingSteps-1.0-build4.aab",
-  "androidSHA256": "af040cd5ae3db9ea8b61d791356809ea406c2647037e86f408abb631f1e2d512",
+  "ipa": "/Volumes/SSK SSD/Kamilunavo/Builds/VisualRevision-20261010/RisingSteps/native-ios/RisingSteps-1.0-build5-AppStore.ipa",
+  "ipaSHA256": "8c9079135e11df589c7c36ca3e3c3945e22f2cdf8af9baf9d9cd00db7a44e8a4",
+  "android": "/Volumes/SSK SSD/Kamilunavo/Builds/VisualRevision-20261010/RisingSteps/native-android/central-signed/RisingSteps-1.0-build5.aab",
+  "androidSHA256": "744fd22e524bb6e101ab1b971e60add7c42b7df2290ca7dd476e9698a6996c71",
   "androidPayloadEntries": 575,
-  "signingRun": "37987103423",
-  "unpublishedBackupTag": "risingsteps-build4-presentation-tutorial",
-  "archiveSHA256": "e147c43186db05d5b074907e09cff91a29340c9bd82b73f1bce83300a1062afe",
+  "signingRun": "38075453004",
+  "signingRunURL": "https://github.com/acciento89-bot/risingsteps/actions/runs/38075453004",
+  "unpublishedBackupTag": "risingsteps-build5-concept-polish",
+  "archiveSHA256": "ca239ca48d4e501e3209d7c6314cf3c8206b8544cd9630a465765e844f732fba",
   "archiveFilesByteVerified": 61,
-  "vendorSymbolWarning": "UnityRuntime.framework dSYM UUID392D7A7F-6A4F-3A7A-8788-4089FA96FF38 missing; own framework symbols retained in verified archive"
+  "actualScreens": "/Volumes/SSK SSD/Kamilunavo/Builds/VisualRevision-20261010/Screens/RisingSteps-actual.png",
+  "desktopReceipts": [
+    {
+      "file": "/Volumes/SSK SSD/Kamilunavo/Builds/VisualRevision-20261010/RisingSteps/runtime-organic-final/PASS.txt",
+      "receipt": "RISING_QA_PASS checks=125 actual controller 36 steps and natural fall; isolated save; no FPS claim",
+      "sha256": "b69136eaa657735ceddcab7a111c444b9f496ba9e74d67d55a9bacc41ab0c8c1"
+    },
+    {
+      "file": "/Volumes/SSK SSD/Kamilunavo/Builds/VisualRevision-20261010/RisingSteps/runtime-organic-tutorial/PASS.txt",
+      "receipt": "RISING_TUTORIAL_PASS 11",
+      "sha256": "ed1f0bd50fd903e0ef395710033c6bcb965838e7e7571324a65742ae32c59a25"
+    },
+    {
+      "file": "/Volumes/SSK SSD/Kamilunavo/Builds/VisualRevision-20261010/RisingSteps/runtime-camera-final/PASS.txt",
+      "receipt": "RISING_CAMERA_PASS 147",
+      "sha256": "ab67a0bd02f7e9ff166b12851d59ae110d3eb69c52632860b16a2b682ed929c6"
+    }
+  ],
+  "vendorSymbolWarning": "UnityRuntime.framework dSYM missing; app and UnityFramework dSYM retained",
+  "acceptanceLimits": [
+    "Desktop callbacks and PointerEventData do not establish physical iPhone raw multi-touch or thermal/performance acceptance.",
+    "OneMoreFloor full mechanics receipt precedes final decorative canal quarter; final editor/presentation/reload use latest art.",
+    "Rising camera receipt precedes final material/cliff polish; camera/input code unchanged.",
+    "Repair full mechanics receipt precedes final depth-tested decorative font binding; final presentation uses latest binding.",
+    "No genuine provider purchase/reward acceptance or cinematic equivalence claim.",
+    "Rising build 5 retains the camera/input code already in build 4. Desktop touch-event scenarios pass; the reported physical-phone issue is not declared resolved.",
+    "Known vendor UnityRuntime.framework dSYM is missing; app and UnityFramework symbols remain in retained archives.",
+    "Immutable package-generation proofs precede Apple upload; current TestFlight state is recorded separately here and in native-ios/status.json."
+  ]
 }
