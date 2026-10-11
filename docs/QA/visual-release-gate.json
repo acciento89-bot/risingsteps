@@ -1,0 +1,41 @@
+{
+  "game": "Rising Steps",
+  "status": "failed",
+  "sourceSha256": null,
+  "reviewer": "Codex actual rendered image inspection",
+  "reviewedAt": "2026-10-11",
+  "reason": "Actual rendered rocks, foliage and adventurer still differ substantially from the approved concept.",
+  "criteria": {
+    "concept_similarity": "failed",
+    "character_or_tower": "pending",
+    "world_variants": "pending",
+    "menu_identity": "pending",
+    "submenu_navigation": "pending",
+    "readability": "pending"
+  },
+  "evidence": {
+    "concept": [
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Artifacts/KamilunavoDelivery-20261009/concepts-20261010/rising-steps-3-ansichten.png",
+        "sha256": "af95191bb081597bc0652516bc244bd7b922149ca87ce3913b486da7c138c627",
+        "origin": "approved-concept"
+      }
+    ],
+    "menu": [
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingExpansion-20261011/RisingRuntime/campaign-level-selector.png",
+        "sha256": "9110a1ad19d867c909116a0d269ab491e7b5dfcdffa87d6ab48cb08a08ecae56",
+        "origin": "Unity-render"
+      }
+    ],
+    "gameplay": [
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingExpansion-20261011/RisingRuntime/campaign-realm0-level1-mid.png",
+        "sha256": "9650071713a38c6da5ad455ace10c03d926f0c1ea43b894fd806eb9dacdfb0a1",
+        "origin": "Unity-render"
+      }
+    ],
+    "submenus": [],
+    "variants": []
+  }
+}
