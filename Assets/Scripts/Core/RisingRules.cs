@@ -10,8 +10,8 @@ namespace Kamilunavo.RisingSteps.Core
    p.DailyStreak=successive?Math.Min(7,p.DailyStreak+1):1;p.BestDailyStreak=Math.Max(p.BestDailyStreak,p.DailyStreak);p.DailyDay=day;p.Crystals+=100+10*(p.DailyStreak-1);return true;}
   public static bool SelectStyle(RisingProfile p,int style){if(style<0||style>=8)return false;if(style>=4){if(!p.Styles[style])return false;p.Style=style;return true;}int[] price={0,75,150,250};if(!p.Styles[style]){if(p.Crystals<price[style])return false;p.Crystals-=price[style];p.Styles[style]=true;}p.Style=style;return true;}
   public static bool Land(RisingProfile p,int step,bool perfect){if(p.Completed||step!=p.Step+1||step>12)return false;p.Step=step;p.Crystals+=10+2*step+(perfect?5:0);if(perfect)p.Perfects++;p.BestPerfects=Math.Max(p.BestPerfects,p.Perfects);return true;}
-  public static int Complete(RisingProfile p,DateTime now){if(p.Step!=12)return 0;int stars=p.Falls>0?1:p.Elapsed<=180?3:2;if(p.Completed)return stars;p.Completed=true;
+  public static int Complete(RisingProfile p,DateTime now){if(p.Step!=12)return 0;int stars=RisingCampaign.Stars(p);if(p.Completed)return stars;p.Completed=true;
    if(p.Challenge){string day=Day(now);if(p.RunDay==day&&p.ChallengeDay!=day&&p.Perfects>=8){p.ChallengeDay=day;p.Crystals+=75;}}
-   else{p.Stars[p.Realm]=Math.Max(p.Stars[p.Realm],stars);p.UnlockedRealm=Math.Max(p.UnlockedRealm,Math.Min(2,p.Realm+1));}return stars;}
+   else{int id=RisingCampaign.LevelId(p.Realm,p.Level);p.LevelStars[id]=Math.Max(p.LevelStars[id],stars);p.Stars[p.Realm]=Math.Max(p.Stars[p.Realm],stars);if(p.Level==RisingCampaign.LevelsPerRealm-1)p.UnlockedRealm=Math.Max(p.UnlockedRealm,Math.Min(RisingCampaign.RealmCount-1,p.Realm+1));}return stars;}
  }
 }

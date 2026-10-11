@@ -7,7 +7,7 @@ public static class RisingValidation
 {
  public static void ValidateAll(){
  var loggedErrors=new System.Collections.Generic.List<string>();Application.LogCallback capture=(message,stack,type)=>{if(type==LogType.Error||type==LogType.Exception||type==LogType.Assert)loggedErrors.Add(message);};Application.logMessageReceived+=capture;
- try{Validate();ValidateUI();ValidateInput();ValidateGeometry();RisingConceptValidation.Validate();ValidateLifetime();ValidateReviewRegressions();RisingTouchTutorialValidation.Validate();Canvas.ForceUpdateCanvases();}
+ try{Validate();ValidateUI();ValidateInput();ValidateGeometry();RisingConceptValidation.Validate();ValidateLifetime();ValidateReviewRegressions();RisingTouchTutorialValidation.Validate();RisingNavigationValidation.Validate();RisingCampaignValidation.Validate();RisingRealmCollectionValidation.Validate();RisingRealmCollectionValidation.ValidateScenePreviews();RunnerArtValidation.Validate();RisingLandscapeValidation.Validate();RisingLandscapeValidation.ValidateTenRealms();Kamilunavo.RisingSteps.Editor.OriginalMusicValidation.Validate();Canvas.ForceUpdateCanvases();}
  finally{Application.logMessageReceived-=capture;}
  if(loggedErrors.Count>0)throw new InvalidOperationException("Validation logged unexpected errors: "+string.Join("; ",loggedErrors));
  }
@@ -69,7 +69,7 @@ public static class RisingValidation
  p=new RisingProfile();Check(!RisingRules.Land(p,2,true),"skip blocked");
  for(int i=1;i<=12;i++){Check(RisingRules.Land(p,i,true),"ordered land");Check(!RisingRules.Land(p,i,true),"duplicate land");}
  Check(p.Crystals==336,"perfect rewards");p.Elapsed=100;
- Check(RisingRules.Complete(p,day)==3&&p.UnlockedRealm==1,"stars/unlock");
+ Check(RisingRules.Complete(p,day)==3&&p.UnlockedRealm==0,"stars unlock next level; realm requires all ten");
  var challenge=new RisingProfile{Challenge=true,RunDay=RisingRules.Day(day),Step=12,Perfects=8};
  RisingRules.Complete(challenge,day);Check(challenge.Crystals==75,"challenge bonus");RisingRules.Complete(challenge,day);Check(challenge.Crystals==75,"challenge duplicate");
  challenge=new RisingProfile{Challenge=true,RunDay=RisingRules.Day(day.AddDays(-1)),Step=12,Perfects=12};RisingRules.Complete(challenge,day);Check(challenge.Crystals==0,"old challenge no bonus");
@@ -79,7 +79,7 @@ public static class RisingValidation
  var restored=RisingSave.Parse(JsonUtility.ToJson(p));Check(restored.Step==12&&restored.Styles[1]&&restored.Stars[0]==3,"roundtrip");
  Check(RisingSave.Parse("garbage").Step==0,"corrupt fallback");
  restored=RisingSave.Parse("{\"Schema\":1,\"Step\":90,\"Crystals\":-3,\"Styles\":[],\"Stars\":[]}");
- Check(restored.Step==12&&restored.Crystals==0&&restored.Styles.Length==8&&restored.Stars.Length==3,"normalization");
+ Check(restored.Step==12&&restored.Crystals==0&&restored.Styles.Length==8&&restored.Stars.Length==RisingCampaign.RealmCount,"normalization");
  for(int realm=0;realm<3;realm++)for(int seed=0;seed<30;seed++){
  var a=CoursePatterns.Points(realm,seed);var b=CoursePatterns.Points(realm,seed);Check(a.Length==13,"13 islands");
  for(int i=1;i<a.Length;i++){Check(a[i]==b[i],"determinism");var d=a[i]-a[i-1];

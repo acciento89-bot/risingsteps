@@ -30,8 +30,9 @@ namespace Kamilunavo.RisingSteps.UI
             else{float height=crop.height*aspect/target;crop.y+=(crop.height-height)*.5f;crop.height=height;}
             uvRect=crop;
         }
-        public static RealmIllustration Add(Transform parent,int realm,Vector2 min,Vector2 max,bool hero=false)
+        public static Graphic Add(Transform parent,int realm,Vector2 min,Vector2 max,bool hero=false)
         {
+            if(realm>=3)return RealmScenePreview.Add(parent,realm,min,max,hero);
             var go=new GameObject("RealmArt",typeof(RectTransform),typeof(CanvasRenderer),typeof(RealmIllustration));go.transform.SetParent(parent,false);var rect=(RectTransform)go.transform;rect.anchorMin=min;rect.anchorMax=max;rect.offsetMin=rect.offsetMax=Vector2.zero;var art=go.GetComponent<RealmIllustration>();art.Realm=realm;art.Hero=hero;art.Configure();return art;
         }
     }

@@ -1,0 +1,785 @@
+{
+  "title": "A Path Through the Air",
+  "game": "rising",
+  "bpm": 84,
+  "bars": 8,
+  "meter": "4/4",
+  "tonality": "D major",
+  "sample_rate": 22050,
+  "channels": 2,
+  "frames": 504000,
+  "duration": 22.857142857142858,
+  "pcm_bytes": 2016000,
+  "peak": 0.4794921875,
+  "rms": 0.11199659338469771,
+  "dc": 1.610649956597222e-08,
+  "seam": 0.00054931640625,
+  "seam_slope": 0.00067138671875,
+  "window_rms_min": 0.06526801663246351,
+  "window_rms_max": 0.16153400074575824,
+  "events": 95,
+  "original_score": [
+    {
+      "beat": 0,
+      "pitch": 57,
+      "duration": 3.1,
+      "instrument": "pad",
+      "gain": 0.027,
+      "pan": -0.55
+    },
+    {
+      "beat": 0,
+      "pitch": 61,
+      "duration": 3.1,
+      "instrument": "pad",
+      "gain": 0.027,
+      "pan": -0.55
+    },
+    {
+      "beat": 0,
+      "pitch": 66,
+      "duration": 3.1,
+      "instrument": "pad",
+      "gain": 0.027,
+      "pan": 0.55
+    },
+    {
+      "beat": 0,
+      "pitch": 57,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.14,
+      "pan": -0.32
+    },
+    {
+      "beat": 0.75,
+      "pitch": 61,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.14,
+      "pan": -0.32
+    },
+    {
+      "beat": 1.5,
+      "pitch": 66,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.14,
+      "pan": -0.32
+    },
+    {
+      "beat": 2.5,
+      "pitch": 61,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.14,
+      "pan": 0.28
+    },
+    {
+      "beat": 3.25,
+      "pitch": 69,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.14,
+      "pan": 0.28
+    },
+    {
+      "beat": 0,
+      "pitch": 50,
+      "duration": 2.2,
+      "instrument": "bass",
+      "gain": 0.12,
+      "pan": 0
+    },
+    {
+      "beat": 2.75,
+      "pitch": 73,
+      "duration": 0.3,
+      "instrument": "mallet",
+      "gain": 0.026,
+      "pan": 0.6
+    },
+    {
+      "beat": 0.5,
+      "pitch": 74,
+      "duration": 1.0,
+      "instrument": "flute",
+      "gain": 0.095,
+      "pan": 0.1
+    },
+    {
+      "beat": 2,
+      "pitch": 76,
+      "duration": 0.6,
+      "instrument": "flute",
+      "gain": 0.095,
+      "pan": 0.1
+    },
+    {
+      "beat": 3,
+      "pitch": 78,
+      "duration": 0.7,
+      "instrument": "flute",
+      "gain": 0.095,
+      "pan": 0.1
+    },
+    {
+      "beat": 4,
+      "pitch": 55,
+      "duration": 3.1,
+      "instrument": "pad",
+      "gain": 0.027,
+      "pan": -0.55
+    },
+    {
+      "beat": 4,
+      "pitch": 59,
+      "duration": 3.1,
+      "instrument": "pad",
+      "gain": 0.027,
+      "pan": -0.55
+    },
+    {
+      "beat": 4,
+      "pitch": 62,
+      "duration": 3.1,
+      "instrument": "pad",
+      "gain": 0.027,
+      "pan": 0.55
+    },
+    {
+      "beat": 4,
+      "pitch": 55,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.14,
+      "pan": -0.32
+    },
+    {
+      "beat": 4.75,
+      "pitch": 59,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.14,
+      "pan": -0.32
+    },
+    {
+      "beat": 5.5,
+      "pitch": 62,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.14,
+      "pan": -0.32
+    },
+    {
+      "beat": 6.5,
+      "pitch": 59,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.14,
+      "pan": 0.28
+    },
+    {
+      "beat": 7.25,
+      "pitch": 67,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.14,
+      "pan": 0.28
+    },
+    {
+      "beat": 4,
+      "pitch": 43,
+      "duration": 2.2,
+      "instrument": "bass",
+      "gain": 0.12,
+      "pan": 0
+    },
+    {
+      "beat": 4,
+      "pitch": 81,
+      "duration": 1.25,
+      "instrument": "flute",
+      "gain": 0.095,
+      "pan": 0.1
+    },
+    {
+      "beat": 6.5,
+      "pitch": 78,
+      "duration": 1,
+      "instrument": "flute",
+      "gain": 0.095,
+      "pan": 0.1
+    },
+    {
+      "beat": 8,
+      "pitch": 54,
+      "duration": 3.1,
+      "instrument": "pad",
+      "gain": 0.027,
+      "pan": 0.55
+    },
+    {
+      "beat": 8,
+      "pitch": 59,
+      "duration": 3.1,
+      "instrument": "pad",
+      "gain": 0.027,
+      "pan": -0.55
+    },
+    {
+      "beat": 8,
+      "pitch": 62,
+      "duration": 3.1,
+      "instrument": "pad",
+      "gain": 0.027,
+      "pan": 0.55
+    },
+    {
+      "beat": 8,
+      "pitch": 54,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.14,
+      "pan": -0.32
+    },
+    {
+      "beat": 8.75,
+      "pitch": 59,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.14,
+      "pan": -0.32
+    },
+    {
+      "beat": 9.5,
+      "pitch": 62,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.14,
+      "pan": -0.32
+    },
+    {
+      "beat": 10.5,
+      "pitch": 59,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.14,
+      "pan": 0.28
+    },
+    {
+      "beat": 11.25,
+      "pitch": 66,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.14,
+      "pan": 0.28
+    },
+    {
+      "beat": 8,
+      "pitch": 47,
+      "duration": 2.2,
+      "instrument": "bass",
+      "gain": 0.12,
+      "pan": 0
+    },
+    {
+      "beat": 10.75,
+      "pitch": 71,
+      "duration": 0.3,
+      "instrument": "mallet",
+      "gain": 0.026,
+      "pan": 0.6
+    },
+    {
+      "beat": 8.5,
+      "pitch": 78,
+      "duration": 0.8,
+      "instrument": "flute",
+      "gain": 0.095,
+      "pan": 0.1
+    },
+    {
+      "beat": 9.75,
+      "pitch": 76,
+      "duration": 0.7,
+      "instrument": "flute",
+      "gain": 0.095,
+      "pan": 0.1
+    },
+    {
+      "beat": 11,
+      "pitch": 74,
+      "duration": 0.7,
+      "instrument": "flute",
+      "gain": 0.095,
+      "pan": 0.1
+    },
+    {
+      "beat": 12,
+      "pitch": 57,
+      "duration": 3.1,
+      "instrument": "pad",
+      "gain": 0.02214,
+      "pan": -0.55
+    },
+    {
+      "beat": 12,
+      "pitch": 61,
+      "duration": 3.1,
+      "instrument": "pad",
+      "gain": 0.02214,
+      "pan": -0.55
+    },
+    {
+      "beat": 12,
+      "pitch": 64,
+      "duration": 3.1,
+      "instrument": "pad",
+      "gain": 0.02214,
+      "pan": 0.55
+    },
+    {
+      "beat": 12,
+      "pitch": 57,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.1148,
+      "pan": -0.32
+    },
+    {
+      "beat": 12.75,
+      "pitch": 61,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.1148,
+      "pan": -0.32
+    },
+    {
+      "beat": 13.5,
+      "pitch": 64,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.1148,
+      "pan": -0.32
+    },
+    {
+      "beat": 14.5,
+      "pitch": 61,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.1148,
+      "pan": 0.28
+    },
+    {
+      "beat": 15.25,
+      "pitch": 69,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.1148,
+      "pan": 0.28
+    },
+    {
+      "beat": 12,
+      "pitch": 45,
+      "duration": 2.2,
+      "instrument": "bass",
+      "gain": 0.12,
+      "pan": 0
+    },
+    {
+      "beat": 13,
+      "pitch": 73,
+      "duration": 1,
+      "instrument": "flute",
+      "gain": 0.0779,
+      "pan": 0.1
+    },
+    {
+      "beat": 15,
+      "pitch": 76,
+      "duration": 0.75,
+      "instrument": "flute",
+      "gain": 0.0779,
+      "pan": 0.1
+    },
+    {
+      "beat": 16,
+      "pitch": 55,
+      "duration": 3.1,
+      "instrument": "pad",
+      "gain": 0.027,
+      "pan": -0.55
+    },
+    {
+      "beat": 16,
+      "pitch": 59,
+      "duration": 3.1,
+      "instrument": "pad",
+      "gain": 0.027,
+      "pan": -0.55
+    },
+    {
+      "beat": 16,
+      "pitch": 64,
+      "duration": 3.1,
+      "instrument": "pad",
+      "gain": 0.027,
+      "pan": 0.55
+    },
+    {
+      "beat": 16,
+      "pitch": 55,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.14,
+      "pan": -0.32
+    },
+    {
+      "beat": 16.75,
+      "pitch": 59,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.14,
+      "pan": -0.32
+    },
+    {
+      "beat": 17.5,
+      "pitch": 64,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.14,
+      "pan": -0.32
+    },
+    {
+      "beat": 18.5,
+      "pitch": 59,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.14,
+      "pan": 0.28
+    },
+    {
+      "beat": 19.25,
+      "pitch": 67,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.14,
+      "pan": 0.28
+    },
+    {
+      "beat": 16,
+      "pitch": 43,
+      "duration": 2.2,
+      "instrument": "bass",
+      "gain": 0.12,
+      "pan": 0
+    },
+    {
+      "beat": 18.75,
+      "pitch": 71,
+      "duration": 0.3,
+      "instrument": "mallet",
+      "gain": 0.026,
+      "pan": 0.6
+    },
+    {
+      "beat": 16,
+      "pitch": 79,
+      "duration": 1.25,
+      "instrument": "flute",
+      "gain": 0.095,
+      "pan": 0.1
+    },
+    {
+      "beat": 18,
+      "pitch": 78,
+      "duration": 0.75,
+      "instrument": "flute",
+      "gain": 0.095,
+      "pan": 0.1
+    },
+    {
+      "beat": 19,
+      "pitch": 76,
+      "duration": 0.65,
+      "instrument": "flute",
+      "gain": 0.095,
+      "pan": 0.1
+    },
+    {
+      "beat": 20,
+      "pitch": 57,
+      "duration": 3.1,
+      "instrument": "pad",
+      "gain": 0.027,
+      "pan": -0.55
+    },
+    {
+      "beat": 20,
+      "pitch": 61,
+      "duration": 3.1,
+      "instrument": "pad",
+      "gain": 0.027,
+      "pan": -0.55
+    },
+    {
+      "beat": 20,
+      "pitch": 66,
+      "duration": 3.1,
+      "instrument": "pad",
+      "gain": 0.027,
+      "pan": 0.55
+    },
+    {
+      "beat": 20,
+      "pitch": 57,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.14,
+      "pan": -0.32
+    },
+    {
+      "beat": 20.75,
+      "pitch": 61,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.14,
+      "pan": -0.32
+    },
+    {
+      "beat": 21.5,
+      "pitch": 66,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.14,
+      "pan": -0.32
+    },
+    {
+      "beat": 22.5,
+      "pitch": 61,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.14,
+      "pan": 0.28
+    },
+    {
+      "beat": 23.25,
+      "pitch": 69,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.14,
+      "pan": 0.28
+    },
+    {
+      "beat": 20,
+      "pitch": 50,
+      "duration": 2.2,
+      "instrument": "bass",
+      "gain": 0.12,
+      "pan": 0
+    },
+    {
+      "beat": 20.5,
+      "pitch": 74,
+      "duration": 1.25,
+      "instrument": "flute",
+      "gain": 0.095,
+      "pan": 0.1
+    },
+    {
+      "beat": 22.5,
+      "pitch": 69,
+      "duration": 0.8,
+      "instrument": "flute",
+      "gain": 0.095,
+      "pan": 0.1
+    },
+    {
+      "beat": 24,
+      "pitch": 55,
+      "duration": 3.1,
+      "instrument": "pad",
+      "gain": 0.027,
+      "pan": -0.55
+    },
+    {
+      "beat": 24,
+      "pitch": 59,
+      "duration": 3.1,
+      "instrument": "pad",
+      "gain": 0.027,
+      "pan": -0.55
+    },
+    {
+      "beat": 24,
+      "pitch": 64,
+      "duration": 3.1,
+      "instrument": "pad",
+      "gain": 0.027,
+      "pan": 0.55
+    },
+    {
+      "beat": 24,
+      "pitch": 55,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.14,
+      "pan": -0.32
+    },
+    {
+      "beat": 24.75,
+      "pitch": 59,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.14,
+      "pan": -0.32
+    },
+    {
+      "beat": 25.5,
+      "pitch": 64,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.14,
+      "pan": -0.32
+    },
+    {
+      "beat": 26.5,
+      "pitch": 59,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.14,
+      "pan": 0.28
+    },
+    {
+      "beat": 27.25,
+      "pitch": 67,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.14,
+      "pan": 0.28
+    },
+    {
+      "beat": 24,
+      "pitch": 40,
+      "duration": 2.2,
+      "instrument": "bass",
+      "gain": 0.12,
+      "pan": 0
+    },
+    {
+      "beat": 26.75,
+      "pitch": 71,
+      "duration": 0.3,
+      "instrument": "mallet",
+      "gain": 0.026,
+      "pan": 0.6
+    },
+    {
+      "beat": 24,
+      "pitch": 71,
+      "duration": 1.2,
+      "instrument": "flute",
+      "gain": 0.095,
+      "pan": 0.1
+    },
+    {
+      "beat": 26,
+      "pitch": 74,
+      "duration": 0.8,
+      "instrument": "flute",
+      "gain": 0.095,
+      "pan": 0.1
+    },
+    {
+      "beat": 28,
+      "pitch": 57,
+      "duration": 3.1,
+      "instrument": "pad",
+      "gain": 0.02214,
+      "pan": -0.55
+    },
+    {
+      "beat": 28,
+      "pitch": 62,
+      "duration": 3.1,
+      "instrument": "pad",
+      "gain": 0.02214,
+      "pan": 0.55
+    },
+    {
+      "beat": 28,
+      "pitch": 64,
+      "duration": 3.1,
+      "instrument": "pad",
+      "gain": 0.02214,
+      "pan": 0.55
+    },
+    {
+      "beat": 28,
+      "pitch": 57,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.1148,
+      "pan": -0.32
+    },
+    {
+      "beat": 28.75,
+      "pitch": 62,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.1148,
+      "pan": -0.32
+    },
+    {
+      "beat": 29.5,
+      "pitch": 64,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.1148,
+      "pan": -0.32
+    },
+    {
+      "beat": 30.5,
+      "pitch": 62,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.1148,
+      "pan": 0.28
+    },
+    {
+      "beat": 31.25,
+      "pitch": 69,
+      "duration": 0.55,
+      "instrument": "piano",
+      "gain": 0.1148,
+      "pan": 0.28
+    },
+    {
+      "beat": 28,
+      "pitch": 45,
+      "duration": 2.2,
+      "instrument": "bass",
+      "gain": 0.12,
+      "pan": 0
+    },
+    {
+      "beat": 28.5,
+      "pitch": 73,
+      "duration": 1.25,
+      "instrument": "flute",
+      "gain": 0.0779,
+      "pan": 0.1
+    },
+    {
+      "beat": 30.75,
+      "pitch": 69,
+      "duration": 0.8,
+      "instrument": "flute",
+      "gain": 0.0779,
+      "pan": 0.1
+    }
+  ],
+  "sha256": "14e4679d6c155a837498cc1651341131a09eb1032d33c55b448518318606bb8e",
+  "composer_sha256": "2f9952e87747c0daba987857f5f0fe731dab2130b4b90a8fae9405479c7b40c3"
+}

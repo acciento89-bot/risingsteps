@@ -24,12 +24,14 @@ namespace Kamilunavo.RisingSteps.QA
    if(Environment.GetEnvironmentVariable("RISING_QA_RELOAD")=="1"){Check(_course.Height>0,"saved non-origin step restored on fresh native boot");Check(Vector3.Distance(_motor.transform.position,_course.SafePosition)<.12f,"fresh boot puts actual controller at saved island");yield return Capture("restored-checkpoint");File.WriteAllText(Path.Combine(_out,"RELOAD-PASS.txt"),"Fresh native bootstrap restored step="+_course.Height+" realm="+_course.Profile.Realm+" safe="+_course.SafePosition);Debug.Log("RISING_RELOAD_PASS step="+_course.Height);yield break;}
 _hud.Close();_course.StartRun(0,false);yield return new WaitForSeconds(.5f);
    if(Environment.GetEnvironmentVariable("RISING_QA_CAMERA")=="1"){yield return CameraTouchOwnership();yield return CameraFeedback();File.WriteAllText(Path.Combine(_out,"PASS.txt"),"RISING_CAMERA_PASS "+_checks);Debug.Log("RISING_CAMERA_PASS "+_checks);yield break;}
+   if(Environment.GetEnvironmentVariable("RISING_QA_WORLDS")=="1"){yield return WorldPresentation();yield break;}
+   if(Environment.GetEnvironmentVariable("RISING_QA_CAMPAIGN")=="1"){yield return CampaignTraversal();yield break;}
    var center=new Vector2(Screen.width*.55f,Screen.height*.55f);var e=new PointerEventData(EventSystem.current){position=center};var hits=new List<RaycastResult>();EventSystem.current.RaycastAll(e,hits);Check(hits.Count==0,"world route does not intercept camera input");
    _motor.Jump.OnPointerDown(e);_hud.ShowSettings();float before=_course.Profile.Elapsed;yield return new WaitForSeconds(.15f);Check(Mathf.Abs(before-_course.Profile.Elapsed)<.01f&&_motor.Paused,"modal pauses motor and timer");_hud.Close();Check(!_motor.Jump.Consume(),"modal clears stale jump");
    _motor.Jump.OnPointerDown(e);float focusTime=_course.Profile.Elapsed;_course.SendMessage("OnApplicationFocus",false);yield return new WaitForSeconds(.12f);Check(_motor.Paused&&_course.Profile.Elapsed==focusTime&&!_motor.Jump.Consume(),"runtime focus-loss callback pauses timer and clears jump");_course.SendMessage("OnApplicationPause",true);_course.SendMessage("OnApplicationFocus",true);Check(_motor.Paused,"focus return does not override application pause");_course.SendMessage("OnApplicationPause",false);Check(!_motor.Paused,"runtime lifecycle callbacks resume after both return");
    var jr=(RectTransform)_hud.Joystick.transform;Vector2 jc=RectTransformUtility.WorldToScreenPoint(null,jr.TransformPoint(jr.rect.center));var first=new PointerEventData(EventSystem.current){pointerId=100,position=jc+Vector2.up*35};_hud.Joystick.OnPointerDown(first);Vector2 value=_hud.Joystick.Value;var other=new PointerEventData(EventSystem.current){pointerId=101,position=jc+Vector2.right*35};_hud.Joystick.OnPointerDown(other);_hud.Joystick.OnPointerUp(other);Check(_hud.Joystick.Value==value,"second finger cannot steal joystick");_hud.Joystick.OnPointerUp(first);
    if(Environment.GetEnvironmentVariable("RISING_QA_QUICK")=="1"){for(int restart=0;restart<5;restart++){_course.StartRun(0,false);yield return Climb(1);Check(_course.Profile.Falls==0,"quick restart no fall "+restart);}Debug.Log("RISING_QUICK_PASS");yield break;}
-   for(int realm=0;realm<3;realm++){_course.StartRun(realm,false);yield return new WaitForSeconds(.5f);
+   _course.Profile.UnlockedRealm=2;for(int realm=0;realm<3;realm++){_course.StartRun(realm,false);yield return new WaitForSeconds(.5f);
     var scenery=_course.transform.Find("RealmScenery"+realm);Check(scenery!=null&&scenery.gameObject.activeInHierarchy,"selected realm owns current scenery "+realm);
     Check(_course.GetComponentsInChildren<Transform>().Length>0&&scenery.GetComponentsInChildren<Transform>().Length>0,"realm scenery has authored geometry "+realm);
     Check(scenery.Find(realm==1?"DistantCascade":realm==2?"DistantTemple":"DistantMeadow")!=null,"selected realm changes distant island architecture "+realm);
@@ -56,6 +58,30 @@ _hud.Close();_course.StartRun(0,false);yield return new WaitForSeconds(.5f);
    if(Array.Exists(Environment.GetCommandLineArgs(),a=>a=="-qaRisingSoak")||Environment.GetEnvironmentVariable("RISING_QA_SOAK")=="1")yield return Soak();
    File.WriteAllText(Path.Combine(_out,"PASS.txt"),"RISING_QA_PASS checks="+_checks+" actual controller 36 steps and natural fall; isolated save; no FPS claim");Debug.Log("RISING_QA_PASS checks="+_checks);
    if(Array.Exists(Environment.GetCommandLineArgs(),a=>a=="-qaExit"))Application.Quit();
+  }
+  private IEnumerator WorldPresentation(){
+   // Development-only isolated visual fixture. This is not earned campaign progress.
+   _course.Profile.TutorialDone=true;_course.Profile.UnlockedRealm=RisingCampaign.RealmCount-1;
+   for(int realm=0;realm<RisingCampaign.RealmCount;realm++){
+    _hud.Close();_course.StartLevel(realm,0);yield return new WaitForSeconds(.2f);
+    Check(_course.Profile.Realm==realm&&_course.Steps.Count==13,"actual themed route selected "+realm);
+    var scenery=_course.transform.Find("RealmScenery"+realm);Check(scenery!=null&&scenery.gameObject.activeInHierarchy&&scenery.GetComponentsInChildren<Collider>().Length==0,"actual backdrop is selected and decorative "+realm);
+    yield return Capture("world-"+realm+"-start");for(int step=1;step<=6;step++)yield return Climb(step);yield return Capture("world-"+realm+"-mid");
+    _hud.ShowHome();yield return Capture("world-"+realm+"-menu");_hud.ShowLevels(realm);yield return Capture("world-"+realm+"-levels");_hud.Close();
+   }
+   File.WriteAllText(Path.Combine(_out,"PASS.txt"),"RISING_TEN_WORLD_PREVIEW_PASS checks="+_checks+" actual60controllerjumps/tenworlds; isolated fixture unlocks for visual review only;100course acceptance remains pending");Debug.Log("RISING_TEN_WORLD_PREVIEW_PASS "+_checks);if(Array.Exists(Environment.GetCommandLineArgs(),a=>a=="-qaExit"))Application.Quit();
+  }
+  private IEnumerator CampaignTraversal(){
+   _course.Profile.TutorialDone=true;
+   for(int realm=0;realm<RisingCampaign.RealmCount;realm++)for(int level=0;level<RisingCampaign.LevelsPerRealm;level++){
+    Check(RisingCampaign.IsUnlocked(_course.Profile,realm,level),"earned campaign level unlock "+realm+":"+level);_course.StartLevel(realm,level);_hud.Close();yield return new WaitForSeconds(.2f);
+    if(level==0||level==5||level==9)yield return Capture("campaign-realm"+realm+"-level"+(level+1)+"-start");
+    for(int step=1;step<=12;step++){yield return Climb(step);if(step==6&&(level==0||level==5||level==9))yield return Capture("campaign-realm"+realm+"-level"+(level+1)+"-mid");}
+    yield return WalkTo(_course.Steps[12].transform.position+Vector3.forward*.5f,2);yield return new WaitForSeconds(.15f);Check(_course.Profile.Completed&&_hud.ModalOpen,"physical controller completes campaign "+realm+":"+level);Check(_course.Profile.LevelStars[RisingCampaign.LevelId(realm,level)]>0,"independent level score saved "+realm+":"+level);_hud.Close();
+   }
+   _hud.ShowHome();yield return Capture("campaign-all-realms");_hud.ShowLevels(2);yield return Capture("campaign-level-selector");_hud.ShowSettings();yield return Capture("campaign-settings");_hud.Back();Check(_hud.ModalOpen&&_course.Paused,"Back retains campaign parent paused");_hud.Back();Check(_hud.ModalOpen&&_course.Paused,"Back retains realm home paused");
+   var saved=RisingSave.Load();int count=0;foreach(int stars in saved.LevelStars)if(stars>0)count++;Check(count==RisingCampaign.LevelCount&&saved.Schema==3,"all hundred physical courses survive profile reload");
+   File.WriteAllText(Path.Combine(_out,"PASS.txt"),"RISING_CAMPAIGN_PASS checks="+_checks+" actual controller1200jumps/100portals; isolated profile; rendered comparison still required");Debug.Log("RISING_CAMPAIGN_PASS "+_checks);if(Array.Exists(Environment.GetCommandLineArgs(),a=>a=="-qaExit"))Application.Quit();
   }
   private IEnumerator WaitOrientation(bool landscape){
    // Desktop orientation requests do not rotate a window; exercise the actual
