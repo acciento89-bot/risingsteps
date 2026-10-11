@@ -39,10 +39,15 @@ namespace Kamilunavo.RisingSteps.Editor
     var store=root.AddComponent<StorePurchases>();game.Store=store;store.Initialize(game);
     var videos=root.AddComponent<RewardedVideos>();game.Videos=videos;videos.Initialize(game);int shown=0;
     bool opened=(bool)method.Invoke(videos,new object[]{(Action)(()=>shown++)});Check(!opened&&shown==0&&!videos.IsPresenting,"late consent after leaving shop never presents");
-    hud.ShowShop();opened=(bool)method.Invoke(videos,new object[]{(Action)(()=>shown++)});Check(opened&&shown==1&&videos.IsPresenting&&hud.ModalOpen&&game.Paused,"shop consent pauses gameplay");
+    hud.ShowShop();opened=(bool)method.Invoke(videos,new object[]{(Action)(()=>shown++)});Check(!opened&&shown==0,"unfinished tutorial blocks consent even in Shop");game.Profile.TutorialDone=true;opened=(bool)method.Invoke(videos,new object[]{(Action)(()=>shown++)});Check(opened&&shown==1&&videos.IsPresenting&&hud.ModalOpen&&game.Paused,"shop consent pauses gameplay after tutorial");
+    opened=(bool)method.Invoke(videos,new object[]{(Action)(()=>shown++)});Check(!opened&&shown==1&&videos.IsPresenting,"pending UMP update cannot open another consent form over own video/privacy presentation");
     hud.Close();Check(hud.ModalOpen,"native consent remains paused after shop closes");
     typeof(RewardedVideos).GetProperty("IsPresenting").GetSetMethod(true).Invoke(videos,new object[]{false});
     if(!hud.ShopOpen)hud.ShowShop();opened=(bool)method.Invoke(videos,new object[]{(Action)(()=>throw new InvalidOperationException("presenter unavailable"))});Check(!opened&&!videos.IsPresenting,"failed presenter unlocks UI");
+    hud.ShowHome();opened=(bool)method.Invoke(videos,new object[]{(Action)(()=>shown++)});Check(opened&&shown==2&&videos.IsPresenting&&hud.HomeOpen&&game.Paused,"safe Home consent does not require opening Shop");Set(videos,"IsPresenting",false);
+    game.Profile.Step=12;game.Profile.Completed=true;hud.ShowCompletion();opened=(bool)method.Invoke(videos,new object[]{(Action)(()=>shown++)});Check(opened&&shown==3&&videos.IsPresenting&&hud.ResultOpen&&game.Paused,"completed result is a safe consent context");Set(videos,"IsPresenting",false);
+    typeof(Kamilunavo.RisingSteps.Gameplay.RisingCourse).GetMethod("OnApplicationFocus",BindingFlags.Instance|BindingFlags.NonPublic).Invoke(game,new object[]{false});opened=(bool)method.Invoke(videos,new object[]{(Action)(()=>shown++)});Check(!opened&&shown==3,"background callback cannot open consent");typeof(Kamilunavo.RisingSteps.Gameplay.RisingCourse).GetMethod("OnApplicationFocus",BindingFlags.Instance|BindingFlags.NonPublic).Invoke(game,new object[]{true});
+    hud.Close();opened=(bool)method.Invoke(videos,new object[]{(Action)(()=>shown++)});Check(!opened&&shown==3,"late consent after leaving safe menu cannot interrupt course");
    }
    finally{if(canvas!=null)UnityEngine.Object.DestroyImmediate(canvas.gameObject);UnityEngine.Object.DestroyImmediate(root);RisingSave.QaKey=previous;}
   }

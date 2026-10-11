@@ -20,10 +20,14 @@ namespace Kamilunavo.RisingSteps.Monetization
         public bool IsPresenting {get;private set;}
         public bool PrivacyRequired=>_prepared && ConsentInformation.PrivacyOptionsRequirementStatus==PrivacyOptionsRequirementStatus.Required;
         public event Action Changed;
+        public event Action SdkReady;
+        public event Action ConsentReset;
+        public event Action AdOpened;
+        public bool SdkInitialized=>_initialized;
         public string Status {get;private set;}="";
-        public bool CanWatch=>RisingSave.Writable && Application.isMobilePlatform && !IsPresenting && _ad!=null && _ad.CanShowAd() && Time.realtimeSinceStartupAsDouble-_loadedAt<3500 && ConsentInformation.CanRequestAds() && RewardRules.CanClaim(_game.Profile,DateTime.UtcNow);
+        public bool CanWatch=>!MonetizationConfig.QaNetworkDisabled && RisingSave.Writable && Application.isMobilePlatform && !IsPresenting && _ad!=null && _ad.CanShowAd() && Time.realtimeSinceStartupAsDouble-_loadedAt<3500 && ConsentInformation.CanRequestAds() && RewardRules.CanClaim(_game.Profile,DateTime.UtcNow);
         private string T(string de,string en)=>_game.Hud.T(de,en);
-        private void Main(Action action)=>MobileAdsEventExecutor.ExecuteInUpdate(()=>{if(this!=null)action();});
+        private void Main(Action action,Action abandoned=null)=>MobileAdsEventExecutor.ExecuteInUpdate(()=>{if(this!=null)action();else abandoned?.Invoke();});
         public void Initialize(RisingCourse game)
         {
             _game=game;_config=MonetizationConfig.Load();
@@ -31,45 +35,45 @@ namespace Kamilunavo.RisingSteps.Monetization
         }
         public void Prepare()
         {
-            if(!Application.isMobilePlatform || Time.realtimeSinceStartupAsDouble<_retryAt)return;
+            if(!Application.isMobilePlatform || _game==null || !_game.Profile.TutorialDone || !_game.Foreground || _game.Hud==null || !_game.Hud.ConsentContext || _game.Hud.TutorialActive || Time.realtimeSinceStartupAsDouble<_retryAt)return;
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
             if(!string.IsNullOrEmpty(RisingSave.QaKey))return;
 #endif
             if(_prepared){if(_initialized)Load();return;}
             _prepared=true;SetStatus(T("Video wird vorbereitet …","Preparing video …"));
-            ConsentInformation.Update(new ConsentRequestParameters(),error=>Main(()=>
+            try{ConsentInformation.Update(new ConsentRequestParameters(),error=>Main(()=>
             {
                 if(error!=null){_prepared=false;_retryAt=Time.realtimeSinceStartupAsDouble+60;AfterConsent();return;}
                 if(!TryPresentConsent(()=>ConsentForm.LoadAndShowConsentFormIfRequired(formError=>Main(()=>{IsPresenting=false;AfterConsent();})))){_prepared=false;AfterConsent();}
-            }));
+            }));}catch{_prepared=false;_retryAt=Time.realtimeSinceStartupAsDouble+60;SetStatus(T("Video gerade nicht verfügbar","Video currently unavailable"));}
         }
         private bool TryPresentConsent(Action show)
         {
             // The asynchronous update may finish after the player has left the shop.
-            if(_game==null || _game.Hud==null || !_game.Hud.ShopOpen || !_game.Paused || _game.Store?.IsPresenting==true)return false;
-            _game.Save();IsPresenting=true;Changed?.Invoke();
+            if(IsPresenting || _game==null || _game.Hud==null || !_game.Hud.ConsentContext || !_game.Profile.TutorialDone || _game.Hud.TutorialActive || !_game.Foreground || !_game.Paused || _game.Store?.IsPresenting==true || _game.Interstitials?.IsPresenting==true)return false;
+            _game.Save();IsPresenting=true;_game.RefreshProfile();Changed?.Invoke();
             try{show();return true;}catch(Exception){IsPresenting=false;_prepared=false;Changed?.Invoke();return false;}
         }
         private void AfterConsent()
         {
             Changed?.Invoke();
             if(!ConsentInformation.CanRequestAds()){SetStatus(T("Video nicht verfügbar – Datenschutzeinstellungen prüfen","Video unavailable – check privacy settings"));return;}
-            if(_initialized){Load();return;}
-            MobileAds.Initialize(status=>Main(()=>
+            if(_initialized){SdkReady?.Invoke();Load();return;}
+            try{MobileAds.Initialize(status=>Main(()=>
             {
-                if(status==null){SetStatus(T("Video gerade nicht verfügbar","Video currently unavailable"));return;}
-                _initialized=true;Load();
-            }));
+                if(status==null){_prepared=false;_retryAt=Time.realtimeSinceStartupAsDouble+60;SetStatus(T("Video gerade nicht verfügbar","Video currently unavailable"));return;}
+                _initialized=true;SdkReady?.Invoke();Load();
+            }));}catch{_prepared=false;_retryAt=Time.realtimeSinceStartupAsDouble+60;SetStatus(T("Video gerade nicht verfügbar","Video currently unavailable"));}
         }
         private void Load()
         {
-            if(!_initialized || _loading || IsPresenting || !ConsentInformation.CanRequestAds() || Time.realtimeSinceStartupAsDouble<_retryAt)return;
+            if(MonetizationConfig.QaNetworkDisabled || !_initialized || _loading || IsPresenting || !ConsentInformation.CanRequestAds() || Time.realtimeSinceStartupAsDouble<_retryAt)return;
             if(_ad!=null && _ad.CanShowAd() && Time.realtimeSinceStartupAsDouble-_loadedAt<3500)return;
             _ad?.Destroy();_ad=null;
             var id=_config.RewardedId;
             if(string.IsNullOrWhiteSpace(id)){SetStatus(T("Video gerade nicht verfügbar","Video currently unavailable"));return;}
             _loading=true;var generation=_loads.Begin();
-            RewardedAd.Load(id,new AdRequest(),(ad,error)=>
+            try{RewardedAd.Load(id,new AdRequest(),(ad,error)=>
             {
                 if(this==null){ad?.Destroy();return;}
                 Main(()=>
@@ -78,17 +82,18 @@ namespace Kamilunavo.RisingSteps.Monetization
                     _loading=false;
                     if(error!=null || ad==null){ad?.Destroy();_retryAt=Time.realtimeSinceStartupAsDouble+60;SetStatus(T("Kein Video verfügbar – später erneut versuchen","No video available – try later"));return;}
                     _ad=ad;_loadedAt=Time.realtimeSinceStartupAsDouble;
+                    ad.OnAdFullScreenContentOpened+=()=>Main(()=>{if(_ad==ad&&IsPresenting)AdOpened?.Invoke();});
                     ad.OnAdFullScreenContentClosed+=()=>Main(()=>Finish(ad,false));
                     ad.OnAdFullScreenContentFailed+=failure=>Main(()=>Finish(ad,true));
                     SetStatus(T("Freiwilliges Video: +50 Kristalle","Optional video: +50 crystals"));
-                });
-            });
+                },()=>ad?.Destroy());
+            });}catch{_loads.Invalidate();_loading=false;_retryAt=Time.realtimeSinceStartupAsDouble+60;SetStatus(T("Video gerade nicht verfügbar","Video currently unavailable"));}
         }
         public void Watch()
         {
-            if(!CanWatch || !_game.Hud.ShopOpen)return;
+            if(!CanWatch || !_game.Hud.ShopOpen || _game.NativePresentationActive || !_game.Foreground || !_game.Paused)return;
             _game.Save();IsPresenting=true;_session=Guid.NewGuid().ToString("N");_rewarded=false;
-            var session=_session;var ad=_ad;Changed?.Invoke();
+            var session=_session;var ad=_ad;_game.RefreshProfile();Changed?.Invoke();
             try{ad.Show(reward=>Main(()=>
             {
                 // Only this specific SDK completion callback can award this view, once.
@@ -112,8 +117,8 @@ namespace Kamilunavo.RisingSteps.Monetization
         }
         public void ShowPrivacy()
         {
-            if(!PrivacyRequired || IsPresenting)return;
-            _game.Save();IsPresenting=true;_loads.Invalidate();_loading=false;_retryAt=0;_ad?.Destroy();_ad=null;Changed?.Invoke();
+            if(MonetizationConfig.QaNetworkDisabled || !PrivacyRequired || IsPresenting || _game.NativePresentationActive || !_game.Hud.ShopOpen || !_game.Foreground || !_game.Paused)return;
+            _game.Save();IsPresenting=true;_loads.Invalidate();_loading=false;_retryAt=0;_ad?.Destroy();_ad=null;ConsentReset?.Invoke();_game.RefreshProfile();Changed?.Invoke();
             ConsentForm.ShowPrivacyOptionsForm(error=>Main(()=>{IsPresenting=false;AfterConsent();}));
         }
         private void SetStatus(string status){Status=status;Changed?.Invoke();}

@@ -10,7 +10,8 @@ namespace Kamilunavo.RisingSteps.Monetization
     {
         private StoreController _store;
         private readonly StoreReconnectGate _reconnect=new();
-        public bool CanRetry=>Application.isMobilePlatform&&!Ready&&!Busy&&!IsPresenting&&_reconnect.CanBegin(Time.realtimeSinceStartupAsDouble);
+        private bool _restoring;
+        public bool CanRetry=>Application.isMobilePlatform&&!MonetizationConfig.QaNetworkDisabled&&!Ready&&!Busy&&!IsPresenting&&_reconnect.CanBegin(Time.realtimeSinceStartupAsDouble);
         public void RetryConnection(){if(CanRetry)Connect();}
         private RisingCourse _game;
         private readonly HashSet<string> _fetched=new();
@@ -21,6 +22,7 @@ namespace Kamilunavo.RisingSteps.Monetization
         public bool Busy {get;private set;}
         public string Status {get;private set;}="";
         private string T(string de,string en)=>_game.Hud.T(de,en);
+        internal static List<ProductDefinition> Catalog()=>new(){new(CommerceRules.Starter,ProductType.NonConsumable),new(CommerceRules.Collection,ProductType.NonConsumable),new(CommerceRules.RemoveAds,ProductType.NonConsumable)};
         public void Initialize(RisingCourse game)
         {
             _game=game;
@@ -32,7 +34,7 @@ namespace Kamilunavo.RisingSteps.Monetization
         }
         private async void Connect()
         {
-            if(Ready||Busy||!_reconnect.TryBegin(Time.realtimeSinceStartupAsDouble))return;
+            if(!Application.isMobilePlatform||MonetizationConfig.QaNetworkDisabled||Ready||Busy||!_reconnect.TryBegin(Time.realtimeSinceStartupAsDouble))return;
             Busy=true;SetStatus(T("Store wird verbunden …","Connecting to store …"));
             try
             {
@@ -51,32 +53,32 @@ namespace Kamilunavo.RisingSteps.Monetization
                 await _store.Connect();
                 if(this==null)return;
                 if(_store.GetConnectionState()!=ConnectionState.Connected){Unavailable(T("Store gerade nicht erreichbar","Store currently unavailable"));return;}
-                _store.FetchProductsWithNoRetries(new List<ProductDefinition>{
-                    new(CommerceRules.Starter,ProductType.NonConsumable),
-                    new(CommerceRules.Collection,ProductType.NonConsumable)});
+                _store.FetchProductsWithNoRetries(Catalog());
             }
             catch(Exception){if(this!=null)Unavailable(T("Store gerade nicht erreichbar","Store currently unavailable"));}
             finally{_reconnect.EndAttempt();}
         }
         public string Price(string id)=>_store?.GetProductById(id)?.metadata?.localizedPriceString??"";
-        public bool Owned(string id)=>_game!=null && (_game.Profile.Commerce.Entitlements&(id==CommerceRules.Starter?1:id==CommerceRules.Collection?2:0))!=0;
-        public bool CanBuy(string id)=>RisingSave.Writable && Ready && !Busy && !_deferred.Contains(id) && !Owned(id) && CommerceRules.KnownProduct(id) &&
+        public bool Owned(string id)=>_game!=null && (_game.Profile.Commerce.Entitlements&CommerceRules.EntitlementBit(id))!=0;
+        public bool CanBuy(string id)=>!MonetizationConfig.QaNetworkDisabled && RisingSave.Writable && Ready && !Busy && !_deferred.Contains(id) && !Owned(id) && CommerceRules.KnownProduct(id) &&
             _store?.GetProductById(id)?.availableToPurchase==true && !string.IsNullOrWhiteSpace(Price(id));
         public void Buy(string id)
         {
-            if(!CanBuy(id))return;
+            if(!CanBuy(id)||_game.NativePresentationActive||!_game.Foreground||!_game.Hud.ShopOpen||!_game.Paused)return;
             _game.Save();Busy=true;IsPresenting=true;SetStatus(T("Kauf wird geöffnet …","Opening purchase …"));
             try{_store.PurchaseProduct(id);}catch(Exception){Busy=false;SetStatus(T("Kauf konnte nicht gestartet werden","Purchase could not start"));}
         }
         public void Restore()
         {
-            if(_store==null || !Ready || Busy)return;
-            Busy=true;SetStatus(T("Käufe werden wiederhergestellt …","Restoring purchases …"));
-            _store.RestoreTransactions((ok,_)=>
+            if(MonetizationConfig.QaNetworkDisabled || _store==null || !Ready || Busy || _game.NativePresentationActive || !_game.Foreground || !_game.Hud.ShopOpen || !_game.Paused)return;
+            _restoring=true;Busy=true;IsPresenting=true;SetStatus(T("Käufe werden wiederhergestellt …","Restoring purchases …"));
+            try{_store.RestoreTransactions((ok,_)=>
             {
                 if(this==null)return;
+                _restoring=false;IsPresenting=false;
                 if(!ok){Busy=false;SetStatus(T("Wiederherstellung nicht verfügbar","Restore unavailable"));}
-            });
+                else Changed?.Invoke();
+            });}catch(Exception){_restoring=false;Busy=false;SetStatus(T("Wiederherstellung nicht verfügbar","Restore unavailable"));}
         }
         private void ProductsFetched(List<Product> products)
         {
@@ -106,7 +108,7 @@ namespace Kamilunavo.RisingSteps.Monetization
             try
             {
                 // A partial catalog response is not evidence that another owned product was revoked.
-                if(!pendingFailure && _fetched.Contains(CommerceRules.Starter) && _fetched.Contains(CommerceRules.Collection))CommerceRules.ReconcileEntitlements(_game.Profile,active);
+                if(!pendingFailure)CommerceRules.ReconcileCatalog(_game.Profile,active,_fetched);
                 RisingSave.Save(_game.Profile);
                 Busy=false;SetStatus(pendingFailure?T("Kauf noch offen – später wiederherstellen","Purchase pending – restore later"):_deferred.Count>0?T("Ein Kauf wartet auf Freigabe","A purchase is awaiting approval"):T("Shop bereit","Shop ready"));
                 _game.RefreshProfile();
@@ -133,7 +135,7 @@ namespace Kamilunavo.RisingSteps.Monetization
         {
             if(Fulfill(order)){Busy=false;SetStatus(T("Kauf freigeschaltet","Purchase unlocked"));}
         }
-        private void Confirmed(Order order){Busy=false;IsPresenting=false;if(order is FailedOrder)SetStatus(T("Kaufbestätigung noch offen – später wiederherstellen","Purchase confirmation pending – restore later"));else Changed?.Invoke();}
+        private void Confirmed(Order order){Busy=false;IsPresenting=_restoring;if(order is FailedOrder)SetStatus(T("Kaufbestätigung noch offen – später wiederherstellen","Purchase confirmation pending – restore later"));else Changed?.Invoke();}
         private void Failed(FailedOrder order){Busy=false;SetStatus(order.FailureReason==PurchaseFailureReason.UserCancelled?T("Kauf abgebrochen","Purchase cancelled"):T("Kauf nicht abgeschlossen","Purchase not completed"));}
         private void Deferred(DeferredOrder order)
         {
@@ -144,7 +146,7 @@ namespace Kamilunavo.RisingSteps.Monetization
         private void ProductsFailed(ProductFetchFailed failure)=>Unavailable(T("Shop gerade nicht verfügbar","Shop currently unavailable"));
         private void PurchasesFailed(PurchasesFetchFailureDescription failure){Busy=false;SetStatus(T("Käufe konnten nicht geladen werden","Purchases could not be loaded"));}
         private void Unavailable(string message){_reconnect.Failed(Time.realtimeSinceStartupAsDouble);Ready=false;Busy=false;SetStatus(message);}
-        private void SetStatus(string message){if(!Busy)IsPresenting=false;Status=message;Changed?.Invoke();}
+        private void SetStatus(string message){if(!Busy&&!_restoring)IsPresenting=false;Status=message;_game?.RefreshProfile();Changed?.Invoke();}
         private void OnDestroy()
         {
             if(_store==null)return;

@@ -1,0 +1,9 @@
+# Verified commerce slice — 2026-10-11
+
+This source implements the approved minimum-three-successful-completions and minimum-180-second automatic-ad pacing at safe result boundaries only. Remove Ads is a separate permanent per-game nonconsumable, with the requested Germany EUR1.99 catalog target. Direct Shop exposes this purchase, premium products and Restore. Prices come only from real Store metadata; unavailable products cannot be purchased. Explicitly optional reward videos remain available.
+
+Unity source fingerprint: `c0928cf41e3dd1245dd0a54378bbf2590f362b57529edd940d7cc9601ab25d68`. Fresh full Unity aggregate/Mac build exit0: `RISING_INTERSTITIAL_PASS checks=274`. Actual final player evidence: `60 actual controller jumps across 10 realms in an isolated unlocked visual-review profile; not a new earned 100-level campaign run`. See `/Volumes/SSK SSD/Kamilunavo/Builds/RisingExpansion-20261011/RisingCommerceFinalRuntime/PASS.txt`. Full hashed receipt: `/Volumes/SSK SSD/Kamilunavo/Builds/RisingExpansion-20261011/Commerce-verified-evidence.json`.
+
+Source compilation, isolated fake-provider checks and desktop QA do not establish real purchases, ad displays or privacy/device behavior. Store catalog creation/pricing, production ad units and actual device sandbox purchase/cancellation/deferred/restore/refund plus consent/lifecycle/audio tests remain pending. Automatic advertising is not live. All four actual concept-graphics gates are FAILED; no version change, native distribution build or TestFlight upload in this slice. The original user-deleted `docs/concepts/PRIMARY-CONCEPT.png` remains unstaged.
+
+After the successful engine/player checks, trailing whitespace only was removed from new Unity `.meta` files; GUIDs and values remain identical. The receipt retains the pre-cleanup build fingerprint separately. Runtime/shader/package/settings content did not change.
