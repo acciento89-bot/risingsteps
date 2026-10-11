@@ -13,6 +13,29 @@ namespace Kamilunavo.RisingSteps.Visuals
    for(int i=0;i<vertices.Length;i++)normals[i]=joined[vertices[i]].normalized;
    mesh.normals=normals;
   }
+  // Preserve positions/UVs but introduce shallow fracture planes in the render
+  // mesh. The collision fan is a separate mesh and never enters this method.
+  public static void FractureNormals(Mesh mesh,float strength)
+  {
+   JoinNormals(mesh);var source=mesh.vertices;var uv=mesh.uv;var normal=mesh.normals;var indices=mesh.triangles;
+   var vertices=new Vector3[indices.Length];var tex=new Vector2[indices.Length];var normals=new Vector3[indices.Length];var triangles=new int[indices.Length];
+   for(int i=0;i<indices.Length;i+=3){
+    var face=Vector3.Cross(source[indices[i+1]]-source[indices[i]],source[indices[i+2]]-source[indices[i]]).normalized;
+    for(int j=0;j<3;j++){int k=i+j,old=indices[k];vertices[k]=source[old];tex[k]=uv[old];normals[k]=Vector3.Lerp(normal[old],face,strength).normalized;triangles[k]=k;}
+   }
+   mesh.Clear();mesh.vertices=vertices;mesh.uv=tex;mesh.triangles=triangles;mesh.normals=normals;mesh.RecalculateBounds();
+  }
+  // Project masonry grain at a consistent world scale. Adjacent faces sample
+  // different deposits instead of each triangular box face repeating one stamp.
+  public static void StoneUv(GameObject block,float scale=.8f)
+  {
+   var mesh=block.GetComponent<MeshFilter>().sharedMesh;var vertices=mesh.vertices;var normals=mesh.normals;var uv=new Vector2[vertices.Length];
+   for(int i=0;i<vertices.Length;i++){
+    var point=block.transform.localRotation*vertices[i]+block.transform.localPosition;var n=block.transform.localRotation*normals[i];
+    uv[i]=(Mathf.Abs(n.y)>.7f?new Vector2(point.x,point.z):Mathf.Abs(n.x)>Mathf.Abs(n.z)?new Vector2(point.z,point.y):new Vector2(point.x,point.y))*scale;
+   }
+   mesh.uv=uv;
+  }
   // Closed small eroded outcrops, deliberately irregular rather than sphere/cylinder props.
   public static GameObject Rock(Transform parent,string name,Vector3 position,Vector3 size,Material material,int seed)
   {

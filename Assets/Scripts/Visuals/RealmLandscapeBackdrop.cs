@@ -13,23 +13,47 @@ namespace Kamilunavo.RisingSteps.Visuals
    // Distant silhouettes sit beside and beyond the whole ascending route, never on it.
    switch(RisingRealmCatalog.Theme(realm)){
     case RisingRealmTheme.Meadow:
-     for(int i=0;i<6;i++){
-      var p=Point(i,-13);LandscapeGeometry.Rock(root.transform,"MeadowHighland",p,new Vector3(24,14,21),stone,i);
-      LandscapeBotany.Tree(root.transform,p+Vector3.up*6,i*4,3.0f+i%2);
+     for(int i=0;i<7;i++){
+      var p=GardenPoint(i);Highland(root.transform,p,realm,i,stone);
+      MeshArt.Oval(root.transform,"HighlandMeadow",p+Vector3.up*7.9f,new Vector3(11.8f,.34f,10),LandscapePalette.Surface(parent,realm,1),18);
+      for(int tree=0;tree<3;tree++)LandscapeBotany.Tree(root.transform,p+new Vector3((tree-1)*3.3f,8.05f,tree%2*2),i*4+tree,2.3f+(i+tree)%3*.45f,true);
      }break;
     case RisingRealmTheme.Waterfall:
-     for(int i=0;i<5;i++){
-      var p=Point(i,-12);LandscapeGeometry.Rock(root.transform,"CascadeMesa",p,new Vector3(23,19,21),stone,i);
-      MeshArt.Oval(root.transform,"HighlandLake",p+Vector3.up*9,new Vector3(14,.15f,10),LandscapePalette.Surface(parent,realm,2),24);
-      IslandArt.Waterfall(root.transform,p+new Vector3(0,9,-7),1,3.8f);
+     for(int i=0;i<7;i++){
+      var p=GardenPoint(i);Highland(root.transform,p,realm,i,stone);
+      MeshArt.Oval(root.transform,"HighlandLake",p+Vector3.up*7.94f,new Vector3(10,.13f,8.8f),LandscapePalette.Pool(parent),24);
+      var fall=new Vector3((i%2==0?1:-1)*2.8f,8,-5.3f);
+      IslandArt.Waterfall(root.transform,p+fall,1,2.1f+i%3*.6f,13+i%3*2);
+      for(int terrace=0;terrace<2;terrace++){
+       var ledge=p+new Vector3((terrace==0?1:-1)*5.4f,3.5f-terrace*3,-1.7f+terrace*3.1f);
+       var support=LandscapeGeometry.Rock(root.transform,"CascadeSideTerrace",ledge,new Vector3(6.4f,2.6f,5.5f),stone,i*7+terrace);
+       var supportMesh=support.GetComponent<MeshFilter>().sharedMesh;var supportVertices=supportMesh.vertices;
+       for(int vertex=0;vertex<supportVertices.Length;vertex++)if(supportVertices[vertex].y>.6f)supportVertices[vertex].y=1.18f;
+       supportMesh.vertices=supportVertices;supportMesh.RecalculateNormals();supportMesh.RecalculateBounds();
+       MeshArt.Oval(root.transform,"TerraceLake",ledge+Vector3.up*1.23f,new Vector3(4.4f,.09f,3.5f),LandscapePalette.Pool(parent),18);
+       IslandArt.Waterfall(root.transform,ledge+new Vector3(0,1.3f,-2),1,1.15f,5.5f);
+      }
+      for(int shrub=0;shrub<5;shrub++)LandscapeBotany.LeafMass(root.transform,p+new Vector3((shrub-2)*2.5f,8.15f,3.1f+Mathf.Sin(shrub)*.5f),new Vector3(3.8f,1.4f,2.5f),LandscapePalette.Moss(parent),i*13+shrub);
+      LandscapeBotany.Branch(root.transform,"CascadeCliffVine",new[]{p+new Vector3(4.6f,7.8f,-5.1f),p+new Vector3(4.9f,3,-5.7f),p+new Vector3(4.2f,-1.5f,-5.2f)},new[]{.16f,.12f,.035f},LandscapePalette.Moss(parent),6);
      }break;
     case RisingRealmTheme.Temple:
-     for(int i=0;i<4;i++){
-      var p=Point(i,-6);LandscapeGeometry.Rock(root.transform,"TempleAcropolis",p-Vector3.up*7,new Vector3(26,15,21),stone,i);
-      var facade=new GameObject("TempleSkySanctuary");facade.transform.SetParent(root.transform,false);facade.transform.localPosition=p;
-      for(int j=0;j<5;j++){var col=MeshArt.Lathe(facade.transform,"SanctuaryColumn",new[]{0f,.6f,1f,8f,8.6f},new[]{.85f,.85f,.57f,.57f,.9f},12,stone,Vector3.one,true);col.transform.localPosition=new Vector3((j-2)*3.5f,0,0);}
-      MeshArt.Box(facade.transform,"SanctuaryEntablature",new Vector3(0,8.7f,0),new Vector3(17.5f,1.1f,2.4f),stone);
-      MeshArt.Box(facade.transform,"SanctuaryGoldFrieze",new Vector3(0,8.5f,-1.23f),new Vector3(16,.22f,.10f),accent);
+     for(int i=0;i<6;i++){
+      var p=GardenPoint(i);Highland(root.transform,p,realm,i,stone);
+      var facade=new GameObject("TempleSkySanctuary");facade.transform.SetParent(root.transform,false);facade.transform.localPosition=p+Vector3.up*7.9f;
+      // Broad stepped podiums, articulated blocks and a real pitched pediment
+      // remain readable in the side silhouette and through the forward camera.
+      for(int terrace=0;terrace<3;terrace++)MeshArt.Box(facade.transform,"AcropolisPodium",new Vector3(0,terrace*.42f,0),new Vector3(13.2f-terrace*.85f,.40f,9.0f-terrace*.6f),stone);
+      for(int block=0;block<14;block++)MeshArt.Box(facade.transform,"AcropolisMasonry",new Vector3((block%7-3)*1.74f,.28f+(block/7)*.43f,-4.38f),new Vector3(1.69f,.38f,.22f),stone);
+      for(int j=0;j<5;j++){
+       var col=MeshArt.Lathe(facade.transform,"SanctuaryColumn",new[]{0f,.3f,.55f,5.2f,5.5f},new[]{.56f,.56f,.36f,.36f,.6f},16,stone,Vector3.one,true);col.transform.localPosition=new Vector3((j-2)*2.25f,1.10f,-1.9f);
+       for(int band=0;band<2;band++)MeshArt.Ring(col.transform,"SanctuaryColumnGold",.41f,.035f,.65f+band*4.4f,accent,16);
+      }
+      MeshArt.Box(facade.transform,"SanctuaryEntablature",new Vector3(0,6.65f,-1.9f),new Vector3(11.4f,.65f,3.2f),stone);
+      MeshArt.Box(facade.transform,"SanctuaryGoldFrieze",new Vector3(0,6.51f,-3.53f),new Vector3(10.9f,.16f,.10f),accent);
+      MeshArt.Mesh(facade.transform,"SanctuaryPediment",new[]{new Vector3(-5.9f,7,-3.6f),new Vector3(5.9f,7,-3.6f),new Vector3(0,9.1f,-3.6f),new Vector3(-5.9f,7,-.2f),new Vector3(5.9f,7,-.2f),new Vector3(0,9.1f,-.2f)},new[]{0,2,1,3,4,5,0,3,5,0,5,2,1,2,5,1,5,4,0,1,4,0,4,3},new[]{Vector2.zero,Vector2.right,Vector2.up,Vector2.zero,Vector2.right,Vector2.up},stone);
+      for(int tooth=0;tooth<13;tooth++)MeshArt.Box(facade.transform,"SanctuaryDentil",new Vector3((tooth-6)*.80f,6.92f,-3.54f),new Vector3(.23f,.17f,.18f),accent);
+      var banner=MeshArt.Mat("TempleHorizonBanner",new Color(.41f,.23f,.45f));
+      for(int side=-1;side<=1;side+=2)MeshArt.Box(facade.transform,"SanctuaryBanner",new Vector3(side*4.5f,4.7f,-2.38f),new Vector3(.75f,2.5f,.045f),banner);
      }break;
     case RisingRealmTheme.Jungle:
      for(int i=0;i<7;i++){
@@ -80,6 +104,23 @@ namespace Kamilunavo.RisingSteps.Visuals
      }break;
    }
    MeshArt.Batch(root);
+  }
+  // Route x remains inside +/-3; the nearest stone edge stays beyond +/-10.
+  // Height rises with depth so a finished course still has scenery above its horizon.
+  static Vector3 GardenPoint(int i)=>new Vector3((i%2==0?-1:1)*(18+i%3*4),-7+i*1.7f,14+i*13);
+  static void Highland(Transform parent,Vector3 position,int realm,int seed,Material stone)
+  {
+   var mesa=LandscapeGeometry.Rock(parent,realm==1?"CascadeMesa":realm==2?"TempleAcropolis":"MeadowHighland",position,new Vector3(15,17,14),stone,seed*19);
+   // Flatten the real summit below the lakes/podiums. Otherwise an irregular
+   // rock cap would hide the water and vegetation inside its highest triangles.
+   var mesh=mesa.GetComponent<MeshFilter>().sharedMesh;var vertices=mesh.vertices;
+   for(int vertex=0;vertex<vertices.Length;vertex++)if(vertices[vertex].y>6)vertices[vertex].y=7.75f;
+   mesh.vertices=vertices;mesh.RecalculateNormals();mesh.RecalculateBounds();
+   for(int face=0;face<4;face++){
+    var p=position+new Vector3((face-1.5f)*3.2f,-1.6f+(face%2)*1.0f,-4.4f);
+    var rock=LandscapeGeometry.Rock(parent,"HighlandFractureFace",p,new Vector3(3.8f,13+(face%3)*2,4.3f),stone,seed*13+face);
+    rock.transform.localRotation=Quaternion.Euler(2+face*2,face*9,-5+face*3);
+   }
   }
   static Vector3 Point(int i,float height)=>new Vector3((i%2==0?-1:1)*(37+i%3*10),height+i%3*3,24+i*18);
   static void Peak(Transform p,string name,Vector3 pos,Vector3 size,Material material,int sides,int seed)

@@ -1,10 +1,10 @@
 {
   "game": "Rising Steps",
   "status": "failed",
-  "sourceSha256": null,
-  "reviewer": "Codex actual rendered image inspection",
+  "sourceSha256": "9161d6d0c150929ec5bfcdca9fb21685d5cf8cc46bc8e4a5263afc17c6591431",
+  "reviewer": "Codex actual rendered image inspection against unchanged Oct10 approved board",
   "reviewedAt": "2026-10-11",
-  "reason": "Actual rendered rocks, foliage and adventurer still differ substantially from the approved concept.",
+  "reason": "Sparse vegetation, washed cliff surfaces, empty sky composition and simplified runner anatomy still fall short of the Concept. Mac build exit0; graphics326802 (maxIsland10803/maxHorizon42912); fresh native81 checks/60 actual controller jumps across10 realms exit0. The100-level earned traversal was not rerun for this art-only slice.",
   "criteria": {
     "concept_similarity": "failed",
     "character_or_tower": "pending",
@@ -23,19 +23,81 @@
     ],
     "menu": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingExpansion-20261011/RisingRuntime/campaign-level-selector.png",
-        "sha256": "9110a1ad19d867c909116a0d269ab491e7b5dfcdffa87d6ab48cb08a08ecae56",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/GraphicsRefinement-20261011/Rising/Runtime/world-0-menu.png",
+        "sha256": "82259b482446a5834b7e1126efc1d0231c1b7281328797366240ef6d6c6c40c5",
         "origin": "Unity-render"
       }
     ],
     "gameplay": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingExpansion-20261011/RisingRuntime/campaign-realm0-level1-mid.png",
-        "sha256": "9650071713a38c6da5ad455ace10c03d926f0c1ea43b894fd806eb9dacdfb0a1",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/GraphicsRefinement-20261011/Rising/Runtime/world-1-mid.png",
+        "sha256": "e592410c44a192ca8079aa92fd6b56d8c8e5e5f639694e0ee282bb7a599c9dae",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/GraphicsRefinement-20261011/Rising/Runtime/world-2-mid.png",
+        "sha256": "e54136eb2623a493f534ae31d6eb69bb75de36ef8d894b7bdbda50a25b4d4835",
         "origin": "Unity-render"
       }
     ],
-    "submenus": [],
-    "variants": []
+    "submenus": [
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/GraphicsRefinement-20261011/Rising/Runtime/world-0-levels.png",
+        "sha256": "feb2a26972af62a787f35b3f7ba36aaf39995a0729b4b0d9e49a3fdfa2ffd614",
+        "origin": "Unity-render"
+      }
+    ],
+    "variants": [
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/GraphicsRefinement-20261011/Rising/Runtime/world-0-start.png",
+        "sha256": "68f7d0906a75d1cd15f51a9cf08408e5023d4bcb35723afd694f6b0c0131b87e",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/GraphicsRefinement-20261011/Rising/Runtime/world-1-start.png",
+        "sha256": "a6bdf4070073519a4a3848bc489bc5aa178cb482493662d1d87bb1f75836d1dc",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/GraphicsRefinement-20261011/Rising/Runtime/world-2-start.png",
+        "sha256": "0c3ad9405f2257ba73227e2a9e682b640bd06c9c151157acb8897a64cf6d4ece",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/GraphicsRefinement-20261011/Rising/Runtime/world-3-start.png",
+        "sha256": "f83ff66592469ce96b64348b5d15b17c082021e7fa059c74268f18246165a7ee",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/GraphicsRefinement-20261011/Rising/Runtime/world-4-start.png",
+        "sha256": "4fb8e6b53f415f13db6ec0f35321a889abdc884f9dc81605da23cc3ebe03d074",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/GraphicsRefinement-20261011/Rising/Runtime/world-5-start.png",
+        "sha256": "3c6c8c45be8346c6b91a460c4d7305f67b05ecf3f0217fb05bf82fdd07a5d925",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/GraphicsRefinement-20261011/Rising/Runtime/world-6-start.png",
+        "sha256": "1fcf819561bfe874aae408fd7f64c2f34dbd3680f132531b7a5051ee2a5032f7",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/GraphicsRefinement-20261011/Rising/Runtime/world-7-start.png",
+        "sha256": "79f0233310f44b3bb87de207ccfa0384263ce9b4232c0f551d361d944635f3a4",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/GraphicsRefinement-20261011/Rising/Runtime/world-8-start.png",
+        "sha256": "c82cdab771884f3cc2edf8649ec76465a5cada90f2e4e90c75bbcd51d321aacc",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/GraphicsRefinement-20261011/Rising/Runtime/world-9-start.png",
+        "sha256": "0c107ddc47ba03804bcfc172fad627ec745d57b594d68d6890fc3d4e09cb319b",
+        "origin": "Unity-render"
+      }
+    ]
   }
 }

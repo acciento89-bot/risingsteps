@@ -16,7 +16,7 @@ namespace Kamilunavo.RisingSteps.Visuals
   }
   static void WaterGarden(Transform parent,int index,float size,bool scenic)
   {
-   var water=MeshArt.Mat("Realm1Pool",new Color(.09f,.51f,.57f));var stone=LandscapePalette.Surface(parent,1);
+   var water=LandscapePalette.Pool(parent);var stone=LandscapePalette.Surface(parent,1);
    var pool=new GameObject("CascadePool");pool.transform.SetParent(parent,false);pool.transform.localPosition=new Vector3(-size*.92f,.64f,size*.68f);
    // The water is exposed above its support, rather than hidden inside three terraces.
    LandscapeGeometry.Rock(pool.transform,"WaterTerrace",new Vector3(.07f,-.25f,.02f),new Vector3(size*1.02f,.36f,size*.84f),stone,index*7);
@@ -28,6 +28,17 @@ namespace Kamilunavo.RisingSteps.Visuals
     bt[i*3]=0;bt[i*3+1]=(i+1)%n+1;bt[i*3+2]=i+1;
    }
    MeshArt.Mesh(pool.transform,"AzurePool",basin,bt,basinUv,water);
+   // Warm exposed shoals and bright shoreline arcs suggest a shallow stone basin
+   // around the darker caustic center; all remain below the decorative bank.
+   var shoal=LandscapePalette.Surface(parent,1,5);
+   for(int pebble=0;pebble<5;pebble++){
+    float a=pebble*1.21f+index*.4f;
+    LandscapeGeometry.Rock(pool.transform,"PoolShallowStone",new Vector3(Mathf.Cos(a)*size*.35f,.019f,Mathf.Sin(a)*size*.27f),new Vector3(.15f,.018f,.10f),shoal,index*17+pebble);
+   }
+   for(int arc=0;arc<3;arc++){
+    var ripple=MeshArt.Ring(pool.transform,"PoolCausticArc",size*(.18f+arc*.095f),.004f,.022f,MeshArt.Mat("CascadeCausticLight",new Color(.43f,.83f,.77f)),24,130+arc*17);
+    ripple.transform.localRotation=Quaternion.Euler(0,index*29+arc*81,0);ripple.transform.localScale=new Vector3(1,1,.79f);
+   }
    var shore=new System.Collections.Generic.List<Vector3>();var st=new System.Collections.Generic.List<int>();var suv=new System.Collections.Generic.List<Vector2>();
    for(int ring=0;ring<3;ring++)for(int i=0;i<=n;i++){
     var p=contour[i%n]*(ring==0?1:1.18f);p.y=ring==0?.026f:ring==1?.067f+.018f*Mathf.Sin((i%n)*2.7f+index):-.09f;
@@ -55,6 +66,8 @@ namespace Kamilunavo.RisingSteps.Visuals
     LandscapeBotany.Blade(blades,buv,btri,p,a,h*.72f,.042f);LandscapeBotany.Blade(blades,buv,btri,p,a+1.9f,h*.83f,.037f);
    }
    MeshArt.Mesh(pool.transform,"ReedLeaves",blades.ToArray(),btri.ToArray(),buv.ToArray(),reed);
+   HangingMoss(parent,index,size);
+
    IslandArt.Waterfall(parent,pool.transform.localPosition+outward*size*.52f+Vector3.up*.004f,1,size*.52f);
    if(scenic||index%3==0){
     var feed=new Vector3(size*.84f,.66f,-size*.48f);var flow=new Vector3(feed.x,0,feed.z).normalized;var edge=new Vector3(flow.z,0,-flow.x)*.20f;
@@ -65,11 +78,30 @@ namespace Kamilunavo.RisingSteps.Visuals
     IslandArt.Waterfall(parent,feed+flow*.32f,1,.40f);
    }
   }
+  static void HangingMoss(Transform parent,int index,float size)
+  {
+   var moss=LandscapePalette.Moss(parent);var v=new System.Collections.Generic.List<Vector3>();var uv=new System.Collections.Generic.List<Vector2>();var t=new System.Collections.Generic.List<int>();
+   for(int tuft=0;tuft<9;tuft++){
+    float angle=tuft*1.07f+index*.39f,length=.16f+(tuft%4)*.13f,width=.11f+(tuft%3)*.045f;var outward=new Vector3(Mathf.Cos(angle),0,Mathf.Sin(angle));var across=new Vector3(-outward.z,0,outward.x);
+    int k=v.Count;
+    v.Add(outward*size*.975f+across*width+Vector3.up*.575f);v.Add(outward*size*.975f-across*width+Vector3.up*.575f);
+    v.Add(outward*size*.99f+across*width*.37f+Vector3.up*(.57f-length));v.Add(outward*size*.99f-across*width*.46f+Vector3.up*(.51f-length));
+    uv.AddRange(new[]{new Vector2(0,1),Vector2.one,Vector2.zero,Vector2.right});t.AddRange(new[]{k,k+2,k+1,k+1,k+2,k+3,k,k+1,k+2,k+1,k+3,k+2});
+   }
+   MeshArt.Mesh(parent,"CascadeHangingMoss",v.ToArray(),t.ToArray(),uv.ToArray(),moss);
+  }
   static void Temple(Transform parent,int index,float size,bool scenic)
   {
    var stone=LandscapePalette.Surface(parent,2);
    var dark=MeshArt.Mat("Realm2TileJoint",new Color(.47f,.30f,.21f));var gold=MeshArt.Mat("Realm2Inlay",new Color(.94f,.65f,.19f));
-   // Baked stone texture and flat mortar seams give the existing landing disk paving.
+   // Staggered independent blocks expose weathered faces below the landing disk.
+   // They are render-only perimeter detail: no block changes the authoritative fan.
+   for(int course=0;course<2;course++)for(int block=0;block<18;block++){
+    float angle=(block+(course%2)*.5f)*Mathf.PI*2/18,r=size*(.925f-course*.055f);
+    var masonry=MeshArt.Box(parent,"TempleMasonryCourse",new Vector3(Mathf.Cos(angle)*r,.37f-course*.255f+.016f*Mathf.Sin(block*2.9f+index),Mathf.Sin(angle)*r),new Vector3(size*.32f,.225f,.24f),stone);
+    masonry.transform.localRotation=Quaternion.Euler(0,90-angle*Mathf.Rad2Deg,(block%5-2)*.8f);LandscapeGeometry.StoneUv(masonry);
+   }
+   // Fine joints and offset weathered tile engraving give the landing disk paving.
    for(int j=-2;j<=2;j++){
     float x=j*size*.30f;float span=Mathf.Sqrt(size*size*.90f-x*x)*2;
     MeshArt.Box(parent,"TempleTileJoint",new Vector3(x,.602f,0),new Vector3(.012f,.002f,span),dark);
@@ -78,7 +110,7 @@ namespace Kamilunavo.RisingSteps.Visuals
    var engraving=MeshArt.Ring(parent,"TempleSeal",size*.30f,.012f,.606f,gold,4);engraving.transform.localRotation=Quaternion.Euler(0,45,0);
    for(int j=0;j<8;j++){
     float a=j*Mathf.PI/4;var p=new Vector3(Mathf.Cos(a)*size*.90f,.61f,Mathf.Sin(a)*size*.90f);
-    var tile=MeshArt.Box(parent,"TemplePaving",p,new Vector3(.40f,.07f,.30f),stone);tile.transform.localRotation=Quaternion.Euler(0,-a*Mathf.Rad2Deg,0);
+    var tile=MeshArt.Box(parent,"TemplePaving",p,new Vector3(.40f,.07f,.30f),stone);tile.transform.localRotation=Quaternion.Euler(0,-a*Mathf.Rad2Deg,0);LandscapeGeometry.StoneUv(tile);
     var carving=MeshArt.Box(parent,"CarvedFrieze",p+new Vector3(0,-.13f,0),new Vector3(.29f,.12f,.04f),gold);carving.transform.localRotation=tile.transform.localRotation;
     MeshArt.Box(carving.transform,"CarvedDiamond",Vector3.zero,new Vector3(.068f,.068f,.05f),dark).transform.localRotation=Quaternion.Euler(0,0,45);
    }

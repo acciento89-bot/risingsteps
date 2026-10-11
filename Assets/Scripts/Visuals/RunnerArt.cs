@@ -17,7 +17,7 @@ namespace Kamilunavo.RisingSteps.Visuals
    var hair=Material(root,"RunnerChestnutHair",new Color(.34f,.145f,.055f),.20f);
    var gold=Material(root,"RunnerPremiumThread",new Color(1,.88f,.39f),.22f);
    var canvas=Material(root,"RunnerTravelCanvas",new Color(.54f,.345f,.165f),.12f);canvas.mainTexture=CanvasDetail(root);
-   hair.mainTexture=HairDetail(root);animator.Hoodie=green;
+   hair.mainTexture=HairDetail(root);var cloth=CanvasDetail(root);cloth.name="RunnerClothWeave";green.mainTexture=cloth;pants.mainTexture=cloth;animator.Hoodie=green;
    animator.Hips=Pivot(root.transform,"Hips",new Vector3(0,.85f,0));
 
    var hoodie=new RunnerMeshBuilder(animator.Hips,"TailoredHoodie",green);
@@ -125,12 +125,12 @@ namespace Kamilunavo.RisingSteps.Visuals
    // the rear contour seen during play, where tiny top ridges were insufficient.
    var rear=new RunnerMeshBuilder(animator.Head,"RearSweptLocks",hair);
    for(int lockIndex=0;lockIndex<9;lockIndex++){
-    float x=-.176f+lockIndex*.043f,arch=1-Mathf.Abs(x)/.205f,y=.135f+arch*.12f;
-    rear.Sweep(new[]{new Vector3(x-.025f,y+.022f,-.106f),new Vector3(x+.012f,y+.070f,-.165f),new Vector3(x+.027f,y+.012f,-.219f),new Vector3(x+.013f,.015f+(lockIndex%3)*.025f,-.243f)},new[]{.044f,.050f,.036f,.004f},new[]{.024f,.032f,.027f,.003f},6,true);
+    float x=-.176f+lockIndex*.043f,arch=1-Mathf.Abs(x)/.205f,y=.135f+arch*.12f+.015f*Mathf.Sin(lockIndex*2.31f);
+    rear.Sweep(new[]{new Vector3(x-.025f,y+.022f,-.106f),new Vector3(x+.012f,y+.070f,-.165f),new Vector3(x+.027f,y+.012f,-.219f-.015f*Mathf.Sin(lockIndex*1.71f)),new Vector3(x+.013f,-.018f+(lockIndex%3)*.033f,-.243f-.013f*Mathf.Cos(lockIndex*1.23f))},new[]{.044f,.050f,.036f,.004f},new[]{.024f,.032f,.027f,.003f},6);
    }
    for(int side=-1;side<=1;side+=2)for(int lockIndex=0;lockIndex<3;lockIndex++){
     float y=.115f+lockIndex*.048f;
-    rear.Sweep(new[]{new Vector3(side*.158f,y+.072f,.038f),new Vector3(side*.218f,y+.031f,-.048f),new Vector3(side*.235f,y-.018f,-.145f),new Vector3(side*.210f,y-.079f,-.196f)},new[]{.035f,.042f,.031f,.004f},new[]{.024f,.030f,.023f,.003f},6,true);
+    rear.Sweep(new[]{new Vector3(side*.158f,y+.072f,.038f),new Vector3(side*.218f,y+.031f,-.048f),new Vector3(side*.235f,y-.018f,-.145f),new Vector3(side*.210f,y-.079f,-.196f)},new[]{.035f,.042f,.031f,.004f},new[]{.024f,.030f,.023f,.003f},6);
    }
    rear.Finish();
   }

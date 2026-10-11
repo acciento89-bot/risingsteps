@@ -22,7 +22,7 @@ namespace Kamilunavo.RisingSteps.Visuals
     if(sun!=null){sun.color=realm==9?new Color(.68f,.79f,1):realm==7?new Color(1,.79f,.59f):realm==6?new Color(1,.92f,.73f):realm==3?new Color(.92f,1,.85f):new Color(.95f,.99f,1);sun.intensity=realm==9?.76f:realm==4?.82f:.92f;}
    }
    var cloud=new Material(Shader.Find("Rising/Cloud"));cloud.mainTexture=Resources.Load<Texture2D>("Art/CloudBank");cloud.SetColor("_Color",realm==9?new Color(.46f,.54f,.76f,.65f):realm==4?new Color(.58f,.57f,.74f,.66f):realm==7?new Color(.77f,.66f,.67f,.80f):realm==2?new Color(.90f,.82f,.91f,.82f):realm==1?new Color(.92f,.97f,1,.84f):new Color(.97f,.99f,1,.86f));ArtLifetime.Own(parent.gameObject,cloud);
-   for(int i=0;i<9;i++){var go=MeshArt.Mesh(parent,"CloudBank"+i,new[]{new Vector3(-.5f,-.5f,0),new Vector3(.5f,-.5f,0),new Vector3(.5f,.5f,0),new Vector3(-.5f,.5f,0)},new[]{0,1,2,0,2,3},new[]{Vector2.zero,Vector2.right,Vector2.one,Vector2.up},cloud);go.transform.position=i<5?new Vector3((i%2==0?-1:1)*(9+i%3*4),-8+i*.6f,6+i*12):new Vector3((i%2==0?-1:1)*(26+i%3*7),14+i%2*8,48+i*9);go.transform.localScale=i<5?new Vector3(23+i%3*4,13+i%3*2,1):new Vector3(24+i%3*5,9+i%2*3,1);go.AddComponent<CloudBillboard>();}
+   for(int i=0;i<9;i++){var go=MeshArt.Mesh(parent,"CloudBank"+i,new[]{new Vector3(-.5f,-.5f,0),new Vector3(.5f,-.5f,0),new Vector3(.5f,.5f,0),new Vector3(-.5f,.5f,0)},new[]{0,1,2,0,2,3},new[]{Vector2.zero,Vector2.right,Vector2.one,Vector2.up},cloud);go.transform.position=i<5?new Vector3((i%2==0?-1:1)*(9+i%3*4),-8+i*.6f,6+i*12):new Vector3((i%2==0?-1:1)*(26+i%3*7),17+i%2*7,39+i*10);go.transform.localScale=i<5?new Vector3(23+i%3*4,13+i%3*2,1):new Vector3(28+i%3*6,10+i%2*3,1);go.AddComponent<CloudBillboard>();}
    RealmArt.BuildBackdrop(parent,realm);}
  }
 }

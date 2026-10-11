@@ -33,7 +33,7 @@ namespace Kamilunavo.RisingSteps.Visuals
    }
    MeshArt.Mesh(parent,"DaisyPetal",vertices.ToArray(),triangles.ToArray(),null,petal);
   }
-  public static void Tree(Transform parent,Vector3 position,int seed,float scale)
+  public static void Tree(Transform parent,Vector3 position,int seed,float scale,bool distant=false)
   {
    var root=new GameObject("WindTree");root.transform.SetParent(parent,false);root.transform.localPosition=position;root.transform.localScale=Vector3.one*scale;
    bool upright=(seed/4)%2==1;var bark=MeshArt.Stone("MeadowBarkStone",new Color(.40f,.25f,.12f));
@@ -51,26 +51,28 @@ namespace Kamilunavo.RisingSteps.Visuals
     var size=upright?new Vector3(.74f,.94f,.72f):new Vector3(.88f,.85f,.78f);
     size*=.86f+.16f*Mathf.Sin(seed*.7f+cluster*2.1f);
     LeafMass(root.transform,center,size,cluster%3==0?sun:shade,seed*17+cluster);
-    LeafSprigs(root.transform,center,size,sun,seed*17+cluster);
+    // Four silhouette sprigs are enough on far crowns; nearby trees keep
+    // all fourteen leaves. Double-sided leaf faces are the costly part here.
+    LeafSprigs(root.transform,center,size,sun,seed*17+cluster,distant?4:14);
    }
   }
   public static void LeafMass(Transform root,Vector3 center,Vector3 size,Material material,int seed)
   {
-   const int sides=16,rows=9;var v=new List<Vector3>();var t=new List<int>();
+   const int sides=16,rows=9;var v=new List<Vector3>();var uv=new List<Vector2>();var t=new List<int>();
    for(int row=0;row<=rows;row++)for(int i=0;i<=sides;i++){
     float a=(i%sides)*Mathf.PI*2/sides,latitude=row*Mathf.PI/rows;
     float r=row==0||row==rows?0:Mathf.Sin(latitude)*.5f;
     float ragged=1+.12f*Mathf.Sin(a*5+seed+row*.71f)+.075f*Mathf.Cos(a*3-seed*.63f);
     var p=new Vector3(Mathf.Cos(a)*r*ragged,-Mathf.Cos(latitude)*.5f,Mathf.Sin(a)*r*ragged);
-    p.y+=r*.18f*Mathf.Sin(a*3+seed);v.Add(center+Vector3.Scale(p,size));
+    p.y+=r*.18f*Mathf.Sin(a*3+seed);v.Add(center+Vector3.Scale(p,size));uv.Add(new Vector2((float)i/sides*2,(float)row/rows));
     if(row>0&&i<sides){int k=row*(sides+1)+i,lower=k-(sides+1);t.AddRange(new[]{lower,k,lower+1,lower+1,k,k+1});}
    }
-   var foliage=MeshArt.Mesh(root,"LeafCrown",v.ToArray(),t.ToArray(),null,material);LandscapeGeometry.JoinNormals(foliage.GetComponent<MeshFilter>().sharedMesh);
+   var foliage=MeshArt.Mesh(root,"LeafCrown",v.ToArray(),t.ToArray(),uv.ToArray(),material);LandscapeGeometry.JoinNormals(foliage.GetComponent<MeshFilter>().sharedMesh);
   }
-  static void LeafSprigs(Transform root,Vector3 center,Vector3 size,Material material,int seed)
+  static void LeafSprigs(Transform root,Vector3 center,Vector3 size,Material material,int seed,int leafCount)
   {
    var v=new List<Vector3>();var t=new List<int>();
-   for(int leaf=0;leaf<14;leaf++){
+   for(int leaf=0;leaf<leafCount;leaf++){
     float a=leaf*2.39996f+seed*.31f,y=Mathf.Sin(leaf*1.7f+seed)*.35f;
     var radial=new Vector3(Mathf.Cos(a),y,Mathf.Sin(a)).normalized;
     var p=center+Vector3.Scale(radial,size)*.43f;var side=Vector3.Cross(radial,Vector3.up).normalized*.034f;

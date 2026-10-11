@@ -27,6 +27,9 @@ namespace Kamilunavo.RisingSteps.Visuals
    float depth=nominalDepth*(.88f+(float)random.NextDouble()*.24f);
    float[] levels={-1,-.88f,-.66f,-.40f,-.17f,-.035f,.48f,.6f};
    float[] taper=theme switch {
+    RisingRealmTheme.Meadow=>new[]{.055f,.14f,.57f,.83f,.94f,.97f,1,.99f},
+    RisingRealmTheme.Waterfall=>new[]{.055f,.15f,.62f,.89f,.96f,.99f,1,.99f},
+    RisingRealmTheme.Temple=>new[]{.055f,.14f,.56f,.85f,.93f,.97f,1,.99f},
     RisingRealmTheme.Crystal=>new[]{.06f,.19f,.34f,.53f,.69f,.89f,1,.99f},
     RisingRealmTheme.Frost=>new[]{.035f,.11f,.27f,.51f,.77f,.96f,1,.99f},
     RisingRealmTheme.Desert=>new[]{.07f,.20f,.38f,.63f,.82f,.97f,1,.99f},
@@ -40,7 +43,7 @@ namespace Kamilunavo.RisingSteps.Visuals
    for(int j=0;j<levels.Length;j++)for(int i=0;i<=n;i++){
     int point=i%n;bool lip=j>=6;float angle=point*Mathf.PI*2/n,below=1-j/6f;
     float twist=lip?0:.05f*Mathf.Sin(angle*2+phase+j*.41f);
-    float variation=lip?1:1+.11f*Mathf.Sin(angle*3+phase)+.07f*Mathf.Cos(angle*5-phase+j*.31f);
+    float variation=lip?1:1+(realm<3&&j>=2?.16f:.11f)*Mathf.Sin(angle*3+phase)+.07f*Mathf.Cos(angle*5-phase+j*.31f);
     // Local shoulders die away around the side; they never trace a full collar.
     float shoulder=!lip&&j>=3?.08f*Mathf.Pow(Mathf.Max(0,Mathf.Cos(angle-phase-j*.48f)),4):0;
     float r=radius[point]*(taper[j]*variation+shoulder);
@@ -58,11 +61,12 @@ namespace Kamilunavo.RisingSteps.Visuals
    for(int i=0;i<n;i++)triangles.AddRange(new[]{toe,i,i+1});
    var stone=LandscapePalette.Surface(parent,realm);
    var cliff=MeshArt.Mesh(parent,"LimestoneCliff",vertices.ToArray(),triangles.ToArray(),uv.ToArray(),stone);
-   LandscapeGeometry.JoinNormals(cliff.GetComponent<MeshFilter>().sharedMesh);
+   if(realm<3)LandscapeGeometry.FractureNormals(cliff.GetComponent<MeshFilter>().sharedMesh,.57f);
+   else LandscapeGeometry.JoinNormals(cliff.GetComponent<MeshFilter>().sharedMesh);
    // Two unequal longitudinal outcrops, rather than repeated horizontal shelves.
    for(int k=0;k<2;k++){
     float angle=phase+.85f+k*2.25f;float r=radius[(index+k*7)%n]*.56f;
-    var rock=LandscapeGeometry.Rock(parent,"CliffButtress",new Vector3(Mathf.Cos(angle)*r,-.53f-k*.54f,Mathf.Sin(angle)*r),new Vector3(.56f,1.16f+k*.34f,.47f),stone,index*11+k);
+    var rock=LandscapeGeometry.Rock(parent,"CliffButtress",new Vector3(Mathf.Cos(angle)*r,-.53f-k*.54f,Mathf.Sin(angle)*r),new Vector3(realm<3?.72f:.56f,1.16f+k*.34f,realm<3?.59f:.47f),stone,index*11+k);
     rock.transform.localRotation=Quaternion.Euler(11,k*71+index*13,-15+k*27);
    }
   }
@@ -101,18 +105,18 @@ namespace Kamilunavo.RisingSteps.Visuals
    }
    if(index%4==0)LandscapeBotany.Tree(parent,new Vector3(size*.78f,.6f,-size*.42f),index,index==12?.74f:.78f);
   }
-  public static void Waterfall(Transform parent,Vector3 position,int realm,float width=.78f)
+  public static void Waterfall(Transform parent,Vector3 position,int realm,float width=.78f,float fallLength=0)
   {
    var root=new GameObject("Waterfall");root.transform.SetParent(parent,false);root.transform.localPosition=position;
    var outward=new Vector3(position.x,0,position.z);if(outward.sqrMagnitude>.01f)root.transform.localRotation=Quaternion.LookRotation(outward);
    var mat=LandscapePalette.Surface(parent,1,2);var foam=MeshArt.Mat("CascadeFoam",new Color(.88f,.99f,1));
    // Continuous curved curtain, not five unrelated straight luminous wires.
    const int columns=14,rows=12;var v=new List<Vector3>();var uv=new List<Vector2>();var t=new List<int>();
-   float length=3.45f+Mathf.Abs(position.x)*.40f;
+   float length=fallLength>0?fallLength:3.45f+Mathf.Abs(position.x)*.40f;
    for(int row=0;row<=rows;row++)for(int col=0;col<=columns;col++){
     float f=(float)row/rows,u=(float)col/columns,span=width*(1+f*.10f);
-    float x=(u-.5f)*span+.018f*Mathf.Sin(col*1.7f+row*.46f)*f;
-    float curl=.016f+f*f*.31f+.033f*Mathf.Sin(col*.8f+row*.55f)*f;
+    float x=(u-.5f)*span+.022f*Mathf.Sin(col*1.7f+row*.46f)*f;
+    float curl=.016f+f*f*.31f+.046f*Mathf.Sin(col*.8f+row*.55f)*f;
     v.Add(new Vector3(x,-f*length,curl));uv.Add(new Vector2(u,f*2.7f));
     if(row<rows&&col<columns){int k=row*(columns+1)+col;t.AddRange(new[]{k,k+columns+1,k+1,k+1,k+columns+1,k+columns+2});}
    }
@@ -123,6 +127,17 @@ namespace Kamilunavo.RisingSteps.Visuals
    MeshArt.Mesh(root.transform,"WaterRibbon",v.ToArray(),t.ToArray(),uv.ToArray(),mat);
    MeshArt.Oval(root.transform,"CascadeLipFoam",new Vector3(0,.018f,.025f),new Vector3(width*1.03f,.032f,.13f),foam,10);
    for(int drop=0;drop<6;drop++)MeshArt.Oval(root.transform,"CascadeSpray",new Vector3((drop-2.5f)*width*.15f,-length+.05f+(drop%2)*.13f,.32f+Mathf.Sin(drop)*.09f),new Vector3(.09f,.20f,.075f),foam,6);
+   // Four broken foamy rivulets vary in depth; they share the finite foam finish.
+   for(int stream=0;stream<4;stream++){
+    var ribbon=new List<Vector3>();var tex=new List<Vector2>();var faces=new List<int>();
+    for(int row=0;row<=8;row++){
+     float f=row/8f,x=(stream-1.5f)*width*.205f+Mathf.Sin(row*.81f+stream)*width*.026f;
+     float z=.047f+f*f*.31f,w=width*(.006f+.014f*Mathf.Sin(row*.93f+stream)*Mathf.Sin(row*.93f+stream));
+     ribbon.Add(new Vector3(x-w,-length*f,z));ribbon.Add(new Vector3(x+w,-length*f,z));tex.Add(new Vector2(0,f));tex.Add(new Vector2(1,f));
+     if(row<8){int k=row*2;faces.AddRange(new[]{k,k+2,k+1,k+1,k+2,k+3});}
+    }
+    MeshArt.Mesh(root.transform,"CascadeFoamThread",ribbon.ToArray(),faces.ToArray(),tex.ToArray(),foam);
+   }
    root.AddComponent<WaterfallFlow>();
   }
 
