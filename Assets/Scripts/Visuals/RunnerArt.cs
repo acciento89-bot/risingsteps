@@ -9,12 +9,12 @@ namespace Kamilunavo.RisingSteps.Visuals
    var root=new GameObject("HoodieRunner",typeof(RunnerAnimator));root.transform.SetParent(parent,false);
    var animator=root.GetComponent<RunnerAnimator>();
    // All mutable materials and the detail texture belong to this avatar.
-   var skin=Material(root,"RunnerWarmSkin",new Color(.86f,.58f,.36f),.22f);
+   var skin=Material(root,"RunnerWarmSkin",new Color(.92f,.68f,.47f),.16f);
    var pants=Material(root,"RunnerCargoTwill",new Color(.34f,.275f,.185f),.08f);
    var ivory=Material(root,"RunnerIvoryCanvas",new Color(.94f,.955f,.90f),.14f);
    var dark=Material(root,"RunnerSeamsAndEyes",new Color(.055f,.065f,.05f),.12f);
    var green=Material(root,"RunnerHoodie",new Color(.055f,.32f,.17f),.10f);
-   var hair=Material(root,"RunnerChestnutHair",new Color(.27f,.105f,.035f),.14f);
+   var hair=Material(root,"RunnerChestnutHair",new Color(.38f,.16f,.05f),.14f);
    var gold=Material(root,"RunnerPremiumThread",new Color(1,.88f,.39f),.22f);
    var canvas=Material(root,"RunnerTravelCanvas",new Color(.54f,.345f,.165f),.12f);canvas.mainTexture=CanvasDetail(root);
    hair.mainTexture=HairDetail(root);var cloth=CanvasDetail(root);cloth.name="RunnerClothWeave";green.mainTexture=cloth;pants.mainTexture=cloth;animator.Hoodie=green;
@@ -78,7 +78,7 @@ namespace Kamilunavo.RisingSteps.Visuals
    boot.Loft(new[]{footOrigin+new Vector3(0,.010f,.123f),footOrigin+new Vector3(0,.040f,.061f),footOrigin+new Vector3(0,.088f,-.012f),footOrigin+new Vector3(0,.142f,-.061f)},new[]{new Vector2(.043f,.005f),new Vector2(.047f,.009f),new Vector2(.045f,.009f),new Vector2(.04f,.007f)},8,.72f);
    boot.Profile(footOrigin+new Vector3(0,0,-.065f),new[]{-.050f,.030f,.114f,.146f},new[]{.077f,.088f,.085f,.076f},new[]{.060f,.070f,.068f,.060f},12,.72f);
    boot.Profile(footOrigin+new Vector3(0,0,-.065f),new[]{.123f,.144f,.159f},new[]{.083f,.090f,.080f},new[]{.064f,.073f,.060f},12,.70f);boot.Finish();
-   var trim=new RunnerMeshBuilder(knee,"HikingBootLacesAndSole",ivory);
+   var trim=new RunnerMeshBuilder(knee,"HikingBootLacesAndSole",dark);
    trim.Shoe(footOrigin,-.13f,-.090f,0);
    for(int lace=0;lace<4;lace++){float z=-.039f+lace*.033f,y=.124f-lace*.026f;trim.Stitch(footOrigin+new Vector3(-.043f,y,z),footOrigin+new Vector3(.043f,y-.017f,z+.025f),.004f);trim.Stitch(footOrigin+new Vector3(.043f,y,z),footOrigin+new Vector3(-.043f,y-.017f,z+.025f),.004f);}trim.Finish();
    var tread=new RunnerMeshBuilder(knee,"BootTreadAndAnkleTrim",dark);
@@ -109,9 +109,9 @@ namespace Kamilunavo.RisingSteps.Visuals
   static void BuildHead(RunnerAnimator animator,Material skin,Material ivory,Material dark,Material hair)
   {
    animator.Head=Pivot(animator.Hips,"Head",new Vector3(0,.81f,.003f));animator.Head.localRotation=Quaternion.Euler(-2,-5,0);
-   var neck=new RunnerMeshBuilder(animator.Hips,"Neck",skin);neck.Profile(new Vector3(0,0,.008f),new[]{.56f,.65f,.68f},new[]{.071f,.068f,.073f},new[]{.071f,.068f,.073f},12);neck.Finish();
+   var neck=new RunnerMeshBuilder(animator.Hips,"Neck",skin);neck.Profile(new Vector3(0,0,.008f),new[]{.56f,.65f,.68f},new[]{.071f,.068f,.073f},new[]{.071f,.068f,.073f},16);neck.Finish();
    var face=new RunnerMeshBuilder(animator.Head,"FaceSkin",skin);
-   face.Profile(new Vector3(0,0,.015f),new[]{-.215f,-.175f,-.085f,.03f,.12f,.195f,.225f},new[]{.085f,.132f,.181f,.196f,.19f,.151f,.085f},new[]{.066f,.105f,.140f,.157f,.145f,.115f,.06f},16,.9f);face.Finish();
+   face.Profile(new Vector3(0,0,.015f),new[]{-.215f,-.175f,-.085f,.03f,.12f,.195f,.225f},new[]{.085f,.132f,.181f,.196f,.19f,.151f,.085f},new[]{.066f,.105f,.140f,.157f,.145f,.115f,.06f},24,.9f);face.Finish();
    var features=new RunnerMeshBuilder(animator.Head,"FaceFeatures",skin);
    features.Loft(new[]{new Vector3(0,-.082f,.173f),new Vector3(0,-.055f,.203f),new Vector3(0,-.01f,.178f),new Vector3(0,.014f,.165f)},new[]{new Vector2(.025f,.014f),new Vector2(.029f,.024f),new Vector2(.021f,.014f),new Vector2(.013f,.010f)},8);
    for(int side=-1;side<=1;side+=2)features.Pebble(new Vector3(side*.196f,-.028f,-.005f),new Vector3(.067f,.108f,.070f),10);features.Finish();
@@ -133,9 +133,9 @@ namespace Kamilunavo.RisingSteps.Visuals
    // Broad overlapping locks wrap over the occiput. Their tapered tips change
    // the rear contour seen during play, where tiny top ridges were insufficient.
    var rear=new RunnerMeshBuilder(animator.Head,"RearSweptLocks",hair);
-   for(int lockIndex=0;lockIndex<9;lockIndex++){
-    float x=-.176f+lockIndex*.043f,arch=1-Mathf.Abs(x)/.205f,y=.135f+arch*.12f+.015f*Mathf.Sin(lockIndex*2.31f);
-    rear.Sweep(new[]{new Vector3(x-.025f,y+.022f,-.106f),new Vector3(x-.018f,y+.070f,-.165f),new Vector3(x+.044f,y+.012f,-.219f-.015f*Mathf.Sin(lockIndex*1.71f)),new Vector3(x+.070f*arch,-.018f+(lockIndex%3)*.045f,-.243f-.013f*Mathf.Cos(lockIndex*1.23f))},new[]{.044f,.050f,.036f,.004f},new[]{.024f,.032f,.027f,.003f},6);
+   for(int lockIndex=0;lockIndex<6;lockIndex++){
+    float x=-.176f+lockIndex*.070f,arch=1-Mathf.Abs(x)/.205f,y=.135f+arch*.12f+.015f*Mathf.Sin(lockIndex*2.31f);
+    rear.Sweep(new[]{new Vector3(x-.025f,y+.022f,-.106f),new Vector3(x-.018f,y+.070f,-.165f),new Vector3(x+.044f,y+.012f,-.219f-.015f*Mathf.Sin(lockIndex*1.71f)),new Vector3(x+.070f*arch,-.018f+(lockIndex%3)*.045f,-.243f-.013f*Mathf.Cos(lockIndex*1.23f))},new[]{.058f,.069f,.046f,.004f},new[]{.029f,.038f,.032f,.003f},8);
    }
    for(int side=-1;side<=1;side+=2)for(int lockIndex=0;lockIndex<3;lockIndex++){
     float y=.115f+lockIndex*.048f;
@@ -180,9 +180,9 @@ namespace Kamilunavo.RisingSteps.Visuals
   {var material=new Material(Resources.Load<Material>("Materials/Surface")){name=name,color=color};material.SetFloat("_Glossiness",gloss);ArtLifetime.Own(owner,material);return material;}
   static Texture2D HairDetail(GameObject owner)
   {
-   const int size=64;var pixels=new Color[size*size];
-   for(int y=0;y<size;y++)for(int x=0;x<size;x++){float u=(float)x/size,v=(float)y/size;float strand=Mathf.Sin(u*Mathf.PI*24+Mathf.Sin(v*Mathf.PI*2)*.8f),fine=Mathf.Sin(u*Mathf.PI*54+v*Mathf.PI*4);float value=.84f+strand*.09f+fine*.028f;pixels[y*size+x]=new Color(value,value,value,1);}
-   var texture=new Texture2D(size,size,TextureFormat.RGB24,true){name="RunnerHairStrandDetail",wrapMode=TextureWrapMode.Repeat,filterMode=FilterMode.Bilinear};texture.SetPixels(pixels);texture.Apply(true,true);ArtLifetime.Own(owner,texture);return texture;
+   var original=Resources.Load<Texture2D>("Art/HairFlow-v1");
+   if(original==null||!original.isReadable)throw new System.InvalidOperationException("Missing readable original hair artwork");
+   var texture=new Texture2D(original.width,original.height,TextureFormat.RGB24,true){name="RunnerHairStrandDetail",wrapMode=TextureWrapMode.Repeat,filterMode=FilterMode.Bilinear};texture.SetPixels(original.GetPixels());texture.Apply(true,true);ArtLifetime.Own(owner,texture);return texture;
   }
   static Transform Pivot(Transform parent,string name,Vector3 at)
   {var transform=new GameObject(name).transform;transform.SetParent(parent,false);transform.localPosition=at;return transform;}

@@ -150,8 +150,8 @@ namespace Kamilunavo.RisingSteps.Visuals
    // crown. They are static mesh surfaces, with no camera-facing update or collider.
    var cards=new List<Vector3>();var tex=new List<Vector2>();var faces=new List<int>();
    for(int plane=0;plane<3;plane++){
-    float a=plane*Mathf.PI/3+seed*.13f;var side=new Vector3(Mathf.Cos(a),0,Mathf.Sin(a))*size.x*.53f;
-    var up=Vector3.up*size.y*.46f;var c=center+Vector3.up*size.y*.04f;
+    float a=plane*Mathf.PI/3+seed*.13f;var side=new Vector3(Mathf.Cos(a),0,Mathf.Sin(a))*size.x*(leafCount==48?.60f:.70f);
+    var up=Vector3.up*size.y*(leafCount==48?.52f:.60f);var c=center+Vector3.up*size.y*.04f;
     var corners=new[]{c-side-up,c+side-up,c+side+up,c-side+up};
     for(int face=0;face<2;face++){int k=cards.Count;cards.AddRange(corners);tex.AddRange(new[]{Vector2.zero,Vector2.right,Vector2.one,Vector2.up});faces.AddRange(face==0?new[]{k,k+1,k+2,k,k+2,k+3}:new[]{k,k+2,k+1,k,k+3,k+2});}
    }

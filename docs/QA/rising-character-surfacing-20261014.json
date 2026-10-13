@@ -1,0 +1,55 @@
+{
+  "sourceSha256": "b57ffa0a54d53e8617dc95adc7f203ebf0225b353d8ce42e55f5757727cc7e09",
+  "editorBuildExit": 0,
+  "buildLog": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/character-final-build.log",
+  "runnerBudget": {
+    "vertices": 5429,
+    "triangles": 9092,
+    "activeRenderers": 31,
+    "materials": 8,
+    "textures": 3,
+    "maxTextureSize": 64
+  },
+  "nativeChecks": {
+    "CharacterRuntime": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/CharacterRuntime/PASS.txt",
+      "result": "RISING_TEN_WORLD_PREVIEW_PASS checks=81 actual60controllerjumps/tenworlds; isolated fixture unlocks for visual review only;100course acceptance remains pending"
+    },
+    "CharacterCamera": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/CharacterCamera/PASS.txt",
+      "result": "RISING_CAMERA_PASS 147"
+    },
+    "CharacterTutorial": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/CharacterTutorial/PASS.txt",
+      "result": "RISING_TUTORIAL_PASS 11"
+    }
+  },
+  "unchangedEarnedCampaignDependencies": {
+    "Assets/Scripts/Visuals/IslandArt.cs": "f7fd7cf020ef049c254340450ca5df449f3f18683fe190f2e984dcc284130aa0",
+    "Assets/Scripts/Gameplay/RisingCourse.cs": "deca26959b6ec7c5b3ba4e198e4b91f3f2699460c8903bc88bd1f6d937480bb9",
+    "Assets/Scripts/Gameplay/PlayerMotor.cs": "e44263fa6accdc57fd040d1ac14c928a2ea41b2ca569d4497156b17e147e5370",
+    "Assets/Scripts/Core/RisingCampaign.cs": "da2d17f2de2781d5a7f8360d8280415511d13f63ff2dc9c0858a8d86e694cf23",
+    "Assets/Scripts/Core/RisingRules.cs": "8df277ff223616e22b2247c7ee3323dcbce2477d47b0f33733482bd05d165f67",
+    "Assets/Scripts/Visuals/PortalArt.cs": "89dfabcffc5fcf704992b34260a5a3c6a767266a400c88c193153c914b3a68e5"
+  },
+  "earned100CourseProofSource": "8375be601bffb831ee36b0f000e3241b36382918a1f1769e8ceb8ab7dc8f288e",
+  "fullCampaignOnThisNewSource": false,
+  "review": "Read-only focused reviewer found no material issue",
+  "hairArtwork": {
+    "generator": "built-in image_gen",
+    "prompt": "Use case: stylized-concept. Asset type: original seamless neutral grayscale albedo atlas for hair on an authored 3D Unity boy adventurer mesh. Square texture, flat orthographic view, medium light neutral grey base around eighty percent brightness. Layered flowing soft broad curved hair locks in a lively swept direction with fine understated strand grain and gentle curved S-shaped flow. Premium stylized animated 3D game surfacing. Low contrast soft gradients, neither hard dark grooves nor straight pasta-like parallel bands. No hair silhouette, no human head, no scalp, no skin, no objects or background; the entire image is only repeating grayscale hair surface microdetail. No directional lighting, cast shadows, specular highlights, black outlines, text or watermark. Must tile seamlessly at all edges. Brown color is supplied by the Unity material, so keep all channels neutral grayscale.",
+    "role": "Prepared grayscale mesh albedo, not a character model or gameplay screenshot",
+    "preparedPath": "/Volumes/SSK SSD/Kamilunavo/Artifacts/RisingCharacterPrep-20261014/HairFlow-v1.png",
+    "unityIntegration": "after frozen geometry campaign",
+    "unityPath": "Assets/Resources/Art/HairFlow-v1.png",
+    "sha256": "4d79cc0d71a50a1848dfed01fe5fcafd09f23922784da61e9df09b04414689a7",
+    "runtimeImport": {
+      "maxSize": 64,
+      "readable": true,
+      "wrap": "repeat"
+    },
+    "ownership": "Immutable Resource is copied into owner-released RGB24 texture; strict existing64square budget unchanged"
+  },
+  "visualAcceptance": "failed; not90percent",
+  "physicalDeviceOrFPS": false
+}

@@ -11,6 +11,7 @@ public static class RisingArtImports
   ImportOriginal("Assets/Resources/Art/MeadowChapter-v2.png",1024,false,false);
   ImportOriginal("Assets/Resources/Art/CascadeChapter-v2.png",1024,false,false);
   ImportOriginal("Assets/Resources/Art/CanopyLeaves-v1.png",256,true,false);
+  ImportOriginal("Assets/Resources/Art/HairFlow-v1.png",64,true,true);
   var leaves=AssetImporter.GetAtPath("Assets/Resources/Art/CanopyLeaves-v1.png") as TextureImporter;leaves.alphaIsTransparency=true;leaves.SaveAndReimport();Create("CanopySurface","Kamilunavo/RisingCanopy");
   Create("PortalLight","Kamilunavo/RisingPortal");
   var icon=AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Resources/Art/RisingStepsIcon.png");if(icon!=null)PlayerSettings.SetIconsForTargetGroup(BuildTargetGroup.Unknown,new[]{icon});AssetDatabase.SaveAssets();}

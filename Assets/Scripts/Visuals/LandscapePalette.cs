@@ -71,8 +71,8 @@ namespace Kamilunavo.RisingSteps.Visuals
    var texture=new Texture2D(width,height,TextureFormat.RGB24,true){name=kind==0?"LandscapeMineralAtlas":kind==1?"LandscapeTurfAtlas":kind==3?"LandscapeSandAtlas":kind==4?"LandscapeIceAtlas":kind==5?"LandscapePoolCaustics":kind==6?"LandscapeMossAtlas":"LandscapeWaterAtlas",wrapMode=TextureWrapMode.Repeat,filterMode=FilterMode.Bilinear,anisoLevel=2};
    texture.SetPixels(pixels);texture.Apply(true,true);ArtLifetime.Own(gameObject,texture);return texture;
   }
-  private static readonly Color[] Mineral={new(.91f,.91f,.83f),new(.93f,.95f,.89f),new(.93f,.76f,.51f),new(.43f,.49f,.31f),new(.32f,.29f,.46f),new(.58f,.67f,.75f),new(.83f,.55f,.29f),new(.27f,.25f,.29f),new(.87f,.88f,.77f),new(.34f,.38f,.61f)};
-  private static readonly Color[] Ground={Color.white,new(.93f,.95f,.89f),new(.93f,.76f,.51f),new(.54f,.77f,.48f),new(.48f,.43f,.62f),new(.97f,.99f,1),new(.96f,.77f,.45f),new(.29f,.27f,.29f),new(.99f,.92f,.69f),new(.49f,.52f,.70f)};
+  private static readonly Color[] Mineral={new(.91f,.91f,.83f),new(.78f,.81f,.78f),new(.84f,.68f,.47f),new(.43f,.49f,.31f),new(.32f,.29f,.46f),new(.58f,.67f,.75f),new(.83f,.55f,.29f),new(.27f,.25f,.29f),new(.87f,.88f,.77f),new(.34f,.38f,.61f)};
+  private static readonly Color[] Ground={Color.white,new(.78f,.81f,.78f),new(.84f,.68f,.47f),new(.54f,.77f,.48f),new(.48f,.43f,.62f),new(.97f,.99f,1),new(.96f,.77f,.45f),new(.29f,.27f,.29f),new(.99f,.92f,.69f),new(.49f,.52f,.70f)};
   private static readonly Color[] Leaves={new(.25f,.43f,.16f),new(.33f,.49f,.23f),new(.38f,.34f,.20f),new(.12f,.38f,.20f),new(.25f,.36f,.49f),new(.18f,.35f,.33f),new(.26f,.46f,.26f),new(.24f,.24f,.25f),new(.23f,.49f,.36f),new(.28f,.33f,.56f)};
   private static readonly Color[] Accent={new(.50f,.35f,.16f),new(.45f,.58f,.55f),new(.88f,.63f,.25f),new(.31f,.23f,.12f),new(.47f,.34f,.74f),new(.63f,.85f,.95f),new(.94f,.65f,.34f),new(.31f,.29f,.32f),new(.54f,.36f,.20f),new(.72f,.78f,.93f)};
   // Height sampled from the original albedo becomes real lighting response, not painted
