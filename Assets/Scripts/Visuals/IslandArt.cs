@@ -63,6 +63,7 @@ namespace Kamilunavo.RisingSteps.Visuals
    var cliff=MeshArt.Mesh(parent,"LimestoneCliff",vertices.ToArray(),triangles.ToArray(),uv.ToArray(),stone);
    if(realm<3)LandscapeGeometry.FractureNormals(cliff.GetComponent<MeshFilter>().sharedMesh,.57f);
    else LandscapeGeometry.JoinNormals(cliff.GetComponent<MeshFilter>().sharedMesh);
+   if(realm<3)LandscapeGeometry.MineralPlates(parent,radius,index,stone);
    // Two unequal longitudinal outcrops, rather than repeated horizontal shelves.
    for(int k=0;k<2;k++){
     float angle=phase+.85f+k*2.25f;float r=radius[(index+k*7)%n]*.56f;
@@ -76,7 +77,7 @@ namespace Kamilunavo.RisingSteps.Visuals
    var vertices=(Vector3[])fan.Clone();var uv=(Vector2[])originalUv.Clone();
    for(int i=0;i<vertices.Length;i++){vertices[i].y+=.002f;uv[i]*=realm==0?3.2f:2.0f;}
    ground.GetComponent<Renderer>().enabled=false;
-   MeshArt.Mesh(parent,"LandscapeTerrainFinish",vertices,triangles,uv,LandscapePalette.Surface(parent,realm,realm==0||realm>=3?1:0));
+   var finish=MeshArt.Mesh(parent,"LandscapeTerrainFinish",vertices,triangles,uv,LandscapePalette.Surface(parent,realm,realm==0||realm>=3?1:0));finish.GetComponent<MeshFilter>().sharedMesh.RecalculateTangents();
    if(realm!=0&&realm!=3&&realm!=5&&realm!=8)return;
    var v=new List<Vector3>();var t=new List<int>();var tex=new List<Vector2>();const int n=24;
    for(int ring=0;ring<3;ring++)for(int i=0;i<=n;i++){

@@ -10,9 +10,10 @@ namespace Kamilunavo.RisingSteps.Visuals
  [ExecuteAlways] public sealed class LandscapePalette:MonoBehaviour
  {
   private readonly Dictionary<int,Material> _materials=new();
-  private Texture2D _mineral,_turf,_water,_sand,_ice,_pool,_moss;
+  private Texture2D _mineral,_turf,_water,_sand,_ice,_pool,_mineralNormal;
   public static Material Pool(Transform parent)=>Owner(parent).Special(100);
   public static Material Moss(Transform parent)=>Owner(parent).Special(101);
+  public static Material Canopy(Transform parent)=>Owner(parent).Special(102);
   public static Material Surface(Transform parent,int realm,int kind=0)
   {
    realm=(int)RisingRealmCatalog.Theme(realm);kind=Mathf.Clamp(kind,0,7);
@@ -33,19 +34,16 @@ namespace Kamilunavo.RisingSteps.Visuals
   }
   private Texture2D Texture(int kind)
   {
+   if(kind==0){
+    var asset=Resources.Load<Texture2D>("Art/AuthoredLimestoneAlbedo-v2");
+    if(asset==null||!asset.isReadable||asset.width!=256||asset.height!=256)throw new System.InvalidOperationException("Original limestone albedo must be imported readable at256 square");
+    var authored=new Texture2D(256,256,TextureFormat.RGB24,true){name="LandscapeMineralAtlas",wrapMode=TextureWrapMode.Repeat,filterMode=FilterMode.Bilinear,anisoLevel=2};
+    authored.SetPixels(asset.GetPixels());authored.Apply(true,true);ArtLifetime.Own(gameObject,authored);return authored;
+   }
    int width=kind==0?256:128,height=kind==2?256:width;var pixels=new Color[width*height];
    for(int y=0;y<height;y++)for(int x=0;x<width;x++){
     float u=(float)x/width,v=(float)y/height,broad=Noise(u*5,v*5,5),grain=Noise(u*37,v*37,37);
-    if(kind==0){
-     // Interrupted veins and broad mineral deposits, not outlined repeated polygon cells.
-     float bend=Mathf.Sin(v*6.28318f)*.36f+Mathf.Sin(v*18.8495f+u*6.28318f)*.12f;
-     float fissure=Mathf.Abs(Mathf.Sin(u*12.56637f+bend));float cut=(1-Mathf.Clamp01(fissure/.032f))*Mathf.Clamp01((broad-.36f)*4);
-     float deposits=Noise(u*13+.7f,v*13+.4f,13);
-     float bedding=.5f+.5f*Mathf.Sin(v*50.26548f+bend*.8f);
-     float sediment=Mathf.Pow(1-bedding,10)*(.30f+.70f*deposits);
-     float value=.91f+(broad-.5f)*.17f+(deposits-.5f)*.13f+(grain-.5f)*.045f-cut*.26f-sediment*.13f;
-     pixels[y*width+x]=new Color(value,value*(.98f+broad*.02f),value*(.94f+deposits*.04f));
-    }else if(kind==1){
+    if(kind==1){
      pixels[y*width+x]=Color.Lerp(new Color(.32f,.49f,.19f),new Color(.58f,.70f,.34f),broad*.70f+grain*.20f);
     }else if(kind==3){
      float ripple=.5f+.5f*Mathf.Sin(v*125.6637f+Mathf.Sin(u*12.56637f)*.55f);float value=.82f+broad*.10f+ripple*.035f+grain*.025f;
@@ -77,18 +75,42 @@ namespace Kamilunavo.RisingSteps.Visuals
   private static readonly Color[] Ground={Color.white,new(.93f,.95f,.89f),new(.93f,.76f,.51f),new(.54f,.77f,.48f),new(.48f,.43f,.62f),new(.97f,.99f,1),new(.96f,.77f,.45f),new(.29f,.27f,.29f),new(.99f,.92f,.69f),new(.49f,.52f,.70f)};
   private static readonly Color[] Leaves={new(.25f,.43f,.16f),new(.33f,.49f,.23f),new(.38f,.34f,.20f),new(.12f,.38f,.20f),new(.25f,.36f,.49f),new(.18f,.35f,.33f),new(.26f,.46f,.26f),new(.24f,.24f,.25f),new(.23f,.49f,.36f),new(.28f,.33f,.56f)};
   private static readonly Color[] Accent={new(.50f,.35f,.16f),new(.45f,.58f,.55f),new(.88f,.63f,.25f),new(.31f,.23f,.12f),new(.47f,.34f,.74f),new(.63f,.85f,.95f),new(.94f,.65f,.34f),new(.31f,.29f,.32f),new(.54f,.36f,.20f),new(.72f,.78f,.93f)};
+  // Height sampled from the original albedo becomes real lighting response, not painted
+  // dark lines. Our shader explicitly decodes uncompressed linear XYZ/1,
+  // avoiding target-specific imported normal packing (RGB, RG/AG or ASTC).
+  private static float MineralRelief(Texture2D asset,float u,float v)=>asset.GetPixelBilinear(u,v).grayscale;
+  private void MineralLighting(Material material)
+  {
+   if(_mineralNormal==null){
+   const int size=256;const float delta=1f/size;var pixels=new Color[size*size];var asset=Resources.Load<Texture2D>("Art/AuthoredLimestoneAlbedo-v2");
+    for(int y=0;y<size;y++)for(int x=0;x<size;x++){
+     float u=x*delta,v=y*delta;
+     float dx=(MineralRelief(asset,u+delta,v)-MineralRelief(asset,u-delta,v))*size*.012f;
+     float dy=(MineralRelief(asset,u,v+delta)-MineralRelief(asset,u,v-delta))*size*.012f;
+     var normal=new Vector3(-dx,-dy,1).normalized;pixels[y*size+x]=new Color(normal.x*.5f+.5f,normal.y*.5f+.5f,normal.z*.5f+.5f,1);
+    }
+    _mineralNormal=new Texture2D(size,size,TextureFormat.RGBA32,true,true){name="LandscapeMineralNormal",wrapMode=TextureWrapMode.Repeat,filterMode=FilterMode.Bilinear,anisoLevel=2};
+    _mineralNormal.SetPixels(pixels);_mineralNormal.Apply(true,true);ArtLifetime.Own(gameObject,_mineralNormal);
+   }
+   material.SetTexture("_BumpMap",_mineralNormal);material.SetFloat("_BumpScale",.65f);
+  }
   private Material Special(int key)
   {
    if(_materials.TryGetValue(key,out var existing))return existing;
+   if(key==102){var canopy=new Material(Resources.Load<Material>("Materials/CanopySurface")){name="LandscapeCanopyCutout"};var leaves=Object.Instantiate(Resources.Load<Texture2D>("Art/CanopyLeaves-v1"));leaves.name="LandscapeCanopyLeaves";canopy.mainTexture=leaves;ArtLifetime.Own(gameObject,leaves);ArtLifetime.Own(gameObject,canopy);_materials.Add(key,canopy);return canopy;}
    var material=new Material(Resources.Load<Material>("Materials/Surface")){name=key==100?"Landscape1PoolSurface":"Landscape1MossSurface",color=Color.white};
    if(key==100){if(_pool==null)_pool=Texture(5);material.mainTexture=_pool;material.SetFloat("_Glossiness",.52f);}
-   else{if(_moss==null)_moss=Texture(6);material.mainTexture=_moss;material.SetFloat("_Glossiness",.025f);}
+   // Modeled moss/fronds use a restrained solid finish. The original cutout
+   // replaces the former noise texture within the unchanged five-texture budget.
+   else{material.color=new Color(.33f,.48f,.19f);material.SetFloat("_Glossiness",.025f);}
    ArtLifetime.Own(gameObject,material);_materials.Add(key,material);return material;
   }
   private Material Get(int realm,int kind)
   {
    int key=realm*8+kind;if(_materials.TryGetValue(key,out var existing))return existing;
-   var material=new Material(Resources.Load<Material>("Materials/Surface")){name="Landscape"+realm+"Surface"+kind};
+   bool mineralLighting=realm<3&&(kind==0||kind==1&&realm!=0);
+   // The serialized resource retains our explicit linear RGB normal shader.
+   var material=new Material(Resources.Load<Material>(mineralLighting?"Materials/MineralSurface":"Materials/Surface")){name="Landscape"+realm+"Surface"+kind};
    if(kind==0){if(_mineral==null)_mineral=Texture(0);material.mainTexture=_mineral;material.color=Mineral[realm];}
    else if(kind==1){
     material.color=Ground[realm];
@@ -106,6 +128,7 @@ namespace Kamilunavo.RisingSteps.Visuals
     material.EnableKeyword("_EMISSION");material.SetColor("_EmissionColor",material.color*(realm==7?.85f:.36f));
    }
    material.SetFloat("_Glossiness",kind==2?.44f:realm==4&&kind>=5?.42f:realm==5&&kind==5?.57f:.07f);
+   if(mineralLighting)MineralLighting(material);
    ArtLifetime.Own(gameObject,material);_materials.Add(key,material);return material;
   }
  }

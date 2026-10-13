@@ -36,6 +36,35 @@ namespace Kamilunavo.RisingSteps.Visuals
    for(int i=0;i<heights.Length;i++){centers[i]=origin+Vector3.up*heights[i];radii[i]=new Vector2(widths[i],depths[i]);}
    Loft(centers,radii,sides,roundness);
   }
+  // Shallow inset folds run through the authored cloth profile. The original
+  // radii remain the outer envelope; no joint, body size or animation changes.
+  public void FabricProfile(Vector3 origin,float[] heights,float[] widths,float[] depths,int sides=16,float phase=0)
+  {
+   int start=_vertices.Count;Profile(origin,heights,widths,depths,sides,.79f);
+   for(int ring=0;ring<heights.Length;ring++)for(int side=0;side<=sides;side++){
+    int k=start+ring*(sides+1)+side;float a=side*Mathf.PI*2/sides,f=ring/(float)(heights.Length-1);
+    float crease=Mathf.Pow(.5f+.5f*Mathf.Sin(a*5+phase+f*.85f),3);
+    float inset=(.006f+.004f*Mathf.Sin(f*Mathf.PI))*crease*Mathf.Sin(f*Mathf.PI);
+    var p=_vertices[k];p.x-=Mathf.Cos(a)*inset;p.z-=Mathf.Sin(a)*inset;_vertices[k]=p;
+   }
+  }
+  public void FoldedHood()
+  {
+   const int columns=12;float[] heights={.62f,.605f,.545f,.47f,.425f},widths={.11f,.17f,.18f,.14f,.045f},depths={-.12f,-.17f,-.193f,-.17f,-.15f};
+   var points=new Vector3[heights.Length*(columns+1)];
+   for(int row=0;row<heights.Length;row++)for(int col=0;col<=columns;col++){
+    float u=col/(float)columns*2-1;points[row*(columns+1)+col]=new Vector3(u*widths[row],heights[row]+u*u*.016f,depths[row]+u*u*.022f+Mathf.Cos(u*Mathf.PI*3)*.007f);
+   }
+   // Independent back surface prevents opposite cloth faces cancelling normals.
+   for(int face=0;face<2;face++){
+    int start=_vertices.Count;_vertices.AddRange(points);
+    for(int row=0;row<heights.Length;row++)for(int col=0;col<=columns;col++)_uv.Add(new Vector2(col/(float)columns,row/(float)(heights.Length-1)));
+    for(int row=0;row<heights.Length-1;row++)for(int col=0;col<columns;col++){
+     int a=start+row*(columns+1)+col,b=a+columns+1;
+     _indices.AddRange(face==0?new[]{a,b,a+1,a+1,b,b+1}:new[]{a,a+1,b,a+1,b+1,b});
+    }
+   }
+  }
   // A path sweep gives a draped hood, bent fingers and authored seams a continuous
   // contour. The cross section follows the path, rather than world vertical.
   public void Sweep(Vector3[] path,float[] widths,float[] depths,int sides=8,bool faceted=false)

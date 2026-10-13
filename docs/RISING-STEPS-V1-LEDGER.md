@@ -334,3 +334,21 @@ Richer cliff shoulders, caustic pools, hanging moss, Temple masonry, visible lay
 Mac build exit0; graphics326802 (maxIsland10803/maxHorizon42912); fresh native81 checks/60 actual controller jumps across10 realms exit0. The100-level earned traversal was not rerun for this art-only slice.
 
 Sparse vegetation, washed cliff surfaces, empty sky composition and simplified runner anatomy still fall short of the Concept. **Visual gate stays FAILED; no TestFlight.** Exact proof/capture paths and remaining gaps: `docs/GRAPHICS-COMPARISON-20261011.md`.
+
+
+## 2026-10-11 — original authored asset pass and actual Concept evidence
+
+Original tailored tunic/hood, leather backpack/hardware, boot tongues/laces and swept hair; irregular upper mineral shoulders, folded waterfall ferns/vines and Temple herbs; owned linear mineral normal with explicit RGB Standard surface decoder. Original imagegen limestone albedo (unmodified source copied to project,256square repeat/readable importer); owned normals derive from that same surface.
+
+Final Mac aggregate/build exit0; graphics399217/maxIsland16660/maxHorizon42912; runner5403 vertices/9004 triangles and31 default/32 premium batches; actual Mac81 checks/60controller jumps across10worlds exit0. No full100-course rerun or physical mobile performance claim.
+
+Sparse vegetation, empty sky composition, repeated circular island tops and simplified actor anatomy/hair remain below the approved board; the original limestone albedo improves the former crumpled white surface. **Visual acceptance stays FAILED. No TestFlight or version bump.** Exact proof/scene-source digests: `docs/GRAPHICS-COMPARISON-20261011.md`; provenance: `docs/ORIGINAL-ASSETS-20261011.md`. User-deleted historical Concept PNG remains unstaged.
+
+
+## 2026-10-14 — original assets and coordinated native graphics pass
+
+Public Drop12 and Floor6 are submitted with all3IAPs each and verified WAITING_FOR_REVIEW; user authorizes next Rising work aiming approximate90–95% and own assets. One game at a time. Rising now has5new original bitmap assets, authored alpha-cut layered crown geometry, denser folded leaves/flowers/vines, layered horizon placement, quiet original stone normal, forest-green runner/rear-lock refinement, Cinzel menu titles/gold shader finish and original running/eye/pause glyphs. All live input/navigation callbacks, course centers/colliders, economy/profile/store/version unchanged.
+
+Final exact source db6ca5e1de7c8535a1a432a164aca8e1e198f9d03e3eea7734ebe8c75b7d50d3; actual Editor aggregate/Mac build exit0, graphics548793checks/maxRoute29219/maxHorizon67205, runner5403vertices/9004triangles/31batches. Strict material/texture/geometry limits retained; texture-owner and readable/shader-property failures preserved then corrected. Final actual10worlds81checks/60controller jumps, camera147 and tutorial11 all pass; independent read-only review found no important issue. No physical-device/provider or newfull100traversal claim. Detailed source-bound receipts/provenance and actual comparison docs/GRAPHICS-COMPARISON-20261014.md.
+
+**Visual gate stays FAILED**: current garden density, uniform round caps, faceted cliffs and simplified actor/atmosphere remain below the requested Concept. No numerical90% claim, no TestFlight/version bump. Original user Concept deletion remains unstaged.

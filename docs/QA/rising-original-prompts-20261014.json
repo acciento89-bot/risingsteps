@@ -1,0 +1,37 @@
+{
+  "generator": "Built-in image_gen",
+  "purpose": "Original menu hero and actual mesh albedo; no illustrative gameplay substitution",
+  "prompts": {
+    "hero": "Use case: stylized-concept. Asset type: original Unity menu hero illustration, square composition. Create an exceptionally polished warm fantasy adventure illustration for Rising Steps. A small brown-haired boy adventurer seen from behind and three-quarter side, wearing a forest-green short sleeved hooded jacket, brown hiking shorts, substantial brown leather boots and a detailed tan leather backpack, standing on a pale limestone floating island with daisies and lush perimeter plants, looking up toward a thick golden masonry portal on a distant island. Closer waterfalls and clear turquoise shallow pools, layered sheer pale mineral cliffs, suspended islands receding through soft bright atmospheric clouds. Cohesive premium stylized 3D animated film look, believable carved stone and leaves, warmly lit clear sunny blue sky, refined materials. Boy fills about lower middle third, entire figure visible, arch clear upper right, welcoming optimistic mood. No text, no logo, no interface, no border, no watermark. This is a menu illustration, never represented as actual gameplay.",
+    "limestone": "Use case: stylized-concept. Asset type: seamless original albedo texture for a mobile Unity fantasy limestone cliff material, square. Top-down orthographic scan of pale warm ivory limestone, large softly eroded mineral beds, restrained fine hairline weathering, subtle ochre deposits, warm chalk surface with low contrast muted grey-beige fissures. Handcrafted premium stylized 3D game material, calm broad readable forms, gentle stone grain, no busy crumpled foil or harsh black cracks. Perfectly flat evenly lit base-color texture, seamless repeating edges, no directional lighting, no shadows, no baked highlights, no perspective, no sky, no vegetation, no objects, no text, no border. Surface should be around 80 percent light beige with quiet variation and only sparse delicate cracks. Will be used as actual 3D mesh material and derive gentle normal response."
+  },
+  "additionalPrompts": {
+    "meadow": "Use case: stylized-concept. Asset type: original horizontal 3:2 Unity world-selection illustration for Rising Steps Meadow Sky. An inviting premium stylized 3D animated fantasy landscape of green meadow floating islands with pale ivory sheer limestone sides, large leafy curved deciduous trees, daisies and rich edge vegetation. Clear successive jumping islands ascend toward a thick golden masonry portal, bright blue sky and soft voluminous white clouds. Foreground wide landing cap framed by grass and white flowers, distant smaller sky islands for scale, warm sunlight, detailed believable stone and natural broad leaf crowns. Absolutely no waterfalls, no ponds, no temple ruins, no characters, no text, no UI, no watermark. Composition optimized for a rectangular menu thumbnail with the main green islands and leafy tree centered and wide; crisp readable silhouettes and moderate atmospheric distance. This illustration is only a menu asset, not actual gameplay evidence.",
+    "cascade": "Use case: stylized-concept. Asset type: original horizontal 3:2 Unity world-selection illustration for Rising Steps Waterfall Realm. Premium stylized 3D animated fantasy of a lush suspended water garden. Broad sheer pale ivory limestone floating cliffs with terraced turquoise shallow pools, lily pads and white water lilies, distinct reeds and trailing lush vines. Three beautiful wide layered waterfalls spill from side basins between cliffs, stepping islands ascend to a thick carved masonry arch across the sky. Bright blue sky with soft voluminous clouds, clear water caustics and gentle spray, warm sunlight, natural rich broadleaf willow crowns on distant terraces, detailed calm eroded stone. Foreground water terrace and reeds form a frame; main waterfalls centered for a rectangular cropped menu card. No grass meadow, no purple banners, no characters, no text, no interface, no watermark. Welcoming adventure, remarkable sculpted landscape depth. This is a menu illustration only, never actual gameplay evidence."
+  },
+  "canopyPrompt": "Use case: stylized-concept. Asset type: genuine transparent cutout foliage texture for crossed 3D canopy cards in a Unity mobile fantasy game. An isolated dense natural cluster of small broad deciduous leaves, premium stylized 3D animated film realism. Lush soft rounded yet irregular crown composed of hundreds of overlapping individual oak-like leaves, deeper forest green inside, vibrant olive and sunlit yellow-green tips, rich believable leaf shading. Shape a loose roughly oval cloud of foliage wider than tall with small realistic gaps and ragged leaf edges, subtle several fine brown twigs only INSIDE the crown, no outside branches or trunk. Neutral pleasant daylight with restrained depth shading, sharp leaf details and attractive rich texture readable at mobile size. Center the entire crown with clear transparent padding all around. Exactly one foliage cluster, no ground, no landscape, no sky, no pot, no text, no watermark, no contact shadow. Background must be truly alpha transparent.",
+  "files": {
+    "canopy": "Assets/Resources/Art/CanopyLeaves-v1.png",
+    "meadow": "Assets/Resources/Art/MeadowChapter-v2.png",
+    "cascade": "Assets/Resources/Art/CascadeChapter-v2.png",
+    "hero": "Assets/Resources/Art/SkyAtlasHero-v2.png",
+    "limestone": "Assets/Resources/Art/AuthoredLimestoneAlbedo-v2.png"
+  },
+  "import": {
+    "heroMaxSize": 1024,
+    "limestoneMaxSize": 256,
+    "limestoneReadable": true,
+    "canopyMaxSize": 256,
+    "preservedOriginalAlpha": true,
+    "fullResolutionSourcesRetained": true,
+    "canopyReadable": true,
+    "canopyOwnedCopy": true
+  },
+  "sha256": {
+    "canopy": "3f89f5508ff949baa0b1933b8b3f792c3fb78d18f8652ab3912c0e988d23c1a6",
+    "meadow": "ae986171ae616cffb54f6f68daccbab48db35fce7353e7ba9187e0d005cda2dc",
+    "cascade": "78b81ed945dfad470757db5e5f318e45af7f6512dcd63e9fdcf17c139521e139",
+    "hero": "e7ed75e5ab4291194ee3decff756041b39d89bb907021e113c2dd1e237c316c5",
+    "limestone": "ebcae88cb2d8832ff9a8df2434c9ee184334af4525085932cef0a0eb9d9a82e7"
+  }
+}

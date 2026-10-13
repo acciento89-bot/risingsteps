@@ -6,7 +6,8 @@ namespace Kamilunavo.RisingSteps.UI
 {
     public static class UiFactory
     {
-        public static bool HighContrast;private static Sprite _white;private static Font _font;
+        public static bool HighContrast;private static Sprite _white;private static Font _font,_display;
+        public static Font DisplayFont=>_display!=null?_display:(_display=Resources.Load<Font>("Fonts/Cinzel-Regular")??Font);
         public static Font Font=>_font!=null?_font:(_font=Resources.Load<Font>("Fonts/Barlow-Regular")??Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf"));
         public static Canvas Canvas(){var go=new GameObject("MobileCanvas",typeof(Canvas),typeof(CanvasScaler),typeof(GraphicRaycaster));var c=go.GetComponent<Canvas>();c.renderMode=RenderMode.ScreenSpaceOverlay;var s=go.GetComponent<CanvasScaler>();s.uiScaleMode=CanvasScaler.ScaleMode.ScaleWithScreenSize;s.referenceResolution=Screen.width>Screen.height?new Vector2(844,390):new Vector2(390,844);go.AddComponent<CanvasOrientation>();c.additionalShaderChannels|=AdditionalCanvasShaderChannels.TexCoord1;s.screenMatchMode=CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;s.matchWidthOrHeight=.5f;return c;}
         public static RectTransform Panel(Transform p,string n,Color c,Vector2 min,Vector2 max){var go=new GameObject(n,typeof(RectTransform),typeof(CanvasRenderer),typeof(RoundedPanel));go.transform.SetParent(p,false);var r=go.GetComponent<RectTransform>();r.anchorMin=min;r.anchorMax=max;r.offsetMin=Vector2.zero;r.offsetMax=Vector2.zero;if(HighContrast&&c.a>.1f)c.a=1;go.GetComponent<Image>().color=c;go.GetComponent<Image>().raycastTarget=c.a>.01f;return r;}

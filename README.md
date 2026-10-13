@@ -3,7 +3,7 @@
 Native iOS + Android fantasy sky-platform game by Kamilunavo.
 
 ## Product
-Climb a chain of glowing floating islands toward a portal in the sky. Each realm has 12 steps. The player earns crystals and unlocks visual styles while maintaining a clear mobile-first route.
+Climb a chain of glowing floating islands toward a portal in the sky. The campaign has 10 distinct realms with 10 levels each; each level is a 12-step course. The player earns crystals and unlocks visual styles while maintaining a clear mobile-first route.
 
 ## Platforms
 - iOS
@@ -17,12 +17,12 @@ Climb a chain of glowing floating islands toward a portal in the sky. Each realm
 - Android: `com.kamilunavo.risingsteps`
 
 ## Current vertical slice
-- 12-step fantasy climb
+- 100 individually named/reachable courses across 10 realms, each with 12 steps
 - touch joystick + jump
 - player-controlled View-pad camera
 - instant fall recovery
 - Height / crystal HUD
-- illustrated sky-atlas menu with realm previews and a fixed Continue action
+- illustrated sky-atlas menu with original chapter artwork, distinct realm previews and a fixed gold Continue action
 - playable joystick/jump/first-landing tutorial with skip and replay
 - functional Shop, Daily and Style panels
 - one-session daily reward

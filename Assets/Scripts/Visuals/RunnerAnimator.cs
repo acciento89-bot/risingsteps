@@ -13,7 +13,7 @@ namespace Kamilunavo.RisingSteps.Visuals
   private Vector3 _hipsRest;
   private bool _poseCaptured;
   private readonly Transform[] _crests=new Transform[4];
-  private static readonly Color[] StyleColors={new Color(.035f,.43f,.23f),new Color(.045f,.35f,.78f),new Color(.82f,.40f,.06f),new Color(.51f,.16f,.73f),new Color(.98f,.66f,.10f),new Color(.08f,.65f,.90f),new Color(.38f,.16f,.76f),new Color(.035f,.055f,.14f)};
+  private static readonly Color[] StyleColors={new Color(.055f,.32f,.17f),new Color(.045f,.35f,.78f),new Color(.82f,.40f,.06f),new Color(.51f,.16f,.73f),new Color(.98f,.66f,.10f),new Color(.08f,.65f,.90f),new Color(.38f,.16f,.76f),new Color(.035f,.055f,.14f)};
 
   internal void CaptureRestPose()
   {

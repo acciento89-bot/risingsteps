@@ -17,10 +17,10 @@ namespace Kamilunavo.RisingSteps.UI
         protected override void OnRectTransformDimensionsChange(){base.OnRectTransformDimensionsChange();if(texture!=null)Crop();}
         private void Configure()
         {
-            texture=Resources.Load<Texture2D>(Hero||Realm==2?"Art/RisingStepsIcon":"Art/SkyPanorama");
+            texture=Resources.Load<Texture2D>(Hero?"Art/SkyAtlasHero-v2":Realm==0?"Art/MeadowChapter-v2":Realm==1?"Art/CascadeChapter-v2":"Art/RisingStepsIcon");
             // Meadow and waterfall use different horizon islands. Temple is a close
             // crop of the actual golden destination rather than a repeated diagram.
-            _subject=Hero?new Rect(0,0,1,1):Realm==0?new Rect(.18f,.06f,.29f,.61f):Realm==1?new Rect(.74f,.04f,.26f,.72f):new Rect(.57f,.50f,.43f,.50f);
+            _subject=Hero?new Rect(0,0,1,1):Realm==0?new Rect(.33f,.12f,.65f,.76f):Realm==1?new Rect(.08f,.12f,.84f,.76f):new Rect(.57f,.50f,.43f,.50f);
             color=Color.white;material=RoundedPanel.GalleryMaterial;raycastTarget=false;Crop();
         }
         private void Crop()

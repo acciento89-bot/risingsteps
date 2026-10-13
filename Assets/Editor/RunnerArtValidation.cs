@@ -26,11 +26,21 @@ public static class RunnerArtValidation
    var packMesh=backpack.Find("CanvasPackBody").GetComponent<MeshFilter>().sharedMesh;
    Check(packMesh.bounds.size.y>.40f&&packMesh.bounds.size.z>.14f,"pack is genuine volumetric travel equipment");
    Check(backpack.Find("PackPouches")!=null&&runner.Hips.Find("PackShoulderStraps")!=null,"pack includes pouches and attached shoulder straps");
+   var hood=runner.Hips.Find("WhiteDrapedHood").GetComponent<Renderer>();Check(hood.sharedMaterial==runner.Hoodie,"folded adventure hood shares the selected garment finish");
+   var tunic=runner.Hips.Find("TailoredHoodie").GetComponent<MeshFilter>().sharedMesh;
+   Check(tunic.vertexCount>210,"tunic carries original inset cloth folds and tailored contours");
+   Check(runner.Hips.Find("TravelBeltHardware")!=null,"adventurer has shaped belt and pack hardware");
+   Check(runner.Hips.localPosition==new Vector3(0,.85f,0)&&runner.Head.localPosition==new Vector3(0,.81f,.003f),"skeleton pivots preserve their original fit");
+   Check(runner.LeftLeg.localPosition==new Vector3(-.119f,.005f,-.018f)&&runner.RightLeg.localPosition==new Vector3(.119f,.005f,.018f),"original hip articulation positions remain exact");
+   Check(runner.LeftArm.localPosition==new Vector3(-.246f,.505f,0)&&runner.RightArm.localPosition==new Vector3(.246f,.505f,0),"original shoulder articulation positions remain exact");
+   foreach(var joint in new[]{runner.LeftKnee,runner.RightKnee})Check(joint.localPosition==new Vector3(0,-.35f,.012f),"knee binding remains exact");
+   foreach(var joint in new[]{runner.LeftElbow,runner.RightElbow})Check(joint.localPosition==new Vector3(0,-.265f,.008f),"elbow binding remains exact");
    foreach(var knee in new[]{runner.LeftLeg.Find("LeftKnee"),runner.RightLeg.Find("RightKnee")}){
     var skin=knee.Find("LowerLegSkin").GetComponent<MeshFilter>().sharedMesh.bounds;
     Check(skin.size.y>.19f,"rolled cargo exposes a modeled lower leg");
     var boot=knee.Find("HikingBootLast").GetComponent<MeshFilter>().sharedMesh.bounds;
     Check(boot.size.y>.20f&&boot.size.z>.34f,"adventure footwear has a substantial boot collar and sole");
+    Check(knee.Find("HikingBootLast").GetComponent<MeshFilter>().sharedMesh.vertexCount>160,"boots include a fitted raised leather tongue");
    }
    var rearLocks=runner.Head.Find("RearSweptLocks");Check(rearLocks!=null,"rear hair contour has authored swept locks");
    var hairBounds=rearLocks.GetComponent<MeshFilter>().sharedMesh.bounds;
@@ -54,8 +64,13 @@ public static class RunnerArtValidation
    Check(activeRenderers<=32&&materials.Count<=8,"bounded character rendering/material budget");
    foreach(var texture in textures)Check(texture.width*texture.height<=4096,"small character detail texture budget");
    var peerHost=new GameObject("StyleIsolationFixture");try{var peer=RunnerArt.Build(peerHost.transform);Color initial=peer.Hoodie.color;runner.Style(7);Check(peer.Hoodie.color==initial&&peer.Hoodie!=runner.Hoodie,"style material is isolated per avatar");}finally{UnityEngine.Object.DestroyImmediate(peerHost);}
-   for(int style=0;style<8;style++){runner.Style(style);for(int crest=4;crest<8;crest++)Check(runner.Hips.Find("PremiumCrest"+crest).gameObject.activeSelf==(style==crest),"eight-style premium crest selection");}
-   runner.Style(-1);Check(runner.Hoodie.color==new Color(.035f,.43f,.23f),"invalid negative style clamps to meadow");
+   for(int style=0;style<8;style++){
+    runner.Style(style);
+    for(int crest=4;crest<8;crest++)Check(runner.Hips.Find("PremiumCrest"+crest).gameObject.activeSelf==(style==crest),"eight-style premium crest selection");
+    int styledRenderers=0;foreach(var renderer in host.GetComponentsInChildren<MeshRenderer>(true))if(renderer.enabled&&renderer.gameObject.activeInHierarchy)styledRenderers++;
+    Check(styledRenderers<=32,"active character renderer budget holds for style "+style);
+   }
+   runner.Style(-1);Check(runner.Hoodie.color==new Color(.055f,.32f,.17f),"invalid negative style clamps to meadow");
    runner.Style(99);Check(runner.Hoodie.color==new Color(.035f,.055f,.14f),"invalid high style clamps to night");
    Debug.Log("RISING_RUNNER_BUDGET vertices="+vertices+" triangles="+triangles+" activeRenderers="+activeRenderers+" materials="+materials.Count+" textures="+textures.Count);
    UnityEngine.Object.DestroyImmediate(host);

@@ -33,7 +33,8 @@ namespace Kamilunavo.RisingSteps.Visuals
        MeshArt.Oval(root.transform,"TerraceLake",ledge+Vector3.up*1.23f,new Vector3(4.4f,.09f,3.5f),LandscapePalette.Pool(parent),18);
        IslandArt.Waterfall(root.transform,ledge+new Vector3(0,1.3f,-2),1,1.15f,5.5f);
       }
-      for(int shrub=0;shrub<5;shrub++)LandscapeBotany.LeafMass(root.transform,p+new Vector3((shrub-2)*2.5f,8.15f,3.1f+Mathf.Sin(shrub)*.5f),new Vector3(3.8f,1.4f,2.5f),LandscapePalette.Moss(parent),i*13+shrub);
+      for(int shrub=0;shrub<3;shrub++)LandscapeBotany.LeafCluster(root.transform,"CascadeRidgeLeafClusters",p+new Vector3((shrub-1)*3.7f,8.15f,3.1f+Mathf.Sin(shrub)*.5f),new Vector3(3.0f,1.0f,2.5f),LandscapePalette.Moss(parent),i*13+shrub,16);
+      for(int tree=0;tree<(i%2==0?2:1);tree++)LandscapeBotany.CascadeWillow(root.transform,p+new Vector3((tree==0?-1:1)*3.4f,7.95f,2.8f+tree*.5f),i*7+tree,2.3f+(i+tree)%2*.35f,true);
       LandscapeBotany.Branch(root.transform,"CascadeCliffVine",new[]{p+new Vector3(4.6f,7.8f,-5.1f),p+new Vector3(4.9f,3,-5.7f),p+new Vector3(4.2f,-1.5f,-5.2f)},new[]{.16f,.12f,.035f},LandscapePalette.Moss(parent),6);
      }break;
     case RisingRealmTheme.Temple:
@@ -107,7 +108,7 @@ namespace Kamilunavo.RisingSteps.Visuals
   }
   // Route x remains inside +/-3; the nearest stone edge stays beyond +/-10.
   // Height rises with depth so a finished course still has scenery above its horizon.
-  static Vector3 GardenPoint(int i)=>new Vector3((i%2==0?-1:1)*(18+i%3*4),-7+i*1.7f,14+i*13);
+  static Vector3 GardenPoint(int i)=>new Vector3((i%2==0?-1:1)*(18+i%3*4),1+i*2.2f,42+i*14);
   static void Highland(Transform parent,Vector3 position,int realm,int seed,Material stone)
   {
    var mesa=LandscapeGeometry.Rock(parent,realm==1?"CascadeMesa":realm==2?"TempleAcropolis":"MeadowHighland",position,new Vector3(15,17,14),stone,seed*19);

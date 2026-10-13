@@ -13,22 +13,22 @@ namespace Kamilunavo.RisingSteps.Visuals
    var pants=Material(root,"RunnerCargoTwill",new Color(.34f,.275f,.185f),.08f);
    var ivory=Material(root,"RunnerIvoryCanvas",new Color(.94f,.955f,.90f),.14f);
    var dark=Material(root,"RunnerSeamsAndEyes",new Color(.055f,.065f,.05f),.12f);
-   var green=Material(root,"RunnerHoodie",new Color(.035f,.43f,.23f),.10f);
-   var hair=Material(root,"RunnerChestnutHair",new Color(.34f,.145f,.055f),.20f);
+   var green=Material(root,"RunnerHoodie",new Color(.055f,.32f,.17f),.10f);
+   var hair=Material(root,"RunnerChestnutHair",new Color(.27f,.105f,.035f),.14f);
    var gold=Material(root,"RunnerPremiumThread",new Color(1,.88f,.39f),.22f);
    var canvas=Material(root,"RunnerTravelCanvas",new Color(.54f,.345f,.165f),.12f);canvas.mainTexture=CanvasDetail(root);
    hair.mainTexture=HairDetail(root);var cloth=CanvasDetail(root);cloth.name="RunnerClothWeave";green.mainTexture=cloth;pants.mainTexture=cloth;animator.Hoodie=green;
    animator.Hips=Pivot(root.transform,"Hips",new Vector3(0,.85f,0));
 
    var hoodie=new RunnerMeshBuilder(animator.Hips,"TailoredHoodie",green);
-   hoodie.Profile(Vector3.zero,new[]{.045f,.10f,.22f,.40f,.51f,.57f},new[]{.205f,.215f,.212f,.233f,.245f,.155f},new[]{.133f,.142f,.147f,.150f,.135f,.095f},16,.72f);
+   hoodie.FabricProfile(Vector3.zero,new[]{.045f,.08f,.13f,.20f,.28f,.36f,.43f,.50f,.545f,.57f},new[]{.205f,.215f,.211f,.204f,.210f,.226f,.237f,.245f,.21f,.155f},new[]{.133f,.142f,.142f,.14f,.147f,.150f,.146f,.135f,.12f,.095f},16,.46f);
    // The front pocket has a flat opening and tapered curved lower corners.
    hoodie.Loft(new[]{new Vector3(0,.15f,.145f),new Vector3(0,.19f,.163f),new Vector3(0,.28f,.168f),new Vector3(0,.305f,.156f)},new[]{new Vector2(.11f,.008f),new Vector2(.153f,.018f),new Vector2(.143f,.018f),new Vector2(.10f,.008f)},12,.62f);
    hoodie.Profile(Vector3.zero,new[]{.04f,.075f,.10f},new[]{.207f,.218f,.211f},new[]{.136f,.146f,.141f},16,.72f);hoodie.Finish();
 
-   var hood=new RunnerMeshBuilder(animator.Hips,"WhiteDrapedHood",ivory);
+   var hood=new RunnerMeshBuilder(animator.Hips,"WhiteDrapedHood",green);hood.FoldedHood();
    hood.Sweep(new[]{new Vector3(-.18f,.525f,.015f),new Vector3(-.20f,.56f,-.08f),new Vector3(-.15f,.615f,-.155f),new Vector3(0,.64f,-.17f),new Vector3(.15f,.615f,-.155f),new Vector3(.20f,.56f,-.08f),new Vector3(.18f,.525f,.015f)},new[]{.043f,.063f,.076f,.082f,.076f,.063f,.043f},new[]{.025f,.038f,.043f,.047f,.043f,.038f,.025f},10);
-   for(int side=-1;side<=1;side+=2){hood.Sweep(new[]{new Vector3(side*.086f,.548f,.095f),new Vector3(side*.075f,.48f,.159f),new Vector3(side*.078f,.392f,.167f)},new[]{.006f,.005f,.005f},new[]{.006f,.005f,.005f},6);hood.Pebble(new Vector3(side*.078f,.384f,.168f),new Vector3(.014f,.023f,.014f),6);}
+   for(int side=-1;side<=1;side+=2)hood.Sweep(new[]{new Vector3(side*.13f,.52f,-.177f),new Vector3(side*.075f,.47f,-.183f),new Vector3(side*.025f,.433f,-.164f)},new[]{.012f,.011f,.007f},new[]{.008f,.009f,.005f},6);
    hood.Finish();
 
    var hipFabric=new RunnerMeshBuilder(animator.Hips,"CargoWaist",pants);
@@ -37,6 +37,13 @@ namespace Kamilunavo.RisingSteps.Visuals
    seams.Stitch(new Vector3(-.10f,.29f,.181f),new Vector3(-.15f,.22f,.18f),.003f);
    seams.Stitch(new Vector3(.10f,.29f,.181f),new Vector3(.15f,.22f,.18f),.003f);
    seams.Stitch(new Vector3(0,.10f,.129f),new Vector3(0,-.025f,.133f),.003f);
+   seams.Profile(Vector3.zero,new[]{-.010f,.022f,.036f},new[]{.217f,.221f,.218f},new[]{.135f,.139f,.136f},16,.72f);
+   // Belt fittings share the existing Hips seam batch. The marker preserves
+   // the authored feature name without spending a renderer beside premium crests.
+   Pivot(animator.Hips,"TravelBeltHardware",Vector3.zero);
+   var hardware=seams;
+   hardware.Sweep(new[]{new Vector3(-.033f,.006f,.142f),new Vector3(-.033f,.033f,.142f),new Vector3(.033f,.033f,.142f),new Vector3(.033f,.006f,.142f),new Vector3(-.033f,.006f,.142f)},new[]{.005f,.005f,.005f,.005f,.005f},new[]{.003f,.003f,.003f,.003f,.003f},5);
+   for(int side=-1;side<=1;side+=2){hardware.Stitch(new Vector3(side*.060f,.365f,-.429f),new Vector3(side*.10f,.365f,-.429f),.005f);hardware.Stitch(new Vector3(side*.080f,.352f,-.43f),new Vector3(side*.080f,.384f,-.43f),.004f);}
    BuildPack(animator,canvas,seams);seams.Finish();
 
    for(int side=-1;side<=1;side+=2){BuildLeg(animator,side,pants,skin,canvas,ivory,green,dark);BuildArm(animator,side,green,skin,dark);}
@@ -56,22 +63,24 @@ namespace Kamilunavo.RisingSteps.Visuals
    var knee=Pivot(leg,side<0?"LeftKnee":"RightKnee",new Vector3(0,-.35f,.012f));
    if(side<0){animator.LeftLeg=leg;animator.LeftKnee=knee;}else{animator.RightLeg=leg;animator.RightKnee=knee;}
    var thigh=new RunnerMeshBuilder(leg,"CargoThigh",pants);
-   thigh.Profile(Vector3.zero,new[]{-.315f,-.29f,-.16f,-.025f,.03f},new[]{.100f,.110f,.12f,.124f,.10f},new[]{.099f,.110f,.110f,.109f,.083f},12,.72f);
+   thigh.FabricProfile(Vector3.zero,new[]{-.315f,-.29f,-.235f,-.16f,-.09f,-.025f,.03f},new[]{.100f,.110f,.116f,.12f,.119f,.124f,.10f},new[]{.099f,.110f,.109f,.110f,.109f,.109f,.083f},12,side*.71f);
    thigh.Loft(new[]{new Vector3(side*.109f,-.265f,.006f),new Vector3(side*.125f,-.24f,.01f),new Vector3(side*.128f,-.13f,.01f),new Vector3(side*.112f,-.105f,.007f)},new[]{new Vector2(.013f,.05f),new Vector2(.022f,.071f),new Vector2(.023f,.072f),new Vector2(.009f,.055f)},8,.6f);
    // A thick folded hem ends above the knee, rather than a long trouser tube.
    thigh.Profile(new Vector3(0,0,.007f),new[]{-.327f,-.310f,-.281f},new[]{.106f,.116f,.110f},new[]{.105f,.119f,.110f},12,.69f);thigh.Finish();
    var pocket=new RunnerMeshBuilder(leg,"CargoPocketFlap",dark);
-   pocket.Stitch(new Vector3(side*.151f,-.137f,-.05f),new Vector3(side*.151f,-.137f,.067f),.004f);pocket.Stitch(new Vector3(side*.114f,-.30f,.067f),new Vector3(side*.112f,-.21f,.10f),.003f);pocket.Finish();
+   pocket.Stitch(new Vector3(side*.151f,-.137f,-.05f),new Vector3(side*.151f,-.137f,.067f),.004f);pocket.Stitch(new Vector3(side*.114f,-.30f,.067f),new Vector3(side*.112f,-.21f,.10f),.003f);
+   pocket.Sweep(new[]{new Vector3(side*.151f,-.135f,-.051f),new Vector3(side*.154f,-.155f,-.032f),new Vector3(side*.155f,-.163f,.031f),new Vector3(side*.151f,-.14f,.069f)},new[]{.004f,.004f,.004f,.004f},new[]{.002f,.002f,.002f,.002f},5);pocket.Finish();
    var shin=new RunnerMeshBuilder(knee,"LowerLegSkin",skin);
    shin.Profile(new Vector3(0,0,-.012f),new[]{-.30f,-.245f,-.12f,.035f,.067f},new[]{.060f,.065f,.076f,.088f,.077f},new[]{.061f,.068f,.075f,.081f,.069f},12,.85f);shin.Finish();
    var footOrigin=new Vector3(0,-.36f,-.007f);
    var boot=new RunnerMeshBuilder(knee,"HikingBootLast",canvas);
    boot.Shoe(footOrigin,-.12f,.014f,.010f);
+   boot.Loft(new[]{footOrigin+new Vector3(0,.010f,.123f),footOrigin+new Vector3(0,.040f,.061f),footOrigin+new Vector3(0,.088f,-.012f),footOrigin+new Vector3(0,.142f,-.061f)},new[]{new Vector2(.043f,.005f),new Vector2(.047f,.009f),new Vector2(.045f,.009f),new Vector2(.04f,.007f)},8,.72f);
    boot.Profile(footOrigin+new Vector3(0,0,-.065f),new[]{-.050f,.030f,.114f,.146f},new[]{.077f,.088f,.085f,.076f},new[]{.060f,.070f,.068f,.060f},12,.72f);
    boot.Profile(footOrigin+new Vector3(0,0,-.065f),new[]{.123f,.144f,.159f},new[]{.083f,.090f,.080f},new[]{.064f,.073f,.060f},12,.70f);boot.Finish();
    var trim=new RunnerMeshBuilder(knee,"HikingBootLacesAndSole",ivory);
    trim.Shoe(footOrigin,-.13f,-.090f,0);
-   for(int lace=0;lace<4;lace++){float z=-.038f+lace*.037f;trim.Stitch(footOrigin+new Vector3(-.060f,.060f-lace*.010f,z),footOrigin+new Vector3(.060f,.060f-lace*.010f,z),.004f);}trim.Finish();
+   for(int lace=0;lace<4;lace++){float z=-.039f+lace*.033f,y=.124f-lace*.026f;trim.Stitch(footOrigin+new Vector3(-.043f,y,z),footOrigin+new Vector3(.043f,y-.017f,z+.025f),.004f);trim.Stitch(footOrigin+new Vector3(.043f,y,z),footOrigin+new Vector3(-.043f,y-.017f,z+.025f),.004f);}trim.Finish();
    var tread=new RunnerMeshBuilder(knee,"BootTreadAndAnkleTrim",dark);
    tread.Profile(footOrigin+new Vector3(0,0,-.065f),new[]{.139f,.153f,.170f},new[]{.087f,.088f,.078f},new[]{.069f,.069f,.062f},12,.72f);
    for(int i=0;i<4;i++)tread.Stitch(footOrigin+new Vector3(-.084f,-.134f,-.070f+i*.080f),footOrigin+new Vector3(.084f,-.134f,-.070f+i*.080f),.006f);
@@ -86,7 +95,7 @@ namespace Kamilunavo.RisingSteps.Visuals
    var elbow=Pivot(arm,side<0?"LeftElbow":"RightElbow",new Vector3(0,-.265f,.008f));elbow.localRotation=Quaternion.Euler(-12,0,0);
    if(side<0){animator.LeftArm=arm;animator.LeftElbow=elbow;}else{animator.RightArm=arm;animator.RightElbow=elbow;}
    var sleeve=new RunnerMeshBuilder(arm,"TailoredRolledSleeve",green);
-   sleeve.Profile(Vector3.zero,new[]{-.28f,-.245f,-.20f,-.07f,.025f,.07f},new[]{.080f,.086f,.089f,.11f,.095f,.045f},new[]{.080f,.088f,.091f,.106f,.091f,.045f},12,.83f);
+   sleeve.FabricProfile(Vector3.zero,new[]{-.28f,-.245f,-.20f,-.135f,-.07f,.025f,.07f},new[]{.080f,.086f,.089f,.101f,.11f,.095f,.045f},new[]{.080f,.088f,.091f,.098f,.106f,.091f,.045f},12,side*.33f);
    sleeve.Profile(Vector3.zero,new[]{-.285f,-.255f,-.233f},new[]{.085f,.096f,.092f},new[]{.085f,.096f,.092f},12,.72f);sleeve.Finish();
    var limb=new RunnerMeshBuilder(elbow,"ForearmAndHand",skin);
    limb.Profile(Vector3.zero,new[]{-.245f,-.20f,-.10f,.01f},new[]{.048f,.055f,.068f,.072f},new[]{.047f,.052f,.067f,.072f},12);
@@ -114,11 +123,11 @@ namespace Kamilunavo.RisingSteps.Visuals
    // forming a radial collection of identical cone spikes.
    for(int lockIndex=0;lockIndex<9;lockIndex++){
     float x=-.17f+lockIndex*.04f,y=.195f+(1-Mathf.Abs(x)/.18f)*.065f;
-    crown.Sweep(new[]{new Vector3(x,y,.044f),new Vector3(x+.022f,y+.075f,-.013f),new Vector3(x+.042f,y+.084f+(lockIndex%3)*.011f,-.092f)},new[]{.045f,.033f,.004f},new[]{.035f,.021f,.003f},5,true);
+    crown.Sweep(new[]{new Vector3(x,y,.044f),new Vector3(x+.022f,y+.075f,-.013f),new Vector3(x+.042f,y+.084f+(lockIndex%3)*.011f,-.092f)},new[]{.045f,.033f,.004f},new[]{.035f,.021f,.003f},7);
    }
    for(int fringe=0;fringe<5;fringe++){
     float x=-.125f+fringe*.056f;
-    crown.Sweep(new[]{new Vector3(x-.025f,.18f,.108f),new Vector3(x,.145f,.143f),new Vector3(x+.030f,.092f+(fringe%2)*.020f,.159f)},new[]{.042f,.032f,.004f},new[]{.024f,.018f,.003f},5,true);
+    crown.Sweep(new[]{new Vector3(x-.025f,.18f,.108f),new Vector3(x,.145f,.143f),new Vector3(x+.030f,.092f+(fringe%2)*.020f,.159f)},new[]{.042f,.032f,.004f},new[]{.024f,.018f,.003f},7);
    }
    crown.Finish();
    // Broad overlapping locks wrap over the occiput. Their tapered tips change
@@ -126,7 +135,7 @@ namespace Kamilunavo.RisingSteps.Visuals
    var rear=new RunnerMeshBuilder(animator.Head,"RearSweptLocks",hair);
    for(int lockIndex=0;lockIndex<9;lockIndex++){
     float x=-.176f+lockIndex*.043f,arch=1-Mathf.Abs(x)/.205f,y=.135f+arch*.12f+.015f*Mathf.Sin(lockIndex*2.31f);
-    rear.Sweep(new[]{new Vector3(x-.025f,y+.022f,-.106f),new Vector3(x+.012f,y+.070f,-.165f),new Vector3(x+.027f,y+.012f,-.219f-.015f*Mathf.Sin(lockIndex*1.71f)),new Vector3(x+.013f,-.018f+(lockIndex%3)*.033f,-.243f-.013f*Mathf.Cos(lockIndex*1.23f))},new[]{.044f,.050f,.036f,.004f},new[]{.024f,.032f,.027f,.003f},6);
+    rear.Sweep(new[]{new Vector3(x-.025f,y+.022f,-.106f),new Vector3(x-.018f,y+.070f,-.165f),new Vector3(x+.044f,y+.012f,-.219f-.015f*Mathf.Sin(lockIndex*1.71f)),new Vector3(x+.070f*arch,-.018f+(lockIndex%3)*.045f,-.243f-.013f*Mathf.Cos(lockIndex*1.23f))},new[]{.044f,.050f,.036f,.004f},new[]{.024f,.032f,.027f,.003f},6);
    }
    for(int side=-1;side<=1;side+=2)for(int lockIndex=0;lockIndex<3;lockIndex++){
     float y=.115f+lockIndex*.048f;
@@ -139,11 +148,19 @@ namespace Kamilunavo.RisingSteps.Visuals
   {
    var pack=Pivot(animator.Hips,"AdventurerPack",new Vector3(0,.103f,-.150f));
    var body=new RunnerMeshBuilder(pack,"CanvasPackBody",canvas);
-   body.Loft(new[]{new Vector3(0,.04f,-.075f),new Vector3(0,.095f,-.106f),new Vector3(0,.31f,-.118f),new Vector3(0,.445f,-.092f),new Vector3(0,.49f,-.068f)},new[]{new Vector2(.13f,.070f),new Vector2(.18f,.090f),new Vector2(.18f,.095f),new Vector2(.159f,.077f),new Vector2(.118f,.053f)},14,.64f);
+   body.Loft(new[]{new Vector3(0,.04f,-.075f),new Vector3(0,.095f,-.106f),new Vector3(0,.19f,-.120f),new Vector3(0,.31f,-.118f),new Vector3(0,.445f,-.092f),new Vector3(0,.49f,-.068f)},new[]{new Vector2(.13f,.070f),new Vector2(.18f,.090f),new Vector2(.177f,.095f),new Vector2(.18f,.095f),new Vector2(.159f,.077f),new Vector2(.118f,.053f)},14,.82f);
    // Curved flap, front pouch and two side pockets share a single rigid buffer.
-   body.Loft(new[]{new Vector3(0,.29f,-.204f),new Vector3(0,.375f,-.211f),new Vector3(0,.454f,-.170f),new Vector3(0,.485f,-.090f)},new[]{new Vector2(.117f,.018f),new Vector2(.172f,.031f),new Vector2(.166f,.040f),new Vector2(.112f,.047f)},12,.62f);
+   body.Loft(new[]{new Vector3(0,.29f,-.204f),new Vector3(0,.325f,-.226f),new Vector3(0,.375f,-.211f),new Vector3(0,.454f,-.170f),new Vector3(0,.485f,-.090f)},new[]{new Vector2(.117f,.018f),new Vector2(.149f,.019f),new Vector2(.172f,.031f),new Vector2(.166f,.040f),new Vector2(.112f,.047f)},12,.86f);
    body.Loft(new[]{new Vector3(0,.07f,-.177f),new Vector3(0,.10f,-.217f),new Vector3(0,.225f,-.222f),new Vector3(0,.26f,-.184f)},new[]{new Vector2(.104f,.027f),new Vector2(.135f,.038f),new Vector2(.129f,.037f),new Vector2(.109f,.018f)},10,.64f);
    for(int side=-1;side<=1;side+=2)body.Loft(new[]{new Vector3(side*.186f,.085f,-.096f),new Vector3(side*.201f,.125f,-.103f),new Vector3(side*.200f,.275f,-.106f),new Vector3(side*.175f,.302f,-.093f)},new[]{new Vector2(.033f,.052f),new Vector2(.045f,.073f),new Vector2(.045f,.071f),new Vector2(.020f,.052f)},10,.68f);
+   // Rolled leather flap edge, hand-shaped gussets and twin closure straps
+   // share the pack mesh; they never become separate decorative draw calls.
+   body.Sweep(new[]{new Vector3(-.118f,.29f,-.228f),new Vector3(-.153f,.325f,-.246f),new Vector3(-.168f,.375f,-.234f),new Vector3(-.159f,.443f,-.204f)},new[]{.006f,.007f,.007f,.005f},new[]{.004f,.004f,.004f,.004f},6);
+   body.Sweep(new[]{new Vector3(.118f,.29f,-.228f),new Vector3(.153f,.325f,-.246f),new Vector3(.168f,.375f,-.234f),new Vector3(.159f,.443f,-.204f)},new[]{.006f,.007f,.007f,.005f},new[]{.004f,.004f,.004f,.004f},6);
+   for(int side=-1;side<=1;side+=2){
+    body.Sweep(new[]{new Vector3(side*.08f,.095f,-.255f),new Vector3(side*.08f,.20f,-.263f),new Vector3(side*.08f,.295f,-.229f),new Vector3(side*.08f,.36f,-.241f)},new[]{.011f,.013f,.012f,.010f},new[]{.004f,.005f,.005f,.004f},6);
+    body.Sweep(new[]{new Vector3(side*.206f,.114f,-.153f),new Vector3(side*.223f,.18f,-.164f),new Vector3(side*.206f,.27f,-.15f)},new[]{.005f,.005f,.004f},new[]{.004f,.004f,.003f},5);
+   }
    body.Finish();Pivot(pack,"PackPouches",Vector3.zero);
    var straps=new RunnerMeshBuilder(animator.Hips,"PackShoulderStraps",canvas);
    for(int side=-1;side<=1;side+=2){

@@ -3,6 +3,7 @@ Shader "Rising/Gallery"
  Properties {
   [PerRendererData] _MainTex("Texture",2D)="white"{}
   _Color("Tint",Color)=(1,1,1,1)
+  _GoldFinish("Gold finish",Range(0,1))=0
   _StencilComp("Stencil Comparison",Float)=8
   _Stencil("Stencil ID",Float)=0
   _StencilOp("Stencil Operation",Float)=0
@@ -27,7 +28,7 @@ Shader "Rising/Gallery"
    #include "UnityUI.cginc"
    struct V {float4 vertex:POSITION;float4 color:COLOR;float2 uv:TEXCOORD0;float4 panel:TEXCOORD1;UNITY_VERTEX_INPUT_INSTANCE_ID};
    struct F {float4 vertex:SV_POSITION;float4 color:COLOR;float2 uv:TEXCOORD0;float4 panel:TEXCOORD1;float4 world:TEXCOORD2;UNITY_VERTEX_OUTPUT_STEREO};
-   sampler2D _MainTex;fixed4 _Color,_TextureSampleAdd;float4 _ClipRect;
+   sampler2D _MainTex;fixed4 _Color,_TextureSampleAdd;float4 _ClipRect;half _GoldFinish;
    F vert(V v){F o;UNITY_SETUP_INSTANCE_ID(v);UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);o.world=v.vertex;o.vertex=UnityObjectToClipPos(v.vertex);o.color=v.color*_Color;o.uv=v.uv;o.panel=v.panel;return o;}
    fixed4 frag(F i):SV_Target {
     fixed4 color=(tex2D(_MainTex,i.uv)+_TextureSampleAdd)*i.color;
@@ -38,6 +39,11 @@ Shader "Rising/Gallery"
     color.a*=1-smoothstep(-.4,.6,distance);
     float edge=1-smoothstep(.25,1.25,abs(distance+.75));
     color.rgb=lerp(color.rgb,float3(.20,.34,.28),edge*.10);
+    // One shared authored gold finish; textures and scenic cards stay unchanged.
+    float3 gold=lerp(float3(.70,.46,.12),float3(1,.87,.42),i.panel.y);
+    gold+=pow(saturate(i.panel.y),14)*.09;
+    gold=lerp(gold,float3(.98,.89,.62),edge*.8);
+    color.rgb=lerp(color.rgb,gold,_GoldFinish);
     #ifdef UNITY_UI_CLIP_RECT
     color.a*=UnityGet2DClipping(i.world.xy,_ClipRect);
     #endif

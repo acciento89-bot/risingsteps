@@ -12,7 +12,7 @@ namespace Kamilunavo.RisingSteps.Visuals
    sky.SetColor("_Zenith",Zenith[realm]);
    sky.SetColor("_Below",Below[realm]);ArtLifetime.Own(parent.gameObject,sky);RenderSettings.skybox=sky;
    RenderSettings.ambientMode=UnityEngine.Rendering.AmbientMode.Trilight;RenderSettings.ambientIntensity=.82f;RenderSettings.ambientSkyColor=realm==2?new Color(.47f,.44f,.55f):new Color(.45f,.55f,.65f);RenderSettings.ambientEquatorColor=realm==2?new Color(.57f,.47f,.35f):new Color(.50f,.55f,.51f);RenderSettings.ambientGroundColor=realm==2?new Color(.27f,.25f,.28f):new Color(.28f,.34f,.36f);RenderSettings.fog=true;RenderSettings.fogMode=FogMode.ExponentialSquared;RenderSettings.fogDensity=realm==2?.009f:realm==1?.010f:.008f;
-   var sun=GameObject.Find("Sun")?.GetComponent<Light>();if(sun!=null){sun.color=realm==1?new Color(.94f,.98f,1):realm==2?new Color(1,.88f,.72f):new Color(1,.97f,.91f);sun.intensity=realm==2?.88f:.92f;}RenderSettings.fogColor=realm==2?new Color(.91f,.78f,.76f):realm==1?new Color(.79f,.91f,.96f):new Color(.79f,.91f,1);
+   var sun=GameObject.Find("Sun")?.GetComponent<Light>();if(sun!=null){sun.color=realm==1?new Color(.96f,.98f,1):realm==2?new Color(1,.88f,.70f):new Color(1,.97f,.91f);sun.intensity=realm==2?.90f:.92f;sun.transform.rotation=Quaternion.Euler(realm==2?28:42,-28,0);}RenderSettings.fogColor=realm==2?new Color(.91f,.78f,.76f):realm==1?new Color(.79f,.91f,.96f):new Color(.79f,.91f,1);
 
    if(realm>=3){
     RenderSettings.ambientSkyColor=Color.Lerp(Zenith[realm],new Color(.55f,.62f,.70f),.55f);

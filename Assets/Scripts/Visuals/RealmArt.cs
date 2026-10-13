@@ -66,7 +66,12 @@ namespace Kamilunavo.RisingSteps.Visuals
     LandscapeBotany.Blade(blades,buv,btri,p,a,h*.72f,.042f);LandscapeBotany.Blade(blades,buv,btri,p,a+1.9f,h*.83f,.037f);
    }
    MeshArt.Mesh(pool.transform,"ReedLeaves",blades.ToArray(),btri.ToArray(),buv.ToArray(),reed);
-   HangingMoss(parent,index,size);
+   LandscapeBotany.CascadePlants(parent,index,size);
+   if(index%4==0){
+    var treePosition=new Vector3(-size*1.32f,.58f,-size*.62f);
+    LandscapeGeometry.Rock(parent,"WillowRootLedge",treePosition-Vector3.up*.19f,new Vector3(.70f,.34f,.64f),stone,index*31+7);
+    LandscapeBotany.CascadeWillow(parent,treePosition,index,.68f);
+   }
 
    IslandArt.Waterfall(parent,pool.transform.localPosition+outward*size*.52f+Vector3.up*.004f,1,size*.52f);
    if(scenic||index%3==0){
@@ -78,21 +83,10 @@ namespace Kamilunavo.RisingSteps.Visuals
     IslandArt.Waterfall(parent,feed+flow*.32f,1,.40f);
    }
   }
-  static void HangingMoss(Transform parent,int index,float size)
-  {
-   var moss=LandscapePalette.Moss(parent);var v=new System.Collections.Generic.List<Vector3>();var uv=new System.Collections.Generic.List<Vector2>();var t=new System.Collections.Generic.List<int>();
-   for(int tuft=0;tuft<9;tuft++){
-    float angle=tuft*1.07f+index*.39f,length=.16f+(tuft%4)*.13f,width=.11f+(tuft%3)*.045f;var outward=new Vector3(Mathf.Cos(angle),0,Mathf.Sin(angle));var across=new Vector3(-outward.z,0,outward.x);
-    int k=v.Count;
-    v.Add(outward*size*.975f+across*width+Vector3.up*.575f);v.Add(outward*size*.975f-across*width+Vector3.up*.575f);
-    v.Add(outward*size*.99f+across*width*.37f+Vector3.up*(.57f-length));v.Add(outward*size*.99f-across*width*.46f+Vector3.up*(.51f-length));
-    uv.AddRange(new[]{new Vector2(0,1),Vector2.one,Vector2.zero,Vector2.right});t.AddRange(new[]{k,k+2,k+1,k+1,k+2,k+3,k,k+1,k+2,k+1,k+3,k+2});
-   }
-   MeshArt.Mesh(parent,"CascadeHangingMoss",v.ToArray(),t.ToArray(),uv.ToArray(),moss);
-  }
   static void Temple(Transform parent,int index,float size,bool scenic)
   {
    var stone=LandscapePalette.Surface(parent,2);
+   LandscapeBotany.TempleHerbs(parent,index,size);
    var dark=MeshArt.Mat("Realm2TileJoint",new Color(.47f,.30f,.21f));var gold=MeshArt.Mat("Realm2Inlay",new Color(.94f,.65f,.19f));
    // Staggered independent blocks expose weathered faces below the landing disk.
    // They are render-only perimeter detail: no block changes the authoritative fan.
