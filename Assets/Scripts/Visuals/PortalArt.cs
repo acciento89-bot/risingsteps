@@ -25,8 +25,13 @@ namespace Kamilunavo.RisingSteps.Visuals
    MeshArt.Mesh(root.transform,"PortalPediment",new[]{new Vector3(-1.55f,3.98f,.30f),new Vector3(1.55f,3.98f,.30f),new Vector3(0,4.44f,.30f),new Vector3(-1.55f,3.98f,.90f),new Vector3(1.55f,3.98f,.90f),new Vector3(0,4.44f,.90f)},new[]{0,2,1,3,4,5,0,3,5,0,5,2,1,2,5,1,5,4,0,1,4,0,4,3},new[]{Vector2.zero,Vector2.right,Vector2.up,Vector2.zero,Vector2.right,Vector2.up},stone);
    var medallion=MeshArt.Ring(root.transform,"PortalSunCarving",.15f,.022f,0,gold,24);medallion.transform.localRotation=Quaternion.Euler(-90,0,0);medallion.transform.localPosition=new Vector3(0,4.17f,.285f);
    for(int side=-1;side<=1;side+=2){var bowl=MeshArt.Lathe(root.transform,"ArrivalBrazier",new[]{0f,.08f,.12f},new[]{.11f,.17f,.17f},10,gold,Vector3.one,true);bowl.transform.localPosition=new Vector3(side*1.54f,.95f,-.47f);MeshArt.Oval(root.transform,"ArrivalFlame",new Vector3(side*1.54f,1.16f,-.47f),new Vector3(.13f,.33f,.13f),MeshArt.Mat("PortalFlame",new Color(1,.65f,.20f),-1,true,1.25f),8);}
-   var star=MeshArt.Box(root.transform,"PortalStar",new Vector3(0,2.18f,.58f),new Vector3(.10f,.8f,.10f),gold);star.transform.localRotation=Quaternion.Euler(0,0,35);
-   var cross=MeshArt.Box(root.transform,"PortalStarCross",new Vector3(0,2.18f,.58f),new Vector3(.08f,.65f,.08f),gold);cross.transform.localRotation=Quaternion.Euler(0,0,-35);
+   var radiance=new Material(Resources.Load<Material>("Materials/PortalLight"));ArtLifetime.Own(root,radiance);
+   var contour=new System.Collections.Generic.List<Vector3>{new(-1.10f,.70f,.59f),new(1.10f,.70f,.59f)};
+   for(int segment=0;segment<=20;segment++){float a=segment*Mathf.PI/20;contour.Add(new Vector3(Mathf.Cos(a)*1.10f,2.10f+Mathf.Sin(a)*1.10f,.59f));}
+   var vertices=new Vector3[contour.Count+1];var uv=new Vector2[vertices.Length];var triangles=new int[contour.Count*3];vertices[0]=new Vector3(0,1.85f,.59f);uv[0]=new Vector2(.5f,.46f);
+   for(int i=0;i<contour.Count;i++){vertices[i+1]=contour[i];uv[i+1]=new Vector2((contour[i].x+1.10f)/2.20f,(contour[i].y-.70f)/2.50f);triangles[i*3]=0;triangles[i*3+1]=i+1;triangles[i*3+2]=(i+1)%contour.Count+1;}
+   MeshArt.Mesh(root.transform,"PortalRadiance",vertices,triangles,uv,radiance);
+   var lamp=new GameObject("PortalWarmLight",typeof(Light));lamp.transform.SetParent(root.transform,false);lamp.transform.localPosition=new Vector3(0,2.1f,-.25f);var light=lamp.GetComponent<Light>();light.type=LightType.Point;light.color=new Color(1,.73f,.34f);light.intensity=.85f;light.range=6;light.shadows=LightShadows.None;
    for(int i=0;i<3;i++)MeshArt.Box(root.transform,"ArrivalSteps",new Vector3(0,.65f+i*.04f,-.7f+i*.28f),new Vector3(1.6f,.06f,.23f),gold);
   }
  }

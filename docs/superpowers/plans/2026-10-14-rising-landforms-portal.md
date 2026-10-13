@@ -1,0 +1,10 @@
+# Rising Steps landform and portal implementation plan
+
+> Execution: inline in the existing main checkout, authorized by the user's complete concept rebuild. Preserve the user-deleted historical Concept file. Prior validated asset pass is main4965cf7 and remains recoverable.
+
+Goal: turn the round repeated route caps and empty portal into concept-oriented real3D silhouettes. Keep all course centers/elevations, profile indices, rewards, timing and input authority. New first-three-world landing fans must contain every vertex of their old seeded polygon. This intentionally supersedes the older art-only exact-boundary rule; saved safe centers remain valid and no formerly safe landing is removed. No upload until actual visual acceptance.
+
+1. Add independent Editor geometry/portal fixture. Before implementation, fail on Temple rectangular area fill and missing luminous gate. Require legacy polygon containment, unchanged elevation/single collider, genuine mesh/finite normals, and original mobile limits. Retain the RED.
+2. Author consistent 24-point silhouettes: Meadow current outline, Cascade wider asymmetric mineral shelf, Temple rounded square. Both top visual terrain and authoritative collision share the same contour. Preserve RNG draw count. Adapt earlier exact-old-coordinate art fixtures to independently prove old-safe polygon containment and agreement between render lips and collision. Use realm-specific broad lower-body tests instead of requiring every landform to be pointed.
+3. Replace the center crossed sticks with a genuine arched luminous membrane, custom retained world shader and one warm non-shadow point light. Existing PortalArrival position/condition remains unchanged. Own material resources and parent light objects through existing lifetime boundaries. Keep terrain/portal budgets.
+4. Actual Unity aggregate/build, all10world captures, camera/tutorial, then earned100course1200jump traversal on exact final source because collision changes. Inspect current Concept/game views and retain truthful failed/passed gate. Read-only focused review before commit. Do not claim physical mobile FPS/provider or numerical90% equivalence.

@@ -23,10 +23,7 @@ public static class RisingLandscapeValidation
     if(index==12){PortalArt.Build(root.transform,null);count=0;foreach(var f in root.GetComponentsInChildren<MeshFilter>()){count+=f.sharedMesh.vertexCount;assets.Add(f.sharedMesh);}}
     Check(count<30000,"route island and destination stay below the existing vertex ceiling");maxVertices=Math.Max(maxVertices,count);
     Check(root.GetComponentsInChildren<Collider>().Length==1,"the original landing collider is still the only collision");
-    var seeded=new System.Random(117+index*79+realm*1901);float size=index==12?2.05f:1.55f;var expected=new List<Vector3>{Vector3.up*.6f};
-    for(int point=0;point<24;point++){float r=size*(.91f+(float)seeded.NextDouble()*.13f),angle=point*Mathf.PI*2/24;expected.Add(new Vector3(Mathf.Cos(angle)*r,.6f,Mathf.Sin(angle)*r));}
-    var landing=root.GetComponentInChildren<MeshCollider>().sharedMesh;Check(landing.vertexCount==25&&landing.triangles.Length==72,"original collision fan topology remains exact");
-    foreach(var v in landing.vertices){Check(Mathf.Abs(v.y-.6f)<.00001f,"landing height remains exact");Check(expected.Exists(e=>(e-v).sqrMagnitude<.0000001f),"original seeded landing boundary remains exact");}
+    RisingWorldRebuildValidation.ValidateLegacySafety(root.GetComponentInChildren<MeshCollider>().sharedMesh,index,realm);
     foreach(var renderer in root.GetComponentsInChildren<Renderer>())if(renderer.sharedMaterial.name.StartsWith("Landscape")){assets.Add(renderer.sharedMaterial);if(renderer.sharedMaterial.mainTexture!=null)assets.Add(renderer.sharedMaterial.mainTexture);}
     MeshArt.Batch(root);foreach(var f in root.GetComponentsInChildren<MeshFilter>())assets.Add(f.sharedMesh);
    }finally{UnityEngine.Object.DestroyImmediate(root);}
@@ -53,10 +50,7 @@ public static class RisingLandscapeValidation
       int vertices=CaptureAssets(root,owned);maxVertices=Math.Max(vertices,maxVertices);
       Check(vertices<30000,"each new realm stays within the route-island vertex ceiling");
       Check(root.GetComponentsInChildren<Collider>().Length==1,"ten realms have only their original landing collider");
-      var seeded=new System.Random(117+index*79+realm*1901);float size=index==12?2.05f:1.55f;var landing=root.GetComponentInChildren<MeshCollider>().sharedMesh;
-      Check(landing.vertexCount==25&&landing.triangles.Length==72,"ten realms retain original landing fan topology");
-      var expected=new List<Vector3>{Vector3.up*.6f};for(int i=0;i<24;i++){float r=size*(.91f+(float)seeded.NextDouble()*.13f),a=i*Mathf.PI*2/24;expected.Add(new Vector3(Mathf.Cos(a)*r,.6f,Mathf.Sin(a)*r));}
-      foreach(var v in landing.vertices)Check(expected.Exists(e=>(e-v).sqrMagnitude<.0000001f),"ten realms retain exact seeded collider coordinates");
+      RisingWorldRebuildValidation.ValidateLegacySafety(root.GetComponentInChildren<MeshCollider>().sharedMesh,index,realm);
       if(index==4)Check(signatures.Add(Topology(root)),"ten worlds have structurally distinct actual landmark geometry");
       MeshArt.Batch(root);CaptureAssets(root,owned);
      }finally{UnityEngine.Object.DestroyImmediate(root);}
@@ -112,7 +106,7 @@ public static class RisingLandscapeValidation
   Debug.Log("LANDSCAPE_SHAPE realm="+realm+" index="+index+" lowerWidth="+(lowRadius/topRadius).ToString("F3")+" tipOffset="+(new Vector2(lowCenter.x,lowCenter.z).magnitude/topRadius).ToString("F3"));
   // Measure width about the lower centroid; offset does not itself make a wide tip.
   float localWidth=0;foreach(var p in low)localWidth+=new Vector2(p.x-lowCenter.x,p.z-lowCenter.z).magnitude;
-  Check(localWidth/low.Count<topRadius*.25f,"lower fifth narrows to an irregular rock tip instead of a broad column base");
+  if(realm==1||realm==2)Check(localWidth/low.Count>topRadius*.30f&&localWidth/low.Count<topRadius*.80f,"water and temple retain broad eroded cliff bases rather than identical pointed cones");else Check(localWidth/low.Count<topRadius*.25f,"meadow lower fifth retains its irregular suspended tip");
   Check(new Vector2(lowCenter.x,lowCenter.z).magnitude>topRadius*.18f,"floating rock tip is visibly offset from the landing disk");
   var profile=new List<float>();
   for(int row=0;row<22;row++){

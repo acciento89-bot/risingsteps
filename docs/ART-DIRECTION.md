@@ -64,3 +64,8 @@ Keep the current cream/green illustrated atlas readable: separate hero copy and 
 The deterministic landing fan and its collision remain unchanged. Scenic additions have no colliders and share the existing cached atlas materials/static batch boundary. Generated original/batched meshes and per-world sky/cloud materials remain owned by their roots. Each waterfall caches its ribbon renderers and uses one property-block driver; reduced motion suppresses the shimmer.
 
 This is an achievable mobile geometry direction. Source checks and image similarity do not establish physical frame rate, thermal behavior, genuine commerce, or full cinematic equivalence to the board. The coordinated actual player screenshots and course gate must be inspected before visual acceptance.
+
+
+## 2026-10-14 contour and portal revision
+
+The user-authorized full Concept rebuild now permits growing first-three-world landing outlines. Course centers, heights, data slots and RNG consumption remain unchanged; the new fan must independently contain the whole former safe polygon and match its rendered terrain/cliff lips. Water uses a wider mineral shelf, Temple a rounded square and corresponding masonry/inlay. Broad eroded Water/Temple bases replace the former all-world pointed-base requirement. The arched radiance is an actual 3D mesh with one parent-owned warm point light; original arrival logic remains. Exact-source native earned100courses/1200landings/100portals and save reloading pass. This is functional geometry acceptance, not overall Concept acceptance; see QA/rising-landforms-portal-20261014.json.

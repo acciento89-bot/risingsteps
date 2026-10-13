@@ -7,17 +7,19 @@ namespace Kamilunavo.RisingSteps.Visuals
  public static class IslandArt
  {
   public const float Surface=.6f;
-  public static StepMarker Build(Transform parent,int index,int realm,bool scenic=false){var random=new System.Random(117+index*79+realm*1901);const int n=24;float size=index==12?2.05f:1.55f;var radius=new float[n];for(int i=0;i<n;i++)radius[i]=size*(.91f+(float)random.NextDouble()*.13f);
+  // Expand the old seeded polygon; never remove an already safe landing point.
+  public static float ContourFactor(int realm,float angle)=>realm==2?1/Mathf.Pow(Mathf.Pow(Mathf.Abs(Mathf.Cos(angle)),6)+Mathf.Pow(Mathf.Abs(Mathf.Sin(angle)),6),1f/6):realm==1?1/Mathf.Sqrt(Mathf.Pow(Mathf.Cos(angle)/1.18f,2)+Mathf.Pow(Mathf.Sin(angle),2)):1;
+  public static StepMarker Build(Transform parent,int index,int realm,bool scenic=false){var random=new System.Random(117+index*79+realm*1901);const int n=24;float size=index==12?2.05f:1.55f;var radius=new float[n];for(int i=0;i<n;i++)radius[i]=size*(.91f+(float)random.NextDouble()*.13f)*ContourFactor(realm,i*Mathf.PI*2/n);
    BuildCliff(parent,radius,index,realm);
    var gv=new Vector3[n+1];var guv=new Vector2[n+1];var gt=new int[n*3];gv[0]=Vector3.up*Surface;guv[0]=Vector2.one*.5f;
    for(int i=0;i<n;i++){float a=i*Mathf.PI*2/n;gv[i+1]=new Vector3(Mathf.Cos(a)*radius[i],Surface,Mathf.Sin(a)*radius[i]);guv[i+1]=new Vector2(gv[i+1].x/size,gv[i+1].z/size)*.5f+Vector2.one*.5f;gt[i*3]=0;gt[i*3+1]=(i+1)%n+1;gt[i*3+2]=i+1;}
    var ground=MeshArt.Mesh(parent,realm==2?"TempleSurface":realm==1?"CascadeSurface":realm==0?"MeadowSurface":RisingRealmCatalog.Theme(realm)+"Surface",gv,gt,guv,realm==0?MeshArt.Mat("Realm0Ground",RealmArt.Ground(0),0):MeshArt.Stone("Realm"+realm+"Ground",RealmArt.Ground(realm)),!scenic);StepMarker marker=null;if(!scenic){marker=ground.AddComponent<StepMarker>();marker.Index=index;
-    MeshArt.Ring(parent,"GoldenLandingRim",size*.74f,.032f,Surface+.018f,MeshArt.Mat("RouteGold",new Color(.91f,.63f,.15f),-1,true,.60f));var contrast=MeshArt.Ring(parent,"RouteContrastRim",size*.76f,.025f,Surface+.017f,MeshArt.Mat("RouteContrast",new Color(.025f,.07f,.10f)));contrast.SetActive(false);
-    MeshArt.Ring(parent,"InnerRouteRim",size*.70f,.006f,Surface+.02f,MeshArt.Mat("RouteLight",new Color(.95f,.77f,.36f),-1,true,.30f));}
+    var rim=MeshArt.Ring(parent,"GoldenLandingRim",size*(realm==2?1.10f:.74f),.032f,Surface+.018f,MeshArt.Mat("RouteGold",new Color(.91f,.63f,.15f),-1,true,.60f),realm==2?4:64);var contrast=MeshArt.Ring(parent,"RouteContrastRim",size*(realm==2?1.12f:.76f),.025f,Surface+.017f,MeshArt.Mat("RouteContrast",new Color(.025f,.07f,.10f)),realm==2?4:64);contrast.SetActive(false);
+    var inner=MeshArt.Ring(parent,"InnerRouteRim",size*(realm==2?1.06f:.70f),.006f,Surface+.02f,MeshArt.Mat("RouteLight",new Color(.95f,.77f,.36f),-1,true,.30f),realm==2?4:64);if(realm==2){rim.transform.localRotation=contrast.transform.localRotation=inner.transform.localRotation=Quaternion.Euler(0,45,0);}}
    SurfaceFinish(parent,ground,gv,gt,guv,realm);Vegetation(parent,radius,size,random,realm,index);RealmArt.Dress(parent,index,realm,size,scenic);
    return marker;
   }
-  // The two original upper lips and seeded collider boundary remain exact.
+  // Both rendered lips follow the same newly authored collision contour.
   // Lower sections share normals and move in height independently around the cliff.
   private static void BuildCliff(Transform parent,float[] radius,int index,int realm)
   {
@@ -28,8 +30,8 @@ namespace Kamilunavo.RisingSteps.Visuals
    float[] levels={-1,-.88f,-.66f,-.40f,-.17f,-.035f,.48f,.6f};
    float[] taper=theme switch {
     RisingRealmTheme.Meadow=>new[]{.055f,.14f,.57f,.83f,.94f,.97f,1,.99f},
-    RisingRealmTheme.Waterfall=>new[]{.055f,.15f,.62f,.89f,.96f,.99f,1,.99f},
-    RisingRealmTheme.Temple=>new[]{.055f,.14f,.56f,.85f,.93f,.97f,1,.99f},
+    RisingRealmTheme.Waterfall=>new[]{.40f,.65f,.76f,.92f,.98f,.99f,1,.99f},
+    RisingRealmTheme.Temple=>new[]{.35f,.57f,.77f,.91f,.96f,.97f,1,.99f},
     RisingRealmTheme.Crystal=>new[]{.06f,.19f,.34f,.53f,.69f,.89f,1,.99f},
     RisingRealmTheme.Frost=>new[]{.035f,.11f,.27f,.51f,.77f,.96f,1,.99f},
     RisingRealmTheme.Desert=>new[]{.07f,.20f,.38f,.63f,.82f,.97f,1,.99f},

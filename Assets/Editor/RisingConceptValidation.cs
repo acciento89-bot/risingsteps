@@ -9,13 +9,13 @@ public static class RisingConceptValidation
  static int _checks;
  static void Check(bool value,string message){_checks++;if(!value)throw new InvalidOperationException("Concept world: "+message);}
  static bool Has(GameObject root,string name)=>Array.Exists(root.GetComponentsInChildren<Transform>(),t=>t.name==name);
- // The cliff may change below the lip; the original seeded landing boundary may not.
+ // Rendered lips must agree with the authoritative new contour; legacy safety is checked separately.
  static void ValidateCliff(GameObject root,int index,int realm){
   var mesh=root.transform.Find("LimestoneCliff").GetComponent<MeshFilter>().sharedMesh;var vertices=mesh.vertices;var normals=mesh.normals;
-  var random=new System.Random(117+index*79+realm*1901);float size=index==12?2.05f:1.55f;var radius=new float[24];for(int i=0;i<24;i++)radius[i]=size*(.91f+(float)random.NextDouble()*.13f);
+  var footprint=root.GetComponentInChildren<MeshCollider>().sharedMesh.vertices;
   int upper=0;float sumX=0,sumZ=0;int lower=0;var heights=new HashSet<int>();var faces=new HashSet<string>();
   for(int i=0;i<vertices.Length;i++){var v=vertices[i];var normal=normals[i];Check(float.IsFinite(v.x)&&float.IsFinite(v.y)&&float.IsFinite(v.z),"finite organic cliff coordinates");
-   if(v.y>=.4799f){bool found=false;for(int k=0;k<24;k++){float angle=k*Mathf.PI*2/24;var expected=new Vector3(Mathf.Cos(angle)*radius[k]*(v.y>.59f?.99f:1),v.y>.59f?.6f:.48f,Mathf.Sin(angle)*radius[k]*(v.y>.59f?.99f:1));if((v-expected).sqrMagnitude<.000001f){found=true;break;}}Check(found,"both cliff lip rings retain original radius and elevation");upper++;}
+   if(v.y>=.4799f){bool found=false;for(int k=0;k<footprint.Length;k++){var p=footprint[k];if(new Vector2(p.x,p.z).sqrMagnitude<.01f)continue;var expected=new Vector3(p.x*(v.y>.59f?.99f:1),v.y>.59f?.6f:.48f,p.z*(v.y>.59f?.99f:1));if((v-expected).sqrMagnitude<.000001f){found=true;break;}}Check(found,"both rendered cliff lips agree with the actual landing contour and elevation");upper++;}
    else{sumX+=v.x;sumZ+=v.z;lower++;heights.Add(Mathf.RoundToInt(v.y*1000));faces.Add(Mathf.RoundToInt(normal.x*20)+":"+Mathf.RoundToInt(normal.y*20)+":"+Mathf.RoundToInt(normal.z*20));}
   }
   Check(upper>=48,"original two cliff lip rings exist");Check(lower>0&&new Vector2(sumX/lower,sumZ/lower).magnitude>.025f,"lower rock body has an asymmetric mass rather than a centered cone");

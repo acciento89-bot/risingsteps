@@ -68,7 +68,7 @@ namespace Kamilunavo.RisingSteps.Visuals
    MeshArt.Mesh(pool.transform,"ReedLeaves",blades.ToArray(),btri.ToArray(),buv.ToArray(),reed);
    LandscapeBotany.CascadePlants(parent,index,size);
    if(index%4==0){
-    var treePosition=new Vector3(-size*1.32f,.58f,-size*.62f);
+    var treePosition=new Vector3(-size*1.83f,.58f,-size*.72f);
     LandscapeGeometry.Rock(parent,"WillowRootLedge",treePosition-Vector3.up*.19f,new Vector3(.70f,.34f,.64f),stone,index*31+7);
     LandscapeBotany.CascadeWillow(parent,treePosition,index,.68f);
    }
@@ -91,7 +91,7 @@ namespace Kamilunavo.RisingSteps.Visuals
    // Staggered independent blocks expose weathered faces below the landing disk.
    // They are render-only perimeter detail: no block changes the authoritative fan.
    for(int course=0;course<2;course++)for(int block=0;block<18;block++){
-    float angle=(block+(course%2)*.5f)*Mathf.PI*2/18,r=size*(.925f-course*.055f);
+    float angle=(block+(course%2)*.5f)*Mathf.PI*2/18,r=size*(.925f-course*.055f)*IslandArt.ContourFactor(2,angle);
     var masonry=MeshArt.Box(parent,"TempleMasonryCourse",new Vector3(Mathf.Cos(angle)*r,.37f-course*.255f+.016f*Mathf.Sin(block*2.9f+index),Mathf.Sin(angle)*r),new Vector3(size*.32f,.225f,.24f),stone);
     masonry.transform.localRotation=Quaternion.Euler(0,90-angle*Mathf.Rad2Deg,(block%5-2)*.8f);LandscapeGeometry.StoneUv(masonry);
    }

@@ -47,7 +47,7 @@ namespace Kamilunavo.RisingSteps.Visuals
    var moss=LandscapePalette.Moss(parent);var leaves=new List<Vector3>();var uv=new List<Vector2>();var t=new List<int>();
    for(int plant=0;plant<3;plant++){
     float angle=index*.39f+plant*2.16f;var outward=new Vector3(Mathf.Cos(angle),0,Mathf.Sin(angle));var across=new Vector3(-outward.z,0,outward.x);
-    var basePoint=outward*size*.99f+Vector3.up*.604f;
+    var basePoint=outward*size*.99f*IslandArt.ContourFactor(1,angle)+Vector3.up*.604f;
     for(int frond=0;frond<5;frond++){
      float yaw=(frond-2)*.35f;var direction=(outward*Mathf.Cos(yaw)+across*Mathf.Sin(yaw)).normalized;
      float length=.59f+(frond%3)*.12f;
@@ -64,7 +64,7 @@ namespace Kamilunavo.RisingSteps.Visuals
     float a=vine*Mathf.PI*2/9+index*.39f;var radial=new Vector3(Mathf.Cos(a),0,Mathf.Sin(a));var across=new Vector3(-radial.z,0,radial.x);
     float length=.76f+(vine%3)*.24f;var path=new Vector3[8];
     for(int node=0;node<8;node++){
-     float f=node/7f;path[node]=radial*(size*(.99f-f*.095f)+.025f)+across*Mathf.Sin(f*5+vine)*.065f+Vector3.up*(.58f-length*f);
+     float f=node/7f;path[node]=radial*(size*(.99f-f*.095f)+.025f)*IslandArt.ContourFactor(1,a)+across*Mathf.Sin(f*5+vine)*.065f+Vector3.up*(.58f-length*f);
      if(node>0)for(int shoot=0;shoot<3;shoot++){
       int sign=(node+shoot)%2==0?1:-1;var joint=path[node]+Vector3.up*shoot*.035f+across*sign*.015f;
       Leaf(leaves,uv,t,joint,joint+across*sign*(.20f-shoot*.023f)+Vector3.down*(.11f+shoot*.016f),radial*(.064f-shoot*.006f),.028f);

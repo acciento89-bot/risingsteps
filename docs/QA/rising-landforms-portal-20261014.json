@@ -1,0 +1,39 @@
+{
+  "sourceSha256": "8375be601bffb831ee36b0f000e3241b36382918a1f1769e8ceb8ab7dc8f288e",
+  "buildLog": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/landmark-atmosphere-final-build.log",
+  "editorBuildExit": 0,
+  "visualGate": "not accepted",
+  "newContract": "Expanded Water/Temple contours preserve the entire original triangle fan; course centers/heights/data unchanged",
+  "nativeWorlds": "RISING_TEN_WORLD_PREVIEW_PASS checks=81 actual60controllerjumps/tenworlds; isolated fixture unlocks for visual review only;100course acceptance remains pending",
+  "earned100CourseRun": {
+    "LandmarkRuntime": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/LandmarkRuntime/PASS.txt",
+      "result": "RISING_TEN_WORLD_PREVIEW_PASS checks=81 actual60controllerjumps/tenworlds; isolated fixture unlocks for visual review only;100course acceptance remains pending"
+    },
+    "LandmarkEarnedCampaign": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/LandmarkEarnedCampaign/PASS.txt",
+      "result": "RISING_CAMPAIGN_PASS checks=1504 actual controller1200jumps/100portals; isolated profile; rendered comparison still required"
+    },
+    "LandmarkCamera": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/LandmarkCamera/PASS.txt",
+      "result": "RISING_CAMERA_PASS 147"
+    },
+    "LandmarkTutorial": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/LandmarkTutorial/PASS.txt",
+      "result": "RISING_TUTORIAL_PASS 11"
+    }
+  },
+  "review": "No remaining important issue after capture input suspension and atmosphere review",
+  "preservedRed": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/landform-red.log",
+  "physicalHardwareResult": false,
+  "unchangedGeometryBehaviorDependencies": {
+    "Assets/Scripts/Visuals/IslandArt.cs": "f7fd7cf020ef049c254340450ca5df449f3f18683fe190f2e984dcc284130aa0",
+    "Assets/Scripts/Gameplay/RisingCourse.cs": "deca26959b6ec7c5b3ba4e198e4b91f3f2699460c8903bc88bd1f6d937480bb9",
+    "Assets/Scripts/Gameplay/PlayerMotor.cs": "e44263fa6accdc57fd040d1ac14c928a2ea41b2ca569d4497156b17e147e5370",
+    "Assets/Scripts/Core/RisingCampaign.cs": "da2d17f2de2781d5a7f8360d8280415511d13f63ff2dc9c0858a8d86e694cf23",
+    "Assets/Scripts/Core/RisingRules.cs": "8df277ff223616e22b2247c7ee3323dcbce2477d47b0f33733482bd05d165f67",
+    "Assets/Scripts/Visuals/PortalArt.cs": "89dfabcffc5fcf704992b34260a5a3c6a767266a400c88c193153c914b3a68e5"
+  },
+  "comparison": "/Volumes/SSK SSD/Kamilunavo/Artifacts/RisingLandmarkComparison-20261014/concept-unity-vergleich.png",
+  "codeReview": "No important issue; QA capture input suspension correction inspected"
+}
