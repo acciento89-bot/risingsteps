@@ -63,6 +63,8 @@ public static class RisingLandscapeValidation
      SkyArt.Build(root.transform,realm);owned.Add(RenderSettings.skybox);
      Check(Array.Exists(root.GetComponentsInChildren<Transform>(),t=>t.name==horizons[realm]),"realm "+realm+" owns actual horizon landscape "+horizons[realm]);
      Check(root.GetComponentsInChildren<Collider>().Length==0,"background landscape never adds collisions");
+     var fillLights=root.GetComponentsInChildren<Light>();Check(fillLights.Length==(realm==2?1:0),"only Temple adds one owned soft fill rather than unbounded light sources");
+     foreach(var fill in fillLights){owned.Add(fill);Check(fill.shadows==LightShadows.None&&fill.intensity<=1&&fill.cullingMask==~(1<<31),"finite fill has no extra shadow maps and cannot light isolated UI studio geometry");}
      int vertices=CaptureAssets(root,owned);maxBackdrop=Math.Max(vertices,maxBackdrop);Check(vertices<70000,"world backdrop has a finite mobile geometry budget");
      Check(horizonsSeen.Add(Topology(root)),"ten horizons have different actual geometry rather than different colors");
      foreach(var renderer in root.GetComponentsInChildren<Renderer>())if(renderer.sharedMaterial.shader.name=="Rising/Cloud")owned.Add(renderer.sharedMaterial);

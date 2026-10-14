@@ -1,0 +1,58 @@
+{
+  "sourceSha256": "4fbd4e10446b76bc09fe39809e36c6808aee1adaea2a8303a2bce5596896c2c0",
+  "editorBuildExit": 0,
+  "buildLog": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/temple-golden-hour-build.log",
+  "nativeChecks": {
+    "Runtime": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/TempleGoldenHourRuntime/PASS.txt",
+      "result": "RISING_TEN_WORLD_PREVIEW_PASS checks=81 actual60controllerjumps/tenworlds; isolated fixture unlocks for visual review only;100course acceptance remains pending",
+      "sha256": "4a45a72da83230aceb4e89db6531dd043d12ca0ca5c96a725becab42c134614c"
+    },
+    "Ui": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/TempleGoldenHourUi/PASS.txt",
+      "result": "RISING_ORIGINAL_CHAPTERS_PASS 194 actual DE/EN portrait/landscape scrolling, seven distinct illustrated cards, real selection and parent Back; isolated unlock fixture only",
+      "sha256": "eaae7f7dcc00a0affe9879d91621887aac3b98a799f4e498aca2c230b21974bb"
+    },
+    "Camera": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/TempleGoldenHourCamera/PASS.txt",
+      "result": "RISING_CAMERA_PASS 147",
+      "sha256": "ab67a0bd02f7e9ff166b12851d59ae110d3eb69c52632860b16a2b682ed929c6"
+    },
+    "Tutorial": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/TempleGoldenHourTutorial/PASS.txt",
+      "result": "RISING_TUTORIAL_PASS 11",
+      "sha256": "ed1f0bd50fd903e0ef395710033c6bcb965838e7e7571324a65742ae32c59a25"
+    },
+    "Default": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/TempleGoldenHourDefault/PASS.txt",
+      "result": "RISING_QA_PASS checks=125 actual controller 36 steps and natural fall; isolated save; no FPS claim",
+      "sha256": "b69136eaa657735ceddcab7a111c444b9f496ba9e74d67d55a9bacc41ab0c8c1"
+    },
+    "EarnedReplay": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/TempleGoldenHourEarnedReplay/PASS.txt",
+      "result": "RISING_COMPLETED_REPLAY_PASS 203 all100 previously earned level-card callbacks launch exact realm/level without losing independent stars; actual earned saved profile, no unlock fixture",
+      "sha256": "8c1fe87b05d583b5e5085c80e653f977b65dcf2824449eb50bc4d20f288535d9"
+    }
+  },
+  "templeLighting": "Sun key now follows visible front-right sunset:Euler16/-165,intensity1.12; Temple-only ambient0.72/cooler neutral fill. One scene-owned0.68 directional soft fill without shadows, mask excludes UI studio layer31. Ordinary realm lighting unchanged. Existing singleSun32m shadows and owned bounded HDR bloom retained.",
+  "geometry": "Same original34735vertex Temple sanctuary/5terraces/22columns/13archstones/no colliders; own generated limestone surface, ten original menu pictures and persistent original adventurer assets retained.",
+  "functionalAuthority": "Fresh1200landings/100physical portals/1704checks and separate coldall100stars remain exact0735 source, not re-assigned to this lighting follow-up. All six gameplay/controller/landing/portal files byte-match that source. Final native60real jumps/10worlds and203actual completed-card replays independently passed on final4fbd source.",
+  "fullCampaignAuthoritySource": "0735f0c5e768d3ca491842192245a3f86b549aa1b9a10e65399219454a08db9e",
+  "fullCampaignAuthorityFiles": {
+    "Assets/Scripts/Gameplay/PlayerMotor.cs": "e44263fa6accdc57fd040d1ac14c928a2ea41b2ca569d4497156b17e147e5370",
+    "Assets/Scripts/Core/RisingCampaign.cs": "da2d17f2de2781d5a7f8360d8280415511d13f63ff2dc9c0858a8d86e694cf23",
+    "Assets/Scripts/Core/RisingRules.cs": "8df277ff223616e22b2247c7ee3323dcbce2477d47b0f33733482bd05d165f67",
+    "Assets/Scripts/Visuals/PortalArt.cs": "89dfabcffc5fcf704992b34260a5a3c6a767266a400c88c193153c914b3a68e5",
+    "Assets/Scripts/Visuals/IslandArt.cs": "e9c65d0891b1b20817c2c7fac56f6394a0f778f4a8d00eb38403e33604d2eb54",
+    "Assets/Scripts/Gameplay/RisingCourse.cs": "d07f4252b1b281e974f1d05983acadc40d0efea1d79e0f11b4f28951e1ba6d64"
+  },
+  "parentProof": "docs/QA/rising-temple-sanctuary-20261014.json",
+  "priorRimOnlyCandidate": {
+    "source": "2009072690fc912bc930e0fb730a797640d61e1108a31766cdd21154e67bd2ee",
+    "checks": "81worlds/194menu/147camera/11tutorial/125default allpass",
+    "visualObservation": "Foreground and runner too dark in actual frame; render-only follow-up adds bounded soft fill rather than approving functional-only visual acceptance."
+  },
+  "readOnlyReview": "No important findings. Fill belongs to replaced scenery root, deactivates/destroys with it, no extra shadow maps, excludes UI studio31. Actual current approach readable and sun clear of wallet. Source whitespace checks pass.",
+  "comparison": "/Volumes/SSK SSD/Kamilunavo/Artifacts/RisingTempleGoldenHourComparison-20261014/concept-unity-vergleich.png",
+  "visualAcceptance": "FAILED. Source-verified original assets/illustrations/character/terraced architecture exist and gameplay/nav works. Character/hair fidelity, repeated route-cap/cliff forms, botanical density and material depth remain below approved Concept. No numerical90percent or physical FPS/thermal/real-ad/commerce assertion. No upload/version bump."
+}

@@ -76,3 +76,7 @@ Original stratified limestone, real beveled sediment beds and denser first-three
 
 
 2026-10-14 coherent Waterfall reconstruction: original modeled valley water below existing landing fans, five planted eroded banks and wide waterfalls; retained actual route collider/RNG/portal authority and mobile geometry ceilings. Independent CascadeFlow original asset and actual water shader. Five native review modes plus100earned courses/cold100scores pass on frozen2b147f. Actual Concept comparison remains below target: further botanical density/composition and runner quality required. Menu pictures never stand in for gameplay.
+
+## 2026-10-14 original terraced Temple sanctuary
+
+Temple's repeated scaled scenic landing templates now give way to genuine larger terraced ruins, carved fluted columns, dry planted banks, raised banner ornaments, thick gateway and background mountains. Same authoritative playable islands and movement remain. Real sunset geometry and directional key agree; one bounded shadowless fill keeps the front of the boy and stone readable, without lighting isolated UIstudio geometry. Native comparisons are unpainted current player framebuffers. Original landscape texture surfaces, ten individual chapter pictures and persistent own Unity adventurer assets are real integrated resources; they do not by themselves establish approved Concept likeness. Further character/landform/botanical/material detail remains, and the visual release gate stays FAILED.

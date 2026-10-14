@@ -43,7 +43,7 @@ _hud.Close();_course.StartRun(0,false);yield return new WaitForSeconds(.5f);
    _course.Profile.UnlockedRealm=2;for(int realm=0;realm<3;realm++){_course.StartRun(realm,false);yield return new WaitForSeconds(.5f);
     var scenery=_course.transform.Find("RealmScenery"+realm);Check(scenery!=null&&scenery.gameObject.activeInHierarchy,"selected realm owns current scenery "+realm);
     Check(_course.GetComponentsInChildren<Transform>().Length>0&&scenery.GetComponentsInChildren<Transform>().Length>0,"realm scenery has authored geometry "+realm);
-    Check(scenery.Find(realm==1?"OriginalWaterGarden":realm==2?"DistantTemple":"DistantMeadow")!=null,"selected realm changes distant island architecture "+realm);
+    Check(scenery.Find(realm==1?"OriginalWaterGarden":realm==2?"TempleHorizon":"DistantMeadow")!=null,"selected realm changes distant island architecture "+realm);
     Check(Array.Exists(scenery.GetComponentsInChildren<Transform>(),t=>t.name==(realm==1?"GardenPool":realm==2?"TempleColumn":"WindTree")),"selected realm contains unique visible landmarks "+realm);
     Check(_course.GetComponentsInChildren<Kamilunavo.RisingSteps.Visuals.CloudBillboard>().Length==9,"world selection replaces cloud scenery instead of accumulating it");
     var worldParts=scenery.GetComponentsInChildren<Transform>();

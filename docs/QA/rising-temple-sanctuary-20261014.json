@@ -1,0 +1,100 @@
+{
+  "sourceSha256": "0735f0c5e768d3ca491842192245a3f86b549aa1b9a10e65399219454a08db9e",
+  "status": "functional-pass_visual-failed",
+  "editorBuildExit": 0,
+  "buildLog": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/temple-atmosphere-build.log",
+  "nativeChecks": {
+    "Runtime": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/TempleAtmosphereRuntime/PASS.txt",
+      "result": "RISING_TEN_WORLD_PREVIEW_PASS checks=81 actual60controllerjumps/tenworlds; isolated fixture unlocks for visual review only;100course acceptance remains pending",
+      "sha256": "4a45a72da83230aceb4e89db6531dd043d12ca0ca5c96a725becab42c134614c"
+    },
+    "Ui": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/TempleAtmosphereUi/PASS.txt",
+      "result": "RISING_ORIGINAL_CHAPTERS_PASS 194 actual DE/EN portrait/landscape scrolling, seven distinct illustrated cards, real selection and parent Back; isolated unlock fixture only",
+      "sha256": "eaae7f7dcc00a0affe9879d91621887aac3b98a799f4e498aca2c230b21974bb"
+    },
+    "Camera": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/TempleAtmosphereCamera/PASS.txt",
+      "result": "RISING_CAMERA_PASS 147",
+      "sha256": "ab67a0bd02f7e9ff166b12851d59ae110d3eb69c52632860b16a2b682ed929c6"
+    },
+    "Tutorial": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/TempleAtmosphereTutorial/PASS.txt",
+      "result": "RISING_TUTORIAL_PASS 11",
+      "sha256": "ed1f0bd50fd903e0ef395710033c6bcb965838e7e7571324a65742ae32c59a25"
+    },
+    "Default": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/TempleAtmosphereDefault/PASS.txt",
+      "result": "RISING_QA_PASS checks=125 actual controller 36 steps and natural fall; isolated save; no FPS claim",
+      "sha256": "b69136eaa657735ceddcab7a111c444b9f496ba9e74d67d55a9bacc41ab0c8c1"
+    },
+    "EarnedCampaign": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/TempleAtmosphereEarnedCampaign/PASS.txt",
+      "result": "RISING_CAMPAIGN_PASS checks=1704 actual controller1200jumps/100portals; isolated profile; rendered comparison still required",
+      "sha256": "080adaff11171c914698415cff17c4a1f46a89d7086bbbb2877844d65b550bdf"
+    },
+    "EarnedReload": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/TempleAtmosphereEarnedReload/RELOAD-PASS.txt",
+      "result": "Fresh native bootstrap restored step=12 realm=9 safe=(0.76, 12.53, 49.37)",
+      "sha256": "cfff32147f85b98ea8ff01b7c93376093530df9966d9e65880b70f30b658e8d8"
+    },
+    "EarnedReplay": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/TempleAtmosphereEarnedReplay/PASS.txt",
+      "result": "RISING_COMPLETED_REPLAY_PASS 203 all100 previously earned level-card callbacks launch exact realm/level without losing independent stars; actual earned saved profile, no unlock fixture",
+      "sha256": "8c1fe87b05d583b5e5085c80e653f977b65dcf2824449eb50bc4d20f288535d9"
+    }
+  },
+  "originalTempleModels": {
+    "vertices": 34735,
+    "vertexCeiling": 35000,
+    "nearTerraces": 5,
+    "flutedColumns": 22,
+    "gatewayArchStones": 13,
+    "allCampaignMaxZ": 49.84658,
+    "nearProtectedCorridor": "x\u00b14.8",
+    "centralGatewayZ": 110,
+    "colliders": 0,
+    "description": "Original actual eroded stone terrace meshes, beveled blocks, fluted sculpted columns, curved pointed banners with real raised gold sun marks, modeled braziers, dry herbs and mountains. Replaces14scaled scenic landing-island templates; full root owns and releases generated meshes. Original generated limestone albedo and normal response retained."
+  },
+  "materialsAndAtmosphere": "Restrained separate wall/floor sandstone tints and warm sun direction. True2.6m sun at(14,17.5,90), normal/view-dependent HDR core and actual existing bloom; inspected native frame clears wallet. Previous giant flat sun rejected in real frame. No unsupported pipeline migration.",
+  "ownAssetStatus": "All10distinct original realm menu illustrations and own persistent3D adventurer prefab/mesh/material assets already integrated in prior commits; this slice creates original3D temple architecture rather than another gameplay illustration.",
+  "intermediateEvidence": [
+    {
+      "source": "2170c4f68f2e18ab49184f3b097309d87e91bd21cc32e6de30c96ba8a83aaf34",
+      "app": "TempleSanctuaryCandidate.app",
+      "checks": "81worlds/194menu/147camera/11tutorial/125default pass",
+      "observation": "Sun remained occluded; material/lighting refined next."
+    },
+    {
+      "source": "99aaa391fe59260be7f43e2a828cf51ea4ae973c3e72073f313515238571568b",
+      "app": "TempleSunsetVerified.app",
+      "checks": "81worlds/194menu/147camera/11tutorial/125default pass",
+      "observation": "Sun visibly too large near wallet; corrected smaller HDR core in final source."
+    }
+  ],
+  "retainedFailures": [
+    "temple-sanctuary-build.log: previous blanket x\u00b17 horizon/pediment check incompatible with genuinely new near Temple kit; changed Temple-only rule to independently measured protected4.8corridor OR beyond all100course maxZ+8, other realms retain7.",
+    "temple-sanctuary-build-r2.log:62443 exceeds35k explicit kit budget; reduced far shaft tessellation and original dryherb mesh detail instead of raising any ceiling.",
+    "Read-only review found missing UV on local ring primitives; genuine planar UV/tangents added, no broad fixture exception."
+  ],
+  "readOnlyReview": "Final review found no critical/important issue in geometry, ownership, UV/corridor safety or HDR shader/material binding. Native current smaller sun visible clear of wallet; framing does not mean visual acceptance.",
+  "visualAcceptance": "FAILED. Character anatomy/hair, repeated landing/cliff composition, botanical density and material depth remain below approved Concept; no90percent assertion or TestFlight upload.",
+  "comparison": "/Volumes/SSK SSD/Kamilunavo/Artifacts/RisingTempleAtmosphereComparison-20261014/concept-unity-vergleich.png",
+  "unmodifiedCoreFiles": {
+    "Assets/Scripts/Gameplay/PlayerMotor.cs": "e44263fa6accdc57fd040d1ac14c928a2ea41b2ca569d4497156b17e147e5370",
+    "Assets/Scripts/Core/RisingCampaign.cs": "da2d17f2de2781d5a7f8360d8280415511d13f63ff2dc9c0858a8d86e694cf23",
+    "Assets/Scripts/Core/RisingRules.cs": "8df277ff223616e22b2247c7ee3323dcbce2477d47b0f33733482bd05d165f67",
+    "Assets/Scripts/Visuals/PortalArt.cs": "89dfabcffc5fcf704992b34260a5a3c6a767266a400c88c193153c914b3a68e5",
+    "Assets/Scripts/Visuals/IslandArt.cs": "e9c65d0891b1b20817c2c7fac56f6394a0f778f4a8d00eb38403e33604d2eb54"
+  },
+  "fullCampaign": "Exact0735 source:1704checks with actual level-card callbacks,1200real CharacterController landings,100physical portals, all100independent scores, separate fresh-process all100score reload realm9/level9/step12; no unlock fixture or posed player.",
+  "fullCampaignAuthorityFiles": {
+    "Assets/Scripts/Gameplay/PlayerMotor.cs": "e44263fa6accdc57fd040d1ac14c928a2ea41b2ca569d4497156b17e147e5370",
+    "Assets/Scripts/Core/RisingCampaign.cs": "da2d17f2de2781d5a7f8360d8280415511d13f63ff2dc9c0858a8d86e694cf23",
+    "Assets/Scripts/Core/RisingRules.cs": "8df277ff223616e22b2247c7ee3323dcbce2477d47b0f33733482bd05d165f67",
+    "Assets/Scripts/Visuals/PortalArt.cs": "89dfabcffc5fcf704992b34260a5a3c6a767266a400c88c193153c914b3a68e5",
+    "Assets/Scripts/Visuals/IslandArt.cs": "e9c65d0891b1b20817c2c7fac56f6394a0f778f4a8d00eb38403e33604d2eb54",
+    "Assets/Scripts/Gameplay/RisingCourse.cs": "d07f4252b1b281e974f1d05983acadc40d0efea1d79e0f11b4f28951e1ba6d64"
+  }
+}

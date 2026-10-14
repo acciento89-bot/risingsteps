@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Kamilunavo.RisingSteps.Visuals;
+using Kamilunavo.RisingSteps.Gameplay;
 
 // Structural safeguards for the approved Oct10 comparison. Actual screenshot
 // resemblance is a separate root-owned graphics gate, never inferred from counts.
@@ -61,9 +62,12 @@ public static class RisingGraphicsRefinementValidation
    try{
     RealmArt.BuildBackdrop(root.transform,realm);int count=Capture(root,owned);maxHorizon=Math.Max(maxHorizon,count);
     Check(count<70000&&root.GetComponentsInChildren<Collider>().Length==0,"rich horizon remains bounded render-only scenery");
-    bool visibleUpperLayer=false;
+    bool visibleUpperLayer=false;float lastCampaignZ=float.NegativeInfinity;
+    if(realm==2)for(int r=0;r<10;r++)for(int level=0;level<10;level++)foreach(var point in CoursePatterns.LevelPoints(r,level))lastCampaignZ=Mathf.Max(lastCampaignZ,point.z);
     foreach(var renderer in root.GetComponentsInChildren<Renderer>()){
-     var bounds=renderer.bounds;Check(bounds.min.x>7||bounds.max.x<-7,"midground stays outside the full central route corridor");
+     var bounds=renderer.bounds;// New Temple terraces frame the same x±4.8 protected route as WaterGarden.
+     // Only architecture beyond every course can occupy its central horizon.
+     Check(realm==2?(bounds.min.x>4.8f||bounds.max.x<-4.8f||bounds.min.z>lastCampaignZ+8):(bounds.min.x>7||bounds.max.x<-7),"midground stays outside the full central route corridor");
      visibleUpperLayer|=bounds.max.y>12&&bounds.center.z<105&&Mathf.Abs(bounds.center.x)<32;
     }
     Check(visibleUpperLayer,"layered scenery rises into view beside the completed climb");
@@ -74,7 +78,7 @@ public static class RisingGraphicsRefinementValidation
      Check(lake.max.y>terrace.max.y,"terrace water is exposed above its real stone support");
      Check(Find(root,"CascadeWillow")!=null&&Find(root,"CascadeRidgeLeafClusters")!=null,"water horizon has original branched trees and leafy ridge silhouettes");
     }
-    if(realm==2)Check(Find(root,"SanctuaryPediment")!=null&&Find(root,"AcropolisMasonry")!=null,"Temple horizon has architectural volume and articulated masonry");
+    if(realm==2)Check(Find(root,"SanctuaryArchVoussoir")!=null&&Find(root,"SanctuaryMasonry")!=null,"Temple horizon has architectural volume and articulated masonry");
    }finally{UnityEngine.Object.DestroyImmediate(root);}
    foreach(var asset in owned)Check(asset==null,"horizon owns and disposes its generated art");
   }

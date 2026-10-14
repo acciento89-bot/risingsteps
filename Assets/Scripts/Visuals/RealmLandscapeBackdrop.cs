@@ -41,24 +41,7 @@ namespace Kamilunavo.RisingSteps.Visuals
      }
      break;
     case RisingRealmTheme.Temple:
-     for(int i=0;i<6;i++){
-      var p=GardenPoint(i);Highland(root.transform,p,realm,i,stone);
-      var facade=new GameObject("TempleSkySanctuary");facade.transform.SetParent(root.transform,false);facade.transform.localPosition=p+Vector3.up*7.9f;
-      // Broad stepped podiums, articulated blocks and a real pitched pediment
-      // remain readable in the side silhouette and through the forward camera.
-      for(int terrace=0;terrace<3;terrace++)MeshArt.Box(facade.transform,"AcropolisPodium",new Vector3(0,terrace*.42f,0),new Vector3(13.2f-terrace*.85f,.40f,9.0f-terrace*.6f),stone);
-      for(int block=0;block<14;block++)MeshArt.Box(facade.transform,"AcropolisMasonry",new Vector3((block%7-3)*1.74f,.28f+(block/7)*.43f,-4.38f),new Vector3(1.69f,.38f,.22f),stone);
-      for(int j=0;j<5;j++){
-       var col=MeshArt.Lathe(facade.transform,"SanctuaryColumn",new[]{0f,.3f,.55f,5.2f,5.5f},new[]{.56f,.56f,.36f,.36f,.6f},16,stone,Vector3.one,true);col.transform.localPosition=new Vector3((j-2)*2.25f,1.10f,-1.9f);
-       for(int band=0;band<2;band++)MeshArt.Ring(col.transform,"SanctuaryColumnGold",.41f,.035f,.65f+band*4.4f,accent,16);
-      }
-      MeshArt.Box(facade.transform,"SanctuaryEntablature",new Vector3(0,6.65f,-1.9f),new Vector3(11.4f,.65f,3.2f),stone);
-      MeshArt.Box(facade.transform,"SanctuaryGoldFrieze",new Vector3(0,6.51f,-3.53f),new Vector3(10.9f,.16f,.10f),accent);
-      MeshArt.Mesh(facade.transform,"SanctuaryPediment",new[]{new Vector3(-5.9f,7,-3.6f),new Vector3(5.9f,7,-3.6f),new Vector3(0,9.1f,-3.6f),new Vector3(-5.9f,7,-.2f),new Vector3(5.9f,7,-.2f),new Vector3(0,9.1f,-.2f)},new[]{0,2,1,3,4,5,0,3,5,0,5,2,1,2,5,1,5,4,0,1,4,0,4,3},new[]{Vector2.zero,Vector2.right,Vector2.up,Vector2.zero,Vector2.right,Vector2.up},stone);
-      for(int tooth=0;tooth<13;tooth++)MeshArt.Box(facade.transform,"SanctuaryDentil",new Vector3((tooth-6)*.80f,6.92f,-3.54f),new Vector3(.23f,.17f,.18f),accent);
-      var banner=MeshArt.Mat("TempleHorizonBanner",new Color(.41f,.23f,.45f));
-      for(int side=-1;side<=1;side+=2)MeshArt.Box(facade.transform,"SanctuaryBanner",new Vector3(side*4.5f,4.7f,-2.38f),new Vector3(.75f,2.5f,.045f),banner);
-     }break;
+     RisingTempleSanctuary.Build(root.transform);break;
     case RisingRealmTheme.Jungle:
      for(int i=0;i<7;i++){
       var p=Point(i,-17);LandscapeGeometry.Rock(root.transform,"JungleKarst",p,new Vector3(20,20+i%3*3,19),stone,i);
