@@ -98,7 +98,7 @@ namespace Kamilunavo.RisingSteps.Visuals
    float[] height={-.05f,.045f,.15f,.235f,.285f,.315f},width={.17f,.21f,.215f,.19f,.13f,.04f},depth={.13f,.165f,.17f,.15f,.10f,.035f};
    for(int ring=0;ring<rings;ring++)for(int side=0;side<=sides;side++){
     float angle=side*Mathf.PI*2/sides,x=Mathf.Cos(angle),z=Mathf.Sin(angle),front=Mathf.Max(0,z);
-    float ridge=(Mathf.Sin(angle*7+ring*.55f)*.007f+Mathf.Cos(angle*11-ring*.35f)*.004f)*(ring==5?.3f:1);
+    float ridge=(Mathf.Sin(angle*5+ring*.82f)*.018f+Mathf.Cos(angle*9-ring*.70f)*.008f)*(ring==5?.3f:1);
     float y=height[ring]+(ring==0?front*front*.15f:0)+ridge;
     _vertices.Add(new Vector3(x*(width[ring]+ridge),y,z*(depth[ring]+ridge)-.035f));
     _uv.Add(new Vector2((float)side/sides,(float)ring/(rings-1)));

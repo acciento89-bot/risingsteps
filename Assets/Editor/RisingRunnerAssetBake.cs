@@ -17,7 +17,7 @@ public static class RisingRunnerAssetBake
  const int Samples=12;
  static string Digest(){
   using var hash=SHA256.Create();var bytes=new List<byte>();
-  foreach(string path in new[]{"Assets/Scripts/Visuals/RunnerArt.cs","Assets/Scripts/Visuals/RunnerMeshBuilder.cs","Assets/Scripts/Visuals/RunnerAnimator.cs","Assets/Scripts/Visuals/RisingRunnerModel.cs","Assets/Editor/RisingRunnerAssetBake.cs","Assets/Editor/RunnerMeshOcclusion.cs","Assets/Resources/RisingCharacter.shader","Assets/Resources/Materials/CharacterSurface.mat","Assets/Resources/Art/TravelFabric-v1.png","Assets/Resources/Art/TravelFabric-v1.png.meta","Assets/Resources/Art/HairFlow-v1.png","Assets/Resources/Art/HairFlow-v1.png.meta"}){bytes.AddRange(Encoding.UTF8.GetBytes(path));bytes.AddRange(File.ReadAllBytes(path));}
+  foreach(string path in new[]{"Assets/Scripts/Visuals/RunnerArt.cs","Assets/Scripts/Visuals/RunnerMeshBuilder.cs","Assets/Scripts/Visuals/RunnerAnimator.cs","Assets/Scripts/Visuals/RisingRunnerModel.cs","Assets/Editor/RisingRunnerAssetBake.cs","Assets/Editor/RunnerMeshOcclusion.cs","Assets/Resources/RisingCharacter.shader","Assets/Resources/Materials/CharacterSurface.mat","Assets/Resources/Art/TravelFabric-v1.png","Assets/Resources/Art/TravelFabric-v1.png.meta","Assets/Resources/Art/ChestnutMicro-v2.png","Assets/Resources/Art/ChestnutMicro-v2.png.meta"}){bytes.AddRange(Encoding.UTF8.GetBytes(path));bytes.AddRange(File.ReadAllBytes(path));}
   return BitConverter.ToString(hash.ComputeHash(bytes.ToArray())).Replace("-","").ToLowerInvariant();
  }
  public static void Ensure(){

@@ -1,0 +1,65 @@
+{
+  "sourceSha256": "d115ed3fb58e47fe73deb9caa4c253db6b1ef753868e5b8ad5c0526a44ec9599",
+  "editorBuildExit": 0,
+  "buildLog": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/adventurer-wallet-verified-build.log",
+  "nativeChecks": {
+    "AdventurerWalletUi": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/AdventurerWalletUi/PASS.txt",
+      "result": "RISING_ORIGINAL_CHAPTERS_PASS 194 actual DE/EN portrait/landscape scrolling, seven distinct illustrated cards, real selection and parent Back; isolated unlock fixture only",
+      "sha256": "eaae7f7dcc00a0affe9879d91621887aac3b98a799f4e498aca2c230b21974bb"
+    },
+    "AdventurerWalletRuntime": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/AdventurerWalletRuntime/PASS.txt",
+      "result": "RISING_TEN_WORLD_PREVIEW_PASS checks=81 actual60controllerjumps/tenworlds; isolated fixture unlocks for visual review only;100course acceptance remains pending",
+      "sha256": "4a45a72da83230aceb4e89db6531dd043d12ca0ca5c96a725becab42c134614c"
+    },
+    "AdventurerWalletCamera": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/AdventurerWalletCamera/PASS.txt",
+      "result": "RISING_CAMERA_PASS 147",
+      "sha256": "ab67a0bd02f7e9ff166b12851d59ae110d3eb69c52632860b16a2b682ed929c6"
+    },
+    "AdventurerWalletTutorial": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/AdventurerWalletTutorial/PASS.txt",
+      "result": "RISING_TUTORIAL_PASS 11",
+      "sha256": "ed1f0bd50fd903e0ef395710033c6bcb965838e7e7571324a65742ae32c59a25"
+    },
+    "AdventurerWalletDefault": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/AdventurerWalletDefault/PASS.txt",
+      "result": "RISING_QA_PASS checks=125 actual controller 36 steps and natural fall; isolated save; no FPS claim",
+      "sha256": "b69136eaa657735ceddcab7a111c444b9f496ba9e74d67d55a9bacc41ab0c8c1"
+    },
+    "AdventurerWalletEarnedReplay": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/AdventurerWalletEarnedReplay/PASS.txt",
+      "result": "RISING_COMPLETED_REPLAY_PASS 203 all100 previously earned level-card callbacks launch exact realm/level without losing independent stars; actual earned saved profile, no unlock fixture",
+      "sha256": "8c1fe87b05d583b5e5085c80e653f977b65dcf2824449eb50bc4d20f288535d9"
+    }
+  },
+  "model": {
+    "sourceDigest": "efb32da4b6ec952b83064ef963f5588db7b708e6b309d994e69116017f701643",
+    "vertices": 5884,
+    "triangles": 9936,
+    "activeRenderers": 30,
+    "materials": 8,
+    "textures": 3,
+    "textureSize": 64,
+    "improvements": "Independently curved overlapping rear/top locks, irregular crown contour, own neutral hair fiber texture, permanent brass buckle material, merged same-joint boot buffers; existing rig/controller untouched."
+  },
+  "menu": "Plain opaque rectangular UI/Default backdrop replaces rounded translucent blue mask, including all corners. Gameplay HUD/control objects hidden for every menu, restored before unpause. Home48point localized actual wallet/diamond directly opens Shop; real click/Back restores scrolled parent. Original heavy brand and ten distinct chapter pictures retained.",
+  "coreFilesUnchangedSinceEarned100": {
+    "Assets/Scripts/Gameplay/RisingCourse.cs": "6f2361fe24365753f80617bc0410e20379e9f85336baed9d6efe3538e76200bf",
+    "Assets/Scripts/Gameplay/PlayerMotor.cs": "e44263fa6accdc57fd040d1ac14c928a2ea41b2ca569d4497156b17e147e5370",
+    "Assets/Scripts/Core/RisingCampaign.cs": "da2d17f2de2781d5a7f8360d8280415511d13f63ff2dc9c0858a8d86e694cf23",
+    "Assets/Scripts/Core/RisingRules.cs": "8df277ff223616e22b2247c7ee3323dcbce2477d47b0f33733482bd05d165f67",
+    "Assets/Scripts/Visuals/PortalArt.cs": "89dfabcffc5fcf704992b34260a5a3c6a767266a400c88c193153c914b3a68e5",
+    "Assets/Scripts/Visuals/IslandArt.cs": "e9c65d0891b1b20817c2c7fac56f6394a0f778f4a8d00eb38403e33604d2eb54"
+  },
+  "priorFullCampaignProof": "1704 real1200landings/100portals/cold100scores remain source2b147f; new203 completed-profile UI callbacks proved independently on this source without unlock fixtures.",
+  "intermediateOpaqueCandidate": {
+    "sourceSha256": "1db9016121cebdc8fc53fd2757fef75598ec58c6e16c10db2f378d6046a4ac25",
+    "proofs": "AdventurerMenuUi170/Runtime81/Camera147/Tutorial11/Default125/EarnedReplay203 pass; retained separately; UI initial activation returned1, physical modes0, no focus bypass.",
+    "visualObservation": "Menu opaque but hair surface too bare/smooth; further rear coverage/crown and visible wallet added in finald115 source."
+  },
+  "comparison": "/Volumes/SSK SSD/Kamilunavo/Artifacts/RisingAdventurerWalletComparison-20261014/concept-unity-vergleich.png",
+  "visualAcceptance": "FAILED. Original menu/character assets now genuinely integrated and functionally verified; landscape density/landforms/temple composition and character fidelity remain below approved Concept. No numerical fidelity assertion/no upload.",
+  "readOnlyReview": "No new material findings. Opaque backdrop resolved; wallet Shop/Back stack and controls restoration reviewed; independent SourceDigest recomputation matches persisted model. Actual100card replay203 separately passed by root."
+}

@@ -52,12 +52,17 @@ namespace Kamilunavo.RisingSteps.UI
   private void Tap(){UiPressed?.Invoke();}
   public void Play(){if(PresenterActive)return;if(P.Completed)Course.StartRun(P.Realm,false);Close();if(!P.TutorialDone)_tutorial.Begin();}
   public void ReplayTutorial(){if(PresenterActive)return;if(P.Completed||P.Step>=12)Course.StartRun(P.Realm,false);Close();_tutorial.Begin();}
-  public void Close(){if(PresenterActive)return;_parents.Clear();_pendingScroll=-1;Tap();if(_modal!=null){_modal.gameObject.SetActive(false);DestroyUi(_modal.gameObject);}_modal=null;_content=null;_page="";Course.Paused=false;}
+  public void Close(){if(PresenterActive)return;_parents.Clear();_pendingScroll=-1;Tap();if(_modal!=null){_modal.gameObject.SetActive(false);DestroyUi(_modal.gameObject);}_modal=null;_content=null;_page="";GameplayVisible(true);Course.Paused=false;}
   private static void DestroyUi(GameObject value){if(Application.isPlaying)Destroy(value);else DestroyImmediate(value);}
+  private void GameplayVisible(bool visible){
+   foreach(var target in new[]{_worldTitle.transform.parent.gameObject,_menu.gameObject,_height.transform.parent.gameObject,_coins.transform.parent.gameObject,_hint.gameObject,Joystick.gameObject,Jump.gameObject,Look.gameObject})target.SetActive(visible);
+  }
   private void Begin(string page,string title){if(PresenterActive)return;float previousScroll=page==_page?ScrollPosition():1;
    if(!_rebuilding){if(page=="home")_parents.Clear();else if(page!=_page&&!string.IsNullOrEmpty(_page))_parents.Push(new MenuLocation{Page=_page,Scroll=ScrollPosition(),Realm=_levelRealm});}
-   _pendingScroll=previousScroll;UiFactory.HighContrast=P.HighContrast;Tap();if(_modal!=null){_modal.gameObject.SetActive(false);DestroyUi(_modal.gameObject);}_page=page;Course.Paused=true;
-   _modal=UiFactory.Panel(_safe,"ModalBackdrop",new Color(.32f,.65f,.73f,.58f),Vector2.zero,Vector2.one);
+   _pendingScroll=previousScroll;UiFactory.HighContrast=P.HighContrast;Tap();if(_modal!=null){_modal.gameObject.SetActive(false);DestroyUi(_modal.gameObject);}_page=page;Course.Paused=true;GameplayVisible(false);
+   // The full-screen backdrop is a plain rectangle, not a rounded card whose
+   // transparent corner mask would reveal the game behind the menus.
+   var backdrop=new GameObject("ModalBackdrop",typeof(RectTransform),typeof(CanvasRenderer),typeof(Image));backdrop.transform.SetParent(_safe,false);_modal=(RectTransform)backdrop.transform;_modal.anchorMin=Vector2.zero;_modal.anchorMax=Vector2.one;_modal.offsetMin=_modal.offsetMax=Vector2.zero;var paper=backdrop.GetComponent<Image>();paper.color=new Color(.93f,.916f,.838f,1);paper.raycastTarget=true;
    float sw=_safe.rect.width,sh=_safe.rect.height,w=Mathf.Min(sw-24,540),h=sh-32,closeSize=UiMetrics.TargetSize(_safe,52);var card=UiFactory.Panel(_modal,"ModalCard",Paper,Vector2.zero,Vector2.one);card.GetComponent<RoundedPanel>().UseGallery();Place(card,(sw-w)/2,16,w,h);
    UiFactory.Label(card,"Title",title,28,new Vector2(.07f,.89f),new Vector2(.93f,.98f),TextAnchor.MiddleCenter,Ink,FontStyle.Bold);
    var viewport=UiFactory.Panel(card,"Viewport",Color.clear,Vector2.zero,Vector2.one);viewport.GetComponent<Image>().raycastTarget=true;Place(viewport,16,h*.115f,w-32,h*.885f-closeSize-30);viewport.gameObject.AddComponent<RectMask2D>();
@@ -72,8 +77,11 @@ namespace Kamilunavo.RisingSteps.UI
   public void ShowHome(){if(PresenterActive)return;Begin("home",T("REICHE WÄHLEN","CHOOSE A REALM"));
    var card=(RectTransform)_content.parent.parent;card.GetComponent<Image>().color=Paper;float cw=card.rect.width,ch=card.rect.height;
    var title=card.Find("Title").GetComponent<Text>();title.color=Ink;title.alignment=TextAnchor.MiddleCenter;title.font=UiFactory.DisplayFont;title.fontSize=16;title.resizeTextMaxSize=16;
-   var tab=UiFactory.Panel(card,"AtlasTab",new Color(.96f,.92f,.82f),Vector2.zero,Vector2.one);tab.GetComponent<RoundedPanel>().UseGallery();Place(tab,(cw-170)/2,8,170,32);tab.SetAsFirstSibling();Place((RectTransform)title.transform,(cw-170)/2,8,170,32);
-   var viewport=(RectTransform)_content.parent;Place(viewport,10,48,cw-20,ch-UiMetrics.TargetSize(_safe,52)-74);
+   float walletWidth=cw<250?82:104,tabWidth=Mathf.Min(170,cw-walletWidth-40);if(cw<250)title.text=T("REICHE","REALMS");
+   var tab=UiFactory.Panel(card,"AtlasTab",new Color(.96f,.92f,.82f),Vector2.zero,Vector2.one);tab.GetComponent<RoundedPanel>().UseGallery();Place(tab,12,12,tabWidth,32);tab.SetAsFirstSibling();Place((RectTransform)title.transform,12,12,tabWidth,32);
+   var wallet=UiFactory.Button(card,"MenuWallet","",new Color(.91f,.93f,.85f),Ink,Vector2.zero,Vector2.one,ShowShop);wallet.GetComponent<RoundedPanel>().UseGallery();Place((RectTransform)wallet.transform,cw-walletWidth-12,4,walletWidth,UiMetrics.TargetSize(_safe,48));
+   var crystal=UiFactory.Panel(wallet.transform,"MenuCrystal",Color.clear,new Vector2(.05f,.23f),new Vector2(.29f,.77f));HudIcons.Add(crystal,HudIcons.Kind.Crystal);crystal.GetComponentInChildren<HudIcons>().color=new Color(.70f,.51f,.16f);var balance=UiFactory.Label(wallet.transform,"MenuBalance",P.Crystals.ToString("N0",System.Globalization.CultureInfo.GetCultureInfo(P.Language=="de"?"de-DE":"en-US")),14,new Vector2(.30f,.05f),new Vector2(.94f,.95f),TextAnchor.MiddleCenter,Ink,FontStyle.Bold);balance.resizeTextMinSize=10;
+   var viewport=(RectTransform)_content.parent;Place(viewport,10,62,cw-20,ch-UiMetrics.TargetSize(_safe,52)-88);
    bool narrow=cw<250;float artHeight=(cw-20)*2/3,heroHeight=artHeight+(narrow?64:0),artBottom=narrow?64/heroHeight:0;
    Vector2 HeroAt(float x,float y)=>new Vector2(x,artBottom+y*(1-artBottom));
    var hero=UiFactory.Panel(_content,"SkyAtlas",Paper,Vector2.zero,Vector2.one);hero.gameObject.AddComponent<LayoutElement>().preferredHeight=heroHeight;RealmIllustration.Add(hero,P.Realm,new Vector2(0,artBottom),Vector2.one,true);

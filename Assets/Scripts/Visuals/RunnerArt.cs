@@ -36,7 +36,7 @@ namespace Kamilunavo.RisingSteps.Visuals
    var dark=Material(root,"RunnerSeamsAndEyes",new Color(.055f,.065f,.05f),.12f);
    var green=Material(root,"RunnerHoodie",new Color(.055f,.32f,.17f),.10f);
    var hair=Material(root,"RunnerChestnutHair",new Color(.34f,.15f,.055f),.20f);
-   var gold=Material(root,"RunnerPremiumThread",new Color(1,.88f,.39f),.22f);
+   var gold=Material(root,"RunnerPremiumThread",new Color(1,.88f,.39f),.22f);gold.SetFloat("_Metallic",.42f);
    var canvas=Material(root,"RunnerTravelCanvas",new Color(.48f,.29f,.13f),.16f);canvas.mainTexture=CanvasDetail(root);
    hair.mainTexture=HairDetail(root);var cloth=CanvasDetail(root);cloth.name="RunnerClothWeave";green.mainTexture=cloth;pants.mainTexture=cloth;animator.Hoodie=green;
    animator.Hips=Pivot(root.transform,"Hips",new Vector3(0,.85f,0));
@@ -62,10 +62,10 @@ namespace Kamilunavo.RisingSteps.Visuals
    // Belt fittings share the existing Hips seam batch. The marker preserves
    // the authored feature name without spending a renderer beside premium crests.
    Pivot(animator.Hips,"TravelBeltHardware",Vector3.zero);
-   var hardware=seams;
+   var hardware=new RunnerMeshBuilder(animator.Hips,"TravelBeltHardwareMesh",gold);
    hardware.Sweep(new[]{new Vector3(-.033f,.006f,.142f),new Vector3(-.033f,.033f,.142f),new Vector3(.033f,.033f,.142f),new Vector3(.033f,.006f,.142f),new Vector3(-.033f,.006f,.142f)},new[]{.005f,.005f,.005f,.005f,.005f},new[]{.003f,.003f,.003f,.003f,.003f},5);
    for(int side=-1;side<=1;side+=2){hardware.Stitch(new Vector3(side*.060f,.365f,-.429f),new Vector3(side*.10f,.365f,-.429f),.005f);hardware.Stitch(new Vector3(side*.080f,.352f,-.43f),new Vector3(side*.080f,.384f,-.43f),.004f);}
-   BuildPack(animator,canvas,seams);seams.Finish();
+   BuildPack(animator,canvas,seams);seams.Finish();hardware.Finish();
 
    for(int side=-1;side<=1;side+=2){BuildLeg(animator,side,pants,skin,canvas,ivory,green,dark);BuildArm(animator,side,green,skin,dark);}
    BuildHead(animator,skin,ivory,dark,hair);
@@ -101,8 +101,9 @@ namespace Kamilunavo.RisingSteps.Visuals
    boot.Profile(footOrigin+new Vector3(0,0,-.065f),new[]{.123f,.144f,.159f},new[]{.083f,.090f,.080f},new[]{.064f,.073f,.060f},12,.70f);boot.Finish();
    var trim=new RunnerMeshBuilder(knee,"HikingBootLacesAndSole",dark);
    trim.Shoe(footOrigin,-.13f,-.090f,0);
-   for(int lace=0;lace<4;lace++){float z=-.039f+lace*.033f,y=.124f-lace*.026f;trim.Stitch(footOrigin+new Vector3(-.043f,y,z),footOrigin+new Vector3(.043f,y-.017f,z+.025f),.004f);trim.Stitch(footOrigin+new Vector3(.043f,y,z),footOrigin+new Vector3(-.043f,y-.017f,z+.025f),.004f);}trim.Finish();
-   var tread=new RunnerMeshBuilder(knee,"BootTreadAndAnkleTrim",dark);
+   for(int lace=0;lace<4;lace++){float z=-.039f+lace*.033f,y=.124f-lace*.026f;trim.Stitch(footOrigin+new Vector3(-.043f,y,z),footOrigin+new Vector3(.043f,y-.017f,z+.025f),.004f);trim.Stitch(footOrigin+new Vector3(.043f,y,z),footOrigin+new Vector3(-.043f,y-.017f,z+.025f),.004f);}
+   // Sole, laces and ankle trim share the same joint/material draw buffer.
+   var tread=trim;
    tread.Profile(footOrigin+new Vector3(0,0,-.065f),new[]{.139f,.153f,.170f},new[]{.087f,.088f,.078f},new[]{.069f,.069f,.062f},12,.72f);
    for(int i=0;i<4;i++)tread.Stitch(footOrigin+new Vector3(-.084f,-.134f,-.070f+i*.080f),footOrigin+new Vector3(.084f,-.134f,-.070f+i*.080f),.006f);
    for(int sideEdge=-1;sideEdge<=1;sideEdge+=2){tread.Stitch(footOrigin+new Vector3(sideEdge*.098f,-.064f,-.07f),footOrigin+new Vector3(sideEdge*.103f,-.061f,.09f),.004f);}tread.Finish();
@@ -142,21 +143,20 @@ namespace Kamilunavo.RisingSteps.Visuals
    var crown=new RunnerMeshBuilder(animator.Head,"SweptChestnutHair",hair);crown.HairCrown();
    // Individually curved, flattened leaf-like locks overlap a continuous crown.
    // Their tips and directions vary; no parallel tube-shaped hair strips.
-   for(int lockIndex=0;lockIndex<5;lockIndex++){
-    float x=-.17f+lockIndex*.080f,y=.19f+(1-Mathf.Abs(x)/.18f)*.07f;
-    crown.HairLock(new Vector3(x-.03f,y,.025f),new Vector3(x+.018f,y+.125f,-.045f),new Vector3(x+.058f,y+.09f+(lockIndex%3)*.018f,-.155f),.064f,.021f);
-   }
+   Vector3[] roots={new(-.16f,.19f,.012f),new(-.09f,.27f,.024f),new(-.025f,.30f,.018f),new(.047f,.26f,.04f),new(.118f,.19f,.015f)};
+   Vector3[] bends={new(-.20f,.285f,-.026f),new(-.075f,.38f,-.019f),new(.030f,.40f,-.045f),new(.111f,.35f,-.060f),new(.21f,.245f,-.043f)};
+   Vector3[] tips={new(-.215f,.22f,-.142f),new(-.025f,.33f,-.123f),new(.08f,.355f,-.145f),new(.155f,.255f,-.17f),new(.225f,.16f,-.151f)};
+   for(int lockIndex=0;lockIndex<5;lockIndex++)crown.HairLock(roots[lockIndex],bends[lockIndex],tips[lockIndex],.064f,.021f);
    for(int fringe=0;fringe<4;fringe++){
     float x=-.128f+fringe*.080f;
     crown.HairLock(new Vector3(x-.03f,.21f,.08f),new Vector3(x,.18f,.17f),new Vector3(x+.055f,.080f+(fringe%2)*.025f,.165f),.039f,.014f);
    }
    crown.Finish();
    var rear=new RunnerMeshBuilder(animator.Head,"RearSweptLocks",hair);
-   for(int row=0;row<2;row++)for(int lockIndex=0;lockIndex<(row==0?5:4);lockIndex++){
-    float x=-.166f+lockIndex*(row==0?.083f:.105f),arch=1-Mathf.Abs(x)/.205f,y=(row==0?.225f:.11f)+arch*.06f+.015f*Mathf.Sin(lockIndex*2.31f+row);
-    float sweep=.034f*Mathf.Sin(lockIndex*1.7f+row*2);
-    rear.HairLock(new Vector3(x-.020f,y+.015f,-.118f-row*.03f),new Vector3(x+sweep,y+.040f,-.224f-row*.013f),new Vector3(x+.049f+sweep,y-.085f-(lockIndex%2)*.02f,-.248f-row*.025f),.061f,.017f);
-   }
+   Vector3[] rearRoots={new(-.16f,.265f,-.115f),new(-.08f,.29f,-.12f),new(0,.315f,-.12f),new(.08f,.29f,-.115f),new(.16f,.26f,-.105f),new(-.14f,.15f,-.20f),new(-.055f,.18f,-.20f),new(.045f,.16f,-.20f),new(.125f,.12f,-.185f)};
+   Vector3[] rearBends={new(-.22f,.26f,-.23f),new(-.12f,.31f,-.245f),new(.025f,.32f,-.25f),new(.14f,.285f,-.235f),new(.23f,.245f,-.22f),new(-.21f,.135f,-.27f),new(-.08f,.17f,-.28f),new(.08f,.14f,-.275f),new(.17f,.09f,-.255f)};
+   Vector3[] rearTips={new(-.205f,.10f,-.275f),new(-.055f,.13f,-.29f),new(.04f,.145f,-.285f),new(.19f,.12f,-.265f),new(.21f,.09f,-.25f),new(-.22f,0,-.276f),new(.015f,-.015f,-.29f),new(-.075f,-.01f,-.29f),new(.24f,.015f,-.265f)};
+   for(int lockIndex=0;lockIndex<rearRoots.Length;lockIndex++)rear.HairLock(rearRoots[lockIndex],rearBends[lockIndex],rearTips[lockIndex],.066f,.030f);
    for(int side=-1;side<=1;side+=2)for(int lockIndex=0;lockIndex<3;lockIndex++){
     float y=.10f+lockIndex*.053f;
     rear.HairLock(new Vector3(side*.155f,y+.067f,.020f),new Vector3(side*.24f,y+.024f,-.07f),new Vector3(side*.221f,y-.081f,-.205f),.033f,.016f);
@@ -203,7 +203,7 @@ namespace Kamilunavo.RisingSteps.Visuals
   {var material=new Material(Resources.Load<Material>("Materials/CharacterSurface")){name=name,color=color};material.SetFloat("_Glossiness",gloss);ArtLifetime.Own(owner,material);return material;}
   static Texture2D HairDetail(GameObject owner)
   {
-   var original=Resources.Load<Texture2D>("Art/HairFlow-v1");
+   var original=Resources.Load<Texture2D>("Art/ChestnutMicro-v2");
    if(original==null||!original.isReadable)throw new System.InvalidOperationException("Missing readable original hair artwork");
    var texture=new Texture2D(original.width,original.height,TextureFormat.RGB24,true){name="RunnerHairStrandDetail",wrapMode=TextureWrapMode.Repeat,filterMode=FilterMode.Bilinear};texture.SetPixels(original.GetPixels());texture.Apply(true,false);ArtLifetime.Own(owner,texture);return texture;
   }

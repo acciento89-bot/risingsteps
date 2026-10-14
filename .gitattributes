@@ -1,0 +1,4 @@
+# Unity serializes empty YAML scalar keys with trailing spaces.
+# Keep ordinary source whitespace checks; allow its native serialized format.
+Assets/Resources/Models/*.asset whitespace=-blank-at-eol
+Assets/Resources/Models/*.prefab whitespace=-blank-at-eol

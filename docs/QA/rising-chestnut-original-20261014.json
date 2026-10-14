@@ -1,0 +1,8 @@
+{
+  "source": "/Users/piotrkaminski/.codex/generated_images/01a11788-3eb6-7e32-963e-51b37d78e2ed/exec-9ecf355b-f14e-4c0f-8043-e23450545f46.png",
+  "project": "Assets/Resources/Art/ChestnutMicro-v2.png",
+  "sha256": "dd3a83efa8092ec8ebcb675382900e5fd9761c722049e8df7908b281237187db",
+  "originalUnchanged": true,
+  "import": "64 readable repeat; neutral strand detail multiplied by chestnut material on actual curved mesh locks, not a flat hairstyle sprite",
+  "prompt": "Create one original seamless square grayscale albedo microtexture for the hair of a real 3D stylized adventurer in Unity. Whole image: fine soft irregular hair fibers, gently curving in the vertical direction with varied strand spacing and restrained crossed wisps; subtle fine feathered highlights. Neutral warm pale gray, almost ivory, between about 0.80 and 0.94 brightness, even illumination. It will be multiplied by chestnut-brown material and mapped along genuinely modeled curved hair clumps. No colored brown shading, no coarse striped bands, no rope, no braids, no drawn hair locks or full hairstyle, no scalp/skin, no object, no lighting vignette, no shadows, no border, no text. Seamless microtexture only; soft high-quality animated adventure-game hair fibers, low contrast so strands never look like parallel wood ridges."
+}

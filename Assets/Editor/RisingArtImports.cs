@@ -16,6 +16,7 @@ public static class RisingArtImports
   ImportOriginal("Assets/Resources/Art/CascadeChapter-v2.png",1024,false,false);
   ImportOriginal("Assets/Resources/Art/CanopyLeaves-v1.png",256,true,false);
   ImportOriginal("Assets/Resources/Art/HairFlow-v1.png",64,true,true);
+  ImportOriginal("Assets/Resources/Art/ChestnutMicro-v2.png",64,true,true);
   ImportOriginal("Assets/Resources/Art/TravelFabric-v1.png",64,true,true);
   ImportOriginal("Assets/Resources/Art/RisingWordmark-v1.png",512,false,false);
   var wordmark=AssetImporter.GetAtPath("Assets/Resources/Art/RisingWordmark-v1.png") as TextureImporter;wordmark.alphaIsTransparency=true;wordmark.npotScale=TextureImporterNPOTScale.None;wordmark.textureCompression=TextureImporterCompression.Uncompressed;wordmark.SaveAndReimport();
