@@ -11,7 +11,7 @@ namespace Kamilunavo.RisingSteps.UI
  public sealed class RisingHud:MonoBehaviour
  {
   public RisingCourse Course{get;private set;}public VirtualJoystick Joystick{get;private set;}public PressButton Jump{get;private set;}public CameraLookControl Look{get;private set;}public bool ModalOpen=>_modal!=null;public bool ShopOpen=>_page=="shop";public event Action UiPressed;
-  private RectTransform _safe,_modal,_content;private Text _height,_coins,_hint;private Image _progress;private Button _menu;private int _width,_heightScreen;private Vector2 _safeSize;private string _page="";private float _hintUntil,_nextVideoPoll;private Button _watchButton,_retryStoreButton;
+  private RectTransform _safe,_modal,_content;private Text _height,_coins,_hint,_worldTitle;private Image _progress;private Button _menu;private int _width,_heightScreen;private Vector2 _safeSize;private string _page="";private float _hintUntil,_nextVideoPoll;private Button _watchButton,_retryStoreButton;
   private static readonly Color Navy=new(.16f,.21f,.20f,.68f),Gold=new(1,.73f,.12f),Purple=new(.40f,.10f,.86f),Blue=new(.04f,.48f,.90f);
   private readonly Stack<MenuLocation> _parents=new();
   private struct MenuLocation {public string Page;public float Scroll;public int Realm;}
@@ -24,6 +24,7 @@ namespace Kamilunavo.RisingSteps.UI
   private RisingTutorial _tutorial;private static readonly Color Ink=new(.10f,.23f,.26f),Paper=new(.97f,.952f,.883f),Leaf=new(.22f,.43f,.31f);
   private RisingProfile P=>Course.Profile;public string T(string de,string en)=>P.Language=="en"?en:de;
   public void Initialize(RisingCourse course){Course=course;var canvas=UiFactory.Canvas();_safe=UiFactory.Panel(canvas.transform,"SafeArea",Color.clear,Vector2.zero,Vector2.one);_safe.gameObject.AddComponent<SafeAreaFitter>();
+   var realmBadge=UiFactory.Panel(_safe,"RealmBadge",new Color(.97f,.94f,.85f,.96f),Vector2.zero,Vector2.one);realmBadge.GetComponent<RoundedPanel>().UseGallery();realmBadge.GetComponent<Image>().raycastTarget=false;_worldTitle=UiFactory.Label(realmBadge,"WorldTitle","",16,new Vector2(.04f,.08f),new Vector2(.96f,.92f),TextAnchor.MiddleCenter,Ink,FontStyle.Bold);_worldTitle.font=UiFactory.DisplayFont;
    _menu=UiFactory.Button(_safe,"Menu","",Navy,Color.white,Vector2.zero,Vector2.one,ShowHome);HudIcons.Add(_menu.transform,HudIcons.Kind.Pause);
    var height=UiFactory.Panel(_safe,"Height",Navy,Vector2.zero,Vector2.one);_height=UiFactory.Label(height,"Value","",20,new Vector2(.05f,.33f),new Vector2(.95f,.97f),TextAnchor.MiddleCenter,Color.white,FontStyle.Bold);_progress=UiFactory.Progress(height,new Vector2(.10f,.14f),new Vector2(.90f,.25f),new Color(.16f,.23f,.36f),Gold);
    var coins=UiFactory.Panel(_safe,"Crystals",Navy,Vector2.zero,Vector2.one);var gem=UiFactory.Panel(coins,"CrystalIcon",Color.clear,new Vector2(.04f,.18f),new Vector2(.31f,.82f));HudIcons.Add(gem,HudIcons.Kind.Crystal);gem.GetComponentInChildren<HudIcons>().color=Gold;_coins=UiFactory.Label(coins,"Value","",20,new Vector2(.30f,.05f),new Vector2(.95f,.95f),TextAnchor.MiddleCenter,Gold,FontStyle.Bold);
@@ -36,16 +37,17 @@ namespace Kamilunavo.RisingSteps.UI
    Layout();Refresh();ShowHome();
   }
   private static void Place(RectTransform r,float x,float y,float w,float h,bool bottom=false){r.anchorMin=r.anchorMax=new Vector2(0,bottom?0:1);r.pivot=new Vector2(0,bottom?0:1);r.anchoredPosition=new Vector2(x,bottom?y:-y);r.sizeDelta=new Vector2(w,h);}
-  private void Layout(){Canvas.ForceUpdateCanvases();float w=_safe.rect.width,h=_safe.rect.height;float target=UiMetrics.TargetSize(_safe,52),headerX=target+22;Place((RectTransform)_menu.transform,12,12,target,target);Place((RectTransform)_height.transform.parent,headerX,12,Mathf.Max(90,w-headerX-118),target);Place((RectTransform)_coins.transform.parent,w-108,12,96,target);Place((RectTransform)_hint.transform,headerX,target+18,w-headerX-74,26);
-   if(w<280){Place((RectTransform)_height.transform.parent,headerX,12,w-headerX-12,target);Place((RectTransform)_coins.transform.parent,w-90,target+20,78,target);Place((RectTransform)_hint.transform,12,target*2+26,w-24,24);}
-   float stick=w<220?68:h<420?90:112,jump=w<220?68:h<420?82:94;stick=UiMetrics.TargetSize(_safe,stick);jump=UiMetrics.TargetSize(_safe,jump);Place((RectTransform)Joystick.transform,16,16,stick,stick,true);Place((RectTransform)Jump.transform,w-jump-16,20,jump,jump,true);
-   Place((RectTransform)Look.transform,12,target+24,target,target);
+  private void Layout(){Canvas.ForceUpdateCanvases();float w=_safe.rect.width,h=_safe.rect.height;float target=UiMetrics.TargetSize(_safe,52);bool landscape=w>h;float badgeWidth=Mathf.Min(220,w-24);Place((RectTransform)_worldTitle.transform.parent,(w-badgeWidth)/2,12,badgeWidth,32);
+   Place((RectTransform)_menu.transform,12,landscape?12:54,target,target);Place((RectTransform)_height.transform.parent,w-(landscape?224:118),landscape?12:54,106,40);Place((RectTransform)_coins.transform.parent,w-108,landscape?12:99,96,36);Place((RectTransform)_hint.transform,landscape?target+22:target+20,landscape?target+18:54,landscape?w-target-140:Mathf.Max(50,w-target-142),26);
+   if(w<280){Place((RectTransform)_height.transform.parent,w-102,54,90,40);Place((RectTransform)_coins.transform.parent,w-102,99,90,36);Place((RectTransform)_hint.transform,12,target*2+79,w-24,24);}
+   float stick=w<220?68:h<420?90:96,jump=w<220?68:h<420?82:90;stick=UiMetrics.TargetSize(_safe,stick);jump=UiMetrics.TargetSize(_safe,jump);Place((RectTransform)Joystick.transform,16,20,stick,stick,true);Place((RectTransform)Jump.transform,w-jump-16,24,jump,jump,true);
+   Place((RectTransform)Look.transform,12,target+(landscape?24:61),target,target);
    _width=Screen.width;_heightScreen=Screen.height;_safeSize=_safe.rect.size;
   }
   private void Update(){if(ShopOpen&&Time.unscaledTime>=_nextVideoPoll){_nextVideoPoll=Time.unscaledTime+1;if(_watchButton!=null)_watchButton.interactable=Course.Videos.CanWatch;if(_retryStoreButton!=null)_retryStoreButton.interactable=Course.Store.CanRetry;}if(_width!=Screen.width||_heightScreen!=Screen.height||_safeSize!=_safe.rect.size){Layout();if(ModalOpen)Reopen();}if(!ModalOpen&&Time.unscaledTime>_hintUntil)_hint.text=Course.Height==12?T("Betritt das goldene Portal","Enter the golden portal"):T("Nächste Insel: ","Next island: ")+(Course.Height+1);}
   public void Refresh(){if(Course==null||P==null)return;UiFactory.HighContrast=P.HighContrast;var navy=Navy;navy.a=P.HighContrast?1:.95f;_menu.GetComponent<Image>().color=navy;_height.transform.parent.GetComponent<Image>().color=navy;_coins.transform.parent.GetComponent<Image>().color=navy;Jump.GetComponent<Image>().color=new Color(.03f,.06f,.10f,P.HighContrast?1:.74f);Joystick.GetComponent<Image>().color=new Color(.03f,.06f,.10f,P.HighContrast?.94f:.62f);
    foreach(var step in Course.Steps){var contrast=step.transform.parent.Find("RouteContrastRim");if(contrast!=null)contrast.gameObject.SetActive(P.HighContrast);}
-   _height.text=T("HÖHE ","HEIGHT ")+Course.Height+" / 12";_coins.text=P.Crystals.ToString("N0",System.Globalization.CultureInfo.GetCultureInfo(P.Language=="de"?"de-DE":"en-US"));_progress.fillAmount=Course.Height/12f;var runner=Course.Player.GetComponentInChildren<RunnerAnimator>();runner?.Style(P.Style);}
+   _worldTitle.text=RisingRealmCatalog.Name(P.Realm,P.Language!="en");_height.text=T("HÖHE ","HEIGHT ")+Course.Height+" / 12";_coins.text=P.Crystals.ToString("N0",System.Globalization.CultureInfo.GetCultureInfo(P.Language=="de"?"de-DE":"en-US"));_progress.fillAmount=Course.Height/12f;var runner=Course.Player.GetComponentInChildren<RunnerAnimator>();runner?.Style(P.Style);}
   private void Hint(string text){_hint.text=text;_hintUntil=Time.unscaledTime+2.2f;}
   private void Tap(){UiPressed?.Invoke();}
   public void Play(){if(PresenterActive)return;if(P.Completed)Course.StartRun(P.Realm,false);Close();if(!P.TutorialDone)_tutorial.Begin();}

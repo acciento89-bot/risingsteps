@@ -137,7 +137,16 @@ namespace Kamilunavo.RisingSteps.Visuals
    if(_vertices.Count==0)return null;
    // Shared mesh creation supplies normal/bounds checks and the existing mesh
    // lifetime component. No static batching across animated joints.
-   return MeshArt.Mesh(_parent,_name,_vertices.ToArray(),_indices.ToArray(),_uv.ToArray(),_material);
+   var model=MeshArt.Mesh(_parent,_name,_vertices.ToArray(),_indices.ToArray(),_uv.ToArray(),_material);JoinUvNormals(model.GetComponent<MeshFilter>().sharedMesh);return model;
+  }
+  // UV copies on the same surface share their lighting. Coincident front/back
+  // cloth vertices remain separate hemispheres and cannot cancel one another.
+  static void JoinUvNormals(Mesh mesh)
+  {
+   var vertices=mesh.vertices;var source=mesh.normals;var result=new Vector3[source.Length];var groups=new Dictionary<Vector3,List<int>>();
+   for(int i=0;i<vertices.Length;i++){if(!groups.TryGetValue(vertices[i],out var group)){group=new List<int>();groups.Add(vertices[i],group);}group.Add(i);}
+   for(int i=0;i<vertices.Length;i++){var sum=Vector3.zero;foreach(int peer in groups[vertices[i]])if(Vector3.Dot(source[i],source[peer])>.01f)sum+=source[peer];result[i]=sum.normalized;}
+   mesh.normals=result;if(mesh.uv.Length==mesh.vertexCount)mesh.RecalculateTangents();
   }
  }
 }

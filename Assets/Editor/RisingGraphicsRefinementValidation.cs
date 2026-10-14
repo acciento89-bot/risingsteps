@@ -12,7 +12,7 @@ public static class RisingGraphicsRefinementValidation
  static void Check(bool value,string message){checks++;if(!value)throw new InvalidOperationException("Rising graphics refinement: "+message);}
  public static void Validate()
  {
-  checks=0;int maxIsland=0,maxHorizon=0;var albedo=Resources.Load<Texture2D>("Art/AuthoredLimestoneAlbedo-v2");Check(albedo!=null&&albedo.isReadable&&albedo.width==256&&albedo.height==256&&albedo.wrapMode==TextureWrapMode.Repeat,"original generated limestone albedo uses the retained256square material budget");Check(Resources.Load<Shader>("RisingMineral")?.isSupported==true,"authored mineral shader compiles on the current graphics backend");Check(Resources.Load<Material>("Materials/MineralSurface")?.shader.name=="Kamilunavo/RisingMineral","serialized material retains the explicit linear RGB normal decoder on all targets");
+  checks=0;int maxIsland=0,maxHorizon=0;var albedo=Resources.Load<Texture2D>("Art/StratifiedLimestone-v3");Check(albedo!=null&&albedo.isReadable&&albedo.width==256&&albedo.height==256&&albedo.wrapMode==TextureWrapMode.Repeat,"original generated limestone albedo uses the retained256square material budget");Check(Resources.Load<Shader>("RisingMineral")?.isSupported==true,"authored mineral shader compiles on the current graphics backend");Check(Resources.Load<Material>("Materials/MineralSurface")?.shader.name=="Kamilunavo/RisingMineral","serialized material retains the explicit linear RGB normal decoder on all targets");
   for(int realm=0;realm<3;realm++)foreach(int index in new[]{4,12}){
    var root=new GameObject("GraphicsRefinementIsland");var owned=new HashSet<UnityEngine.Object>();
    try{

@@ -1,0 +1,55 @@
+{
+  "sourceSha256": "00d9dd0ab881b7e0f1a7adc2523837a56dcf06374340d06d2a94dbc8d2b2b354",
+  "editorBuildExit": 0,
+  "buildLog": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/strata-framing-final-build.log",
+  "nativeChecks": {
+    "StrataFramingRuntime": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StrataFramingRuntime/PASS.txt",
+      "sha256": "4a45a72da83230aceb4e89db6531dd043d12ca0ca5c96a725becab42c134614c",
+      "result": "RISING_TEN_WORLD_PREVIEW_PASS checks=81 actual60controllerjumps/tenworlds; isolated fixture unlocks for visual review only;100course acceptance remains pending"
+    },
+    "StrataFramingCamera": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StrataFramingCamera/PASS.txt",
+      "sha256": "ab67a0bd02f7e9ff166b12851d59ae110d3eb69c52632860b16a2b682ed929c6",
+      "result": "RISING_CAMERA_PASS 147"
+    },
+    "StrataFramingTutorial": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StrataFramingTutorial/PASS.txt",
+      "sha256": "ed1f0bd50fd903e0ef395710033c6bcb965838e7e7571324a65742ae32c59a25",
+      "result": "RISING_TUTORIAL_PASS 11"
+    }
+  },
+  "geometryBehaviorDependencies": {
+    "islandAuthorityAndBuildPrefix": {
+      "sha256": "b5ec7046ff043ea34ce18370bf8d51f58ebd21a7d6b3fd30909627937f103b52",
+      "baselineCommit": "875116a",
+      "unchanged": true,
+      "changedSuffix": "only render-only Waterfall foam widths/depth"
+    },
+    "Assets/Scripts/Gameplay/RisingCourse.cs": "deca26959b6ec7c5b3ba4e198e4b91f3f2699460c8903bc88bd1f6d937480bb9",
+    "Assets/Scripts/Gameplay/PlayerMotor.cs": "e44263fa6accdc57fd040d1ac14c928a2ea41b2ca569d4497156b17e147e5370",
+    "Assets/Scripts/Core/RisingCampaign.cs": "da2d17f2de2781d5a7f8360d8280415511d13f63ff2dc9c0858a8d86e694cf23",
+    "Assets/Scripts/Core/RisingRules.cs": "8df277ff223616e22b2247c7ee3323dcbce2477d47b0f33733482bd05d165f67",
+    "Assets/Scripts/Visuals/PortalArt.cs": "89dfabcffc5fcf704992b34260a5a3c6a767266a400c88c193153c914b3a68e5"
+  },
+  "previousEarned100CourseSource": "8375be601bffb831ee36b0f000e3241b36382918a1f1769e8ceb8ab7dc8f288e",
+  "newExactSource1200LandingClaim": false,
+  "actualGpuEvidence": "HDR (3,2,.8) \u2192 (.955,.914,.720); neutral linear shadows/mid/lit \u2192 (.010,.267,.673); current Gamma-encoded .45 \u2192 .540; AO requires separate actual frame assessment, not claimed by these neutral cases",
+  "budgets": {
+    "avatarVertices": 5562,
+    "avatarTriangles": 9346,
+    "avatarActiveRenderers": 31,
+    "avatarMaterials": 8,
+    "avatarTexturesMax64Square": 3,
+    "maxRouteVertices": 29171,
+    "maxBackdropVertices": 69398,
+    "routeCeiling": 30000,
+    "backdropCeiling": 70000,
+    "paletteMaterialsCeiling": 12,
+    "paletteTexturesMax256SquareCeiling": 5
+  },
+  "actualComposition": "Native framebuffer screenshots against unchanged Concept; close left water bank now partially visible at actual approach. Source presence is not sufficient for visual acceptance. No painted or generated gameplay substitution.",
+  "comparison": "/Volumes/SSK SSD/Kamilunavo/Artifacts/RisingStrataFramingComparison-20261014/concept-unity-vergleich.png",
+  "physicalPerformance": "Not established; bounded mobile assets and Mac player behavior are not iPhone thermal/FPS proof.",
+  "visualAcceptance": "FAILED; world architecture, foliage/character fidelity and broader scene composition still below approved target; no upload/version bump."
+}

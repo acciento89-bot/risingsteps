@@ -1,0 +1,120 @@
+{
+  "scope": "Intermediate retained genuine native candidates. No intermediate source may stand in for current-source proof or visual acceptance.",
+  "stages": [
+    {
+      "sourceSha256": "421f399185fb811d81dff74fb1c33e2d78e6b966bb321c5e312fe0fe5ea7b06e",
+      "nativeChecks": {
+        "DepthHudRuntime": {
+          "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/DepthHudRuntime/PASS.txt",
+          "sha256": "4a45a72da83230aceb4e89db6531dd043d12ca0ca5c96a725becab42c134614c",
+          "result": "RISING_TEN_WORLD_PREVIEW_PASS checks=81 actual60controllerjumps/tenworlds; isolated fixture unlocks for visual review only;100course acceptance remains pending"
+        },
+        "DepthHudCamera": {
+          "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/DepthHudCamera/PASS.txt",
+          "sha256": "ab67a0bd02f7e9ff166b12851d59ae110d3eb69c52632860b16a2b682ed929c6",
+          "result": "RISING_CAMERA_PASS 147"
+        },
+        "DepthHudTutorial": {
+          "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/DepthHudTutorial/PASS.txt",
+          "sha256": "ed1f0bd50fd903e0ef395710033c6bcb965838e7e7571324a65742ae32c59a25",
+          "result": "RISING_TUTORIAL_PASS 11"
+        }
+      }
+    },
+    {
+      "sourceSha256": "c7cf9bc53c565d354d5aa57ab8046abbbb1121575dfb19b465659b778fbb8c13",
+      "nativeChecks": {
+        "DepthSculptRuntime": {
+          "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/DepthSculptRuntime/PASS.txt",
+          "sha256": "4a45a72da83230aceb4e89db6531dd043d12ca0ca5c96a725becab42c134614c",
+          "result": "RISING_TEN_WORLD_PREVIEW_PASS checks=81 actual60controllerjumps/tenworlds; isolated fixture unlocks for visual review only;100course acceptance remains pending"
+        },
+        "DepthSculptCamera": {
+          "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/DepthSculptCamera/PASS.txt",
+          "sha256": "ab67a0bd02f7e9ff166b12851d59ae110d3eb69c52632860b16a2b682ed929c6",
+          "result": "RISING_CAMERA_PASS 147"
+        },
+        "DepthSculptTutorial": {
+          "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/DepthSculptTutorial/PASS.txt",
+          "sha256": "ed1f0bd50fd903e0ef395710033c6bcb965838e7e7571324a65742ae32c59a25",
+          "result": "RISING_TUTORIAL_PASS 11"
+        }
+      }
+    },
+    {
+      "sourceSha256": "e33c48e76529b43553b341b19bc6a808f7e14438e1821c57e8d861c6d35d93c0",
+      "nativeChecks": {
+        "DepthRadianceRuntime": {
+          "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/DepthRadianceRuntime/PASS.txt",
+          "sha256": "4a45a72da83230aceb4e89db6531dd043d12ca0ca5c96a725becab42c134614c",
+          "result": "RISING_TEN_WORLD_PREVIEW_PASS checks=81 actual60controllerjumps/tenworlds; isolated fixture unlocks for visual review only;100course acceptance remains pending"
+        },
+        "DepthRadianceCamera": {
+          "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/DepthRadianceCamera/PASS.txt",
+          "sha256": "ab67a0bd02f7e9ff166b12851d59ae110d3eb69c52632860b16a2b682ed929c6",
+          "result": "RISING_CAMERA_PASS 147"
+        },
+        "DepthRadianceTutorial": {
+          "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/DepthRadianceTutorial/PASS.txt",
+          "sha256": "ed1f0bd50fd903e0ef395710033c6bcb965838e7e7571324a65742ae32c59a25",
+          "result": "RISING_TUTORIAL_PASS 11"
+        }
+      }
+    },
+    {
+      "sourceSha256": "3d2141792ad1fd3c80c070d2011a892422a237a7cdd8444a89fbfff18939c68a",
+      "nativeChecks": {
+        "CameraLightRuntime": {
+          "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/CameraLightRuntime/PASS.txt",
+          "sha256": "4a45a72da83230aceb4e89db6531dd043d12ca0ca5c96a725becab42c134614c",
+          "result": "RISING_TEN_WORLD_PREVIEW_PASS checks=81 actual60controllerjumps/tenworlds; isolated fixture unlocks for visual review only;100course acceptance remains pending"
+        },
+        "CameraLightCamera": {
+          "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/CameraLightCamera/PASS.txt",
+          "sha256": "ab67a0bd02f7e9ff166b12851d59ae110d3eb69c52632860b16a2b682ed929c6",
+          "result": "RISING_CAMERA_PASS 147"
+        },
+        "CameraLightTutorial": {
+          "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/CameraLightTutorial/PASS.txt",
+          "sha256": "ed1f0bd50fd903e0ef395710033c6bcb965838e7e7571324a65742ae32c59a25",
+          "result": "RISING_TUTORIAL_PASS 11"
+        }
+      }
+    },
+    {
+      "sourceSha256": "274a3515ecf4791075346bd2a047f6aed200aa32a01cb31b515faae09a92ff91",
+      "nativeChecks": {
+        "StrataBankRuntime": {
+          "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StrataBankRuntime/PASS.txt",
+          "sha256": "4a45a72da83230aceb4e89db6531dd043d12ca0ca5c96a725becab42c134614c",
+          "result": "RISING_TEN_WORLD_PREVIEW_PASS checks=81 actual60controllerjumps/tenworlds; isolated fixture unlocks for visual review only;100course acceptance remains pending"
+        },
+        "StrataBankCamera": {
+          "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StrataBankCamera/PASS.txt",
+          "sha256": "ab67a0bd02f7e9ff166b12851d59ae110d3eb69c52632860b16a2b682ed929c6",
+          "result": "RISING_CAMERA_PASS 147"
+        },
+        "StrataBankTutorial": {
+          "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StrataBankTutorial/PASS.txt",
+          "sha256": "ed1f0bd50fd903e0ef395710033c6bcb965838e7e7571324a65742ae32c59a25",
+          "result": "RISING_TUTORIAL_PASS 11"
+        }
+      }
+    }
+  ],
+  "preservedFailures": [
+    {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/camera-hdr-clip-red.log",
+      "cause": "Existing HDR output remained above1 and clipped in SDR"
+    },
+    {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/camera-daylight-red.log",
+      "cause": "Initial bounded Reinhard grade produced grey compressed daylight midtones"
+    },
+    {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/DaylightStrataRuntime/FAIL.txt",
+      "log": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/daylight-strata-worlds.log",
+      "cause": "Actual RISING_FOCUS False preceded a mid-jump pause; no production focus bypass; this interrupted run is not a pass"
+    }
+  ]
+}

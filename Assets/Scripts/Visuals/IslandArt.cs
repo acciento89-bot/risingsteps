@@ -135,7 +135,7 @@ namespace Kamilunavo.RisingSteps.Visuals
     var ribbon=new List<Vector3>();var tex=new List<Vector2>();var faces=new List<int>();
     for(int row=0;row<=8;row++){
      float f=row/8f,x=(stream-1.5f)*width*.205f+Mathf.Sin(row*.81f+stream)*width*.026f;
-     float z=.047f+f*f*.31f,w=width*(.006f+.014f*Mathf.Sin(row*.93f+stream)*Mathf.Sin(row*.93f+stream));
+     float z=.057f+f*f*.31f,w=width*(.040f+.070f*Mathf.Sin(row*.93f+stream)*Mathf.Sin(row*.93f+stream));
      ribbon.Add(new Vector3(x-w,-length*f,z));ribbon.Add(new Vector3(x+w,-length*f,z));tex.Add(new Vector2(0,f));tex.Add(new Vector2(1,f));
      if(row<8){int k=row*2;faces.AddRange(new[]{k,k+2,k+1,k+1,k+2,k+3});}
     }

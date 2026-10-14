@@ -1,0 +1,8 @@
+{
+  "generator": "built-in image_gen",
+  "path": "Assets/Resources/Art/StratifiedLimestone-v3.png",
+  "original": "/Users/piotrkaminski/.codex/generated_images/01a11788-3eb6-7e32-963e-51b37d78e2ed/exec-f2b5b9a9-b4e8-4288-a7da-8dbfbbf1c75a.png",
+  "prompt": "Use case: original game material albedo. Create a seamless square texture for genuine 3D limestone cliffs in the mobile fantasy adventure Rising Steps. Flat orthographic front view of weathered creamy ivory limestone, warm pale chalk with subtly honey-tinted mineral bands. Broad irregular horizontal strata, varied thin fissures, softly chipped large chalk plates, pale sun-bleached stone with occasional gentle cool gray crevices and tiny earthy moss traces. Premium stylized sculpted fantasy garden material, natural and painterly but physically plausible, readable at a 256px runtime texture. No dramatic lighting or strong baked cast shadows, low-to-moderate albedo contrast. No black cracks, brick pattern, repetitive rectangular masonry, photoreal grunge, gritty noise, objects, plants, scene, perspective, horizon, typography, watermark or frame. All four edges must tile seamlessly. Texture only; normals, bevels, landscape geometry and lighting are supplied by Unity.",
+  "sha256": "881e4de98a3a5db3080363625b467b9ad67093284f03020ce359e9c511df0722",
+  "role": "Unmodified original full PNG imported256/readable/repeat; replaces existing owned mineral albedo and derived normal texture slots. Not a scene image or gameplay substitute."
+}

@@ -7,6 +7,7 @@ public static class RisingArtImports
  public static void Ensure(){Directory.CreateDirectory("Assets/Resources/Materials");Create("Surface","Standard");Create("Sparkles","Rising/Sparkles");Create("Glow","Standard");var glow=AssetDatabase.LoadAssetAtPath<Material>("Assets/Resources/Materials/Glow.mat");glow.EnableKeyword("_EMISSION");glow.SetColor("_EmissionColor",new Color(2.5f,1.8f,.3f));EditorUtility.SetDirty(glow);
   foreach(string path in new[]{"Assets/Resources/Art/TerrainAtlas.png","Assets/Resources/Art/SkyPanorama.png","Assets/Resources/Art/CloudBank.png"}){var t=AssetImporter.GetAtPath(path) as TextureImporter;if(t==null)continue;t.maxTextureSize=2048;if(path.Contains("CloudBank")){t.alphaIsTransparency=true;t.wrapMode=TextureWrapMode.Clamp;}t.mipmapEnabled=true;t.anisoLevel=4;t.textureCompression=TextureImporterCompression.Compressed;t.wrapMode=path.Contains("Atlas")||path.Contains("CloudBank")?TextureWrapMode.Clamp:TextureWrapMode.Repeat;t.SaveAndReimport();}
   ImportOriginal("Assets/Resources/Art/AuthoredLimestoneAlbedo-v2.png",256,true,true);
+  ImportOriginal("Assets/Resources/Art/StratifiedLimestone-v3.png",256,true,true);
   ImportOriginal("Assets/Resources/Art/SkyAtlasHero-v2.png",1024,false,false);
   ImportOriginal("Assets/Resources/Art/AtlasHero-v3.png",1024,false,false);
   ImportOriginal("Assets/Resources/Art/TempleChapter-v2.png",512,false,false);

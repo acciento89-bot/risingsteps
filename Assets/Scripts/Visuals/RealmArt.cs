@@ -75,12 +75,12 @@ namespace Kamilunavo.RisingSteps.Visuals
 
    IslandArt.Waterfall(parent,pool.transform.localPosition+outward*size*.52f+Vector3.up*.004f,1,size*.52f);
    if(scenic||index%3==0){
-    var feed=new Vector3(size*.84f,.66f,-size*.48f);var flow=new Vector3(feed.x,0,feed.z).normalized;var edge=new Vector3(flow.z,0,-flow.x)*.20f;
+    var feed=new Vector3(size*.84f,.66f,-size*.48f);var flow=new Vector3(feed.x,0,feed.z).normalized;var edge=new Vector3(flow.z,0,-flow.x)*.40f;
     LandscapeGeometry.Rock(parent,"CascadeFeedShoulder",feed-Vector3.up*.23f,new Vector3(.89f,.32f,.69f),stone,index+41);
-    MeshArt.Oval(parent,"CascadeFeedBasin",feed,new Vector3(.66f,.024f,.48f),water,18);
+    MeshArt.Oval(parent,"CascadeFeedBasin",feed,new Vector3(1.02f,.024f,.48f),water,18);
     MeshArt.Mesh(parent,"CascadeFeedSpillway",new[]{feed-edge,feed+edge,feed+flow*.32f-edge,feed+flow*.32f+edge},new[]{0,2,1,1,2,3},null,water);
     for(int bank=0;bank<2;bank++)LandscapeGeometry.Rock(parent,"CascadeFeedBank",feed+edge*(bank==0?-1.2f:1.2f)-flow*.02f,new Vector3(.14f,.09f,.30f),stone,index+bank);
-    IslandArt.Waterfall(parent,feed+flow*.32f,1,.40f);
+    IslandArt.Waterfall(parent,feed+flow*.32f,1,.85f);
    }
   }
   static void Temple(Transform parent,int index,float size,bool scenic)

@@ -14,7 +14,7 @@ namespace Kamilunavo.RisingSteps.Visuals
    var ivory=Material(root,"RunnerIvoryCanvas",new Color(.94f,.955f,.90f),.14f);
    var dark=Material(root,"RunnerSeamsAndEyes",new Color(.055f,.065f,.05f),.12f);
    var green=Material(root,"RunnerHoodie",new Color(.055f,.32f,.17f),.10f);
-   var hair=Material(root,"RunnerChestnutHair",new Color(.38f,.16f,.05f),.14f);
+   var hair=Material(root,"RunnerChestnutHair",new Color(.47f,.21f,.075f),.14f);
    var gold=Material(root,"RunnerPremiumThread",new Color(1,.88f,.39f),.22f);
    var canvas=Material(root,"RunnerTravelCanvas",new Color(.54f,.345f,.165f),.12f);canvas.mainTexture=CanvasDetail(root);
    hair.mainTexture=HairDetail(root);var cloth=CanvasDetail(root);cloth.name="RunnerClothWeave";green.mainTexture=cloth;pants.mainTexture=cloth;animator.Hoodie=green;
@@ -111,9 +111,9 @@ namespace Kamilunavo.RisingSteps.Visuals
    animator.Head=Pivot(animator.Hips,"Head",new Vector3(0,.81f,.003f));animator.Head.localRotation=Quaternion.Euler(-2,-5,0);
    var neck=new RunnerMeshBuilder(animator.Hips,"Neck",skin);neck.Profile(new Vector3(0,0,.008f),new[]{.56f,.65f,.68f},new[]{.071f,.068f,.073f},new[]{.071f,.068f,.073f},16);neck.Finish();
    var face=new RunnerMeshBuilder(animator.Head,"FaceSkin",skin);
-   face.Profile(new Vector3(0,0,.015f),new[]{-.215f,-.175f,-.085f,.03f,.12f,.195f,.225f},new[]{.085f,.132f,.181f,.196f,.19f,.151f,.085f},new[]{.066f,.105f,.140f,.157f,.145f,.115f,.06f},24,.9f);face.Finish();
+   face.Profile(new Vector3(0,0,.015f),new[]{-.215f,-.195f,-.175f,-.13f,-.085f,-.0275f,.03f,.075f,.12f,.1575f,.195f,.21f,.225f},new[]{.085f,.11f,.132f,.165f,.181f,.192f,.196f,.195f,.19f,.178f,.151f,.121f,.085f},new[]{.066f,.085f,.105f,.127f,.140f,.152f,.157f,.154f,.145f,.133f,.115f,.09f,.06f},24,.9f);face.Finish();
    var features=new RunnerMeshBuilder(animator.Head,"FaceFeatures",skin);
-   features.Loft(new[]{new Vector3(0,-.082f,.173f),new Vector3(0,-.055f,.203f),new Vector3(0,-.01f,.178f),new Vector3(0,.014f,.165f)},new[]{new Vector2(.025f,.014f),new Vector2(.029f,.024f),new Vector2(.021f,.014f),new Vector2(.013f,.010f)},8);
+   features.Pebble(new Vector3(0,-.047f,.181f),new Vector3(.057f,.082f,.052f),12);
    for(int side=-1;side<=1;side+=2)features.Pebble(new Vector3(side*.196f,-.028f,-.005f),new Vector3(.067f,.108f,.070f),10);features.Finish();
    var eyes=new RunnerMeshBuilder(animator.Head,"EyeWhites",ivory);var expression=new RunnerMeshBuilder(animator.Head,"EyesAndExpression",dark);
    for(int side=-1;side<=1;side+=2){eyes.Pebble(new Vector3(side*.079f,.021f,.164f),new Vector3(.069f,.080f,.022f),10);expression.Pebble(new Vector3(side*.079f,.018f,.178f),new Vector3(.031f,.049f,.012f),8);expression.Sweep(new[]{new Vector3(side*.043f,.081f,.164f),new Vector3(side*.074f,.089f,.163f),new Vector3(side*.109f,.080f,.153f)},new[]{.008f,.011f,.006f},new[]{.004f,.005f,.003f},6);}
@@ -121,9 +121,9 @@ namespace Kamilunavo.RisingSteps.Visuals
    var crown=new RunnerMeshBuilder(animator.Head,"SweptChestnutHair",hair);crown.HairCrown();
    // Broad swept ridges grow from one crown; locks rake back rather than
    // forming a radial collection of identical cone spikes.
-   for(int lockIndex=0;lockIndex<9;lockIndex++){
-    float x=-.17f+lockIndex*.04f,y=.195f+(1-Mathf.Abs(x)/.18f)*.065f;
-    crown.Sweep(new[]{new Vector3(x,y,.044f),new Vector3(x+.022f,y+.075f,-.013f),new Vector3(x+.042f,y+.084f+(lockIndex%3)*.011f,-.092f)},new[]{.045f,.033f,.004f},new[]{.035f,.021f,.003f},7);
+   for(int lockIndex=0;lockIndex<6;lockIndex++){
+    float x=-.17f+lockIndex*.068f,y=.195f+(1-Mathf.Abs(x)/.18f)*.065f;
+    crown.Sweep(new[]{new Vector3(x,y,.044f),new Vector3(x+.022f,y+.075f,-.013f),new Vector3(x+.042f,y+.084f+(lockIndex%3)*.011f,-.092f)},new[]{.061f,.045f,.007f},new[]{.041f,.027f,.005f},7);
    }
    for(int fringe=0;fringe<5;fringe++){
     float x=-.125f+fringe*.056f;
@@ -133,9 +133,12 @@ namespace Kamilunavo.RisingSteps.Visuals
    // Broad overlapping locks wrap over the occiput. Their tapered tips change
    // the rear contour seen during play, where tiny top ridges were insufficient.
    var rear=new RunnerMeshBuilder(animator.Head,"RearSweptLocks",hair);
-   for(int lockIndex=0;lockIndex<6;lockIndex++){
-    float x=-.176f+lockIndex*.070f,arch=1-Mathf.Abs(x)/.205f,y=.135f+arch*.12f+.015f*Mathf.Sin(lockIndex*2.31f);
-    rear.Sweep(new[]{new Vector3(x-.025f,y+.022f,-.106f),new Vector3(x-.018f,y+.070f,-.165f),new Vector3(x+.044f,y+.012f,-.219f-.015f*Mathf.Sin(lockIndex*1.71f)),new Vector3(x+.070f*arch,-.018f+(lockIndex%3)*.045f,-.243f-.013f*Mathf.Cos(lockIndex*1.23f))},new[]{.058f,.069f,.046f,.004f},new[]{.029f,.038f,.032f,.003f},8);
+   // Two overlapping rows of short uneven tapered tufts, instead of long
+   // parallel rib-shaped locks. Every tuft stays in the same head mesh/joint.
+   for(int row=0;row<2;row++)for(int lockIndex=0;lockIndex<5;lockIndex++){
+    float x=-.16f+lockIndex*.081f,arch=1-Mathf.Abs(x)/.205f,y=(row==0?.22f:.125f)+arch*.062f+.015f*Mathf.Sin(lockIndex*2.31f+row);
+    float sweep=.026f*Mathf.Sin(lockIndex*1.7f+row*2);
+    rear.Sweep(new[]{new Vector3(x-.022f,y+.016f,-.118f-row*.028f),new Vector3(x+sweep,y+.035f,-.193f-row*.022f),new Vector3(x+.042f+sweep,y-.082f-(lockIndex%2)*.016f,-.231f-row*.025f)},new[]{.075f,.050f,.004f},new[]{.035f,.033f,.003f},7);
    }
    for(int side=-1;side<=1;side+=2)for(int lockIndex=0;lockIndex<3;lockIndex++){
     float y=.115f+lockIndex*.048f;

@@ -12,12 +12,12 @@ namespace Kamilunavo.RisingSteps
 #if DEVELOPMENT_BUILD || UNITY_EDITOR
    Kamilunavo.RisingSteps.QA.RisingRuntimeQa.Configure();
 #endif
-Screen.orientation=ScreenOrientation.AutoRotation;Screen.autorotateToPortrait=true;Screen.autorotateToPortraitUpsideDown=false;Screen.autorotateToLandscapeLeft=true;Screen.autorotateToLandscapeRight=true;Application.targetFrameRate=60;QualitySettings.vSyncCount=0;QualitySettings.shadows=ShadowQuality.All;QualitySettings.shadowDistance=24;
+Screen.orientation=ScreenOrientation.AutoRotation;Screen.autorotateToPortrait=true;Screen.autorotateToPortraitUpsideDown=false;Screen.autorotateToLandscapeLeft=true;Screen.autorotateToLandscapeRight=true;Application.targetFrameRate=60;QualitySettings.vSyncCount=0;QualitySettings.shadows=ShadowQuality.All;QualitySettings.shadowDistance=32;QualitySettings.shadowResolution=ShadowResolution.Medium;QualitySettings.shadowCascades=2;
    if(FindFirstObjectByType<EventSystem>()==null)new GameObject("EventSystem",typeof(EventSystem),typeof(StandaloneInputModule));Lighting();
    var player=new GameObject("Runner",typeof(CharacterController),typeof(PlayerMotor));var cc=player.GetComponent<CharacterController>();cc.height=1.96f;cc.radius=.25f;cc.center=new Vector3(0,.98f,0);cc.stepOffset=.15f;cc.skinWidth=.025f;
    var motor=player.GetComponent<PlayerMotor>();var runner=RunnerArt.Build(player.transform);runner.Motor=motor;
    var cameraObject=new GameObject("Main Camera",typeof(Camera),typeof(AudioListener),typeof(OrbitCamera),typeof(RisingBloom));cameraObject.tag="MainCamera";var camera=cameraObject.GetComponent<Camera>();camera.cullingMask&=~(1<<31);camera.fieldOfView=58;camera.nearClipPlane=.12f;camera.farClipPlane=260;camera.clearFlags=CameraClearFlags.Skybox;camera.allowHDR=true;var orbit=cameraObject.GetComponent<OrbitCamera>();orbit.Target=player.transform;orbit.Height=1.9f;orbit.Distance=7.2f;
-   var course=new GameObject("RisingCourse",typeof(RisingCourse)).GetComponent<RisingCourse>();course.Player=player.transform;motor.Course=course;motor.CameraTransform=camera.transform;course.Build();cameraObject.transform.position=player.transform.position+new Vector3(0,3,-7);
+   var course=new GameObject("RisingCourse",typeof(RisingCourse)).GetComponent<RisingCourse>();course.Player=player.transform;motor.Course=course;motor.CameraTransform=camera.transform;course.Build();cameraObject.GetComponent<RisingBloom>().Course=course;cameraObject.transform.position=player.transform.position+new Vector3(0,3,-7);
    var hud=new GameObject("RisingHud",typeof(RisingHud)).GetComponent<RisingHud>();hud.Initialize(course);motor.Joystick=hud.Joystick;motor.Jump=hud.Jump;hud.Look.Camera=orbit;course.RunStarted+=orbit.ResetView;
    var feedback=new GameObject("RisingFeedback",typeof(RisingFeedback)).GetComponent<RisingFeedback>();feedback.Initialize(course,motor,hud);
    course.Hud=hud;course.Store=gameObject.AddComponent<Kamilunavo.RisingSteps.Monetization.StorePurchases>();course.Videos=gameObject.AddComponent<Kamilunavo.RisingSteps.Monetization.RewardedVideos>();course.Store.Initialize(course);course.Videos.Initialize(course);course.Interstitials=gameObject.AddComponent<Kamilunavo.RisingSteps.Monetization.InterstitialAds>();course.Interstitials.Initialize(course);hud.AttachCommerce();course.Videos.Prepare();
@@ -25,6 +25,6 @@ Screen.orientation=ScreenOrientation.AutoRotation;Screen.autorotateToPortrait=tr
    Kamilunavo.RisingSteps.QA.RisingRuntimeQa.MaybeStart(course,hud,motor);
 #endif
   }
-  private static void Lighting(){var sun=new GameObject("Sun",typeof(Light)).GetComponent<Light>();sun.type=LightType.Directional;sun.intensity=1.35f;sun.color=new Color(1,.89f,.70f);sun.shadows=LightShadows.Soft;sun.shadowStrength=.55f;sun.transform.rotation=Quaternion.Euler(42,-28,0);}
+  private static void Lighting(){var sun=new GameObject("Sun",typeof(Light)).GetComponent<Light>();sun.type=LightType.Directional;sun.intensity=1.35f;sun.color=new Color(1,.89f,.70f);sun.shadows=LightShadows.Soft;sun.shadowStrength=.72f;sun.transform.rotation=Quaternion.Euler(42,-28,0);}
  }
 }

@@ -63,6 +63,7 @@ namespace Kamilunavo.RisingSteps.Visuals
   // Closed small eroded outcrops, deliberately irregular rather than sphere/cylinder props.
   public static GameObject Rock(Transform parent,string name,Vector3 position,Vector3 size,Material material,int seed)
   {
+   if(name=="CascadeMesa"||name=="TempleAcropolis"||name=="MeadowHighland"||name=="HighlandFractureFace")return ErodedHighland(parent,name,position,size,material,seed);
    const int sides=8;var v=new List<Vector3>();var uv=new List<Vector2>();var t=new List<int>();
    var points=new Vector3[3,sides];
    for(int ring=0;ring<3;ring++)for(int i=0;i<sides;i++){
@@ -73,6 +74,21 @@ namespace Kamilunavo.RisingSteps.Visuals
    for(int j=0;j<2;j++)for(int i=0;i<sides;i++){int next=(i+1)%sides;Triangle(points[j,i],points[j+1,i],points[j,next]);Triangle(points[j,next],points[j+1,i],points[j+1,next]);}
    for(int i=0;i<sides;i++){int next=(i+1)%sides;Triangle(Vector3.up*size.y*.49f,points[2,next],points[2,i]);Triangle(Vector3.down*size.y*.51f,points[0,i],points[0,next]);}
    var go=MeshArt.Mesh(parent,name,v.ToArray(),t.ToArray(),uv.ToArray(),material);JoinNormals(go.GetComponent<MeshFilter>().sharedMesh);go.transform.localPosition=position;return go;
+  }
+  static GameObject ErodedHighland(Transform parent,string name,Vector3 position,Vector3 size,Material material,int seed)
+  {
+   bool detailed=name!="HighlandFractureFace";int sides=detailed?32:16,rings=detailed?20:6;float[] level={-.50f,-.40f,-.23f,0,.29f,.50f},radius={.36f,.43f,.50f,.50f,.52f,.49f};var relief=detailed?Resources.Load<Texture2D>("Art/StratifiedLimestone-v3"):null;
+   var vertices=new List<Vector3>();var uv=new List<Vector2>();var triangles=new List<int>();float phase=seed*.91f;
+   for(int ring=0;ring<rings;ring++)for(int side=0;side<=sides;side++){
+    float f=ring/(float)(rings-1),band=f*(level.Length-1);int lowerBand=Mathf.Min(level.Length-2,Mathf.FloorToInt(band));float blend=band-lowerBand;
+    float a=(side%sides)*Mathf.PI*2/sides,drift=.018f*Mathf.Sin(band*.81f+phase),r=Mathf.Lerp(radius[lowerBand],radius[lowerBand+1],blend)*(1+.06f*Mathf.Sin(a*3+phase)+.025f*Mathf.Cos(a*7-band*.42f+phase));
+    if(detailed){float grain=relief.GetPixelBilinear(side/(float)sides*2+phase,f*1.8f).grayscale-.78f;r+=grain*.06f*Mathf.Sin(f*Mathf.PI);r+=.012f*Mathf.Sin(a*11+phase)*Mathf.Sin(f*Mathf.PI);float contour=1/Mathf.Pow(Mathf.Pow(Mathf.Abs(Mathf.Cos(a)),3.8f)+Mathf.Pow(Mathf.Abs(Mathf.Sin(a)),3.8f),1/3.8f);r*=contour;}
+    var p=Vector3.Scale(new Vector3(Mathf.Cos(a+drift)*r,Mathf.Lerp(level[lowerBand],level[lowerBand+1],blend)+.018f*Mathf.Sin(a*4+phase+band*.47f),Mathf.Sin(a+drift)*r),size);vertices.Add(p);uv.Add(new Vector2((p.x+p.z)*.13f,p.y*.13f));
+    if(ring>0&&side<sides){int k=ring*(sides+1)+side,lower=k-(sides+1);triangles.AddRange(new[]{lower,k,lower+1,lower+1,k,k+1});}
+   }
+   int bottom=vertices.Count;vertices.Add(Vector3.down*size.y*.50f);uv.Add(new Vector2(0,-size.y*.40f));int top=vertices.Count;vertices.Add(Vector3.up*size.y*.50f);uv.Add(new Vector2(0,size.y*.40f));
+   for(int i=0;i<sides;i++){int upper=(rings-1)*(sides+1)+i;triangles.AddRange(new[]{bottom,i,i+1,top,upper+1,upper});}
+   var highland=MeshArt.Mesh(parent,name,vertices.ToArray(),triangles.ToArray(),uv.ToArray(),material);JoinNormals(highland.GetComponent<MeshFilter>().sharedMesh);highland.transform.localPosition=position;return highland;
   }
   // Six inset faces, twelve edge bevels and eight corner triangles form one
   // closed24vertex mesh. Its outer envelope matches the original box exactly.

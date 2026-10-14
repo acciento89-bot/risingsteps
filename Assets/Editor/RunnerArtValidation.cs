@@ -54,6 +54,9 @@ public static class RunnerArtValidation
     foreach(var normal in normals)Check(float.IsFinite(normal.x)&&float.IsFinite(normal.y)&&float.IsFinite(normal.z)&&normal.sqrMagnitude>.5f,"valid generated lighting normals");
     for(int k=0;k<indices.Length;k+=3){Check(indices[k]>=0&&indices[k]<points.Length&&indices[k+1]>=0&&indices[k+1]<points.Length&&indices[k+2]>=0&&indices[k+2]<points.Length,"triangle indices within buffer");Check(Vector3.Cross(points[indices[k+1]]-points[indices[k]],points[indices[k+2]]-points[indices[k]]).sqrMagnitude>1e-12f,"no degenerate triangles");}
    }
+   var hoodMesh=runner.Hips.Find("WhiteDrapedHood").GetComponent<MeshFilter>().sharedMesh;var hoodVertices=hoodMesh.vertices;var hoodNormals=hoodMesh.normals;int opposedClothPairs=0;
+   for(int i=0;i<hoodVertices.Length;i++)for(int j=i+1;j<hoodVertices.Length;j++)if(hoodVertices[i]==hoodVertices[j]&&Vector3.Dot(hoodNormals[i],hoodNormals[j])<-.90f)opposedClothPairs++;
+   Check(opposedClothPairs>=40,"coincident front/back draped cloth preserves opposing normals after seam smoothing");
    var face=runner.Head.Find("FaceSkin").GetComponent<MeshFilter>().sharedMesh.bounds;
    Check(face.size.x<.47f&&face.size.y>.38f&&face.size.y<.51f,"head uses a bounded humanoid profile");
    foreach(var renderer in host.GetComponentsInChildren<MeshRenderer>(true)){
