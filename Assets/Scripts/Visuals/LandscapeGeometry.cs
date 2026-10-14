@@ -58,7 +58,7 @@ namespace Kamilunavo.RisingSteps.Visuals
     }
     for(int corner=0;corner<8;corner++){int next=(corner+1)%8;Face(center+outward*.13f,front[corner],front[next]);Face(center-outward*.12f,back[next],back[corner]);Face(back[corner],back[next],front[corner]);Face(front[corner],back[next],front[next]);}
    }
-   var go=MeshArt.Mesh(parent,"MineralShoulderPlates",v.ToArray(),t.ToArray(),uv.ToArray(),stone);go.GetComponent<MeshFilter>().sharedMesh.RecalculateTangents();
+   var go=MeshArt.Mesh(parent,"MineralShoulderPlates",v.ToArray(),t.ToArray(),uv.ToArray(),stone);JoinNormals(go.GetComponent<MeshFilter>().sharedMesh);
   }
   // Closed small eroded outcrops, deliberately irregular rather than sphere/cylinder props.
   public static GameObject Rock(Transform parent,string name,Vector3 position,Vector3 size,Material material,int seed)
@@ -72,7 +72,21 @@ namespace Kamilunavo.RisingSteps.Visuals
    void Triangle(Vector3 a,Vector3 b,Vector3 c){int start=v.Count;v.AddRange(new[]{a,b,c});uv.AddRange(new[]{new Vector2(a.x+a.z,a.y),new Vector2(b.x+b.z,b.y),new Vector2(c.x+c.z,c.y)});t.AddRange(new[]{start,start+1,start+2});}
    for(int j=0;j<2;j++)for(int i=0;i<sides;i++){int next=(i+1)%sides;Triangle(points[j,i],points[j+1,i],points[j,next]);Triangle(points[j,next],points[j+1,i],points[j+1,next]);}
    for(int i=0;i<sides;i++){int next=(i+1)%sides;Triangle(Vector3.up*size.y*.49f,points[2,next],points[2,i]);Triangle(Vector3.down*size.y*.51f,points[0,i],points[0,next]);}
-   var go=MeshArt.Mesh(parent,name,v.ToArray(),t.ToArray(),uv.ToArray(),material);go.GetComponent<MeshFilter>().sharedMesh.RecalculateTangents();go.transform.localPosition=position;return go;
+   var go=MeshArt.Mesh(parent,name,v.ToArray(),t.ToArray(),uv.ToArray(),material);JoinNormals(go.GetComponent<MeshFilter>().sharedMesh);go.transform.localPosition=position;return go;
+  }
+  // Six inset faces, twelve edge bevels and eight corner triangles form one
+  // closed24vertex mesh. Its outer envelope matches the original box exactly.
+  public static GameObject BeveledBlock(Transform parent,string name,Vector3 position,Vector3 size,Material material,float bevel=.022f)
+  {
+   var half=size*.5f;bevel=Mathf.Min(bevel,Mathf.Min(half.x,Mathf.Min(half.y,half.z))*.35f);
+   var points=new List<Vector3>();var uv=new List<Vector2>();var triangles=new List<int>();var ids=new Dictionary<(int,int,int,int),int>();
+   Vector3 Axis(int a)=>a==0?Vector3.right:a==1?Vector3.up:Vector3.forward;
+   void Face(Vector3 outward,params int[] p){if(Vector3.Dot(Vector3.Cross(points[p[1]]-points[p[0]],points[p[2]]-points[p[0]]),outward)<0)System.Array.Reverse(p);for(int j=1;j<p.Length-1;j++)triangles.AddRange(new[]{p[0],p[j],p[j+1]});}
+   int Corner(int a,int[] s)=>ids[(a,s[a],s[(a+1)%3],s[(a+2)%3])];
+   for(int a=0;a<3;a++)for(int sign=-1;sign<=1;sign+=2){int u=(a+1)%3,w=(a+2)%3;var face=new List<int>();foreach(var corner in new[]{new Vector2Int(-1,-1),new Vector2Int(1,-1),new Vector2Int(1,1),new Vector2Int(-1,1)}){int id=points.Count;ids[(a,sign,corner.x,corner.y)]=id;points.Add(Axis(a)*half[a]*sign+Axis(u)*(half[u]-bevel)*corner.x+Axis(w)*(half[w]-bevel)*corner.y);uv.Add(new Vector2(points[id].x+points[id].z,points[id].y));face.Add(id);}Face(Axis(a)*sign,face.ToArray());}
+   for(int a=0;a<3;a++)for(int b=a+1;b<3;b++)for(int sa=-1;sa<=1;sa+=2)for(int sb=-1;sb<=1;sb+=2){int c=3-a-b;var s=new int[3];s[a]=sa;s[b]=sb;s[c]=-1;int p0=Corner(a,s),p3=Corner(b,s);s[c]=1;Face(Axis(a)*sa+Axis(b)*sb,p0,Corner(a,s),Corner(b,s),p3);}
+   for(int x=-1;x<=1;x+=2)for(int y=-1;y<=1;y+=2)for(int z=-1;z<=1;z+=2){var s=new[]{x,y,z};Face(new Vector3(x,y,z),Corner(0,s),Corner(1,s),Corner(2,s));}
+   var block=MeshArt.Mesh(parent,name,points.ToArray(),triangles.ToArray(),uv.ToArray(),material);block.transform.localPosition=position;return block;
   }
   // True annular wedge masonry, including front, back, intrados and extrados.
   public static GameObject ArchStone(Transform parent,string name,float start,float end,float inner,float outer,float centerY,float z,Material material,float halfDepth=.26f)

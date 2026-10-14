@@ -1,0 +1,33 @@
+{
+  "sourceSha256": "758b763f5454f348ca1d893c516011c0b72138f7de13cde85cf50693e8b352cb",
+  "editorBuildExit": 0,
+  "buildLog": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/stone-water-revision-build.log",
+  "nativeChecks": {
+    "StoneWaterRuntime": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StoneWaterRuntime/PASS.txt",
+      "result": "RISING_TEN_WORLD_PREVIEW_PASS checks=81 actual60controllerjumps/tenworlds; isolated fixture unlocks for visual review only;100course acceptance remains pending"
+    },
+    "StoneWaterCamera": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StoneWaterCamera/PASS.txt",
+      "result": "RISING_CAMERA_PASS 147"
+    },
+    "StoneWaterTutorial": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StoneWaterTutorial/PASS.txt",
+      "result": "RISING_TUTORIAL_PASS 11"
+    }
+  },
+  "unchangedGeometryBehaviorDependencies": {
+    "Assets/Scripts/Visuals/IslandArt.cs": "f7fd7cf020ef049c254340450ca5df449f3f18683fe190f2e984dcc284130aa0",
+    "Assets/Scripts/Gameplay/RisingCourse.cs": "deca26959b6ec7c5b3ba4e198e4b91f3f2699460c8903bc88bd1f6d937480bb9",
+    "Assets/Scripts/Gameplay/PlayerMotor.cs": "e44263fa6accdc57fd040d1ac14c928a2ea41b2ca569d4497156b17e147e5370",
+    "Assets/Scripts/Core/RisingCampaign.cs": "da2d17f2de2781d5a7f8360d8280415511d13f63ff2dc9c0858a8d86e694cf23",
+    "Assets/Scripts/Core/RisingRules.cs": "8df277ff223616e22b2247c7ee3323dcbce2477d47b0f33733482bd05d165f67",
+    "Assets/Scripts/Visuals/PortalArt.cs": "89dfabcffc5fcf704992b34260a5a3c6a767266a400c88c193153c914b3a68e5"
+  },
+  "previousEarned100CourseSource": "8375be601bffb831ee36b0f000e3241b36382918a1f1769e8ceb8ab7dc8f288e",
+  "newExactSource1200LandingClaim": false,
+  "geometry": "Closed24vertex/44triangle beveled masonry within unchanged box bounds; existing flora/rocks smoothed without moving landing geometry",
+  "sunVisibility": "Actual unlit source retained; sun is still occluded in the current approach framebuffer, not accepted as completed framing",
+  "readOnlyReview": "No material issue",
+  "visualAcceptance": "still failed; no upload"
+}

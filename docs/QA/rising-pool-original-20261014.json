@@ -1,0 +1,8 @@
+{
+  "generator": "built-in image_gen",
+  "path": "Assets/Resources/Art/PoolCaustics-v1.png",
+  "original": "/Users/piotrkaminski/.codex/generated_images/01a11788-3eb6-7e32-963e-51b37d78e2ed/exec-67893406-77d0-4f81-b200-d9cf9d8cdc10.png",
+  "prompt": "Use case: stylized-concept. Asset type: original seamless square albedo texture for shallow turquoise water on genuine 3D Unity floating-garden basins, not an illustration or game screenshot. Flat top-down orthographic view of crystal clear aqua water over pale sandy limestone. Rich but natural turquoise and mint gradient mottling with delicate soft curving sunlight caustic ribbons, irregular rounded cells of many sizes, a few gentle micro ripples. Premium stylized fantasy adventure materials. Gentle low contrast, no thick grid, no hard polygon network, no sparkle stars, no white blown-out patches. The entire square is tileable water material; matching edges seamlessly. No shore, no rocks, no plants, no lilypads, no objects, no perspective, no directional cast shadows, no text, no border, no watermark. Neutral lighting; illumination and dynamic gloss are supplied in Unity. Square composition.",
+  "role": "Original mesh basin albedo; unchanged full source imported256/readable/repeat. Owner RGB24 copy replaces existing caustic texture, no scene illustration or game-screen substitution.",
+  "sha256": "969f9855978b52a5e6b5cb731fc639000800bc6c4f5303cf0231a01977f1c3d1"
+}

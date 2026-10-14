@@ -92,7 +92,7 @@ namespace Kamilunavo.RisingSteps.Visuals
    // They are render-only perimeter detail: no block changes the authoritative fan.
    for(int course=0;course<2;course++)for(int block=0;block<18;block++){
     float angle=(block+(course%2)*.5f)*Mathf.PI*2/18,r=size*(.925f-course*.055f)*IslandArt.ContourFactor(2,angle);
-    var masonry=MeshArt.Box(parent,"TempleMasonryCourse",new Vector3(Mathf.Cos(angle)*r,.37f-course*.255f+.016f*Mathf.Sin(block*2.9f+index),Mathf.Sin(angle)*r),new Vector3(size*.32f,.225f,.24f),stone);
+    var masonry=LandscapeGeometry.BeveledBlock(parent,"TempleMasonryCourse",new Vector3(Mathf.Cos(angle)*r,.37f-course*.255f+.016f*Mathf.Sin(block*2.9f+index),Mathf.Sin(angle)*r),new Vector3(size*.32f,.225f,.24f),stone);
     masonry.transform.localRotation=Quaternion.Euler(0,90-angle*Mathf.Rad2Deg,(block%5-2)*.8f);LandscapeGeometry.StoneUv(masonry);
    }
    // Fine joints and offset weathered tile engraving give the landing disk paving.
@@ -123,6 +123,13 @@ namespace Kamilunavo.RisingSteps.Visuals
     for(int band=0;band<3;band++)MeshArt.Ring(pillar.transform,"ColumnInlay",.165f,.016f,.19f+band*(h-.30f)*.5f,gold,16);
     if(j==1&&index%3==1)pillar.transform.localRotation=Quaternion.Euler(-4,0,7);
     for(int carving=0;carving<4;carving++){var ornament=MeshArt.Box(pillar.transform,"CapitalCarving",new Vector3(0,h+.02f,-.19f),new Vector3(.065f,.065f,.018f),gold);ornament.transform.localPosition+=Vector3.right*(carving-1.5f)*.08f;ornament.transform.localRotation=Quaternion.Euler(0,0,45);}
+   }
+   if(!scenic&&index%4==0)for(int side=-1;side<=1;side+=2){
+    var basePoint=new Vector3(side*size*1.45f,.60f,-size*.38f);
+    LandscapeGeometry.BeveledBlock(parent,"TempleTrailBrazierBase",basePoint+Vector3.up*.10f,new Vector3(.28f,.20f,.28f),stone);
+    var stem=MeshArt.Lathe(parent,"TempleTrailBrazierStem",new[]{0f,.08f,.38f,.45f},new[]{.09f,.065f,.065f,.12f},12,gold,Vector3.one);stem.transform.localPosition=basePoint+Vector3.up*.20f;
+    var bowl=MeshArt.Lathe(parent,"TempleTrailBrazierBowl",new[]{0f,.07f,.12f},new[]{.11f,.18f,.19f},12,gold,Vector3.one);bowl.transform.localPosition=basePoint+Vector3.up*.65f;
+    MeshArt.Oval(parent,"TempleTrailFlame",basePoint+new Vector3(0,.90f,0),new Vector3(.18f,.40f,.18f),MeshArt.Mat("PortalFlame",new Color(1,.65f,.20f),-1,true,1.25f),10);
    }
    // Small weathered stair flights remain on the perimeter, outside the gold target.
    for(int stair=0;stair<3;stair++)MeshArt.Box(parent,"TempleStair",new Vector3(size*.81f,.48f-stair*.11f,size*(.52f+stair*.10f)),new Vector3(.43f,.12f,.24f),stone);

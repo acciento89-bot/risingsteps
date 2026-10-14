@@ -1,0 +1,7 @@
+# Rising Steps stone, water and sunset finish
+
+Continue the authorized Concept overhaul on this one game. The current native atlas and gameplay proofs stay bound to their own frozen source.
+
+Build original24vertex closed beveled masonry with bounded unchanged envelopes; replace only selected Temple perimeter blocks, preserving renderer/material batches. Smooth shoulder/outcrop lighting without moving any authoritative landing vertices. Add two real emissive braziers at selected Temple checkpoints, outside the full landing fan and with no extra lights/colliders. Replace procedural shallow-pool pattern with original PoolCaustics-v1 albedo,256readable owner-copy inside the same five-texture allowance. Use an owned retained unlit sun material, avoiding atmospheric fog erasing the actual sky sun sphere. Make the atlas campaign caption contrast clear with an existing paper panel, without changing controls.
+
+Independently verify beveled closed manifold, positive winding/bounds, temple brazier clearance, import ownership and existing strict geometry/material/texture limits. Actual Editor aggregate/player, native10worlds/60landings/camera/tutorial, actual framebuffer comparisons. Confirm frozen earned100course geometry/gameplay dependencies still unchanged; never rebind1200jump proof to a later source. Focused read-only review. Keep visual release fail-closed while genuine resemblance is insufficient; no upload.

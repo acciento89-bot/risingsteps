@@ -40,6 +40,10 @@ namespace Kamilunavo.RisingSteps.Visuals
     var authored=new Texture2D(256,256,TextureFormat.RGB24,true){name="LandscapeMineralAtlas",wrapMode=TextureWrapMode.Repeat,filterMode=FilterMode.Bilinear,anisoLevel=2};
     authored.SetPixels(asset.GetPixels());authored.Apply(true,true);ArtLifetime.Own(gameObject,authored);return authored;
    }
+   if(kind==5){
+    var asset=Resources.Load<Texture2D>("Art/PoolCaustics-v1");if(asset==null||!asset.isReadable)throw new System.InvalidOperationException("Missing readable original pool albedo");
+    var authored=new Texture2D(asset.width,asset.height,TextureFormat.RGB24,true){name="LandscapePoolCaustics",wrapMode=TextureWrapMode.Repeat,filterMode=FilterMode.Bilinear,anisoLevel=2};authored.SetPixels(asset.GetPixels());authored.Apply(true,true);ArtLifetime.Own(gameObject,authored);return authored;
+   }
    int width=kind==0?256:128,height=kind==2?256:width;var pixels=new Color[width*height];
    for(int y=0;y<height;y++)for(int x=0;x<width;x++){
     float u=(float)x/width,v=(float)y/height,broad=Noise(u*5,v*5,5),grain=Noise(u*37,v*37,37);

@@ -1,10 +1,10 @@
 {
   "game": "Rising Steps",
   "status": "failed",
-  "sourceSha256": "30f3089ee8590ad926a569657177e7280165dfd6128ac058d97d5016e830412a",
+  "sourceSha256": "758b763f5454f348ca1d893c516011c0b72138f7de13cde85cf50693e8b352cb",
   "reviewer": "Codex actual Unity Mac framebuffer review, unchanged Oct10 approved Concept",
   "reviewedAt": "2026-10-14",
-  "reason": "Original landscape atlas, live stacked wordmark, three distinct original chapter illustrations and rectangular10chapter rows now native-rendered; aspect/narrow-text corrections validated. Overall90\u201395percent request remains unmet in real gameplay: sparse scenery/water depth, angular stone and simplified actor. No TestFlight.",
+  "reason": "Original native atlas/actor/pool material, real beveled Temple masonry and safe emissive braziers improve framing; functionality passes. Overall90\u201395percent target remains unmet: angular and sparse distant scenery, weak sky depth, occluded sun, simplified character. No upload.",
   "criteria": {
     "concept_similarity": "failed",
     "character_or_tower": "failed",
@@ -23,79 +23,79 @@
     ],
     "menu": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/AtlasFinalRuntime/world-0-menu.png",
-        "sha256": "fa1c7f0cfec9cb261be6b099faa700074f775e6bb5f519db23f44f6e39b670cb",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StoneWaterRuntime/world-0-menu.png",
+        "sha256": "3276a00f738cdef00a6e7e7a5f310788dc6ed964a381b10b38fcb357c03ea008",
         "origin": "Unity-render"
       }
     ],
     "gameplay": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/AtlasFinalRuntime/world-1-approach.png",
-        "sha256": "a9d7cb5b98dc811644258f4b9da15946c3e55b329f479ae5ed0b6fe777c36901",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StoneWaterRuntime/world-1-approach.png",
+        "sha256": "555c7a590b0d05dce404687f69dfb4ae7367734b61ae94a6ffae06bba2a3725d",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/AtlasFinalRuntime/world-2-approach.png",
-        "sha256": "c49f35d0f952217347b5a5344ba5ccf0dc2cc3bb86fc787845632fb02ec0db43",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StoneWaterRuntime/world-2-approach.png",
+        "sha256": "7308686da0c9f49572481043b90a1bddd115ca5343729797e6051d61cad2c72d",
         "origin": "Unity-render"
       }
     ],
     "submenus": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/AtlasFinalRuntime/world-0-levels.png",
-        "sha256": "d988a699f8f3afd0168e2f76d21b628918d873b31a6ec2af4c979bf77fe4eaa6",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StoneWaterRuntime/world-0-levels.png",
+        "sha256": "ce6859edbffb2bbacae3de28c134c0a9d698d03921925621589c388ffa198dba",
         "origin": "Unity-render"
       }
     ],
     "variants": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/AtlasFinalRuntime/world-0-mid.png",
-        "sha256": "e296b26b525aabf3474fde27db3eea1aab1e73d804af6127b482a6020926bd18",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StoneWaterRuntime/world-0-mid.png",
+        "sha256": "0f367622732b6ba237c6e6224a1c43dea2f82dc976c2371d06147078b5349876",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/AtlasFinalRuntime/world-1-mid.png",
-        "sha256": "0facf2547cc54b03e29adb88977917c27da8bd82bfb8e3651ae3ee7594beae66",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StoneWaterRuntime/world-1-mid.png",
+        "sha256": "22a90b9707cf24552b4c0eb799b341158e9ffdebf4f0242111ea82c986dedc9d",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/AtlasFinalRuntime/world-2-mid.png",
-        "sha256": "052f4c0f858c70a2e380d157db0e8eb84b51481502dba9c1289db3152e7475ec",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StoneWaterRuntime/world-2-mid.png",
+        "sha256": "7693b4a47dcb11b2c65b57fad2534dc8efa1b851c2003910eed21c4f5e561973",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/AtlasFinalRuntime/world-3-mid.png",
-        "sha256": "386a52269e72714d69e9b69f0829009e553d36d73bf4611437926c62c90d2ff6",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StoneWaterRuntime/world-3-mid.png",
+        "sha256": "685445f5586111aa115c680556b2e55645805f1e3617d21aa24968e48bc442a2",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/AtlasFinalRuntime/world-4-mid.png",
-        "sha256": "c8fed987cb960166f1c9c84c97e265b855d4cab9d824ec3cc9e0f6fbcf29f75c",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StoneWaterRuntime/world-4-mid.png",
+        "sha256": "88c23f0a1869d695b91652f763f92ba1b62f3303006d4ebf8839b3fbac7d53ab",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/AtlasFinalRuntime/world-5-mid.png",
-        "sha256": "df15973b0a26abddf8b86bdf88b06c804fae5e6331a594395d906ce16039a1f3",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StoneWaterRuntime/world-5-mid.png",
+        "sha256": "93dfd6688ee22c01cae4376c233e4e4ad33c5ab2d3cb76be17366b30c4e07182",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/AtlasFinalRuntime/world-6-mid.png",
-        "sha256": "4ef352ed0b963d27733483f01571c6c484df362a7540d958416aa634c38efe35",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StoneWaterRuntime/world-6-mid.png",
+        "sha256": "268db48b9ee8f3a00362882a41d5794cf6e553618a467cc572c7509f7c8d90a5",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/AtlasFinalRuntime/world-7-mid.png",
-        "sha256": "05274b48422703bbc6112f75b3f5b0e5046fa94ca220b22f5980f8ffa0a7a40d",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StoneWaterRuntime/world-7-mid.png",
+        "sha256": "71bdb179291cbd81ed8a6c6d41c91ab4197c43ec956ae696aa7b92a041a99efd",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/AtlasFinalRuntime/world-8-mid.png",
-        "sha256": "ce044ed69a9ead24da8606015e141ecba41a3b4b913e0e635cb345e49abe6c66",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StoneWaterRuntime/world-8-mid.png",
+        "sha256": "b96fd8ae6d73f99d6aa0cf4f8afcdc5d70bf84cdbcf017fb389c540c4dd2f869",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/AtlasFinalRuntime/world-9-mid.png",
-        "sha256": "818bd21586116e578778d3f3495ed44a63b8d377237e4e0bf52eaf8ec1156546",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StoneWaterRuntime/world-9-mid.png",
+        "sha256": "34299d6419d8d513cc66d9ee3ac84a4fcac4ae73e98dca727f5c00561368ecf3",
         "origin": "Unity-render"
       }
     ]
