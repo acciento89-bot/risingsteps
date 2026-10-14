@@ -77,6 +77,7 @@ public static class BuildAutomation
     {
         RisingArtImports.Ensure();
         RisingValidation.ValidateAll();Kamilunavo.RisingSteps.Editor.CommerceConfiguration.Configure();
+        if(!development&&(target==BuildTarget.iOS||target==BuildTarget.Android))Kamilunavo.RisingSteps.Editor.CommerceConfiguration.ValidateRelease(target);
         if (target == BuildTarget.iOS)
         {
             Directory.CreateDirectory(output);

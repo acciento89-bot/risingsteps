@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using GoogleMobileAds.Api;
 namespace Kamilunavo.RisingSteps.Monetization
 {
     [Serializable] public sealed class MonetizationConfig
@@ -7,6 +8,7 @@ namespace Kamilunavo.RisingSteps.Monetization
         public bool InternalTestAds=true;
         public string IosRewarded="",AndroidRewarded="";
         public string IosInterstitial="",AndroidInterstitial="";
+        public static AdRequest NonPersonalizedRequest()=>new AdRequest { Extras = { { "npa", "1" } } };
         public static bool QaNetworkDisabled{get{
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
             return !string.IsNullOrEmpty(Core.RisingSave.QaKey);

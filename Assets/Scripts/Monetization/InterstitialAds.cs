@@ -53,7 +53,7 @@ namespace Kamilunavo.RisingSteps.Monetization
    if(!TryPrepareBackgroundLoad(NetworkAllowed))return;
    if(ad!=null&&ad.CanShowAd()&&Time.realtimeSinceStartupAsDouble-loadedAt<3500)return;
    DestroyAd();loading=true;long generation=loads.Begin();
-   try{InterstitialAd.Load(config.InterstitialId,new AdRequest(),(creative,error)=>{
+   try{InterstitialAd.Load(config.InterstitialId,MonetizationConfig.NonPersonalizedRequest(),(creative,error)=>{
     if(this==null){creative?.Destroy();return;}
     Main(()=>{
      if(!loads.IsCurrent(generation)||!Foreground||!NetworkAllowed||game.NativePresentationActive||!ReadConsentSafely()){creative?.Destroy();if(loads.IsCurrent(generation))loading=false;return;}

@@ -1,0 +1,272 @@
+{
+  "status": "submitted-to-apple-review",
+  "reviewedAt": "2026-10-14T20:51:42.033254+00:00",
+  "sourceSha256": "f4d49e21b957003f5af1ff2312eff0a8c4b5358a3f5ab364da262a7d5e59707a",
+  "userAcceptance": "Current graphics accepted explicitly; App Review, ads, IAPs and screenshots authorized.",
+  "app": "Rising Steps",
+  "appleAppId": "6819872415",
+  "bundle": "com.kamilunavo.risingsteps",
+  "version": "1.0",
+  "build": "6",
+  "buildId": "0b592f6f-cc6b-47f5-9097-065ad522ef60",
+  "buildState": "VALID",
+  "buildAudience": "APP_STORE_ELIGIBLE",
+  "submission": {
+    "type": "reviewSubmissions",
+    "id": "401b5ec7-127e-4879-92c3-143f4e29b9a3",
+    "attributes": {
+      "platform": "IOS",
+      "platforms": [
+        "IOS"
+      ],
+      "submittedDate": "2026-10-14T20:50:19.635Z",
+      "createdDate": "2026-10-14T20:38:12.476Z",
+      "lastUpdatedDate": "2026-10-14T20:50:19.635Z",
+      "state": "WAITING_FOR_REVIEW"
+    },
+    "relationships": {
+      "items": {
+        "meta": {
+          "paging": {
+            "total": 4,
+            "limit": 10
+          }
+        },
+        "data": [
+          {
+            "type": "reviewSubmissionItems",
+            "id": "NDAxYjVlYzctMTI3ZS00ODc5LTkyYzMtMTQzZjRlMjliOWEzfDE3fGQ3ZDJmNDQwLWQyNTktNGIwMC1hZWI5LTg2OGNjMjhjZGRhMw"
+          },
+          {
+            "type": "reviewSubmissionItems",
+            "id": "NDAxYjVlYzctMTI3ZS00ODc5LTkyYzMtMTQzZjRlMjliOWEzfDE3fGZkNTVjM2ViLTUxNjAtNDcwOS1hOThkLTg3MTE1ZjQxMGJiNg"
+          },
+          {
+            "type": "reviewSubmissionItems",
+            "id": "NDAxYjVlYzctMTI3ZS00ODc5LTkyYzMtMTQzZjRlMjliOWEzfDE3fDc1M2MxMmMwLTlhMTUtNDQxYy1hMGVkLWFjOTc5ODFkZmQ0OQ"
+          },
+          {
+            "type": "reviewSubmissionItems",
+            "id": "NDAxYjVlYzctMTI3ZS00ODc5LTkyYzMtMTQzZjRlMjliOWEzfDZ8ODkyNjU3NjY1"
+          }
+        ],
+        "links": {
+          "self": "https://appstoreconnect.apple.com/iris/v1/reviewSubmissions/401b5ec7-127e-4879-92c3-143f4e29b9a3/relationships/items",
+          "related": "https://appstoreconnect.apple.com/iris/v1/reviewSubmissions/401b5ec7-127e-4879-92c3-143f4e29b9a3/items"
+        }
+      }
+    },
+    "links": {
+      "self": "https://appstoreconnect.apple.com/iris/v1/reviewSubmissions/401b5ec7-127e-4879-92c3-143f4e29b9a3"
+    }
+  },
+  "releaseType": "MANUAL",
+  "artifacts": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014",
+  "nativeChecks": {
+    "Native-SE3-default": "RISING_QA_PASS checks=201 actual controller 36 steps and natural fall; isolated save; no FPS claim",
+    "Native-iPad-worlds": "RISING_TEN_WORLD_PREVIEW_PASS checks=205 actual60controllerjumps/tenworlds; isolated fixture unlocks for visual review only;100course acceptance remains pending",
+    "Native-iPad-en": "RISING_TEN_WORLD_PREVIEW_PASS checks=205 actual60controllerjumps/tenworlds; isolated fixture unlocks for visual review only;100course acceptance remains pending",
+    "Native-ProMax-chapters": "RISING_ORIGINAL_CHAPTERS_PASS 196 actual DE/EN portrait/landscape scrolling, seven distinct illustrated cards, real selection and parent Back; isolated unlock fixture only",
+    "Native-ProMax-worlds": "RISING_TEN_WORLD_PREVIEW_PASS checks=205 actual60controllerjumps/tenworlds; isolated fixture unlocks for visual review only;100course acceptance remains pending",
+    "Native-ProMax-en": "RISING_TEN_WORLD_PREVIEW_PASS checks=205 actual60controllerjumps/tenworlds; isolated fixture unlocks for visual review only;100course acceptance remains pending"
+  },
+  "commerce": {
+    "nativeLiveProducts": "Actual in-game Shop fetched all three StoreKit prices and enabled purchase buttons; native screenshot includes all three exact SKUs",
+    "purchaseAttempt": "Actual Remove Ads button opened Apple Account sign-in. No credentials were entered and no charge or fulfilled purchase is claimed.",
+    "automationLimits": [
+      "SKTestSession off-device helper failed notEntitled in the separate unsigned UI-runner; this is retained as a failed test, not reported as a successful transaction.",
+      "The cancellation test searched the game process while Apple authentication uses a separate system UI; cancellation selector timed out. No cancellation-pass or authenticated restore-pass claim."
+    ],
+    "unitAndEditorValidation": {
+      "commerce": "RISING_COMMERCE_PASS checks=46",
+      "recovery": "RISING_COMMERCE_RECOVERY_PASS checks=17",
+      "interstitialPolicy": "RISING_INTERSTITIAL_PASS checks=274",
+      "productionConfig": "RISING_RELEASE_COMMERCE_PASS; own IDs, no test mode, npa1"
+    },
+    "realAdImpression": false,
+    "realPaidPurchase": false,
+    "realAuthenticatedRestore": false,
+    "reviewScreenshot": "NativeStoreUITests/RealButtonAttachments/91A5A266-37AB-40FB-987F-3B1640BD3225.png",
+    "rootCodeModifiedForTest": false
+  },
+  "archive": {
+    "bundle": "com.kamilunavo.risingsteps",
+    "version": "1.0",
+    "build": "6",
+    "sdk": "iphoneos27.1",
+    "minimumOS": "15.0",
+    "team": "TKG684N5GL",
+    "archiveGetTaskAllow": true,
+    "distributionSigning": "Verified export distribution pipeline re-signed with Apple Distribution and get-task-allow = 0; App Store export/upload succeeded.",
+    "adMobAppId": "ca-app-pub-8944085355624754~8613336153",
+    "skAdNetworks": 50,
+    "frameworks": [
+      "UnityRuntime.framework",
+      "UnityFramework.framework"
+    ],
+    "codeSignVerification": "codesign deep strict exit0",
+    "qaRuntimeSource": "no RisingRuntimeQa translation unit in shipping generated code",
+    "uploadedBuild": {
+      "id": "0b592f6f-cc6b-47f5-9097-065ad522ef60",
+      "processingState": "VALID",
+      "audience": "APP_STORE_ELIGIBLE"
+    }
+  },
+  "screenshots": [
+    {
+      "locale": "de-DE",
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/StoreScreens/de-DE/ipad-home.png",
+      "sha256": "2c3d9510abbfb4c32f0f748a60c595f1fa8d82f8a03062dadb08a6ed464e8f68",
+      "origin": "Actual Unity IL2CPP/Metal iOS Simulator frame; alpha removed losslessly without altering RGB or size"
+    },
+    {
+      "locale": "de-DE",
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/StoreScreens/de-DE/ipad-world-0-mid.png",
+      "sha256": "8e101709910636ef6e0eab7aa82d71b0ea62f75a0c133da02786246032b519b8",
+      "origin": "Actual Unity IL2CPP/Metal iOS Simulator frame; alpha removed losslessly without altering RGB or size"
+    },
+    {
+      "locale": "de-DE",
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/StoreScreens/de-DE/ipad-world-1-mid.png",
+      "sha256": "99e0735feb97eb548b3b7ab3a8100ef47005ea2595de46d1bd65fb670de9d5d3",
+      "origin": "Actual Unity IL2CPP/Metal iOS Simulator frame; alpha removed losslessly without altering RGB or size"
+    },
+    {
+      "locale": "de-DE",
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/StoreScreens/de-DE/ipad-world-2-mid.png",
+      "sha256": "afd1ebe0caea62fc673f22b5dea78756bdf5c6345b4ce0f483af22147f2c374c",
+      "origin": "Actual Unity IL2CPP/Metal iOS Simulator frame; alpha removed losslessly without altering RGB or size"
+    },
+    {
+      "locale": "de-DE",
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/StoreScreens/de-DE/ipad-world-4-mid.png",
+      "sha256": "5fd2970d1bd3772587e7cc60f1d403986befbc17177e86aa72f73cc8b4578984",
+      "origin": "Actual Unity IL2CPP/Metal iOS Simulator frame; alpha removed losslessly without altering RGB or size"
+    },
+    {
+      "locale": "de-DE",
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/StoreScreens/de-DE/iphone-home.png",
+      "sha256": "4ddf775ef0b9e94a0ff202107aadec9da5ecb724854cd81f89d42a8c78963253",
+      "origin": "Actual Unity IL2CPP/Metal iOS Simulator frame; alpha removed losslessly without altering RGB or size"
+    },
+    {
+      "locale": "de-DE",
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/StoreScreens/de-DE/iphone-world-0-mid.png",
+      "sha256": "8715eea875c95305e24a52f809b366c07dba28ffd8f7a5431a9c9191ec38950f",
+      "origin": "Actual Unity IL2CPP/Metal iOS Simulator frame; alpha removed losslessly without altering RGB or size"
+    },
+    {
+      "locale": "de-DE",
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/StoreScreens/de-DE/iphone-world-1-mid.png",
+      "sha256": "32805631c82c001866b37a5f5a3eba22e5199c6d2a96884cdd8d284e41933e22",
+      "origin": "Actual Unity IL2CPP/Metal iOS Simulator frame; alpha removed losslessly without altering RGB or size"
+    },
+    {
+      "locale": "de-DE",
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/StoreScreens/de-DE/iphone-world-2-mid.png",
+      "sha256": "ed4dd245bc3db92984643ad25c02914acc4d532323eccac37b39aea619741e01",
+      "origin": "Actual Unity IL2CPP/Metal iOS Simulator frame; alpha removed losslessly without altering RGB or size"
+    },
+    {
+      "locale": "de-DE",
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/StoreScreens/de-DE/iphone-world-4-mid.png",
+      "sha256": "2c4eace0ca1d924dcecd9fd406937371e5702e110a541ae09623a8110d1f7258",
+      "origin": "Actual Unity IL2CPP/Metal iOS Simulator frame; alpha removed losslessly without altering RGB or size"
+    },
+    {
+      "locale": "en-US",
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/StoreScreens/en-US/ipad-home.png",
+      "sha256": "a7c6bfa6539b84ee1b5c8e4a1a63767f17cf8b55455f10c1dcc0d05998cf6085",
+      "origin": "Actual Unity IL2CPP/Metal iOS Simulator frame; alpha removed losslessly without altering RGB or size"
+    },
+    {
+      "locale": "en-US",
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/StoreScreens/en-US/ipad-world-0-mid.png",
+      "sha256": "b2b4b4f83edbefbf8f458088ba4e83977c178d58718a85cb8816721c57ce0c03",
+      "origin": "Actual Unity IL2CPP/Metal iOS Simulator frame; alpha removed losslessly without altering RGB or size"
+    },
+    {
+      "locale": "en-US",
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/StoreScreens/en-US/ipad-world-1-mid.png",
+      "sha256": "d2e7d2baee8e56c5c00f4c92535bd6f839c3643fd96c0a0f71a2f12cfd64f601",
+      "origin": "Actual Unity IL2CPP/Metal iOS Simulator frame; alpha removed losslessly without altering RGB or size"
+    },
+    {
+      "locale": "en-US",
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/StoreScreens/en-US/ipad-world-2-mid.png",
+      "sha256": "92742c995f427a605394a9bf2cafee455de5f4fafbe51bc304bfab1d56fefc36",
+      "origin": "Actual Unity IL2CPP/Metal iOS Simulator frame; alpha removed losslessly without altering RGB or size"
+    },
+    {
+      "locale": "en-US",
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/StoreScreens/en-US/ipad-world-4-mid.png",
+      "sha256": "1d1c7e119889c562873bfb4c7b26a7853bdef7049d0de4598cf676bca5a26fa4",
+      "origin": "Actual Unity IL2CPP/Metal iOS Simulator frame; alpha removed losslessly without altering RGB or size"
+    },
+    {
+      "locale": "en-US",
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/StoreScreens/en-US/iphone-home.png",
+      "sha256": "f4aee853bb2c1519b042b7897b3ede82d63cc885a30f2c1fe7cdb9cda98ac162",
+      "origin": "Actual Unity IL2CPP/Metal iOS Simulator frame; alpha removed losslessly without altering RGB or size"
+    },
+    {
+      "locale": "en-US",
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/StoreScreens/en-US/iphone-world-0-mid.png",
+      "sha256": "2fb265cc30ec15fb4d357badf93618c25b90bc2f536cb7ce19d4f108bfb10345",
+      "origin": "Actual Unity IL2CPP/Metal iOS Simulator frame; alpha removed losslessly without altering RGB or size"
+    },
+    {
+      "locale": "en-US",
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/StoreScreens/en-US/iphone-world-1-mid.png",
+      "sha256": "0ccfd4479393e831e66fc00077d096e07a20ebc90d598c719ebef6d89f5cbaca",
+      "origin": "Actual Unity IL2CPP/Metal iOS Simulator frame; alpha removed losslessly without altering RGB or size"
+    },
+    {
+      "locale": "en-US",
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/StoreScreens/en-US/iphone-world-2-mid.png",
+      "sha256": "26d0a66dc93d893eeeb93db1e9b8949d06f6bf1ca582362de67ee79f05620587",
+      "origin": "Actual Unity IL2CPP/Metal iOS Simulator frame; alpha removed losslessly without altering RGB or size"
+    },
+    {
+      "locale": "en-US",
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/StoreScreens/en-US/iphone-world-4-mid.png",
+      "sha256": "42ddc73f87f42cc5eba5afe434ba32597abdd8806c72a3ea6d92299232fad04c",
+      "origin": "Actual Unity IL2CPP/Metal iOS Simulator frame; alpha removed losslessly without altering RGB or size"
+    }
+  ],
+  "store": {
+    "locales": [
+      "de-DE",
+      "en-US"
+    ],
+    "screenshotCount": 20,
+    "allScreenshotsProcessed": "COMPLETE",
+    "reviewItems": 4,
+    "products": [
+      {
+        "id": "6820413465",
+        "productId": "com.kamilunavo.risingsteps.starter",
+        "dePrice": "EUR1.99",
+        "kind": "NonConsumable"
+      },
+      {
+        "id": "6820419090",
+        "productId": "com.kamilunavo.risingsteps.skycollection",
+        "dePrice": "EUR2.99",
+        "kind": "NonConsumable"
+      },
+      {
+        "id": "6822883847",
+        "productId": "com.kamilunavo.risingsteps.removeads",
+        "dePrice": "EUR1.99",
+        "kind": "NonConsumable"
+      }
+    ],
+    "privacyPublished": true,
+    "consentMessage": "Rising Steps – EU Consent, English and German, published with reject/manage/consent",
+    "privacyUrl": "https://acciento89-bot.github.io/oneclick-translator-legal/rising-steps/privacy/",
+    "ads": "Production own-publisher IDs, npa1, G creative rating, no automatic ad before3full successful courses AND180seconds; result boundary only",
+    "adServingLimit": "App readiness still requires AdMob review once the public store listing is available"
+  },
+  "limits": "No physical-device FPS/thermal, real ad impression, paid purchase or authenticated native restore claimed. Failed StoreKit off-device helper and system-auth cancellation selectors retained as failed automation; actual Shop metadata and Apple sign-in presentation witnessed. No new full100course traversal claimed; visual fixtures are isolated and not earned campaign proof. User-deleted primary Concept remains unstaged."
+}

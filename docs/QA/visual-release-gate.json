@@ -1,9 +1,9 @@
 {
   "game": "Rising Steps",
   "status": "passed",
-  "sourceSha256": "0c38d1dc862ba07751b6b78f866d23b78ceda9bd62d03cc0eab9dd5254ecc436",
-  "reviewer": "Codex actual current Unity native frame inspection against the user-accepted practical Temple baseline, original Concept as direction",
-  "reviewedAt": "2026-10-14T19:31:51.613922+00:00",
+  "sourceSha256": "f4d49e21b957003f5af1ff2312eff0a8c4b5358a3f5ab364da262a7d5e59707a",
+  "reviewer": "Codex actual current IL2CPP/Metal iOS Simulator frame inspection; explicit user acceptance of current Rising Steps graphics",
+  "reviewedAt": "2026-10-14T20:26:01.109440+00:00",
   "reason": "The user accepts the current Temple quality and asks that the other nine realms receive comparable authored detail. Current original per-realm mineral/normal/model/vegetation work, real supporting landforms and distinct native views meet that revised practical target. The requested Concept mountain/live height/bar is integrated and checked on compact portrait and small landscape. Main menu has its own Rising wordmark/cream-green atlas with rectangular original realm cards, visible Shop/wallet and actual parent Back. This is not cinematic or numerical90percent equivalence to the original generated Concept. Native behavior and bounds/ownership budgets pass; device/platform release checks still apply.",
   "targetAdjustment": {
     "userStatement": "Die Grafik ist auch so schon okay; diese Grafik wie wir im Tempel haben benötigen wir als Qualität für die anderen Zonen. Höhenfortschritt wie im Concept mit dem Berg daneben.",
@@ -33,134 +33,144 @@
     ],
     "menu": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-0-menu.png",
-        "sha256": "1f13eef406a08dacb11ba9385aac21febbd39fe27610e28fdab36dd33c2051ec",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/home.png",
+        "sha256": "f2d31d1d418f3a37a899c55f275be2488dd803f4eeb9fb1c651c4e9221508fdf",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-9-menu.png",
-        "sha256": "b70180c1d4f5618f5c24c998bcaf73b3ec6de0dc2adc1ec5506063a5b85f6dbc",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-chapters/menu-wallet-en-portrait.png",
+        "sha256": "2410d4df8fa9eb26798ca554a891fe22b3b7574694f0e342a321c6cf8f691231",
         "origin": "Unity-render"
       }
     ],
     "gameplay": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-0-mid.png",
-        "sha256": "d99f717b2e96156ad8a1187d04e99dd0ad574bff90719761909c7a5bf896ac7b",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-0-mid.png",
+        "sha256": "0ea623a09c434daf0b50dfd46c2aa16b9f4647e4ff15e3d3447db0fffd964ad5",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-1-mid.png",
-        "sha256": "ab388bb49b8cecf0de14bba97bf72be33823c48bd6f95a50013b2ca315ec9b30",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-1-mid.png",
+        "sha256": "26ca2dc3ddec72014b0560a41175fe3e8931d80f5f39f0b4236515144b2cef0a",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-2-mid.png",
-        "sha256": "99e0f17f7dbf510a7d86dcf7f3e492d3a4de17f3c600f6bff0255b0b87d986c6",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-2-mid.png",
+        "sha256": "6c3d58a5f0f4faeade7fff2c19177e0b3a090bb8cc0c6422d7efc62dce38a4ec",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-3-mid.png",
-        "sha256": "f47486a367e09297b60827586e5725e1c871f5d0f6f30292b02bc31dbfc6ea1a",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-3-mid.png",
+        "sha256": "2b040d26da84cffd2b9943c981eec800a59f889f6c6d45e2efb3e4107e1e6776",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-4-mid.png",
-        "sha256": "30fdd53108161da9bb8b22acb2a01afe2486544371488607fa56614067250c77",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-4-mid.png",
+        "sha256": "95d3d8739aa447792a9e8d817dcdf711716078107f82653e18628d9720adcba6",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-5-mid.png",
-        "sha256": "d60a5ab05ede275dc0b3ccca26a250ed0ae42dcbef0aeda0d943f5fdf0d812fc",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-5-mid.png",
+        "sha256": "de31747aeff1f524976684ebd9a64b07d4c0d6f2cf5cc1c9558e7ecf825ce569",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-6-mid.png",
-        "sha256": "c289fa5bcb646d1512d12e03a09e53ce15c53a1abe0f5671e71258d45a6bb242",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-6-mid.png",
+        "sha256": "385b2159919104ca66e141ffeff884c4329aeecc86907b3b7b688ba2aa6e2661",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-7-mid.png",
-        "sha256": "c217964b06896d29be3c60e23947269e75073690c76fd217e6aed784e9f7dbb6",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-7-mid.png",
+        "sha256": "2c1515074b8883b78d583819aa4e14c65c58cd0af039fc983732a8fe0643a832",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-8-mid.png",
-        "sha256": "ac5f4a82df2788151c2e2ca2de6c244d847d42124146d7adabc38450f48a9cd7",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-8-mid.png",
+        "sha256": "7b1ac19284735568eee286c14a8031432e38518b0b142563bf778fc69cc56606",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-9-mid.png",
-        "sha256": "68a756600bcd54e29a9fa9ed981fe8e53c264324503d35b325f6285b64dd168d",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-9-mid.png",
+        "sha256": "9f8db6afba42ca26990e58fbd9792853f007b7c54a4d0539407eb974fa976dc4",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-iPad-worlds/world-2-mid.png",
+        "sha256": "c74ca0f61aa378e0097dd7e651aaaa2d0690e557c89cf924d45f6063fe204abe",
         "origin": "Unity-render"
       }
     ],
     "submenus": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckDefault/settings.png",
-        "sha256": "caef751874a8aae67334cacd1d38715b5042d24aa0c7eaa81170ec17f954d0ac",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-SE3-default/settings.png",
+        "sha256": "0d1b1fda54f18aeffb29ed80e7541ad25b5b7cd5acdbd7c12093d250b58773ad",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckDefault/shop.png",
-        "sha256": "959cd5336b01da1bb0ef439b83c79ad8818e913c653d62d04df21afa1cdd1b10",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-SE3-default/shop.png",
+        "sha256": "a0adf271b019651925f132517c8d765613138a63f64ba860ba5128c8c7f098f8",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-0-levels.png",
-        "sha256": "5e08c35ee4f54b00d609d7fe6046bb63a3649e832470a8ed289279642e28c045",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-SE3-default/landscape-achievements.png",
+        "sha256": "132eee7485d7725788f13a1f1b34babb3bc6d451c742d60993fcad17af391948",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-0-levels.png",
+        "sha256": "f3108cda7d8aff900bc752a787af58b7dd0826700ad6125163c86b01c354c7ad",
         "origin": "Unity-render"
       }
     ],
     "variants": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-0-mid.png",
-        "sha256": "d99f717b2e96156ad8a1187d04e99dd0ad574bff90719761909c7a5bf896ac7b",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-0-mid.png",
+        "sha256": "0ea623a09c434daf0b50dfd46c2aa16b9f4647e4ff15e3d3447db0fffd964ad5",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-1-mid.png",
-        "sha256": "ab388bb49b8cecf0de14bba97bf72be33823c48bd6f95a50013b2ca315ec9b30",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-1-mid.png",
+        "sha256": "26ca2dc3ddec72014b0560a41175fe3e8931d80f5f39f0b4236515144b2cef0a",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-2-mid.png",
-        "sha256": "99e0f17f7dbf510a7d86dcf7f3e492d3a4de17f3c600f6bff0255b0b87d986c6",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-2-mid.png",
+        "sha256": "6c3d58a5f0f4faeade7fff2c19177e0b3a090bb8cc0c6422d7efc62dce38a4ec",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-3-mid.png",
-        "sha256": "f47486a367e09297b60827586e5725e1c871f5d0f6f30292b02bc31dbfc6ea1a",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-3-mid.png",
+        "sha256": "2b040d26da84cffd2b9943c981eec800a59f889f6c6d45e2efb3e4107e1e6776",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-4-mid.png",
-        "sha256": "30fdd53108161da9bb8b22acb2a01afe2486544371488607fa56614067250c77",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-4-mid.png",
+        "sha256": "95d3d8739aa447792a9e8d817dcdf711716078107f82653e18628d9720adcba6",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-5-mid.png",
-        "sha256": "d60a5ab05ede275dc0b3ccca26a250ed0ae42dcbef0aeda0d943f5fdf0d812fc",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-5-mid.png",
+        "sha256": "de31747aeff1f524976684ebd9a64b07d4c0d6f2cf5cc1c9558e7ecf825ce569",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-6-mid.png",
-        "sha256": "c289fa5bcb646d1512d12e03a09e53ce15c53a1abe0f5671e71258d45a6bb242",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-6-mid.png",
+        "sha256": "385b2159919104ca66e141ffeff884c4329aeecc86907b3b7b688ba2aa6e2661",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-7-mid.png",
-        "sha256": "c217964b06896d29be3c60e23947269e75073690c76fd217e6aed784e9f7dbb6",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-7-mid.png",
+        "sha256": "2c1515074b8883b78d583819aa4e14c65c58cd0af039fc983732a8fe0643a832",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-8-mid.png",
-        "sha256": "ac5f4a82df2788151c2e2ca2de6c244d847d42124146d7adabc38450f48a9cd7",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-8-mid.png",
+        "sha256": "7b1ac19284735568eee286c14a8031432e38518b0b142563bf778fc69cc56606",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-9-mid.png",
-        "sha256": "68a756600bcd54e29a9fa9ed981fe8e53c264324503d35b325f6285b64dd168d",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-9-mid.png",
+        "sha256": "9f8db6afba42ca26990e58fbd9792853f007b7c54a4d0539407eb974fa976dc4",
         "origin": "Unity-render"
       }
     ]
@@ -170,5 +180,17 @@
     "path": "/Volumes/SSK SSD/Kamilunavo/Artifacts/RisingRealmParity-20261014/sources.json",
     "sha256": "6d29d7363e48e76da53b24fc51cc5f49a376a7fa937dd7454ae23cbbc2b16ac5"
   },
-  "limits": "Native macOS Unity proof and Editor UI/build validation only. No physical-device FPS/thermal, real-ad delivery, paid transaction, new full100-course climb, TestFlight upload or Apple review submission claimed."
+  "limits": "Actual iOS Simulator IL2CPP/Metal frames and controller/UI validation; visual fixtures unlock ten realms, not earned campaign proof. No physical-device FPS/thermal or real paid purchase/ad impression is claimed. Archive, SDK signing, App Store processing and persisted App Review status are separate release checks.",
+  "previousAcceptedSourceSha256": "0c38d1dc862ba07751b6b78f866d23b78ceda9bd62d03cc0eab9dd5254ecc436",
+  "releaseAcceptance": {
+    "userStatement": "perfekt das reicht!! nun können wir es auch zur Prüfung schicken, denk an die Werbung und In-App-Käufe, alles in App Store Connect mit Screenshots",
+    "scope": "User accepts current graphics and authorizes App Review. Source delta is production commerce IDs, nonpersonalized G-rated ad request, visible privacy-policy row and build6; no world/model/controller changes.",
+    "priorAcceptedSourceSha256": "0c38d1dc862ba07751b6b78f866d23b78ceda9bd62d03cc0eab9dd5254ecc436"
+  },
+  "nativeIosVerification": {
+    "Native-ProMax-worlds": "RISING_TEN_WORLD_PREVIEW_PASS checks=205 actual60controllerjumps/tenworlds; isolated fixture unlocks for visual review only;100course acceptance remains pending",
+    "Native-ProMax-chapters": "RISING_ORIGINAL_CHAPTERS_PASS 196 actual DE/EN portrait/landscape scrolling, seven distinct illustrated cards, real selection and parent Back; isolated unlock fixture only",
+    "Native-SE3-default": "RISING_QA_PASS checks=201 actual controller 36 steps and natural fall; isolated save; no FPS claim",
+    "Native-iPad-worlds": "RISING_TEN_WORLD_PREVIEW_PASS checks=205 actual60controllerjumps/tenworlds; isolated fixture unlocks for visual review only;100course acceptance remains pending"
+  }
 }

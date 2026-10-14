@@ -16,7 +16,16 @@ namespace Kamilunavo.RisingSteps.Editor
             settings.FindProperty("adMobAndroidAppId").stringValue="ca-app-pub-8944085355624754~6808290736";
             settings.ApplyModifiedPropertiesWithoutUndo();EditorUtility.SetDirty(asset);AssetDatabase.SaveAssets();
             CommerceValidation.Validate();
-            Debug.Log("AdMob app IDs configured; internal test ad units enabled.");
+            Debug.Log("AdMob app IDs configured; internal test ads="+Monetization.MonetizationConfig.Load().InternalTestAds);
+        }
+        public static void ValidateRelease(BuildTarget target)
+        {
+            var config=Monetization.MonetizationConfig.Load();
+            if(config.InternalTestAds)throw new InvalidOperationException("Release cannot ship internal test advertising.");
+            string[] units=target==BuildTarget.iOS?new[]{config.IosRewarded,config.IosInterstitial}:new[]{config.AndroidRewarded,config.AndroidInterstitial};
+            foreach(string unit in units)if(string.IsNullOrWhiteSpace(unit)||!System.Text.RegularExpressions.Regex.IsMatch(unit,@"^ca-app-pub-8944085355624754/\d{10}$"))throw new InvalidOperationException("Missing or unowned production ad unit for "+target);
+            if(Monetization.MonetizationConfig.NonPersonalizedRequest().Extras["npa"]!="1")throw new InvalidOperationException("Release ad requests must remain non-personalized.");
+            Debug.Log("RISING_RELEASE_COMMERCE_PASS owned production ad units / test mode off / non-personalized requests");
         }
     }
 }
