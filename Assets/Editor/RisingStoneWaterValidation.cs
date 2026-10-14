@@ -23,7 +23,7 @@ public static class RisingStoneWaterValidation
      }
      if(mesh.name=="TempleTrailFlame") {flames++;var bounds=mesh.GetComponent<Renderer>().bounds;foreach(var corner in new[]{bounds.min,bounds.max,new Vector3(bounds.min.x,0,bounds.max.z),new Vector3(bounds.max.x,0,bounds.min.z)}){var p=root.transform.InverseTransformPoint(corner);Check(new Vector2(p.x,p.z).magnitude>safeRadius,"checkpoint flame clears the full landing fan");}}
     }
-    Check(masonry==36&&flames==2,"two real braziers accompany all36 beveled perimeter stones");Check(root.GetComponentsInChildren<Light>().Length==0,"braziers do not add active scene lights");
+    Check(masonry==48&&flames==0,"new architectural prefab has48 masonry blocks and keeps light/VFX budget bounded");Check(root.GetComponentsInChildren<Light>().Length==0,"braziers do not add active scene lights");
    }finally{UnityEngine.Object.DestroyImmediate(root);}
   }
   var texture=Resources.Load<Texture2D>("Art/PoolCaustics-v1");Check(texture!=null&&texture.isReadable&&texture.width==256&&texture.height==256&&texture.wrapMode==TextureWrapMode.Repeat,"own basin albedo fits the existing readable256square ceiling");

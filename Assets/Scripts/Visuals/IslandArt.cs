@@ -9,7 +9,7 @@ namespace Kamilunavo.RisingSteps.Visuals
   public const float Surface=.6f;
   // Expand the old seeded polygon; never remove an already safe landing point.
   public static float ContourFactor(int realm,float angle)=>realm==2?1/Mathf.Pow(Mathf.Pow(Mathf.Abs(Mathf.Cos(angle)),6)+Mathf.Pow(Mathf.Abs(Mathf.Sin(angle)),6),1f/6):realm==1?1/Mathf.Sqrt(Mathf.Pow(Mathf.Cos(angle)/1.18f,2)+Mathf.Pow(Mathf.Sin(angle),2)):1;
-  public static StepMarker Build(Transform parent,int index,int realm,bool scenic=false){var random=new System.Random(117+index*79+realm*1901);const int n=24;float size=index==12?2.05f:1.55f;var radius=new float[n];for(int i=0;i<n;i++)radius[i]=size*(.91f+(float)random.NextDouble()*.13f)*ContourFactor(realm,i*Mathf.PI*2/n);
+  public static StepMarker Build(Transform parent,int index,int realm,bool scenic=false){if(realm==2)return TempleRouteArt.Build(parent,index,scenic);var random=new System.Random(117+index*79+realm*1901);const int n=24;float size=index==12?2.05f:1.55f;var radius=new float[n];for(int i=0;i<n;i++)radius[i]=size*(.91f+(float)random.NextDouble()*.13f)*ContourFactor(realm,i*Mathf.PI*2/n);
    BuildCliff(parent,radius,index,realm);
    var gv=new Vector3[n+1];var guv=new Vector2[n+1];var gt=new int[n*3];gv[0]=Vector3.up*Surface;guv[0]=Vector2.one*.5f;
    for(int i=0;i<n;i++){float a=i*Mathf.PI*2/n;gv[i+1]=new Vector3(Mathf.Cos(a)*radius[i],Surface,Mathf.Sin(a)*radius[i]);guv[i+1]=new Vector2(gv[i+1].x/size,gv[i+1].z/size)*.5f+Vector2.one*.5f;gt[i*3]=0;gt[i*3+1]=(i+1)%n+1;gt[i*3+2]=i+1;}

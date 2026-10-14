@@ -1,0 +1,131 @@
+{
+  "sourceSha256": "3a951024fe635ec982ec764444b91f5e49468cf8246579ff56f512a3baaa8bb3",
+  "editorBuildExit": 0,
+  "build": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerified.app",
+  "buildLog": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/square-temple-verified-build.log",
+  "nativeChecks": {
+    "FocusedTemple": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedFocusedTemple/PASS.txt",
+      "result": "RISING_TEMPLE_COURSES_PASS checks=381 ten genuinely climbed Temple courses; start-realm fixture unlock only, no all100 acceptance",
+      "sha256": "bad28b9ca7787ae0a35efbb484de1910f6196862c7bd4fe18ce721c7d40ab8a2"
+    },
+    "Worlds": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedRuntime/PASS.txt",
+      "result": "RISING_TEN_WORLD_PREVIEW_PASS checks=205 actual60controllerjumps/tenworlds; isolated fixture unlocks for visual review only;100course acceptance remains pending",
+      "sha256": "21960c19369e09e440747b873d74506366a160443bdb074addff535eb7c5ebf1"
+    },
+    "Menu": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedUi/PASS.txt",
+      "result": "RISING_ORIGINAL_CHAPTERS_PASS 194 actual DE/EN portrait/landscape scrolling, seven distinct illustrated cards, real selection and parent Back; isolated unlock fixture only",
+      "sha256": "eaae7f7dcc00a0affe9879d91621887aac3b98a799f4e498aca2c230b21974bb"
+    },
+    "Camera": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedCamera/PASS.txt",
+      "result": "RISING_CAMERA_PASS 147",
+      "sha256": "ab67a0bd02f7e9ff166b12851d59ae110d3eb69c52632860b16a2b682ed929c6"
+    },
+    "Tutorial": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedTutorial/PASS.txt",
+      "result": "RISING_TUTORIAL_PASS 13",
+      "sha256": "0a9c3b718e88d750460458b871c134505045784e4315a804ba71b47d5e5ca04e"
+    },
+    "Default": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedDefault/PASS.txt",
+      "result": "RISING_QA_PASS checks=199 actual controller 36 steps and natural fall; isolated save; no FPS claim",
+      "sha256": "6406029038a0987c96fd782cc2174e39d6fd971769aee15f1a2730fefee07e18"
+    },
+    "EarnedCampaign": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedEarnedCampaign/PASS.txt",
+      "result": "RISING_CAMPAIGN_PASS checks=4104 actual controller1200jumps/100portals; isolated profile; rendered comparison still required",
+      "sha256": "407486887aa9ed1505e80dd4642fa3d4e203ac907ee8fd267c7fbc89f04f2506"
+    },
+    "ColdEarnedReload": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedEarnedReload/RELOAD-PASS.txt",
+      "result": "Fresh native bootstrap restored step=12 realm=9 safe=(0.76, 12.53, 49.37)",
+      "sha256": "cfff32147f85b98ea8ff01b7c93376093530df9966d9e65880b70f30b658e8d8"
+    },
+    "CompletedReplay": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedEarnedReplay/PASS.txt",
+      "result": "RISING_COMPLETED_REPLAY_PASS 203 all100 previously earned level-card callbacks launch exact realm/level without losing independent stars; actual earned saved profile, no unlock fixture",
+      "sha256": "8c1fe87b05d583b5e5085c80e653f977b65dcf2824449eb50bc4d20f288535d9"
+    }
+  },
+  "functionalProof": {
+    "earnedCourses": 100,
+    "separateGroundedStartChecks": 1200,
+    "actualMotorAndTargetLandingWitnesses": 1200,
+    "physicalPortals": 100,
+    "campaignCheckCount": 4104,
+    "fixtureUnlocksInEarnedCampaignReloadReplay": false,
+    "worldsAndFocusedTempleAreSeparatePreviewFixtures": true,
+    "coldRestoredRealm": 9,
+    "coldRestoredLevel": 9,
+    "coldRestoredStep": 12,
+    "allIndependentScoresColdRestored": 100,
+    "completedCardReplayChecks": 203
+  },
+  "architecture": {
+    "prefabs": [
+      "Assets/Resources/Models/TemplePlatform-Regular-v1.prefab",
+      "Assets/Resources/Models/TemplePlatform-Plaza-v1.prefab",
+      "Assets/Resources/Models/TemplePlatform-Destination-v1.prefab"
+    ],
+    "library": "Assets/Resources/Models/TemplePlatforms-v1.asset",
+    "meshSubAssets": 491,
+    "variantVertices": [
+      7018,
+      7934,
+      7934
+    ],
+    "variantWidths": [
+      4.2,
+      5.2,
+      6.0
+    ],
+    "roofPlane": 0.6,
+    "templateBakeSourceDigest": "8758e32a7e21a18f2b9617d751a5e9fd353c80262612e61e261ac854c5559250",
+    "genuineClosedMasonry": true,
+    "squareActualCollider": true,
+    "formerSeededSafePointsContained": true,
+    "oldTempleLimestoneIslandBodyRemoved": true,
+    "naturalOtherRealmsPreserved": true,
+    "ownDryHerbShelvesOutsideWholeRoof": true,
+    "occlusion": "8 actual model-mesh rays per vertex; baked in real Editor preview scene with own BVH; no runtime rays",
+    "borrowedMeshLifetime": "Own rejects persistent shared library meshes before registration; explicit registration and disabled/noncombined renderer cleanup fixtures pass",
+    "baker": "Staged asset publication with backup/reload/reference checks and rollback; digest includes MeshArt and occlusion/shader/material dependencies",
+    "artProvenance": "docs/QA/rising-temple-sandstone-original-20261014.json"
+  },
+  "foundation": {
+    "originalConnectedRouteMass": true,
+    "noCollidersOrUnscoredFloor": true,
+    "ownedGeneratedAndCombinedMeshes": true,
+    "vertexCeiling": 2500,
+    "templeOnlyEarlyFallRecovery": true,
+    "actualNaturalEdgeRecoveryMinimumClearanceMetres": 0.9356484
+  },
+  "diagnosedRejectedCandidate": {
+    "sourceSha256": "4fd427a63da87afadc8470b23944fffdd0e9b8e9fbc39c8642f5a678461b7b65",
+    "failedCampaignLog": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/square-temple-masonry-campaign.log",
+    "failure": "Temple2:1/step12: grounded, input not requested; old fixed.72m agent launch stops at expanded elevated destination face",
+    "fullyEarnedCoursesBeforeFailure": 21,
+    "diagnosticSource": "cf70c57faa51de1b2c8db7c0a71505452089763dea3c1d89863c4547f0530828",
+    "diagnosticBuild": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleJumpWitness.app",
+    "diagnosticLog": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/square-temple-jump-witness-temple.log",
+    "evidence": "Level1/step12 travel.527424<.72; level2/step8 travel.6788498<.72. Existing real Jump button from same blocked position reaches exact next roof. Captured both states, no position/score/collider/focus mutation. This witness is not final passing acceptance.",
+    "correction": "QA-only Temple XZ distance to actual next MeshCollider.bounds with radius/skin/.22 approach margin; ordinary gameplay motor/inputs unchanged. Each Climb starts/finishes grounded and records its own actual Motor.Jumped and target Course.Landed events. Diagnostic fallback removed. Final earned campaign uses a fresh unique profile."
+  },
+  "authorityFiles": {
+    "Assets/Scripts/Gameplay/PlayerMotor.cs": "e44263fa6accdc57fd040d1ac14c928a2ea41b2ca569d4497156b17e147e5370",
+    "Assets/Scripts/Gameplay/RisingCourse.cs": "30d60fb0d7cd3cac9d1bdb931b268f5a47f5165509bd6aa1a917e174d17841d5",
+    "Assets/Scripts/Gameplay/CoursePatterns.cs": "7e3ce2aa82fd635c904d4d0349e996fc59871c1766069d2ef41415d5e652e258",
+    "Assets/Scripts/Core/RisingCampaign.cs": "da2d17f2de2781d5a7f8360d8280415511d13f63ff2dc9c0858a8d86e694cf23",
+    "Assets/Scripts/Core/RisingRules.cs": "8df277ff223616e22b2247c7ee3323dcbce2477d47b0f33733482bd05d165f67",
+    "Assets/Scripts/Visuals/PortalArt.cs": "89dfabcffc5fcf704992b34260a5a3c6a767266a400c88c193153c914b3a68e5",
+    "Assets/Scripts/Visuals/IslandArt.cs": "2a1aaf4c370e38a1109e8f95fd2473e0fa0bd0bfcb45577947234fa15fa2d700",
+    "Assets/Scripts/Visuals/TempleRouteArt.cs": "837d5320db2c6693d6d225c66d51a1eeec0dfc14b0a810edc236eee2169f4fd1",
+    "Assets/Scripts/Visuals/TempleRouteFoundation.cs": "c230b1f0e01b7cc22922319aaca5e85a487438d7299b04b31f3dc9ae913bd47c"
+  },
+  "readOnlyReview": "Two initial findings (borrowed mesh registration, missing MeshArt bake digest dependency) corrected; final review found no important remaining model/lifetime/geometry/QA issues. Did not launch concurrent Editor/native processes.",
+  "comparison": "/Volumes/SSK SSD/Kamilunavo/Artifacts/RisingSquareTempleComparison-20261014/concept-unity-vergleich.png",
+  "visualAcceptance": "FAILED: true square architectural Temple geometry/original texture/model assets are integrated and functionally verified; actor/hair fidelity, material/plant richness and sunset/composition remain below approved Concept; menu identity pending. No numerical90percent, physical-device FPS/thermal, real ads or commerce transactions claim. No version bump/TestFlight/review submission."
+}

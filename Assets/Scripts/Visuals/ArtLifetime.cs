@@ -6,7 +6,8 @@ namespace Kamilunavo.RisingSteps.Visuals
  [ExecuteAlways] public sealed class ArtLifetime:MonoBehaviour
  {
   private readonly HashSet<Object> _owned=new();
-  public static void Own(GameObject owner,Object asset){if(asset==null)return;var lifetime=owner.GetComponent<ArtLifetime>()??owner.AddComponent<ArtLifetime>();lifetime._owned.Add(asset);}
+  public static void Own(GameObject owner,Object asset){if(asset==null||IsBorrowed(asset))return;var lifetime=owner.GetComponent<ArtLifetime>()??owner.AddComponent<ArtLifetime>();lifetime._owned.Add(asset);}
+  public static bool IsBorrowed(Object asset)=>asset is Mesh&&TemplePlatformLibrary.IsTemplateMesh(asset);
   private void OnDestroy(){foreach(var asset in _owned)if(asset!=null){if(Application.isPlaying)Destroy(asset);else DestroyImmediate(asset);}_owned.Clear();}
  }
 }

@@ -1,0 +1,16 @@
+{
+  "asset": "TempleSandstone-v1",
+  "generatedAt": "2026-10-14",
+  "source": "/Users/piotrkaminski/.codex/generated_images/01a11788-3eb6-7e32-963e-51b37d78e2ed/exec-05525b57-3679-4210-861a-f4f59bc13834.png",
+  "destination": "Assets/Resources/Art/TempleSandstone-v1.png",
+  "sha256": "2506c8869dfb329ee0a9529c29ed6b8867bdd6ac0f60c0ca15b8d8e8e6eabc60",
+  "prompt": "Use case: stylized-concept. Asset type: seamless square PBR albedo texture for original Rising Steps Temple 3D architectural sandstone models in Unity. Generate one continuous tileable warm pale ochre/sandstone mineral surface, straight orthographic flat texture that fills the entire square edge to edge, no perspective, no object, no scene, no text, no watermark. Warm sandy beige with subtle fine dusty golden-brown mineral speckling and a few shallow hairline branching weathering fissures, softly eroded limestone deposits. Restrained high-end stylized sculpted ancient temple material, believable small scale roughness. Even neutral flat diffuse illumination, no cast shadows, no baked sunlight, no highlights, no vignette, no border, no checkerboard, no masonry grid, no large black cracks. Low-contrast fine surface detail so the visible joints and carvings can come from true 3D stone meshes. All four edges must join seamlessly. Avoid foliage, grass, moss, words, logos and embedded UI. Square format.",
+  "byteIdenticalOriginal": true,
+  "sourcePixels": [
+    1254,
+    1254
+  ],
+  "unityImport": "256 square readable uncompressed repeat; original1254PNG retained; normal lighting derived from same source within existing texture budget",
+  "purpose": "Original diffuse albedo for actual square Temple architectural Unity models and wide masonry foundation; no illustrated scene or gameplay screenshot substitute",
+  "provenance": "Built-in imagegen tool; original image copied unchanged, not painted/postprocessed by script"
+}

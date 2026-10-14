@@ -51,7 +51,7 @@ namespace Kamilunavo.RisingSteps.Visuals
   }
   static GameObject Block(Transform p,string name,Vector3 center,Vector3 size,Material material,float bevel)
   {var block=LandscapeGeometry.BeveledBlock(p,name,center,size,material,bevel);LandscapeGeometry.StoneUv(block,.13f);return block;}
-  static GameObject Column(Transform parent,Vector3 p,float height,Material stone,Material gold,int seed,bool distant=false)
+  public static GameObject Column(Transform parent,Vector3 p,float height,Material stone,Material gold,int seed,bool distant=false)
   {
    var root=new GameObject("TempleColumn");root.transform.SetParent(parent,false);root.transform.localPosition=p;
    Block(root.transform,"CarvedColumnPlinth",new Vector3(0,.13f,0),new Vector3(1.12f,.26f,1.12f),stone,.065f);
@@ -71,7 +71,7 @@ namespace Kamilunavo.RisingSteps.Visuals
    for(int band=0;band<2;band++)Ring(root.transform,"ColumnInlay",band==0?.47f:.37f,.028f,band==0?.43f:height-.38f,gold,32);
    return root;
   }
-  static void Banner(Transform parent,Vector3 p,int sign,Material gold,int seed)
+  public static void Banner(Transform parent,Vector3 p,int sign,Material gold,int seed)
   {
    var root=new GameObject("TempleBannerMount");root.transform.SetParent(parent,false);root.transform.localPosition=p;
    Block(root.transform,"BannerArm",new Vector3(sign*.32f,.10f,0),new Vector3(.95f,.065f,.065f),gold,.013f);

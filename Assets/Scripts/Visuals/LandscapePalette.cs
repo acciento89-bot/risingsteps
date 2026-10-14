@@ -10,10 +10,11 @@ namespace Kamilunavo.RisingSteps.Visuals
  [ExecuteAlways] public sealed class LandscapePalette:MonoBehaviour
  {
   private readonly Dictionary<int,Material> _materials=new();
-  private Texture2D _mineral,_turf,_water,_sand,_ice,_pool,_mineralNormal,_cascadeFlow;
+  private Texture2D _mineral,_turf,_water,_sand,_ice,_pool,_mineralNormal,_cascadeFlow,_temple,_templeNormal;
   public static Material Pool(Transform parent)=>Owner(parent).Special(100);
   public static Material Moss(Transform parent)=>Owner(parent).Special(101);
   public static Material Canopy(Transform parent)=>Owner(parent).Special(102);
+  public static Material TempleMasonry(Transform parent,int kind)=>Owner(parent).Masonry(kind);
   public static Material Surface(Transform parent,int realm,int kind=0)
   {
    realm=(int)RisingRealmCatalog.Theme(realm);kind=Mathf.Clamp(kind,0,7);
@@ -34,10 +35,10 @@ namespace Kamilunavo.RisingSteps.Visuals
   }
   private Texture2D Texture(int kind)
   {
-   if(kind==0){
-    var asset=Resources.Load<Texture2D>("Art/StratifiedLimestone-v3");
+   if(kind==0||kind==8){
+    var asset=Resources.Load<Texture2D>(kind==8?"Art/TempleSandstone-v1":"Art/StratifiedLimestone-v3");
     if(asset==null||!asset.isReadable||asset.width!=256||asset.height!=256)throw new System.InvalidOperationException("Original limestone albedo must be imported readable at256 square");
-    var authored=new Texture2D(256,256,TextureFormat.RGB24,true){name="LandscapeMineralAtlas",wrapMode=TextureWrapMode.Repeat,filterMode=FilterMode.Bilinear,anisoLevel=2};
+    var authored=new Texture2D(256,256,TextureFormat.RGB24,true){name=kind==8?"TempleSandstoneAtlas":"LandscapeMineralAtlas",wrapMode=TextureWrapMode.Repeat,filterMode=FilterMode.Bilinear,anisoLevel=2};
     authored.SetPixels(asset.GetPixels());authored.Apply(true,true);ArtLifetime.Own(gameObject,authored);return authored;
    }
    if(kind==5||kind==7){
@@ -75,28 +76,29 @@ namespace Kamilunavo.RisingSteps.Visuals
    var texture=new Texture2D(width,height,TextureFormat.RGB24,true){name=kind==0?"LandscapeMineralAtlas":kind==1?"LandscapeTurfAtlas":kind==3?"LandscapeSandAtlas":kind==4?"LandscapeIceAtlas":kind==5?"LandscapePoolCaustics":kind==6?"LandscapeMossAtlas":"LandscapeWaterAtlas",wrapMode=TextureWrapMode.Repeat,filterMode=FilterMode.Bilinear,anisoLevel=2};
    texture.SetPixels(pixels);texture.Apply(true,true);ArtLifetime.Own(gameObject,texture);return texture;
   }
-  private static readonly Color[] Mineral={new(.96f,.96f,.89f),new(.96f,.99f,.96f),new(.76f,.65f,.57f),new(.43f,.49f,.31f),new(.32f,.29f,.46f),new(.58f,.67f,.75f),new(.83f,.55f,.29f),new(.27f,.25f,.29f),new(.87f,.88f,.77f),new(.34f,.38f,.61f)};
-  private static readonly Color[] Ground={Color.white,new(.78f,.81f,.78f),new(.88f,.76f,.63f),new(.54f,.77f,.48f),new(.48f,.43f,.62f),new(.97f,.99f,1),new(.96f,.77f,.45f),new(.29f,.27f,.29f),new(.99f,.92f,.69f),new(.49f,.52f,.70f)};
+  private static readonly Color[] Mineral={new(.96f,.96f,.89f),new(.96f,.99f,.96f),new(.90f,.79f,.66f),new(.43f,.49f,.31f),new(.32f,.29f,.46f),new(.58f,.67f,.75f),new(.83f,.55f,.29f),new(.27f,.25f,.29f),new(.87f,.88f,.77f),new(.34f,.38f,.61f)};
+  private static readonly Color[] Ground={Color.white,new(.78f,.81f,.78f),new(1,.90f,.78f),new(.54f,.77f,.48f),new(.48f,.43f,.62f),new(.97f,.99f,1),new(.96f,.77f,.45f),new(.29f,.27f,.29f),new(.99f,.92f,.69f),new(.49f,.52f,.70f)};
   private static readonly Color[] Leaves={new(.25f,.43f,.16f),new(.33f,.49f,.23f),new(.38f,.34f,.20f),new(.12f,.38f,.20f),new(.25f,.36f,.49f),new(.18f,.35f,.33f),new(.26f,.46f,.26f),new(.24f,.24f,.25f),new(.23f,.49f,.36f),new(.28f,.33f,.56f)};
   private static readonly Color[] Accent={new(.50f,.35f,.16f),new(.45f,.58f,.55f),new(.88f,.63f,.25f),new(.31f,.23f,.12f),new(.47f,.34f,.74f),new(.63f,.85f,.95f),new(.94f,.65f,.34f),new(.31f,.29f,.32f),new(.54f,.36f,.20f),new(.72f,.78f,.93f)};
   // Height sampled from the original albedo becomes real lighting response, not painted
   // dark lines. Our shader explicitly decodes uncompressed linear XYZ/1,
   // avoiding target-specific imported normal packing (RGB, RG/AG or ASTC).
   private static float MineralRelief(Texture2D asset,float u,float v)=>asset.GetPixelBilinear(u,v).grayscale;
-  private void MineralLighting(Material material)
+  private void MineralLighting(Material material,int realm)
   {
-   if(_mineralNormal==null){
-   const int size=256;const float delta=1f/size;var pixels=new Color[size*size];var asset=Resources.Load<Texture2D>("Art/StratifiedLimestone-v3");
+   bool temple=realm==2;var normalTexture=temple?_templeNormal:_mineralNormal;
+   if(normalTexture==null){
+   const int size=256;const float delta=1f/size;var pixels=new Color[size*size];var asset=Resources.Load<Texture2D>(temple?"Art/TempleSandstone-v1":"Art/StratifiedLimestone-v3");
     for(int y=0;y<size;y++)for(int x=0;x<size;x++){
      float u=x*delta,v=y*delta;
      float dx=(MineralRelief(asset,u+delta,v)-MineralRelief(asset,u-delta,v))*size*.012f;
      float dy=(MineralRelief(asset,u,v+delta)-MineralRelief(asset,u,v-delta))*size*.012f;
      var normal=new Vector3(-dx,-dy,1).normalized;pixels[y*size+x]=new Color(normal.x*.5f+.5f,normal.y*.5f+.5f,normal.z*.5f+.5f,1);
     }
-    _mineralNormal=new Texture2D(size,size,TextureFormat.RGBA32,true,true){name="LandscapeMineralNormal",wrapMode=TextureWrapMode.Repeat,filterMode=FilterMode.Bilinear,anisoLevel=2};
-    _mineralNormal.SetPixels(pixels);_mineralNormal.Apply(true,true);ArtLifetime.Own(gameObject,_mineralNormal);
+    normalTexture=new Texture2D(size,size,TextureFormat.RGBA32,true,true){name=temple?"TempleSandstoneNormal":"LandscapeMineralNormal",wrapMode=TextureWrapMode.Repeat,filterMode=FilterMode.Bilinear,anisoLevel=2};
+    normalTexture.SetPixels(pixels);normalTexture.Apply(true,true);ArtLifetime.Own(gameObject,normalTexture);if(temple)_templeNormal=normalTexture;else _mineralNormal=normalTexture;
    }
-   material.SetTexture("_BumpMap",_mineralNormal);material.SetFloat("_BumpScale",.65f);
+   material.SetTexture("_BumpMap",normalTexture);material.SetFloat("_BumpScale",.65f);
   }
   private Material Special(int key)
   {
@@ -109,18 +111,25 @@ namespace Kamilunavo.RisingSteps.Visuals
    else{material.color=new Color(.33f,.48f,.19f);material.SetFloat("_Glossiness",.025f);}
    ArtLifetime.Own(gameObject,material);_materials.Add(key,material);return material;
   }
+  private Material Masonry(int kind)
+  {
+   kind=Mathf.Clamp(kind,0,1);int key=200+kind;if(_materials.TryGetValue(key,out var existing))return existing;
+   var material=new Material(Resources.Load<Material>("Materials/TempleMasonrySurface")){name="LandscapeTempleMasonry"+kind};var source=Get(2,kind);
+   material.mainTexture=source.mainTexture;material.color=source.color;material.SetTexture("_BumpMap",source.GetTexture("_BumpMap"));material.SetFloat("_BumpScale",.65f);material.SetFloat("_Glossiness",.07f);material.SetFloat("_OcclusionStrength",.85f);
+   ArtLifetime.Own(gameObject,material);_materials.Add(key,material);return material;
+  }
   private Material Get(int realm,int kind)
   {
    int key=realm*8+kind;if(_materials.TryGetValue(key,out var existing))return existing;
    bool mineralLighting=realm<3&&(kind==0||kind==1&&realm!=0);
    // The serialized resource retains our explicit linear RGB normal shader.
    var material=new Material(Resources.Load<Material>(mineralLighting?"Materials/MineralSurface":"Materials/Surface")){name="Landscape"+realm+"Surface"+kind};
-   if(kind==0){if(_mineral==null)_mineral=Texture(0);material.mainTexture=_mineral;material.color=Mineral[realm];}
+   if(kind==0){if(realm==2){if(_temple==null)_temple=Texture(8);material.mainTexture=_temple;}else{if(_mineral==null)_mineral=Texture(0);material.mainTexture=_mineral;}material.color=Mineral[realm];}
    else if(kind==1){
     material.color=Ground[realm];
     if(realm==0||realm==3){if(_turf==null)_turf=Texture(1);material.mainTexture=_turf;}
     else if(realm==6||realm==8){if(_sand==null)_sand=Texture(3);material.mainTexture=_sand;}
-    else{if(_mineral==null)_mineral=Texture(0);material.mainTexture=_mineral;}
+    else{if(realm==2){if(_temple==null)_temple=Texture(8);material.mainTexture=_temple;}else{if(_mineral==null)_mineral=Texture(0);material.mainTexture=_mineral;}}
    }
    else if(kind==2){if(realm==1){if(_cascadeFlow==null)_cascadeFlow=Texture(7);material.mainTexture=_cascadeFlow;}else{if(_water==null)_water=Texture(2);material.mainTexture=_water;}material.color=realm==8?new Color(.75f,1,.94f):Color.white;}
    else if(kind==3)material.color=Leaves[realm];
@@ -132,7 +141,7 @@ namespace Kamilunavo.RisingSteps.Visuals
     material.EnableKeyword("_EMISSION");material.SetColor("_EmissionColor",material.color*(realm==7?.85f:.36f));
    }
    material.SetFloat("_Glossiness",kind==2?.44f:realm==4&&kind>=5?.42f:realm==5&&kind==5?.57f:.07f);
-   if(mineralLighting)MineralLighting(material);
+   if(mineralLighting)MineralLighting(material,realm);
    ArtLifetime.Own(gameObject,material);_materials.Add(key,material);return material;
   }
  }

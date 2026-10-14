@@ -1,10 +1,10 @@
 {
   "game": "Rising Steps",
   "status": "failed",
-  "sourceSha256": "4fbd4e10446b76bc09fe39809e36c6808aee1adaea2a8303a2bce5596896c2c0",
-  "reviewer": "Codex actual Unity Mac framebuffer review, unchanged Oct10 approved Concept",
+  "sourceSha256": "3a951024fe635ec982ec764444b91f5e49468cf8246579ff56f512a3baaa8bb3",
+  "reviewer": "Codex actual Unity Mac player framebuffer; unchanged approved Oct10 Concept",
   "reviewedAt": "2026-10-14",
-  "reason": "FAILED. Source-verified original assets/illustrations/character/terraced architecture exist and gameplay/nav works. Character/hair fidelity, repeated route-cap/cliff forms, botanical density and material depth remain below approved Concept. No numerical90percent or physical FPS/thermal/real-ad/commerce assertion. No upload/version bump.",
+  "reason": "Temple now has original persistent genuine square architectural platforms (4.2/5.2/6.0m), carved masonry, original sandstone, modeled dry herbs, real baked mesh occlusion and a continuous ruin foundation. Whole Concept similarity remains FAILED: runner/hair/material fidelity, plant density and cinematic sunset/composition still need work; menu identity remains pending. Actual UI/navigation/readability and distinct realm subjects are stronger. No numerical90percent or physical-device FPS/real-ad/commerce assertion. No TestFlight upload/version bump.",
   "criteria": {
     "concept_similarity": "failed",
     "character_or_tower": "failed",
@@ -23,89 +23,89 @@
     ],
     "menu": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/TempleGoldenHourRuntime/world-0-menu.png",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedRuntime/world-0-menu.png",
         "sha256": "1f13eef406a08dacb11ba9385aac21febbd39fe27610e28fdab36dd33c2051ec",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/AdventurerWalletUi/chapter-9-de-portrait.png",
-        "sha256": "282130fc977a78f109de7de5b028b05ae42ef37a480f4caed5df23d4306136c3",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedRuntime/world-9-menu.png",
+        "sha256": "bc5a205c5c4c3890e45dd24bc4576813dcf56102ab946e5722b53468bb0eed33",
         "origin": "Unity-render"
       }
     ],
     "gameplay": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/TempleGoldenHourRuntime/world-1-stride.png",
-        "sha256": "ad86c2370a5ea24caea7c3ae4e53e3dd3b1494b337870b9ae31058b5618db761",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedRuntime/world-1-stride.png",
+        "sha256": "22e34e8682b985ebf6db02c956ce446590cf60eca53858f680e841d403c18d11",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/TempleGoldenHourRuntime/world-2-stride.png",
-        "sha256": "2d7f86531fa4d4b093266cac092f7791a2e2e712a25fe3d8bdc8bdb02e9d7c22",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedRuntime/world-2-approach.png",
+        "sha256": "b881dde93247b647abb8486d1582d536e650977cdb3341ba0d51c7b2823aea04",
         "origin": "Unity-render"
       }
     ],
     "submenus": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/TempleGoldenHourRuntime/world-0-levels.png",
-        "sha256": "8319304ad377f584c863ddcf0aecd1daa886aa73635388dce4182a378e08ee6b",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedRuntime/world-0-levels.png",
+        "sha256": "1a26482b99be861aab9302a5b186a89b6a964c085eb1ce4171f9367a761bd0a8",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/AdventurerWalletUi/menu-wallet-en-wide.png",
-        "sha256": "780683fac08b3943588017afca52ac140da579f2448e6fc56e6045d871f6221e",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedRuntime/world-2-levels.png",
+        "sha256": "1ab82c1172476800967c08c3b0f5daaa6c785b8ccfc2ec56f52d88fb11319536",
         "origin": "Unity-render"
       }
     ],
     "variants": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/TempleGoldenHourRuntime/world-0-mid.png",
-        "sha256": "077d75d60940e07780588e7fb5f401fff9faad03ea535917a71ff1175328a8f4",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedRuntime/world-0-mid.png",
+        "sha256": "591f8c703e03d08350a9e81b27a024445095cc43d970e98844ff864b197e2c37",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/TempleGoldenHourRuntime/world-1-mid.png",
-        "sha256": "5dcac099d400b1b051778722bee8468ec3db29c07041cb682c8b511c0243ed79",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedRuntime/world-1-mid.png",
+        "sha256": "f2aa281b8d9fc59b5407e153e6383a2f984a9662ee81ad791658133bc5ad04ff",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/TempleGoldenHourRuntime/world-2-mid.png",
-        "sha256": "88f586859ec80f3e68f001ff168bdb8eb3556a029418013427c9ffbb83c99185",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedRuntime/world-2-mid.png",
+        "sha256": "b729faf6f9b955f4075f19a6f1e252052b73cc467171f63cde7789fa067335a3",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/TempleGoldenHourRuntime/world-3-mid.png",
-        "sha256": "1c6531df7aee1b9fb780fb0ba532b5cbd35f2e0cae5d9acec4f520d3ab95818f",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedRuntime/world-3-mid.png",
+        "sha256": "86315dc94e8a426b57ccd13348751d0c62404bc2ac1ffa8270ab1583cb9d6ef3",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/TempleGoldenHourRuntime/world-4-mid.png",
-        "sha256": "ba06080d35d2ce97508659d13ef55535a462db21835bd54d4d8d6df391da1cfe",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedRuntime/world-4-mid.png",
+        "sha256": "6bdd9bd499bed89656ae357d0b4c75d7a9850603eafd68b3462f2d377c4d4d1f",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/TempleGoldenHourRuntime/world-5-mid.png",
-        "sha256": "fe76b95b97dc5a15f9c17a4cf9e508f1d3cf26879ec16931069007a6bbb2484f",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedRuntime/world-5-mid.png",
+        "sha256": "16deeb831db5152b9c653088893aeec6be4e334dc559ee901d300c142e624465",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/TempleGoldenHourRuntime/world-6-mid.png",
-        "sha256": "647032bdd3c2bf3d8d800f9c0da4ae5d20a4536ce8bddd77c651b212a2a15009",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedRuntime/world-6-mid.png",
+        "sha256": "2c42c7eaa8c674e78cca0c3bb4d298b6a0d6494dec737d398c26e2969460f1e0",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/TempleGoldenHourRuntime/world-7-mid.png",
-        "sha256": "c97719a6fa3af819403ee0a282ec7b8875e5201697c52fbe529a6f929e91b5c2",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedRuntime/world-7-mid.png",
+        "sha256": "f15efbf24d43d7088dbdf47b657de0cf0b8f314f1164f4800dfff9c64f5aaa94",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/TempleGoldenHourRuntime/world-8-mid.png",
-        "sha256": "e7f86f736ff5a62e031832dc2690eef69cb3771bff4a0759987e184ae61aa4f6",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedRuntime/world-8-mid.png",
+        "sha256": "eb89b5180cb83a965642350d6027415c5b1779c73329ef8a95076f39a72fe4d9",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/TempleGoldenHourRuntime/world-9-mid.png",
-        "sha256": "0ebbba2d127e6dca892906bc0c7147364706d1ace49cd61b46ac27737b845c8f",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedRuntime/world-9-mid.png",
+        "sha256": "11be91cd0716c66bf8c8586387ef7fbcff6a9dc9bcea50be348c6d6ba01b2938",
         "origin": "Unity-render"
       }
     ]

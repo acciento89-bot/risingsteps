@@ -3,3 +3,10 @@
 Assets/Resources/Models/*.asset whitespace=-blank-at-eol
 Assets/Resources/Models/*.prefab whitespace=-blank-at-eol
 Assets/Resources/Art/*.png.meta whitespace=-blank-at-eol
+
+Assets/Resources/Materials/TemplePreview-*.mat whitespace=-blank-at-eol
+Assets/Resources/Materials/TempleMasonrySurface.mat whitespace=-blank-at-eol
+Assets/Resources/Materials/Temple*.mat.meta whitespace=-blank-at-eol
+Assets/Resources/Models/Temple*.prefab.meta whitespace=-blank-at-eol
+Assets/Resources/Models/Temple*.asset.meta whitespace=-blank-at-eol
+Assets/Resources/RisingTempleMasonry.shader.meta whitespace=-blank-at-eol

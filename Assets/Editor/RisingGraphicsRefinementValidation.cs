@@ -18,6 +18,7 @@ public static class RisingGraphicsRefinementValidation
    var root=new GameObject("GraphicsRefinementIsland");var owned=new HashSet<UnityEngine.Object>();
    try{
     IslandArt.Build(root.transform,index,realm);
+    if(realm==2)TempleRouteValidation.ValidateModel(root,index);else{
     var mesh=root.transform.Find("LimestoneCliff").GetComponent<MeshFilter>().sharedMesh;
     var points=new HashSet<Vector3>(mesh.vertices);float bottom=0,top=0;var shoulder=new List<Vector3>();
     foreach(var v in points){bottom=Mathf.Min(bottom,v.y);if(v.y>.47f)top=Mathf.Max(top,new Vector2(v.x,v.z).magnitude);}
@@ -53,9 +54,10 @@ public static class RisingGraphicsRefinementValidation
      Check(courses==36,"two staggered eighteen-block masonry courses remain visible");
      Check(Find(root,"TempleHerbFlowers")!=null,"dry Temple perimeter has original purple herb florets");
     }
+    }
     int count=Capture(root,owned);maxIsland=Math.Max(maxIsland,count);Check(count<30000,"route art stays within the established mobile vertex budget");
    }finally{UnityEngine.Object.DestroyImmediate(root);}
-   foreach(var asset in owned)Check(asset==null,"island owns and disposes its generated art");
+   foreach(var asset in owned)Check(ArtLifetime.IsBorrowed(asset)?asset!=null:asset==null,"island owns and disposes its generated art");
   }
   for(int realm=0;realm<3;realm++){
    var root=new GameObject("GraphicsRefinementHorizon");var owned=new HashSet<UnityEngine.Object>();
@@ -80,7 +82,7 @@ public static class RisingGraphicsRefinementValidation
     }
     if(realm==2)Check(Find(root,"SanctuaryArchVoussoir")!=null&&Find(root,"SanctuaryMasonry")!=null,"Temple horizon has architectural volume and articulated masonry");
    }finally{UnityEngine.Object.DestroyImmediate(root);}
-   foreach(var asset in owned)Check(asset==null,"horizon owns and disposes its generated art");
+   foreach(var asset in owned)Check(ArtLifetime.IsBorrowed(asset)?asset!=null:asset==null,"horizon owns and disposes its generated art");
   }
   Debug.Log("RISING_GRAPHICS_REFINEMENT_PASS checks="+checks+" maxIsland="+maxIsland+" maxHorizon="+maxHorizon+" actualRenderAcceptance=pending");
  }

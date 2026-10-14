@@ -15,10 +15,12 @@ public static class RisingLandscapeValidation
    var root=new GameObject("LandscapeProbe");var assets=new HashSet<UnityEngine.Object>();
    try{
     IslandArt.Build(root.transform,index,realm);
+    if(realm==2)TempleRouteValidation.ValidateModel(root,index);else{
     var cliff=root.transform.Find("LimestoneCliff").GetComponent<MeshFilter>().sharedMesh;
     ValidateLandform(cliff,realm,index);
     var cliffMaterial=root.transform.Find("LimestoneCliff").GetComponent<Renderer>().sharedMaterial;
     Check(cliffMaterial.mainTexture!=null&&cliffMaterial.mainTexture.name=="LandscapeMineralAtlas","cliff uses the bounded mineral finish");
+    }
     int count=0;foreach(var f in root.GetComponentsInChildren<MeshFilter>()){count+=f.sharedMesh.vertexCount;assets.Add(f.sharedMesh);}
     if(index==12){PortalArt.Build(root.transform,null);count=0;foreach(var f in root.GetComponentsInChildren<MeshFilter>()){count+=f.sharedMesh.vertexCount;assets.Add(f.sharedMesh);}}
     Check(count<30000,"route island and destination stay below the existing vertex ceiling");maxVertices=Math.Max(maxVertices,count);
@@ -27,7 +29,7 @@ public static class RisingLandscapeValidation
     foreach(var renderer in root.GetComponentsInChildren<Renderer>())if(renderer.sharedMaterial.name.StartsWith("Landscape")){assets.Add(renderer.sharedMaterial);if(renderer.sharedMaterial.mainTexture!=null)assets.Add(renderer.sharedMaterial.mainTexture);}
     MeshArt.Batch(root);foreach(var f in root.GetComponentsInChildren<MeshFilter>())assets.Add(f.sharedMesh);
    }finally{UnityEngine.Object.DestroyImmediate(root);}
-   foreach(var asset in assets)Check(asset==null,"generated mesh/material/texture is released with its owner");
+   foreach(var asset in assets)Check(ArtLifetime.IsBorrowed(asset)?asset!=null:asset==null,"generated mesh/material/texture is released with its owner");
   }
   Debug.Log("RISING_LANDSCAPE_PASS maxIslandVertices="+maxVertices+" islands=39");
  }
@@ -54,7 +56,7 @@ public static class RisingLandscapeValidation
       if(index==4)Check(signatures.Add(Topology(root)),"ten worlds have structurally distinct actual landmark geometry");
       MeshArt.Batch(root);CaptureAssets(root,owned);
      }finally{UnityEngine.Object.DestroyImmediate(root);}
-     foreach(var asset in owned)Check(asset==null,"ten-realm island assets release with their owner");
+     foreach(var asset in owned)Check(ArtLifetime.IsBorrowed(asset)?asset!=null:asset==null,"ten-realm island assets release with their owner");
     }
    }
    for(int realm=0;realm<10;realm++){
@@ -71,7 +73,7 @@ public static class RisingLandscapeValidation
      Check(root.GetComponentsInChildren<CloudBillboard>().Length==9,"one bounded cloud bank per active realm");
      MeshArt.Batch(root);CaptureAssets(root,owned);
     }finally{UnityEngine.Object.DestroyImmediate(root);}
-    foreach(var asset in owned)Check(asset==null,"ten-realm sky/background assets release with their owner");
+    foreach(var asset in owned)Check(ArtLifetime.IsBorrowed(asset)?asset!=null:asset==null,"ten-realm sky/background assets release with their owner");
    }
   }finally{RenderSettings.skybox=priorSky;RenderSettings.ambientSkyColor=ambientSky;RenderSettings.ambientEquatorColor=ambientEquator;RenderSettings.ambientGroundColor=ambientGround;RenderSettings.ambientMode=ambientMode;RenderSettings.ambientIntensity=ambientIntensity;RenderSettings.fog=fog;RenderSettings.fogMode=fogMode;RenderSettings.fogColor=fogColor;RenderSettings.fogDensity=fogDensity;if(sun!=null){sun.color=sunColor;sun.intensity=sunIntensity;}}
   Debug.Log("RISING_TEN_REALM_ART_PASS distinctLandmarks="+signatures.Count+" distinctHorizons="+horizonsSeen.Count+" maxIslandVertices="+maxVertices+" maxBackdropVertices="+maxBackdrop);

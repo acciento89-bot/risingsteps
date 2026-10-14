@@ -34,6 +34,7 @@ namespace Kamilunavo.RisingSteps.QA
 _hud.Close();_course.StartRun(0,false);yield return new WaitForSeconds(.5f);
    if(Environment.GetEnvironmentVariable("RISING_QA_CAMERA")=="1"){yield return CameraTouchOwnership();yield return CameraFeedback();File.WriteAllText(Path.Combine(_out,"PASS.txt"),"RISING_CAMERA_PASS "+_checks);Debug.Log("RISING_CAMERA_PASS "+_checks);yield break;}
    if(Environment.GetEnvironmentVariable("RISING_QA_WORLDS")=="1"){yield return WorldPresentation();yield break;}
+   if(Environment.GetEnvironmentVariable("RISING_QA_TEMPLE_COURSES")=="1"){yield return TempleCourses();yield break;}
    if(Environment.GetEnvironmentVariable("RISING_QA_CAMPAIGN")=="1"){yield return CampaignTraversal();yield break;}
    var center=new Vector2(Screen.width*.55f,Screen.height*.55f);var e=new PointerEventData(EventSystem.current){position=center};var hits=new List<RaycastResult>();EventSystem.current.RaycastAll(e,hits);Check(hits.Count==0,"world route does not intercept camera input");
    _motor.Jump.OnPointerDown(e);_hud.ShowSettings();float before=_course.Profile.Elapsed;yield return new WaitForSeconds(.15f);Check(Mathf.Abs(before-_course.Profile.Elapsed)<.01f&&_motor.Paused,"modal pauses motor and timer");_hud.Close();Check(!_motor.Jump.Consume(),"modal clears stale jump");
@@ -109,7 +110,7 @@ _hud.Close();_course.StartRun(0,false);yield return new WaitForSeconds(.5f);
     _hud.Close();_course.StartLevel(realm,0);yield return new WaitForSeconds(.2f);
     Check(_course.Profile.Realm==realm&&_course.Steps.Count==13,"actual themed route selected "+realm);
     var scenery=_course.transform.Find("RealmScenery"+realm);Check(scenery!=null&&scenery.gameObject.activeInHierarchy&&scenery.GetComponentsInChildren<Collider>().Length==0,"actual backdrop is selected and decorative "+realm);
-    yield return Capture("world-"+realm+"-start");for(int step=1;step<=6;step++)yield return Climb(step);yield return Capture("world-"+realm+"-mid");
+    yield return Capture("world-"+realm+"-start");for(int step=1;step<=6;step++)yield return Climb(step);yield return Capture("world-"+realm+"-mid");if(realm==2)yield return TempleFoundationRecovery();
     _hud.ShowHome();yield return Capture("world-"+realm+"-menu");_hud.ShowLevels(realm);yield return Capture("world-"+realm+"-levels");_hud.Close();
    }
    File.WriteAllText(Path.Combine(_out,"PASS.txt"),"RISING_TEN_WORLD_PREVIEW_PASS checks="+_checks+" actual60controllerjumps/tenworlds; isolated fixture unlocks for visual review only;100course acceptance remains pending");Debug.Log("RISING_TEN_WORLD_PREVIEW_PASS "+_checks);if(Array.Exists(Environment.GetCommandLineArgs(),a=>a=="-qaExit"))Application.Quit();
@@ -125,6 +126,23 @@ _hud.Close();_course.StartRun(0,false);yield return new WaitForSeconds(.5f);
    _hud.ShowHome();yield return Capture("campaign-all-realms");_hud.ShowLevels(2);yield return Capture("campaign-level-selector");_hud.ShowSettings();yield return Capture("campaign-settings");_hud.Back();Check(_hud.ModalOpen&&_course.Paused,"Back retains campaign parent paused");_hud.Back();Check(_hud.ModalOpen&&_course.Paused,"Back retains realm home paused");
    var saved=RisingSave.Load();int count=0;foreach(int stars in saved.LevelStars)if(stars>0)count++;Check(count==RisingCampaign.LevelCount&&saved.Schema==3,"all hundred physical courses survive profile reload");
    File.WriteAllText(Path.Combine(_out,"PASS.txt"),"RISING_CAMPAIGN_PASS checks="+_checks+" actual controller1200jumps/100portals; isolated profile; rendered comparison still required");Debug.Log("RISING_CAMPAIGN_PASS "+_checks);if(Array.Exists(Environment.GetCommandLineArgs(),a=>a=="-qaExit"))Application.Quit();
+  }
+  private IEnumerator TempleCourses(){
+   _course.Profile.UnlockedRealm=2;_course.Profile.TutorialDone=true;
+   for(int level=0;level<10;level++){
+    _hud.Close();_course.StartLevel(2,level);yield return new WaitForSeconds(.2f);Check(_course.Profile.Realm==2&&_course.Profile.Level==level,"focused genuine Temple course selected "+level);
+    for(int step=1;step<=12;step++)yield return Climb(step);
+    yield return WalkTo(_course.Steps[12].transform.position+Vector3.forward*.5f,2);yield return new WaitForSeconds(.15f);Check(_course.Profile.Completed&&_course.Profile.LevelStars[20+level]>0,"focused physical Temple portal/independent earned score "+level);_hud.Close();
+   }
+   File.WriteAllText(Path.Combine(_out,"PASS.txt"),"RISING_TEMPLE_COURSES_PASS checks="+_checks+" ten genuinely climbed Temple courses; start-realm fixture unlock only, no all100 acceptance");
+  }
+  private IEnumerator TempleFoundationRecovery(){
+   var points=new Vector3[_course.Steps.Count];for(int i=0;i<points.Length;i++)points[i]=_course.Steps[i].transform.position;
+   var scenery=_course.transform.Find("RealmScenery2");Check(scenery.Find("ConnectedTempleFoundation")!=null,"actual Temple owns one connected original foundation");
+   Check(!Array.Exists(_course.Steps[6].transform.parent.GetComponentsInChildren<Transform>(),t=>t.name=="LimestoneCliff"),"actual Temple playable checkpoint uses a genuine square architectural prefab");
+   _motor.ResetInput();int falls=_course.Profile.Falls;float start=Time.realtimeSinceStartup,clearance=float.PositiveInfinity;Drive(Vector3.right,true);
+   while(_course.Profile.Falls==falls&&Time.realtimeSinceStartup-start<8){clearance=Mathf.Min(clearance,_motor.transform.position.y-Kamilunavo.RisingSteps.Visuals.TempleRouteFoundation.TopY(points,_motor.transform.position.z));Drive(Vector3.right);yield return null;}
+   _motor.ResetInput();yield return new WaitForSeconds(.15f);Check(_course.Profile.Falls==falls+1&&Vector3.Distance(_motor.transform.position,_course.SafePosition)<1,"natural Temple edge fall recovers its scored checkpoint");Check(clearance>.35f,"actual controller never enters the render-only ruin foundation before recovery; minimum clearance="+clearance);yield return Capture("world-2-recovered-edge-fall");
   }
   private IEnumerator WaitOrientation(bool landscape){
    // Desktop orientation requests do not rotate a window; exercise the actual
@@ -195,10 +213,36 @@ _hud.Close();_course.StartRun(0,false);yield return new WaitForSeconds(.5f);
    }
   }
   private void Drive(Vector3 direction,bool start=false){direction.y=0;var f=_motor.CameraTransform.forward;f.y=0;f.Normalize();var r=_motor.CameraTransform.right;r.y=0;r.Normalize();var axis=new Vector2(Vector3.Dot(direction.normalized,r),Vector3.Dot(direction.normalized,f));var rect=(RectTransform)_hud.Joystick.transform;var local=rect.rect.center+(Vector2)axis*Mathf.Min(rect.rect.width,rect.rect.height)*.5f;var ev=new PointerEventData(EventSystem.current){pointerId=200,position=RectTransformUtility.WorldToScreenPoint(null,rect.TransformPoint(local))};if(start)_hud.Joystick.OnPointerDown(ev);else _hud.Joystick.OnDrag(ev);}
-  private IEnumerator Climb(int step){var origin=_course.Steps[step-1].transform.position;var target=_course.Steps[step].transform.position;bool jumped=false;float start=Time.realtimeSinceStartup;Drive(target-_motor.transform.position,true);
-   while(_course.Height<step&&Time.realtimeSinceStartup-start<6){var delta=target-_motor.transform.position;delta.y=0;if(delta.magnitude<.12f)_hud.Joystick.ResetInput();else{if(_hud.Joystick.Value==Vector2.zero)Drive(delta,true);else Drive(delta);}
-    var travel=_motor.transform.position-origin;travel.y=0;if(!jumped&&Vector3.Dot(travel,new Vector3(target.x-origin.x,0,target.z-origin.z).normalized)>.72f&&_motor.Grounded){if(step==5&&Environment.GetEnvironmentVariable("RISING_QA_WORLDS")=="1"){_motor.ResetInput();if(_course.Profile.Realm==2){var sun=GameObject.Find("TempleSettingSun");if(sun!=null)Debug.Log("RISING_SUN_FRAMING world="+sun.transform.position+" camera="+_motor.CameraTransform.position+" viewport="+_motor.CameraTransform.GetComponent<Camera>().WorldToViewportPoint(sun.transform.position));}yield return Capture("world-"+_course.Profile.Realm+"-approach");Drive(target-_motor.transform.position,true);}_hud.Jump.OnPointerDown(new PointerEventData(EventSystem.current));jumped=true;if(step==5&&Environment.GetEnvironmentVariable("RISING_QA_WORLDS")=="1"){for(int strideFrame=0;strideFrame<7;strideFrame++){Drive(target-_motor.transform.position,true);yield return new WaitForEndOfFrame();}_motor.ResetInput();yield return Capture("world-"+_course.Profile.Realm+"-stride",true);Drive(target-_motor.transform.position,true);}if(step==1&&Environment.GetEnvironmentVariable("RISING_QA_TUTORIAL")=="1")yield return Capture("tutorial-land");}yield return null;}
-   _motor.ResetInput();Check(_course.Height==step,"controller lands step"+step+" position="+_motor.transform.position+" grounded="+_motor.Grounded+" jumped="+jumped+" paused="+_course.Paused);yield return new WaitForSeconds(.05f);
+  private bool StandingOn(int step)=>_motor.Grounded&&Mathf.Abs(_motor.transform.position.y-(_course.Steps[step].transform.position.y+Kamilunavo.RisingSteps.Visuals.IslandArt.Surface))<.30f;
+  private bool NearTempleRoof(int step){
+   if(_course.Profile.Realm!=2)return false;var bounds=_course.Steps[step].GetComponent<MeshCollider>().bounds;var position=_motor.transform.position;position.y=bounds.center.y;
+   var controller=_motor.GetComponent<CharacterController>();return Vector3.Distance(position,bounds.ClosestPoint(position))<=controller.radius+controller.skinWidth+.22f;
+  }
+  private IEnumerator Climb(int step){
+   _motor.ResetInput();float settle=Time.realtimeSinceStartup;while(!StandingOn(step-1)&&Time.realtimeSinceStartup-settle<2)yield return null;
+   Check(_course.Height==step-1&&StandingOn(step-1),"controller begins a separate jump on the actual current roof step"+step);
+   var origin=_course.Steps[step-1].transform.position;var target=_course.Steps[step].transform.position;bool requested=false,executed=false,landed=false;
+   Action jumped=()=>executed=true;Action<bool> landing=_=>{if(_course.Height==step)landed=true;};_motor.Jumped+=jumped;_course.Landed+=landing;
+   try{
+    float start=Time.realtimeSinceStartup;Drive(target-_motor.transform.position,true);
+    while(_course.Height<step&&Time.realtimeSinceStartup-start<6){
+     var delta=target-_motor.transform.position;delta.y=0;if(delta.magnitude<.12f)_hud.Joystick.ResetInput();else{if(_hud.Joystick.Value==Vector2.zero)Drive(delta,true);else Drive(delta);}
+     var travel=_motor.transform.position-origin;travel.y=0;bool launch=Vector3.Dot(travel,new Vector3(target.x-origin.x,0,target.z-origin.z).normalized)>.72f||NearTempleRoof(step);
+     if(!requested&&launch&&_motor.Grounded){
+      if(step==5&&Environment.GetEnvironmentVariable("RISING_QA_WORLDS")=="1"){
+       _motor.ResetInput();if(_course.Profile.Realm==2){var sun=GameObject.Find("TempleSettingSun");if(sun!=null)Debug.Log("RISING_SUN_FRAMING world="+sun.transform.position+" camera="+_motor.CameraTransform.position+" viewport="+_motor.CameraTransform.GetComponent<Camera>().WorldToViewportPoint(sun.transform.position));}yield return Capture("world-"+_course.Profile.Realm+"-approach");Drive(target-_motor.transform.position,true);
+      }
+      _hud.Jump.OnPointerDown(new PointerEventData(EventSystem.current));requested=true;
+      if(step==5&&Environment.GetEnvironmentVariable("RISING_QA_WORLDS")=="1"){
+       for(int frame=0;frame<7;frame++){Drive(target-_motor.transform.position,true);yield return new WaitForEndOfFrame();}_motor.ResetInput();yield return Capture("world-"+_course.Profile.Realm+"-stride",true);Drive(target-_motor.transform.position,true);
+      }
+      if(step==1&&Environment.GetEnvironmentVariable("RISING_QA_TUTORIAL")=="1")yield return Capture("tutorial-land");
+     }yield return null;
+    }
+    _motor.ResetInput();Check(_course.Height==step&&requested&&executed&&landed,"controller lands step"+step+" position="+_motor.transform.position+" grounded="+_motor.Grounded+" requested="+requested+" actualMotorJump="+executed+" actualLanding="+landed+" paused="+_course.Paused);
+    settle=Time.realtimeSinceStartup;while(!_course.Profile.Completed&&!StandingOn(step)&&Time.realtimeSinceStartup-settle<2)yield return null;
+    Check(_course.Profile.Completed||StandingOn(step),"actual target roof supports the landed controller step"+step);yield return new WaitForSeconds(.05f);
+   }finally{_motor.Jumped-=jumped;_course.Landed-=landing;_motor.ResetInput();}
   }
   private IEnumerator WalkTo(Vector3 goal,float seconds){float start=Time.realtimeSinceStartup;Drive(goal-_motor.transform.position,true);while(Time.realtimeSinceStartup-start<seconds&&!_course.Profile.Completed){var d=goal-_motor.transform.position;d.y=0;if(d.magnitude<.12f)break;Drive(d);yield return null;}_motor.ResetInput();}
  }

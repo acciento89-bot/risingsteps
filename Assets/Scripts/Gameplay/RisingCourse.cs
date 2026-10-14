@@ -10,7 +10,7 @@ namespace Kamilunavo.RisingSteps.Gameplay
     public sealed class RisingCourse:MonoBehaviour
     {
         public Transform Player;public Text HeightText;public Text CrystalsText;public Image Progress;public Text Toast;public Renderer PlayerRenderer;
-        private GameObject _scenery;private readonly List<StepMarker> _steps=new();private Vector3 _safe;private bool _paused,_focused=true,_applicationPaused;private float _saveTimer;
+        private GameObject _scenery;private Vector3[] _routePoints;private readonly List<StepMarker> _steps=new();private Vector3 _safe;private bool _paused,_focused=true,_applicationPaused;private float _saveTimer;
         public RisingProfile Profile{get;private set;}public int Height=>Profile?.Step??0;public IReadOnlyList<StepMarker> Steps=>_steps;
         public event Action Changed,RunStarted;public event Action<bool> Landed;public event Action Fell,PortalCompleted;
         public bool Paused{get=>_paused||!_focused||_applicationPaused;set{_paused=value;var m=Player!=null?Player.GetComponent<PlayerMotor>():null;if(m!=null){m.Paused=Paused;m.ResetInput();}}}
@@ -22,13 +22,13 @@ namespace Kamilunavo.RisingSteps.Gameplay
         private static readonly Color Rock=new(.32f,.30f,.39f);private static readonly Color Grass=new(.28f,.58f,.25f);private static readonly Color Gold=new(1f,.80f,.20f);
 
         public void Build(){Profile=RisingSave.Load();BuildRoute();}
-        private void BuildRoute(){BuildScenery();foreach(var step in _steps)if(step!=null){step.transform.parent.gameObject.SetActive(false);Destroy(step.transform.parent.gameObject);}_steps.Clear();
-            var points=Profile.Challenge?CoursePatterns.Points(Profile.Realm,DaySeed(Profile.RunDay)):CoursePatterns.LevelPoints(Profile.Realm,Profile.Level);
+        private void BuildRoute(){_routePoints=Profile.Challenge?CoursePatterns.Points(Profile.Realm,DaySeed(Profile.RunDay)):CoursePatterns.LevelPoints(Profile.Realm,Profile.Level);BuildScenery();foreach(var step in _steps)if(step!=null){step.transform.parent.gameObject.SetActive(false);Destroy(step.transform.parent.gameObject);}_steps.Clear();
+            var points=_routePoints;
             for(int i=0;i<points.Length;i++){var root=new GameObject($"Island_{i:00}");root.transform.SetParent(transform,false);root.transform.position=points[i];
                 var marker=IslandArt.Build(root.transform,i,Profile.Realm);_steps.Add(marker);if(i==12)PortalArt.Build(root.transform,this);
                 MeshArt.Batch(root);
             }Physics.SyncTransforms();SetSafe();MoveToSafe();Refresh();RunStarted?.Invoke();}
-        private void BuildScenery(){if(_scenery!=null){_scenery.SetActive(false);Destroy(_scenery);}_scenery=new GameObject("RealmScenery"+Profile.Realm);_scenery.transform.SetParent(transform,false);SkyArt.Build(_scenery.transform,Profile.Realm);
+        private void BuildScenery(){if(_scenery!=null){_scenery.SetActive(false);Destroy(_scenery);}_scenery=new GameObject("RealmScenery"+Profile.Realm);_scenery.transform.SetParent(transform,false);SkyArt.Build(_scenery.transform,Profile.Realm);if(Profile.Realm==2)TempleRouteFoundation.Build(_scenery.transform,_routePoints);
             for(int i=0;i<(Profile.Realm==1||Profile.Realm==2?0:14);i++){var root=new GameObject(Profile.Realm==1?"DistantCascade":Profile.Realm==2?"DistantTemple":Profile.Realm==0?"DistantMeadow":"DistantRealm"+Profile.Realm);root.transform.SetParent(_scenery.transform,false);root.transform.position=Profile.Realm==1?new Vector3((i%2==0?-1:1)*(12+i%4*4),-4+i%4*4,7+i*5):Profile.Realm==2?new Vector3((i%2==0?-1:1)*(11+i%4*4),-3+i%4*3,8+i*5):new Vector3((i%2==0?-1:1)*(10+i%4*4),-3+i%4*3,4+i*5);root.transform.localScale=Vector3.one*(Profile.Realm==1?2.0f+i%3*.45f:Profile.Realm==2?1.65f+i%3*.45f:1.5f+i%3*.5f);IslandArt.Build(root.transform,i,Profile.Realm,true);MeshArt.Batch(root);}}
         private static int DaySeed(string day){unchecked{int hash=17;foreach(char c in day)hash=hash*31+c;return hash;}}
         public void StartLevel(int realm,int level){if(NativePresentationActive||!RisingCampaign.IsUnlocked(Profile,realm,level))return;Profile.Level=level;StartRun(realm,false);}
@@ -37,7 +37,8 @@ namespace Kamilunavo.RisingSteps.Gameplay
         private void MoveToSafe(){var cc=Player.GetComponent<CharacterController>();if(cc!=null)cc.enabled=false;Player.position=_safe;Physics.SyncTransforms();if(cc!=null)cc.enabled=true;Player.GetComponent<PlayerMotor>()?.ResetMotion();}
         private void Update(){if(_steps.Count==0||Player==null||Paused)return;
             if(!Profile.Completed){Profile.Elapsed+=Time.deltaTime;_saveTimer+=Time.deltaTime;if(_saveTimer>=5){_saveTimer=0;Save();}}
-            if(Player.position.y<_steps[Height].transform.position.y-8)Respawn();}
+            float floor=Profile.Realm==2?Mathf.Max(_steps[Height].transform.position.y-.9f,TempleRouteFoundation.TopY(_routePoints,Player.position.z)+.65f):_steps[Height].transform.position.y-8;
+            if(Player.position.y<floor)Respawn();}
         public void Land(StepMarker step){if(Paused||Profile==null)return;var delta=Player.position-step.transform.position;bool perfect=new Vector2(delta.x,delta.z).magnitude<=.8f;
             if(!RisingRules.Land(Profile,step.Index,perfect))return;SetSafe();Save();if(Toast!=null)Toast.text=Height==12?"PORTAL READY":perfect?"PERFECT!":"STEP CLEARED";Refresh();Landed?.Invoke(perfect);}
         public void Respawn(){if(Profile==null)return;
