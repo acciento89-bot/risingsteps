@@ -20,6 +20,7 @@ namespace Kamilunavo.RisingSteps.QA
   private IEnumerator Capture(string name){yield return new WaitForEndOfFrame();var image=ScreenCapture.CaptureScreenshotAsTexture();try{File.WriteAllBytes(Path.Combine(_out,name+".png"),image.EncodeToPNG());}finally{Destroy(image);}yield return null;}
   private IEnumerator Run(){_out=Arg("-qaOutput",Path.Combine(Application.persistentDataPath,"RisingQA"));Directory.CreateDirectory(_out);yield return new WaitForSecondsRealtime(1);
    Check(_hud.ModalOpen&&_course.Paused,"initial home paused");yield return Capture("home");
+   if(Environment.GetEnvironmentVariable("RISING_QA_CHAPTERS")=="1"){yield return OriginalChapters();File.WriteAllText(Path.Combine(_out,"PASS.txt"),"RISING_ORIGINAL_CHAPTERS_PASS "+_checks+" actual DE/EN portrait/landscape scrolling, seven distinct illustrated cards, real selection and parent Back; isolated unlock fixture only");yield break;}
    if(Environment.GetEnvironmentVariable("RISING_QA_TUTORIAL")=="1"){yield return TutorialAndHome();File.WriteAllText(Path.Combine(_out,"PASS.txt"),"RISING_TUTORIAL_PASS "+_checks);Debug.Log("RISING_TUTORIAL_PASS "+_checks);yield break;}
    if(Environment.GetEnvironmentVariable("RISING_QA_RELOAD")=="1"){Check(_course.Height>0,"saved non-origin step restored on fresh native boot");Check(Vector3.Distance(_motor.transform.position,_course.SafePosition)<.12f,"fresh boot puts actual controller at saved island");yield return Capture("restored-checkpoint");File.WriteAllText(Path.Combine(_out,"RELOAD-PASS.txt"),"Fresh native bootstrap restored step="+_course.Height+" realm="+_course.Profile.Realm+" safe="+_course.SafePosition);Debug.Log("RISING_RELOAD_PASS step="+_course.Height);yield break;}
 _hud.Close();_course.StartRun(0,false);yield return new WaitForSeconds(.5f);
@@ -58,6 +59,26 @@ _hud.Close();_course.StartRun(0,false);yield return new WaitForSeconds(.5f);
    if(Array.Exists(Environment.GetCommandLineArgs(),a=>a=="-qaRisingSoak")||Environment.GetEnvironmentVariable("RISING_QA_SOAK")=="1")yield return Soak();
    File.WriteAllText(Path.Combine(_out,"PASS.txt"),"RISING_QA_PASS checks="+_checks+" actual controller 36 steps and natural fall; isolated save; no FPS claim");Debug.Log("RISING_QA_PASS checks="+_checks);
    if(Array.Exists(Environment.GetCommandLineArgs(),a=>a=="-qaExit"))Application.Quit();
+  }
+  private IEnumerator OriginalChapters(){
+   _course.Profile.UnlockedRealm=9;_course.Profile.TutorialDone=true;int wallet=_course.Profile.Crystals;
+   foreach(bool wide in new[]{false,true}){Screen.orientation=wide?ScreenOrientation.LandscapeLeft:ScreenOrientation.Portrait;yield return WaitOrientation(wide);
+    foreach(string language in new[]{"de","en"}){_course.Profile.Language=language;
+     for(int realm=3;realm<10;realm++){
+      _hud.ShowHome();yield return null;Canvas.ForceUpdateCanvases();var safe=_hud.Joystick.GetComponentInParent<Canvas>().transform.Find("SafeArea");var viewport=(RectTransform)safe.Find("ModalBackdrop/ModalCard/Viewport");var scroll=viewport.GetComponent<UnityEngine.UI.ScrollRect>();var card=(RectTransform)scroll.content.Find("Realm"+realm);
+      for(int gesture=0;gesture<20;gesture++){
+       var window=UiMetrics.ScreenRect(viewport);var bounds=UiMetrics.ScreenRect(card);if(bounds.yMin>=window.yMin+4&&bounds.yMax<=window.yMax-4)break;
+       float distance=bounds.yMin<window.yMin?Mathf.Min(window.height*.65f,window.yMin-bounds.yMin+16):-Mathf.Min(window.height*.65f,bounds.yMax-window.yMax+16);
+       var pointer=new PointerEventData(EventSystem.current){pointerId=700,position=window.center};ExecuteEvents.ExecuteHierarchy(viewport.gameObject,pointer,ExecuteEvents.beginDragHandler);pointer.position+=Vector2.up*distance;ExecuteEvents.ExecuteHierarchy(viewport.gameObject,pointer,ExecuteEvents.dragHandler);ExecuteEvents.ExecuteHierarchy(viewport.gameObject,pointer,ExecuteEvents.endDragHandler);scroll.StopMovement();yield return null;Canvas.ForceUpdateCanvases();
+      }
+      var visible=UiMetrics.ScreenRect(card);var clip=UiMetrics.ScreenRect(viewport);Check(visible.yMin>=clip.yMin&&visible.yMax<=clip.yMax,"actual drag makes the whole original chapter card visible "+realm+language+wide);
+      var art=card.Find("RealmArt").GetComponent<RealmIllustration>();Check(art!=null&&art.Realm==realm&&art.texture?.name=="RealmChapterAtlas-v1"&&!art.raycastTarget&&RealmScenePreview.ActiveLeaseCount==0,"own chapter subject is a real non-raycast illustration, not a leased scene "+realm);
+      float parentScroll=scroll.verticalNormalizedPosition;yield return Capture("chapter-"+realm+"-"+language+(wide?"-wide":"-portrait"));var click=new PointerEventData(EventSystem.current){pointerId=701};var hit=Hit(card,click);ExecuteEvents.ExecuteHierarchy(hit,click,ExecuteEvents.pointerClickHandler);yield return null;Canvas.ForceUpdateCanvases();Check(safe.Find("ModalBackdrop/ModalCard/Title").GetComponent<UnityEngine.UI.Text>().text==RisingRealmCatalog.Name(realm,language=="de").ToUpperInvariant()&&_course.Paused,"actual illustrated-card click opens that realm's level picker "+realm);
+      var back=(RectTransform)safe.Find("ModalBackdrop/ModalCard/Back");var go=Hit(back,click);ExecuteEvents.ExecuteHierarchy(go,click,ExecuteEvents.pointerClickHandler);yield return null;yield return null;Canvas.ForceUpdateCanvases();var restored=safe.Find("ModalBackdrop/ModalCard/Viewport").GetComponent<UnityEngine.UI.ScrollRect>();Check(_hud.ModalOpen&&_course.Paused&&restored.content.Find("Realm"+realm)!=null&&Mathf.Abs(restored.verticalNormalizedPosition-parentScroll)<.03f,"real Back returns to the same scrolled realm gallery "+realm);
+     }
+    }
+   }
+   Check(_course.Profile.Crystals==wallet,"illustrated chapter navigation never changes the wallet");
   }
   private IEnumerator WorldPresentation(){
    // Development-only isolated visual fixture. This is not earned campaign progress.

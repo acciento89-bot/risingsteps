@@ -1,0 +1,32 @@
+{
+  "sourceSha256": "25a852d1ef4d4a81717c311bea1998ec7c12b3a2d48cfbcd82b3de4668fe3a51",
+  "editorBuildExit": 0,
+  "buildLog": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/original-chapters-ui-final-build.log",
+  "nativeChecks": {
+    "OriginalChaptersUi": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersUi/PASS.txt",
+      "result": "RISING_ORIGINAL_CHAPTERS_PASS 170 actual DE/EN portrait/landscape scrolling, seven distinct illustrated cards, real selection and parent Back; isolated unlock fixture only",
+      "sha256": "ed4e9959313067d407d3274c1e7825dbaf79f1d87257a7c4cc61ef57495a03c8"
+    },
+    "OriginalChaptersRuntime": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersRuntime/PASS.txt",
+      "result": "RISING_TEN_WORLD_PREVIEW_PASS checks=81 actual60controllerjumps/tenworlds; isolated fixture unlocks for visual review only;100course acceptance remains pending",
+      "sha256": "4a45a72da83230aceb4e89db6531dd043d12ca0ca5c96a725becab42c134614c"
+    },
+    "OriginalChaptersCamera": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersCamera/PASS.txt",
+      "result": "RISING_CAMERA_PASS 147",
+      "sha256": "ab67a0bd02f7e9ff166b12851d59ae110d3eb69c52632860b16a2b682ed929c6"
+    },
+    "OriginalChaptersTutorial": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersTutorial/PASS.txt",
+      "result": "RISING_TUTORIAL_PASS 11",
+      "sha256": "ed1f0bd50fd903e0ef395710033c6bcb965838e7e7571324a65742ae32c59a25"
+    }
+  },
+  "originalPngSha256": "243c4769b03fd6c95fbdbb5bd1677f0c5da049bea3d62cd5f749ef1e810ecab1",
+  "menuAsset": "Seven different original3:2 UV subjects in unchanged3:4atlas768x1024 runtime import; first3originalchapter images remain. No menu studio leases for these cards.",
+  "independentSceneValidation": "Existing original7actual3Dscene geometry/isolated camera/lifetime test still passes1043 by invoking its service directly; illustrations are not scene-render proof.",
+  "readOnlyReview": "No blockers; original source bytes and realm order/UV margins checked.",
+  "visualAcceptance": "FAILED; original realm menu pictures are complete, actual world and character reconstruction remain open."
+}

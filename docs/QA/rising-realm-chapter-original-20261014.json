@@ -1,0 +1,22 @@
+{
+  "generator": "built-in image_gen",
+  "path": "Assets/Resources/Art/RealmChapterAtlas-v1.png",
+  "original": "/Users/piotrkaminski/.codex/generated_images/01a11788-3eb6-7e32-963e-51b37d78e2ed/exec-56af9aef-d3eb-4ced-978f-d9a5f47409cd.png",
+  "prompt": "Create an ORIGINAL premium fantasy-adventure chapter illustration ATLAS for Rising Steps, matching richly rendered stylized floating gardens, warm cream limestone, lush botanical detail and carved golden ruins. This asset is only for rectangular menu thumbnails, not for replacing actual gameplay. Layout is EXACTLY TWO COLUMNS and FOUR ROWS, eight equal panels with crisp straight shared boundaries, no gutters or borders. Overall PORTRAIT 3:4 composition, each individual panel is a wide LANDSCAPE 3:2 illustration. Every panel must be an independent beautiful panorama, no text, UI, symbols, people, logos or watermarks. Same polished stylized 3D storybook fantasy finish and believable materials throughout. Reading order left-to-right then top-to-bottom: (1) JUNGLE GROVE: floating mossy karst terraces with dense emerald tropical canopy, twisting old tree roots, suspended wooden stepping paths and tiny golden gate, warm diffuse jungle sun. (2) CRYSTAL CAVERNS: violet-blue mineral grotto floating islands, luminous cyan and amethyst crystals, faceted cave vaults, moonlike cool light, distant arched gateway. (3) FROST PEAKS: crisp white snowy floating peaks, pale blue glacier crevices, frost-covered pines, subtle golden sunrise behind an ancient stone arch. (4) DUNE SEA: warm honey sandstone floating desert mesas, wind-sculpted dunes, ochre arches and sparse palms, clear pale azure desert sky. (5) VOLCANO TRAIL: dramatic charcoal basalt terraces over glowing lava rifts, restrained ember glow, obsidian steps and weathered volcanic arch, hazy purple sunset. (6) CLOUD COAST: creamy chalk floating sea-cliffs, turquoise tidal pools and waterfalls into clouds, windswept small palms, elegant ancient coastal arch, bright ocean daylight. (7) STARLIT VOYAGE: midnight indigo floating islands, delicate silver crescent ruins, luminous tiny celestial crystals and a starry sky, soft moonlight, refined magical atmosphere. (8) GOLDEN SKY GARDEN: pale limestone floating gardens with white daisies and gold arch, vivid gentle blue sky and soft clouds, celebratory daylight. Scenes must fill their own panel edge-to-edge, all important subjects comfortably inside that panel. Prioritize strong different landforms and color palettes, detailed vegetation or architecture, natural sunlight/shadows, no crude low-poly pillar stacks. Generate high resolution so each panel remains crisp as a menu asset.",
+  "sha256": "243c4769b03fd6c95fbdbb5bd1677f0c5da049bea3d62cd5f749ef1e810ecab1",
+  "dimensions": [
+    1086,
+    1448
+  ],
+  "role": "Unmodified original full3:4 PNG atlas,1024max/NPOTNone. Seven unique3:2 subjects fill original rectangular UI cards; eighth golden-garden subject is unused. Menu illustrations only; never gameplay evidence.",
+  "readingOrder": [
+    "Jungle Grove",
+    "Crystal Caverns",
+    "Frost Peaks",
+    "Dune Sea",
+    "Volcano Trail",
+    "Cloud Coast",
+    "Starlit Voyage",
+    "Unused bonus Golden Sky Garden"
+  ]
+}

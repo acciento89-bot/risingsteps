@@ -1,10 +1,10 @@
 {
   "game": "Rising Steps",
   "status": "failed",
-  "sourceSha256": "00d9dd0ab881b7e0f1a7adc2523837a56dcf06374340d06d2a94dbc8d2b2b354",
+  "sourceSha256": "25a852d1ef4d4a81717c311bea1998ec7c12b3a2d48cfbcd82b3de4668fe3a51",
   "reviewer": "Codex actual Unity Mac framebuffer review, unchanged Oct10 approved Concept",
   "reviewedAt": "2026-10-14",
-  "reason": "Own stratified stone, broader genuine highlands, compact live world HUD, denser smoothed actor and bounded warm daylight/contact shade improve this exact native source. Actual concept comparison still shows simplified repeated architecture, sparse foliage, dark rib-like hair and less coherent water-garden/sunset composition. No90\u201395percent claim; no upload.",
+  "reason": "All10realm cards now have their own original illustrations, with verified real DE/EN portrait/landscape selection/Back. Actual world and character still below approved Concept target; no90\u201395percent claim and no upload.",
   "criteria": {
     "concept_similarity": "failed",
     "character_or_tower": "failed",
@@ -23,84 +23,89 @@
     ],
     "menu": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StrataFramingRuntime/world-0-menu.png",
-        "sha256": "ce76aa0b324cd9a6e9066a34027e3def96f51d812b85ea5131ee2456f0aa6dd0",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersRuntime/world-0-menu.png",
+        "sha256": "bfba2212a6675dd7a32236841a5912574147fcdc528aac52827e69cea91382c9",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersUi/chapter-9-de-portrait.png",
+        "sha256": "ef28edcb88df837be3987e44cd42ae51287ab7f339b3f1f7727bc8c401defccb",
         "origin": "Unity-render"
       }
     ],
     "gameplay": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StrataFramingRuntime/world-1-approach.png",
-        "sha256": "802a8757d5a12ce77c17c3f0227b25b56f495544bde01ec8051cb3b821411d6a",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersRuntime/world-1-approach.png",
+        "sha256": "da76486919b75b9c6389d008aa4518295fa91888626901af4af88e22d854edda",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StrataFramingRuntime/world-2-approach.png",
-        "sha256": "b22d7cf120cf717876b1bd9881a7b63b82fe40d80dfad77a360d209339ab7ce6",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersRuntime/world-2-approach.png",
+        "sha256": "0d9d9b8bfb3d7dac8dd939703688d25600d1af2426fdbd7bd1b5fc1bd17fa320",
         "origin": "Unity-render"
       }
     ],
     "submenus": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StrataFramingRuntime/world-0-levels.png",
-        "sha256": "10c4cfcdff502616704ca9928f8d267d3690f7bd9422180c9d8e97d9a5c7bebd",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersRuntime/world-0-levels.png",
+        "sha256": "6dc1b0e7a958135adb3966d57e54ecc9305ba2332782003902ffa1b0e14feb07",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StrataFramingTutorial/home-actions.png",
-        "sha256": "24adc824ce7e1b49a8788d09b9dbd33782862348e13221da33eb27b09cc54ff2",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersUi/chapter-7-en-wide.png",
+        "sha256": "74f0ef889288d7719cd0c1836166ee4a0dc750a67f8258712abf810ea3cbddb8",
         "origin": "Unity-render"
       }
     ],
     "variants": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StrataFramingRuntime/world-0-mid.png",
-        "sha256": "2eea4499a6c2917280705468111517b11037827e7c37640dc9f6e9195def969a",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersRuntime/world-0-mid.png",
+        "sha256": "87555be3ef66261423d47e77a6a33eafd894636dd6872ef99a226eb9f0d1a2dd",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StrataFramingRuntime/world-1-mid.png",
-        "sha256": "6d76dfa9f20c31c07ed9f0b0a229750e842a90a09eb92e45c2c93bd653a02d41",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersRuntime/world-1-mid.png",
+        "sha256": "2ced97bfbc800f3c83cffbccdaaef4c60aa44d163480ab6f168200c55b580ab6",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StrataFramingRuntime/world-2-mid.png",
-        "sha256": "9282c71d41132f02b3689eba2a362e2a3e3cf2b401dede94cd9f01f0ec0d5e00",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersRuntime/world-2-mid.png",
+        "sha256": "eb7f798db1b4a70edfe60adce97b5f020b4feda38144e56ab4a1843d89a0a565",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StrataFramingRuntime/world-3-mid.png",
-        "sha256": "f1ed53725fa951dc9153ea81f103e92d08aeebe740a466b5d4ca1171a6ec64c0",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersRuntime/world-3-mid.png",
+        "sha256": "d671502146519bd99c3b0cb8f89880d519bbfe2428897ccfa4ebff32ccd47fe6",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StrataFramingRuntime/world-4-mid.png",
-        "sha256": "8ffc6143049de1ee6345aa4b6fb88b694517dde44aae21ac1f9320f79252f42f",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersRuntime/world-4-mid.png",
+        "sha256": "2904eace893548268d5f9b510ac3a2b920bd4d99099a3af7b2bb59aac20ac62e",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StrataFramingRuntime/world-5-mid.png",
-        "sha256": "eba038d7c926f231044aaff59850d6b31fed7d7434f385959b4c832f4b4408db",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersRuntime/world-5-mid.png",
+        "sha256": "293cef6cc1973d32acb22a2c19c1d7f3452ec2f5e87b2d5b204b8f11f2227af4",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StrataFramingRuntime/world-6-mid.png",
-        "sha256": "09676d09b9e5f7ff2ced04e27f61f7873165363e52a3f327ade1e37cb87dc9c6",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersRuntime/world-6-mid.png",
+        "sha256": "e33cb58110997a0de7f3fcf9e665cfaa71283bf0f9849531713cb8c3d670ccc5",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StrataFramingRuntime/world-7-mid.png",
-        "sha256": "5654a3bfee2c7aec0fdfb3aefac31e9041c15469b6e96671ca6e3e32a56c71ce",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersRuntime/world-7-mid.png",
+        "sha256": "f431f27656ee749251d302e47554fa4c506246b32f9cd423ef465c5d1e30d86c",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StrataFramingRuntime/world-8-mid.png",
-        "sha256": "ece8c6b713066c4c4cf12dd93b38d29a9319f693491c160de53a47a1d1570bb7",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersRuntime/world-8-mid.png",
+        "sha256": "4a01b21d8ba0296a1bc28ddcecb3b9902d175225eac21b780114c30146afdbda",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/StrataFramingRuntime/world-9-mid.png",
-        "sha256": "4006855f8466c25c81878ee4abf8c39660fef749e8fb4fbd5e112dd101ee67a2",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersRuntime/world-9-mid.png",
+        "sha256": "42a21c5e5cbef77482a5e51823db366366e5af8580968143e43a2053432a4b79",
         "origin": "Unity-render"
       }
     ]
