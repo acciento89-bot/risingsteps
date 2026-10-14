@@ -1,0 +1,166 @@
+{
+  "sourceSha256": "bca059a37e902a75c2ffef5f8373cc287b2d703bd9f33eb1ab9bc8b8b607c58c",
+  "editorBuildExit": 0,
+  "build": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGaps.app",
+  "buildLog": {
+    "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/open-temple-gaps-build.log",
+    "sha256": "b417c423273c20e308c9cb1cc28860ab27950f25cb764c9813ac14ea371a269c"
+  },
+  "nativeChecks": {
+    "FocusedTemple": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsFocusedTemple/PASS.txt",
+      "sha256": "bad28b9ca7787ae0a35efbb484de1910f6196862c7bd4fe18ce721c7d40ab8a2",
+      "result": "RISING_TEMPLE_COURSES_PASS checks=381 ten genuinely climbed Temple courses; start-realm fixture unlock only, no all100 acceptance"
+    },
+    "Worlds": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/PASS.txt",
+      "sha256": "21960c19369e09e440747b873d74506366a160443bdb074addff535eb7c5ebf1",
+      "result": "RISING_TEN_WORLD_PREVIEW_PASS checks=205 actual60controllerjumps/tenworlds; isolated fixture unlocks for visual review only;100course acceptance remains pending"
+    },
+    "Menu": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsUi/PASS.txt",
+      "sha256": "eaae7f7dcc00a0affe9879d91621887aac3b98a799f4e498aca2c230b21974bb",
+      "result": "RISING_ORIGINAL_CHAPTERS_PASS 194 actual DE/EN portrait/landscape scrolling, seven distinct illustrated cards, real selection and parent Back; isolated unlock fixture only"
+    },
+    "Camera": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsCamera/PASS.txt",
+      "sha256": "ab67a0bd02f7e9ff166b12851d59ae110d3eb69c52632860b16a2b682ed929c6",
+      "result": "RISING_CAMERA_PASS 147"
+    },
+    "Tutorial": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsTutorial/PASS.txt",
+      "sha256": "0a9c3b718e88d750460458b871c134505045784e4315a804ba71b47d5e5ca04e",
+      "result": "RISING_TUTORIAL_PASS 13"
+    },
+    "Default": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsDefault/PASS.txt",
+      "sha256": "6406029038a0987c96fd782cc2174e39d6fd971769aee15f1a2730fefee07e18",
+      "result": "RISING_QA_PASS checks=199 actual controller 36 steps and natural fall; isolated save; no FPS claim"
+    },
+    "ColdTemple": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsColdTemple/RELOAD-PASS.txt",
+      "sha256": "c32fc4c4a9817686052f0370172d4422ce7467e87687cc385fabcde624955f8c",
+      "result": "Fresh native bootstrap restored step=12 realm=2 safe=(2.23, 12.57, 74.11)"
+    },
+    "PreviouslyEarned100Replay": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsCompletedReplay/PASS.txt",
+      "sha256": "8c1fe87b05d583b5e5085c80e653f977b65dcf2824449eb50bc4d20f288535d9",
+      "result": "RISING_COMPLETED_REPLAY_PASS 203 all100 previously earned level-card callbacks launch exact realm/level without losing independent stars; actual earned saved profile, no unlock fixture"
+    }
+  },
+  "userCorrection": "Square Temple platforms must remain visibly separated. Preserve broad original square masonry rather than reverting to small circular islands.",
+  "regressionBeforeFix": {
+    "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/temple-open-gap-red.log",
+    "sha256": "edc736a34ccb2707bbf29fc1e913a436a5897b1ea4a0380a15586c68068c7c73",
+    "exit": 1,
+    "actualFirstPairGapMetres": -1.361399
+  },
+  "currentGeometry": {
+    "minimumActualWholeModelZGapMetres": 1.239166,
+    "testedAdjacentPairs": 480,
+    "campaignCourses": 10,
+    "additionalDailySeeds": 30,
+    "roofWidthsMetres": [
+      4.2,
+      5.2,
+      6.0
+    ],
+    "actualModelVertexCounts": [
+      7018,
+      7934,
+      7934
+    ],
+    "modelMeshSubAssets": 491,
+    "genuineSquareColliders": true,
+    "completeMasonryAndDecorationBoundsTested": true,
+    "bridgingFoundationRemoved": true,
+    "noHiddenGapFloorActualNativeRay": true,
+    "nativeWalkWithoutJumpFallsAndRecoversSameCheckpoint": true,
+    "templeOnlyForwardSpacingChanged": true,
+    "xAndRiseAndSeedAndCheckpointIndicesPreserved": true,
+    "immediateTempleRecovery": "current scored checkpoint originY minus0.9m; no dependency on a decorative foundation",
+    "templateDigest": "adcaf0830f7a65efe8c1bec03cb6de8c30339c59c1cb28095107cc4d5a5f454e"
+  },
+  "character": {
+    "originalEditablePrefab": "Assets/Resources/Models/RisingAdventurer-v2.prefab",
+    "sourceDigest": "fedabcafc946325739543c1f903cc667a5cef30ec0f5018fda6474d9954f3331",
+    "sweptLocks": 32,
+    "vertices": 5996,
+    "triangles": 9984,
+    "activeRenderers": 30,
+    "materials": 8,
+    "original64SquareTextures": 3,
+    "realMeshOcclusionSamples": 12,
+    "normalRelief": "bounded centered gradient from unchanged original chestnut/cloth/canvas albedo; distance fade; skin/eyes/hardware default0; complete finite persisted tangent bases validated",
+    "originalPivotsAndAnimationsAndStyleIsolation": true,
+    "actualEditorPreviewViews": [
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRunnerViews/runner-front.png",
+        "sha256": "2af3117b13841ec2f4364c28a2b4147f3290b7ab32f1c9de0b8dc8167ac61b5b",
+        "origin": "actual Unity Editor original-mesh preview; not native gameplay evidence"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRunnerViews/runner-three-quarter.png",
+        "sha256": "3b92a311568fbce265042c2f37a9389760071689c75f2459ab554b0cd89d12cd",
+        "origin": "actual Unity Editor original-mesh preview; not native gameplay evidence"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRunnerViews/runner-rear.png",
+        "sha256": "f4512e85c78f049ae18f8df4836804cd5696f6e398fdd7d0cdbc6a467ccb7066",
+        "origin": "actual Unity Editor original-mesh preview; not native gameplay evidence"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRunnerViews/runner-side.png",
+        "sha256": "157236bd12ff7d53fed6902c2ea0f9b6eed876f446105cb7a6e026ff82b1ab6c",
+        "origin": "actual Unity Editor original-mesh preview; not native gameplay evidence"
+      }
+    ],
+    "previewCaptureLog": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/open-temple-gaps-runner-capture.log",
+      "sha256": "7c988ef93917fb182be54abfc78f94fa0156de8333d3bb29411a4e50fdfb9b47",
+      "exit": 0
+    }
+  },
+  "lighting": "Temple-only warm low sun/cool readable shadowless owned fill/peach-lavender sky; existing shadow budget and UIstudio layer31 isolation retained",
+  "currentPhysicalEvidence": {
+    "genuinelyEarnedAffectedTempleCourses": 10,
+    "separateGroundedStarts": 120,
+    "actualMotorJumpAndExactTargetLandingWitnesses": 120,
+    "physicalTemplePortals": 10,
+    "initialFocusedStartRealmFixtureUnlock": true,
+    "noLaterGiftedCourseScores": true,
+    "otherWorldPreviewActualJumps": 60,
+    "defaultScenarioActualSteps": 36,
+    "templeCheckpointColdRestored": "realm2/level9/step12 at(2.23,12.57,74.11)",
+    "replayPreviouslyEarned100Cards": 203,
+    "replayProfileOrigin": "actual100-course-earned profile from prior3a951 build, not a new100-course traversal",
+    "currentWhole100CourseRunClaimed": false
+  },
+  "historicalWhole100Evidence": {
+    "receipt": "docs/QA/rising-square-temple-route-20261014.json",
+    "sha256": "eda5e4e8ea43a0da124f674966f3ca8e713ecd2422c66135c5c80e452db59144",
+    "sourceSha256": "3a951024fe635ec982ec764444b91f5e49468cf8246579ff56f512a3baaa8bb3",
+    "earnedCourses": 100,
+    "jumps": 1200,
+    "portals": 100,
+    "notCurrentSpacingAcceptance": true
+  },
+  "authorityFiles": {
+    "Assets/Scripts/Gameplay/PlayerMotor.cs": "e44263fa6accdc57fd040d1ac14c928a2ea41b2ca569d4497156b17e147e5370",
+    "Assets/Scripts/Gameplay/RisingCourse.cs": "199ebff76c76427974c0e3d46ae8a13cb66060cb73e2a79e147695bcf3b05b0d",
+    "Assets/Scripts/Gameplay/CoursePatterns.cs": "645ccbdeeefe551577dde302a7486b74c34f6918e32be6e701497642a828ed27",
+    "Assets/Scripts/Core/RisingCampaign.cs": "da2d17f2de2781d5a7f8360d8280415511d13f63ff2dc9c0858a8d86e694cf23",
+    "Assets/Scripts/Core/RisingRules.cs": "8df277ff223616e22b2247c7ee3323dcbce2477d47b0f33733482bd05d165f67",
+    "Assets/Scripts/Visuals/PortalArt.cs": "89dfabcffc5fcf704992b34260a5a3c6a767266a400c88c193153c914b3a68e5",
+    "Assets/Scripts/Visuals/IslandArt.cs": "2a1aaf4c370e38a1109e8f95fd2473e0fa0bd0bfcb45577947234fa15fa2d700",
+    "Assets/Scripts/Visuals/TempleRouteArt.cs": "78111c448a4c98a3a1754d0a200b7034d4314510b4ca881567c282c0fee0508c"
+  },
+  "removedAuthorityFile": "Assets/Scripts/Visuals/TempleRouteFoundation.cs",
+  "readOnlyReview": "No critical/important findings in character, shader, model ownership, Temple-only reflow, save indexing, clear-gap regression and actual input/fall checks. No concurrent Unity process launched by reviewer.",
+  "comparison": "/Volumes/SSK SSD/Kamilunavo/Artifacts/RisingOpenTempleGapsComparison-20261014/concept-unity-vergleich.png",
+  "comparisonSources": {
+    "path": "/Volumes/SSK SSD/Kamilunavo/Artifacts/RisingOpenTempleGapsComparison-20261014/sources.json",
+    "sha256": "c22595268ade0fe4878248db95905d08fb79656fc87f79288d1aeeb5116ec32a"
+  },
+  "limits": "Whole Concept likeness still FAILED: actor fidelity, botanical/material richness and cinematic Temple atmosphere/composition remain below target; menu identity pending. No numerical90percent claim, physical-device FPS/thermal/ad/paid transaction assertion, version bump or TestFlight upload."
+}

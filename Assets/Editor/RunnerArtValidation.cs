@@ -52,6 +52,8 @@ public static class RunnerArtValidation
    foreach(var filter in host.GetComponentsInChildren<MeshFilter>(true)){
     var mesh=filter.sharedMesh;meshes.Add(mesh);Check(UnityEditor.AssetDatabase.GetAssetPath(mesh)=="Assets/Resources/Models/RisingAdventurer-v2.asset","actual character uses its immutable authored Unity mesh asset");Check(mesh.colors.Length==mesh.vertexCount,"baked original character has complete vertex-occlusion coverage");vertices+=mesh.vertexCount;var points=mesh.vertices;var normals=mesh.normals;var indices=mesh.triangles;triangles+=indices.Length/3;
     Check(mesh.vertexCount>0&&points.Length==normals.Length,"mesh has vertex/normal coverage");
+    var tangents=mesh.tangents;Check(tangents.Length==points.Length,"normal-relief character shader has a complete persisted tangent basis");
+    foreach(var tangent in tangents)Check(float.IsFinite(tangent.x)&&float.IsFinite(tangent.y)&&float.IsFinite(tangent.z)&&float.IsFinite(tangent.w)&&new Vector3(tangent.x,tangent.y,tangent.z).sqrMagnitude>.5f&&Mathf.Abs(tangent.w)>.99f,"finite nonzero tangent and handedness for original cloth/hair relief");
     foreach(var point in points)Check(float.IsFinite(point.x)&&float.IsFinite(point.y)&&float.IsFinite(point.z),"finite generated coordinates");
     foreach(var normal in normals)Check(float.IsFinite(normal.x)&&float.IsFinite(normal.y)&&float.IsFinite(normal.z)&&normal.sqrMagnitude>.5f,"valid generated lighting normals");
     for(int k=0;k<indices.Length;k+=3){Check(indices[k]>=0&&indices[k]<points.Length&&indices[k+1]>=0&&indices[k+1]<points.Length&&indices[k+2]>=0&&indices[k+2]<points.Length,"triangle indices within buffer");Check(Vector3.Cross(points[indices[k+1]]-points[indices[k]],points[indices[k+2]]-points[indices[k]]).sqrMagnitude>1e-12f,"no degenerate triangles");}
@@ -68,6 +70,7 @@ public static class RunnerArtValidation
    Check(vertices<10000&&triangles<10000,"bounded character geometry budget");
    Check(activeRenderers<=32&&materials.Count<=8,"bounded character rendering/material budget");
    foreach(var texture in textures)Check(texture.width*texture.height<=4096,"small character detail texture budget");
+   foreach(var material in materials){float relief=material.GetFloat("_DetailRelief");Check(relief>=0&&relief<=1,"persisted character detail response is bounded");if(material.mainTexture!=null)Check(relief>0,"original woven and chestnut textures carry actual relief response");else Check(relief==0,"skin, eyes and hardware do not acquire spurious fabric relief");}
    var peerHost=new GameObject("StyleIsolationFixture");try{var peer=RunnerArt.Build(peerHost.transform);Color initial=peer.Hoodie.color;runner.Style(7);Check(peer.Hoodie.color==initial&&peer.Hoodie!=runner.Hoodie,"style material is isolated per avatar");}finally{UnityEngine.Object.DestroyImmediate(peerHost);}
    for(int style=0;style<8;style++){
     runner.Style(style);

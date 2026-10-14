@@ -107,9 +107,12 @@ namespace Kamilunavo.RisingSteps.Visuals
   }
   public void HairLock(Vector3 root,Vector3 bend,Vector3 tip,float width,float depth)
   {
-   var path=new Vector3[5];var widths=new float[5];var depths=new float[5];float[] fullness={.48f,.96f,1,.65f,.08f};
-   for(int ring=0;ring<5;ring++){float t=ring*.25f;path[ring]=(1-t)*(1-t)*root+2*(1-t)*t*bend+t*t*tip;widths[ring]=width*fullness[ring];depths[ring]=depth*fullness[ring];}
-   Sweep(path,widths,depths,7);
+   // More longitudinal sections give a flowing taper rather than broad rigid
+   // shingles. Five smoothly joined cross-section sides keep the total authored
+   // character below its original triangle budget despite the finer lock count.
+   const int rings=6;var path=new Vector3[rings];var widths=new float[rings];var depths=new float[rings];float[] fullness={.42f,.82f,1,.83f,.47f,.10f};
+   for(int ring=0;ring<rings;ring++){float t=ring/(float)(rings-1);path[ring]=(1-t)*(1-t)*root+2*(1-t)*t*bend+t*t*tip;widths[ring]=width*fullness[ring];depths[ring]=depth*fullness[ring];}
+   Sweep(path,widths,depths,5);
   }
   public static void RefreshLighting(Mesh mesh){mesh.RecalculateNormals();mesh.RecalculateBounds();JoinUvNormals(mesh);}
   // Shoe outline is asymmetric from heel to toe, with a broad toe box and

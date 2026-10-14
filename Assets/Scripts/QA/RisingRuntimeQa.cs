@@ -110,7 +110,7 @@ _hud.Close();_course.StartRun(0,false);yield return new WaitForSeconds(.5f);
     _hud.Close();_course.StartLevel(realm,0);yield return new WaitForSeconds(.2f);
     Check(_course.Profile.Realm==realm&&_course.Steps.Count==13,"actual themed route selected "+realm);
     var scenery=_course.transform.Find("RealmScenery"+realm);Check(scenery!=null&&scenery.gameObject.activeInHierarchy&&scenery.GetComponentsInChildren<Collider>().Length==0,"actual backdrop is selected and decorative "+realm);
-    yield return Capture("world-"+realm+"-start");for(int step=1;step<=6;step++)yield return Climb(step);yield return Capture("world-"+realm+"-mid");if(realm==2)yield return TempleFoundationRecovery();
+    yield return Capture("world-"+realm+"-start");for(int step=1;step<=6;step++)yield return Climb(step);yield return Capture("world-"+realm+"-mid");if(realm==2)yield return TempleGapRecovery();
     _hud.ShowHome();yield return Capture("world-"+realm+"-menu");_hud.ShowLevels(realm);yield return Capture("world-"+realm+"-levels");_hud.Close();
    }
    File.WriteAllText(Path.Combine(_out,"PASS.txt"),"RISING_TEN_WORLD_PREVIEW_PASS checks="+_checks+" actual60controllerjumps/tenworlds; isolated fixture unlocks for visual review only;100course acceptance remains pending");Debug.Log("RISING_TEN_WORLD_PREVIEW_PASS "+_checks);if(Array.Exists(Environment.GetCommandLineArgs(),a=>a=="-qaExit"))Application.Quit();
@@ -136,13 +136,14 @@ _hud.Close();_course.StartRun(0,false);yield return new WaitForSeconds(.5f);
    }
    File.WriteAllText(Path.Combine(_out,"PASS.txt"),"RISING_TEMPLE_COURSES_PASS checks="+_checks+" ten genuinely climbed Temple courses; start-realm fixture unlock only, no all100 acceptance");
   }
-  private IEnumerator TempleFoundationRecovery(){
-   var points=new Vector3[_course.Steps.Count];for(int i=0;i<points.Length;i++)points[i]=_course.Steps[i].transform.position;
-   var scenery=_course.transform.Find("RealmScenery2");Check(scenery.Find("ConnectedTempleFoundation")!=null,"actual Temple owns one connected original foundation");
+  private IEnumerator TempleGapRecovery(){
+   var scenery=_course.transform.Find("RealmScenery2");Check(scenery.Find("ConnectedTempleFoundation")==null,"actual Temple has no bridging foundation under its open jump gaps");
    Check(!Array.Exists(_course.Steps[6].transform.parent.GetComponentsInChildren<Transform>(),t=>t.name=="LimestoneCliff"),"actual Temple playable checkpoint uses a genuine square architectural prefab");
-   _motor.ResetInput();int falls=_course.Profile.Falls;float start=Time.realtimeSinceStartup,clearance=float.PositiveInfinity;Drive(Vector3.right,true);
-   while(_course.Profile.Falls==falls&&Time.realtimeSinceStartup-start<8){clearance=Mathf.Min(clearance,_motor.transform.position.y-Kamilunavo.RisingSteps.Visuals.TempleRouteFoundation.TopY(points,_motor.transform.position.z));Drive(Vector3.right);yield return null;}
-   _motor.ResetInput();yield return new WaitForSeconds(.15f);Check(_course.Profile.Falls==falls+1&&Vector3.Distance(_motor.transform.position,_course.SafePosition)<1,"natural Temple edge fall recovers its scored checkpoint");Check(clearance>.35f,"actual controller never enters the render-only ruin foundation before recovery; minimum clearance="+clearance);yield return Capture("world-2-recovered-edge-fall");
+   var here=_course.Steps[6].GetComponent<MeshCollider>().bounds;var next=_course.Steps[7].GetComponent<MeshCollider>().bounds;var gap=Vector3.Lerp(here.center,next.center,.5f);gap.z=(here.max.z+next.min.z)*.5f;
+   Check(!Physics.Raycast(gap+Vector3.up*8,Vector3.down,20),"actual space between Temple roofs has no floor or hidden bridge");
+   _motor.ResetInput();int falls=_course.Profile.Falls;float start=Time.realtimeSinceStartup;var direction=next.center-here.center;Drive(direction,true);
+   while(_course.Profile.Falls==falls&&Time.realtimeSinceStartup-start<8){Drive(direction);yield return null;}
+   _motor.ResetInput();yield return new WaitForSeconds(.15f);Check(_course.Profile.Falls==falls+1&&_course.Height==6&&Vector3.Distance(_motor.transform.position,_course.SafePosition)<1,"walking into a genuine Temple gap without Jump falls and recovers its scored checkpoint");yield return Capture("world-2-recovered-gap-fall");
   }
   private IEnumerator WaitOrientation(bool landscape){
    // Desktop orientation requests do not rotate a window; exercise the actual

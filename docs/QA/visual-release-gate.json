@@ -1,10 +1,10 @@
 {
   "game": "Rising Steps",
   "status": "failed",
-  "sourceSha256": "3a951024fe635ec982ec764444b91f5e49468cf8246579ff56f512a3baaa8bb3",
+  "sourceSha256": "bca059a37e902a75c2ffef5f8373cc287b2d703bd9f33eb1ab9bc8b8b607c58c",
   "reviewer": "Codex actual Unity Mac player framebuffer; unchanged approved Oct10 Concept",
   "reviewedAt": "2026-10-14",
-  "reason": "Temple now has original persistent genuine square architectural platforms (4.2/5.2/6.0m), carved masonry, original sandstone, modeled dry herbs, real baked mesh occlusion and a continuous ruin foundation. Whole Concept similarity remains FAILED: runner/hair/material fidelity, plant density and cinematic sunset/composition still need work; menu identity remains pending. Actual UI/navigation/readability and distinct realm subjects are stronger. No numerical90percent or physical-device FPS/real-ad/commerce assertion. No TestFlight upload/version bump.",
+  "reason": "Whole Concept likeness still FAILED: actor fidelity, botanical/material richness and cinematic Temple atmosphere/composition remain below target; menu identity pending. No numerical90percent claim, physical-device FPS/thermal/ad/paid transaction assertion, version bump or TestFlight upload. Actual broad square models now have verified open gaps of at least1.239166m; bridging foundation removed. Finer own hair and original-texture relief/Temple sunset pass integrated.",
   "criteria": {
     "concept_similarity": "failed",
     "character_or_tower": "failed",
@@ -23,89 +23,94 @@
     ],
     "menu": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedRuntime/world-0-menu.png",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-0-menu.png",
         "sha256": "1f13eef406a08dacb11ba9385aac21febbd39fe27610e28fdab36dd33c2051ec",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedRuntime/world-9-menu.png",
-        "sha256": "bc5a205c5c4c3890e45dd24bc4576813dcf56102ab946e5722b53468bb0eed33",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-9-menu.png",
+        "sha256": "b70180c1d4f5618f5c24c998bcaf73b3ec6de0dc2adc1ec5506063a5b85f6dbc",
         "origin": "Unity-render"
       }
     ],
     "gameplay": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedRuntime/world-1-stride.png",
-        "sha256": "22e34e8682b985ebf6db02c956ce446590cf60eca53858f680e841d403c18d11",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-1-stride.png",
+        "sha256": "b5ae1a292d648e80ccde15379cff3384ad21f0288226d7efb589c70259a20f7a",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedRuntime/world-2-approach.png",
-        "sha256": "b881dde93247b647abb8486d1582d536e650977cdb3341ba0d51c7b2823aea04",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-2-approach.png",
+        "sha256": "233b9bfcb9fdeae011710779ac3b24fb2ae4f7db8755afad370f9596f79176f0",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-2-mid.png",
+        "sha256": "6899e272d99d3124d464ac6dfc19360a7e933d0e90b1049b08bc7cc1d6a812d1",
         "origin": "Unity-render"
       }
     ],
     "submenus": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedRuntime/world-0-levels.png",
-        "sha256": "1a26482b99be861aab9302a5b186a89b6a964c085eb1ce4171f9367a761bd0a8",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-0-levels.png",
+        "sha256": "5e08c35ee4f54b00d609d7fe6046bb63a3649e832470a8ed289279642e28c045",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedRuntime/world-2-levels.png",
-        "sha256": "1ab82c1172476800967c08c3b0f5daaa6c785b8ccfc2ec56f52d88fb11319536",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-2-levels.png",
+        "sha256": "876faeed5b540f7394ac9b2efa9a44350ab373765ee0210ffc0a4be6d619235a",
         "origin": "Unity-render"
       }
     ],
     "variants": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedRuntime/world-0-mid.png",
-        "sha256": "591f8c703e03d08350a9e81b27a024445095cc43d970e98844ff864b197e2c37",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-0-mid.png",
+        "sha256": "22fc455350237287c176f0dbdf86ab7fd2823dae018c98110a08e6fa776c86ed",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedRuntime/world-1-mid.png",
-        "sha256": "f2aa281b8d9fc59b5407e153e6383a2f984a9662ee81ad791658133bc5ad04ff",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-1-mid.png",
+        "sha256": "99555cadd7218dce5501dc478f1a04a20242785d20c242e5c48501322a41cbc7",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedRuntime/world-2-mid.png",
-        "sha256": "b729faf6f9b955f4075f19a6f1e252052b73cc467171f63cde7789fa067335a3",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-2-mid.png",
+        "sha256": "6899e272d99d3124d464ac6dfc19360a7e933d0e90b1049b08bc7cc1d6a812d1",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedRuntime/world-3-mid.png",
-        "sha256": "86315dc94e8a426b57ccd13348751d0c62404bc2ac1ffa8270ab1583cb9d6ef3",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-3-mid.png",
+        "sha256": "d7ae8c0903ff7e05e6e0f62af44ba159854a2ad97e58e2aca1365b37ddd91421",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedRuntime/world-4-mid.png",
-        "sha256": "6bdd9bd499bed89656ae357d0b4c75d7a9850603eafd68b3462f2d377c4d4d1f",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-4-mid.png",
+        "sha256": "c8f0e13498d2bd421d86c13e92b7098af96680f39706efcb81834a6a749afc66",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedRuntime/world-5-mid.png",
-        "sha256": "16deeb831db5152b9c653088893aeec6be4e334dc559ee901d300c142e624465",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-5-mid.png",
+        "sha256": "63e580e221c03a7aab10c18b86e9173d47ccfbb82e0d553fc7e34c33ce178a5e",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedRuntime/world-6-mid.png",
-        "sha256": "2c42c7eaa8c674e78cca0c3bb4d298b6a0d6494dec737d398c26e2969460f1e0",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-6-mid.png",
+        "sha256": "459bc4171a652de7ea020c61378f025d6d385222d1657e11518d5c9820c3197c",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedRuntime/world-7-mid.png",
-        "sha256": "f15efbf24d43d7088dbdf47b657de0cf0b8f314f1164f4800dfff9c64f5aaa94",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-7-mid.png",
+        "sha256": "e8b060a6bd9f5aa32f502e7b9559359abf8e4d09a94883a46c05435ea925cdfc",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedRuntime/world-8-mid.png",
-        "sha256": "eb89b5180cb83a965642350d6027415c5b1779c73329ef8a95076f39a72fe4d9",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-8-mid.png",
+        "sha256": "bb1b56a7fab87745fcb5362b6c6f5ada02195036930102eeb6acf16254c73b0d",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/SquareTempleVerifiedRuntime/world-9-mid.png",
-        "sha256": "11be91cd0716c66bf8c8586387ef7fbcff6a9dc9bcea50be348c6d6ba01b2938",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-9-mid.png",
+        "sha256": "cc4bfa2fd580484395a7fcc95588d3638f5f5159becb87318cdacc87e490165e",
         "origin": "Unity-render"
       }
     ]

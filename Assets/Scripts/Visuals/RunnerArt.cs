@@ -35,10 +35,13 @@ namespace Kamilunavo.RisingSteps.Visuals
    var ivory=Material(root,"RunnerIvoryCanvas",new Color(.94f,.955f,.90f),.14f);
    var dark=Material(root,"RunnerSeamsAndEyes",new Color(.055f,.065f,.05f),.12f);
    var green=Material(root,"RunnerHoodie",new Color(.055f,.32f,.17f),.10f);
-   var hair=Material(root,"RunnerChestnutHair",new Color(.34f,.15f,.055f),.20f);
+   var hair=Material(root,"RunnerChestnutHair",new Color(.31f,.135f,.052f),.13f);
    var gold=Material(root,"RunnerPremiumThread",new Color(1,.88f,.39f),.22f);gold.SetFloat("_Metallic",.42f);
    var canvas=Material(root,"RunnerTravelCanvas",new Color(.48f,.29f,.13f),.16f);canvas.mainTexture=CanvasDetail(root);
    hair.mainTexture=HairDetail(root);var cloth=CanvasDetail(root);cloth.name="RunnerClothWeave";green.mainTexture=cloth;pants.mainTexture=cloth;animator.Hoodie=green;
+   // Derive subtle light response from our existing original bitmap assets.
+   // No additional texture, material, renderer or per-frame allocation.
+   hair.SetFloat("_DetailRelief",.70f);green.SetFloat("_DetailRelief",.28f);pants.SetFloat("_DetailRelief",.24f);canvas.SetFloat("_DetailRelief",.37f);
    animator.Hips=Pivot(root.transform,"Hips",new Vector3(0,.85f,0));
 
    var hoodie=new RunnerMeshBuilder(animator.Hips,"TailoredHoodie",green);
@@ -92,19 +95,19 @@ namespace Kamilunavo.RisingSteps.Visuals
    pocket.Stitch(new Vector3(side*.151f,-.137f,-.05f),new Vector3(side*.151f,-.137f,.067f),.004f);pocket.Stitch(new Vector3(side*.114f,-.30f,.067f),new Vector3(side*.112f,-.21f,.10f),.003f);
    pocket.Sweep(new[]{new Vector3(side*.151f,-.135f,-.051f),new Vector3(side*.154f,-.155f,-.032f),new Vector3(side*.155f,-.163f,.031f),new Vector3(side*.151f,-.14f,.069f)},new[]{.004f,.004f,.004f,.004f},new[]{.002f,.002f,.002f,.002f},5);pocket.Finish();
    var shin=new RunnerMeshBuilder(knee,"LowerLegSkin",skin);
-   shin.Profile(new Vector3(0,0,-.012f),new[]{-.30f,-.245f,-.12f,.035f,.067f},new[]{.060f,.065f,.076f,.088f,.077f},new[]{.061f,.068f,.075f,.081f,.069f},12,.85f);shin.Finish();
+   shin.Profile(new Vector3(0,0,-.012f),new[]{-.30f,-.245f,-.12f,.035f,.067f},new[]{.060f,.065f,.076f,.088f,.077f},new[]{.061f,.068f,.075f,.081f,.069f},10,.85f);shin.Finish();
    var footOrigin=new Vector3(0,-.36f,-.007f);
    var boot=new RunnerMeshBuilder(knee,"HikingBootLast",canvas);
    boot.Shoe(footOrigin,-.12f,.014f,.010f);
    boot.Loft(new[]{footOrigin+new Vector3(0,.010f,.123f),footOrigin+new Vector3(0,.040f,.061f),footOrigin+new Vector3(0,.088f,-.012f),footOrigin+new Vector3(0,.142f,-.061f)},new[]{new Vector2(.043f,.005f),new Vector2(.047f,.009f),new Vector2(.045f,.009f),new Vector2(.04f,.007f)},8,.72f);
    boot.Profile(footOrigin+new Vector3(0,0,-.065f),new[]{-.050f,.030f,.114f,.146f},new[]{.077f,.088f,.085f,.076f},new[]{.060f,.070f,.068f,.060f},12,.72f);
-   boot.Profile(footOrigin+new Vector3(0,0,-.065f),new[]{.123f,.144f,.159f},new[]{.083f,.090f,.080f},new[]{.064f,.073f,.060f},12,.70f);boot.Finish();
+   boot.Profile(footOrigin+new Vector3(0,0,-.065f),new[]{.123f,.144f,.159f},new[]{.083f,.090f,.080f},new[]{.064f,.073f,.060f},10,.70f);boot.Finish();
    var trim=new RunnerMeshBuilder(knee,"HikingBootLacesAndSole",dark);
    trim.Shoe(footOrigin,-.13f,-.090f,0);
    for(int lace=0;lace<4;lace++){float z=-.039f+lace*.033f,y=.124f-lace*.026f;trim.Stitch(footOrigin+new Vector3(-.043f,y,z),footOrigin+new Vector3(.043f,y-.017f,z+.025f),.004f);trim.Stitch(footOrigin+new Vector3(.043f,y,z),footOrigin+new Vector3(-.043f,y-.017f,z+.025f),.004f);}
    // Sole, laces and ankle trim share the same joint/material draw buffer.
    var tread=trim;
-   tread.Profile(footOrigin+new Vector3(0,0,-.065f),new[]{.139f,.153f,.170f},new[]{.087f,.088f,.078f},new[]{.069f,.069f,.062f},12,.72f);
+   tread.Profile(footOrigin+new Vector3(0,0,-.065f),new[]{.139f,.153f,.170f},new[]{.087f,.088f,.078f},new[]{.069f,.069f,.062f},10,.72f);
    for(int i=0;i<4;i++)tread.Stitch(footOrigin+new Vector3(-.084f,-.134f,-.070f+i*.080f),footOrigin+new Vector3(.084f,-.134f,-.070f+i*.080f),.006f);
    for(int sideEdge=-1;sideEdge<=1;sideEdge+=2){tread.Stitch(footOrigin+new Vector3(sideEdge*.098f,-.064f,-.07f),footOrigin+new Vector3(sideEdge*.103f,-.061f,.09f),.004f);}tread.Finish();
    leg.localRotation=Quaternion.Euler(side<0?-3:4,0,side*2);knee.localRotation=Quaternion.Euler(side<0?6:2,0,0);
@@ -133,7 +136,7 @@ namespace Kamilunavo.RisingSteps.Visuals
    animator.Head=Pivot(animator.Hips,"Head",new Vector3(0,.81f,.003f));animator.Head.localRotation=Quaternion.Euler(-2,-5,0);
    var neck=new RunnerMeshBuilder(animator.Hips,"Neck",skin);neck.Profile(new Vector3(0,0,.008f),new[]{.56f,.65f,.68f},new[]{.071f,.068f,.073f},new[]{.071f,.068f,.073f},16);neck.Finish();
    var face=new RunnerMeshBuilder(animator.Head,"FaceSkin",skin);
-   face.Profile(new Vector3(0,0,.015f),new[]{-.215f,-.195f,-.175f,-.13f,-.085f,-.0275f,.03f,.075f,.12f,.1575f,.195f,.21f,.225f},new[]{.085f,.11f,.132f,.165f,.181f,.192f,.196f,.195f,.19f,.178f,.151f,.121f,.085f},new[]{.066f,.085f,.105f,.127f,.140f,.152f,.157f,.154f,.145f,.133f,.115f,.09f,.06f},24,.9f);face.Finish();
+   face.Profile(new Vector3(0,0,.015f),new[]{-.215f,-.195f,-.175f,-.13f,-.085f,-.0275f,.03f,.075f,.12f,.1575f,.195f,.21f,.225f},new[]{.085f,.11f,.132f,.165f,.181f,.192f,.196f,.195f,.19f,.178f,.151f,.121f,.085f},new[]{.066f,.085f,.105f,.127f,.140f,.152f,.157f,.154f,.145f,.133f,.115f,.09f,.06f},20,.9f);face.Finish();
    var features=new RunnerMeshBuilder(animator.Head,"FaceFeatures",skin);
    features.Pebble(new Vector3(0,-.047f,.181f),new Vector3(.057f,.082f,.052f),12);
    for(int side=-1;side<=1;side+=2)features.Pebble(new Vector3(side*.196f,-.028f,-.005f),new Vector3(.067f,.108f,.070f),10);features.Finish();
@@ -141,25 +144,29 @@ namespace Kamilunavo.RisingSteps.Visuals
    for(int side=-1;side<=1;side+=2){eyes.Pebble(new Vector3(side*.079f,.021f,.164f),new Vector3(.069f,.080f,.022f),10);expression.Pebble(new Vector3(side*.079f,.018f,.178f),new Vector3(.031f,.049f,.012f),8);expression.Sweep(new[]{new Vector3(side*.043f,.081f,.164f),new Vector3(side*.074f,.089f,.163f),new Vector3(side*.109f,.080f,.153f)},new[]{.008f,.011f,.006f},new[]{.004f,.005f,.003f},6);}
    expression.Sweep(new[]{new Vector3(-.042f,-.128f,.145f),new Vector3(0,-.136f,.153f),new Vector3(.043f,-.128f,.145f)},new[]{.003f,.004f,.003f},new[]{.002f,.002f,.002f},5);eyes.Finish();expression.Finish();
    var crown=new RunnerMeshBuilder(animator.Head,"SweptChestnutHair",hair);crown.HairCrown();
-   // Individually curved, flattened leaf-like locks overlap a continuous crown.
-   // Their tips and directions vary; no parallel tube-shaped hair strips.
+   // Finer asymmetric locks overlap a continuous crown; the visible side/nape
+   // contour has staggered tips rather than a row of broad leaf-shaped plates.
    Vector3[] roots={new(-.16f,.19f,.012f),new(-.09f,.27f,.024f),new(-.025f,.30f,.018f),new(.047f,.26f,.04f),new(.118f,.19f,.015f)};
    Vector3[] bends={new(-.20f,.285f,-.026f),new(-.075f,.38f,-.019f),new(.030f,.40f,-.045f),new(.111f,.35f,-.060f),new(.21f,.245f,-.043f)};
    Vector3[] tips={new(-.215f,.22f,-.142f),new(-.025f,.33f,-.123f),new(.08f,.355f,-.145f),new(.155f,.255f,-.17f),new(.225f,.16f,-.151f)};
-   for(int lockIndex=0;lockIndex<5;lockIndex++)crown.HairLock(roots[lockIndex],bends[lockIndex],tips[lockIndex],.064f,.021f);
-   for(int fringe=0;fringe<4;fringe++){
-    float x=-.128f+fringe*.080f;
-    crown.HairLock(new Vector3(x-.03f,.21f,.08f),new Vector3(x,.18f,.17f),new Vector3(x+.055f,.080f+(fringe%2)*.025f,.165f),.039f,.014f);
+   for(int lockIndex=0;lockIndex<5;lockIndex++)crown.HairLock(roots[lockIndex],bends[lockIndex],tips[lockIndex],.049f,.015f);
+   for(int fringe=0;fringe<5;fringe++){
+    float x=-.139f+fringe*.064f;
+    crown.HairLock(new Vector3(x-.025f,.215f,.072f),new Vector3(x,.19f,.165f),new Vector3(x+.049f,.082f+(fringe%3)*.016f,.166f),.030f,.011f);
    }
    crown.Finish();
    var rear=new RunnerMeshBuilder(animator.Head,"RearSweptLocks",hair);
-   Vector3[] rearRoots={new(-.16f,.265f,-.115f),new(-.08f,.29f,-.12f),new(0,.315f,-.12f),new(.08f,.29f,-.115f),new(.16f,.26f,-.105f),new(-.14f,.15f,-.20f),new(-.055f,.18f,-.20f),new(.045f,.16f,-.20f),new(.125f,.12f,-.185f)};
-   Vector3[] rearBends={new(-.22f,.26f,-.23f),new(-.12f,.31f,-.245f),new(.025f,.32f,-.25f),new(.14f,.285f,-.235f),new(.23f,.245f,-.22f),new(-.21f,.135f,-.27f),new(-.08f,.17f,-.28f),new(.08f,.14f,-.275f),new(.17f,.09f,-.255f)};
-   Vector3[] rearTips={new(-.205f,.10f,-.275f),new(-.055f,.13f,-.29f),new(.04f,.145f,-.285f),new(.19f,.12f,-.265f),new(.21f,.09f,-.25f),new(-.22f,0,-.276f),new(.015f,-.015f,-.29f),new(-.075f,-.01f,-.29f),new(.24f,.015f,-.265f)};
-   for(int lockIndex=0;lockIndex<rearRoots.Length;lockIndex++)rear.HairLock(rearRoots[lockIndex],rearBends[lockIndex],rearTips[lockIndex],.066f,.030f);
-   for(int side=-1;side<=1;side+=2)for(int lockIndex=0;lockIndex<3;lockIndex++){
-    float y=.10f+lockIndex*.053f;
-    rear.HairLock(new Vector3(side*.155f,y+.067f,.020f),new Vector3(side*.24f,y+.024f,-.07f),new Vector3(side*.221f,y-.081f,-.205f),.033f,.016f);
+   for(int row=0;row<2;row++)for(int lockIndex=0;lockIndex<7;lockIndex++){
+    float x=-.169f+lockIndex*.056f,arc=1-Mathf.Abs(x)/.19f,stagger=Mathf.Sin(lockIndex*2.1f+row)*.012f;
+    float rootY=(row==0?.217f:.105f)+arc*(row==0?.076f:.05f);
+    var root=new Vector3(x,rootY+stagger,row==0?-.123f:-.179f);
+    var bend=new Vector3(x+.020f+Mathf.Sin(lockIndex*1.7f)*.019f,rootY-.008f,row==0?-.230f:-.246f);
+    var tip=new Vector3(x+.044f,rootY-(row==0?.123f:.139f)+stagger,row==0?-.254f:-.259f);
+    rear.HairLock(root,bend,tip,row==0?.041f:.036f,row==0?.016f:.013f);
+   }
+   for(int side=-1;side<=1;side+=2)for(int lockIndex=0;lockIndex<4;lockIndex++){
+    float y=.082f+lockIndex*.044f;
+    rear.HairLock(new Vector3(side*.155f,y+.067f,.020f),new Vector3(side*.226f,y+.026f,-.07f),new Vector3(side*.211f,y-.067f,-.194f),.027f,.012f);
    }
    rear.Finish();
   }

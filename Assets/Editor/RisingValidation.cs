@@ -84,7 +84,8 @@ public static class RisingValidation
  var a=CoursePatterns.Points(realm,seed);var b=CoursePatterns.Points(realm,seed);Check(a.Length==13,"13 islands");
  for(int i=1;i<a.Length;i++){Check(a[i]==b[i],"determinism");var d=a[i]-a[i-1];
  float flight=(9.2f+Mathf.Sqrt(9.2f*9.2f-44*d.y))/22;
- Check(d.y>0&&d.y<1.3f&&new Vector2(d.x,d.z).magnitude-2.2f<6.2f*flight-.35f,"reachable edge gap");}}
+ float distance=new Vector2(d.x,d.z).magnitude;float support=realm==2?(CoursePatterns.TempleRoofWidth(i-1)+CoursePatterns.TempleRoofWidth(i))*.5f*distance/Mathf.Max(Mathf.Abs(d.x),Mathf.Abs(d.z))-1:2.2f;
+ Check(d.y>0&&d.y<1.3f&&distance-support<6.2f*flight-.35f,"reachable edge gap including true square roofs and controller clearance");}}
  Debug.Log("RISING_VALIDATION_PASS checks="+checks);
  }
 }

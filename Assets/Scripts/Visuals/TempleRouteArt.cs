@@ -22,7 +22,7 @@ namespace Kamilunavo.RisingSteps.Visuals
 #if UNITY_EDITOR
   public static TemplePlatformBindings Author(Transform parent,int variant,Material[] materials)
   {
-   float width=variant==2?6.0f:variant==1?5.2f:4.2f,half=width*.5f;var root=new GameObject("TemplePlatform"+variant);root.transform.SetParent(parent,false);
+   float width=CoursePatterns.TempleRoofWidth(variant==2?12:variant==1?4:1),half=width*.5f;var root=new GameObject("TemplePlatform"+variant);root.transform.SetParent(parent,false);
    GameObject Block(string name,Vector3 p,Vector3 size,int role,float bevel=.045f){var block=LandscapeGeometry.BeveledBlock(root.transform,name,p,size,materials[role],bevel);LandscapeGeometry.StoneUv(block,.20f);return block;}
    // Broad rectilinear masonry piers have vertical faces; no circular cliff/tip.
    Block("TemplePierCore",new Vector3(0,-1.7f,0),new Vector3(width-.22f,4.4f,width-.22f),0,.085f);

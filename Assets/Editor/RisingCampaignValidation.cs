@@ -18,9 +18,14 @@ public static class RisingCampaignValidation
   var signatures=new HashSet<string>();
   for(int realm=0;realm<10;realm++)for(int level=0;level<10;level++){
    var points=(Vector3[])pointsMethod.Invoke(null,new object[]{realm,level});Check(points.Length==13,"each level retains twelve physical jumps");string signature="";
-   for(int i=1;i<points.Length;i++){var delta=points[i]-points[i-1];float flight=(9.2f+Mathf.Sqrt(9.2f*9.2f-44*delta.y))/22;float distance=new Vector2(delta.x,delta.z).magnitude;Check(delta.y>0&&delta.y<1.3f&&distance-2.2f<6.2f*flight-.35f,"jump reachability with real motor limits");signature+=points[i].ToString("F4");}
+   for(int i=1;i<points.Length;i++){var delta=points[i]-points[i-1];float flight=(9.2f+Mathf.Sqrt(9.2f*9.2f-44*delta.y))/22;float distance=new Vector2(delta.x,delta.z).magnitude;
+    // A genuinely separated square roof can be approached from its safe edge.
+    // Account for the actual direction-dependent square support at both ends,
+    // reserving0.50m per roof for the controller radius/skin and landing margin.
+    float support=realm==2?(CoursePatterns.TempleRoofWidth(i-1)+CoursePatterns.TempleRoofWidth(i))*.5f*distance/Mathf.Max(Mathf.Abs(delta.x),Mathf.Abs(delta.z))-1:2.2f;
+    Check(delta.y>0&&delta.y<1.3f&&distance-support<6.2f*flight-.35f,"jump reachability with real motor limits");signature+=points[i].ToString("F4");}
    Check(signatures.Add(signature),"all hundred routes differ");
-   if(level==0&&realm<3){var old=CoursePatterns.Points(realm,260906+realm);for(int i=0;i<13;i++)Check(points[i]==old[i],"legacy checkpoint course unchanged");}
+   if(level==0&&realm<3){var seeded=CoursePatterns.Points(realm,260906+realm);for(int i=0;i<13;i++)Check(points[i]==seeded[i],"first course retains its seeded checkpoint indexing; Temple forward spacing intentionally reflows");}
   }
   var oldProfile=RisingSave.Parse("{\"Schema\":1,\"Crystals\":777,\"Realm\":2,\"UnlockedRealm\":2,\"Step\":4,\"Stars\":[3,2,1],\"Styles\":[true,true,false,false,false,false,false,false],\"Style\":1}");
   Check(oldProfile.Schema==3&&oldProfile.Crystals==777&&oldProfile.Realm==2&&oldProfile.Step==4&&oldProfile.Style==1,"old save migrates without resetting current run or wallet/style");
