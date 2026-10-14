@@ -1,0 +1,35 @@
+{
+  "sourceSha256": "30f3089ee8590ad926a569657177e7280165dfd6128ac058d97d5016e830412a",
+  "buildLog": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/atlas-final-build.log",
+  "editorBuildExit": 0,
+  "nativeChecks": {
+    "AtlasFinalRuntime": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/AtlasFinalRuntime/PASS.txt",
+      "result": "RISING_TEN_WORLD_PREVIEW_PASS checks=81 actual60controllerjumps/tenworlds; isolated fixture unlocks for visual review only;100course acceptance remains pending"
+    },
+    "AtlasFinalCamera": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/AtlasFinalCamera/PASS.txt",
+      "result": "RISING_CAMERA_PASS 147"
+    },
+    "AtlasFinalTutorial": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/AtlasFinalTutorial/PASS.txt",
+      "result": "RISING_TUTORIAL_PASS 11"
+    }
+  },
+  "navigationChecks": 180,
+  "realmGalleryChecks": 2454,
+  "readOnlyReview": "TwoP2issues (NPOT aspect/narrow text) fixed, rereview no important issue",
+  "unchangedEarnedCampaignDependencies": {
+    "Assets/Scripts/Visuals/IslandArt.cs": "f7fd7cf020ef049c254340450ca5df449f3f18683fe190f2e984dcc284130aa0",
+    "Assets/Scripts/Gameplay/RisingCourse.cs": "deca26959b6ec7c5b3ba4e198e4b91f3f2699460c8903bc88bd1f6d937480bb9",
+    "Assets/Scripts/Gameplay/PlayerMotor.cs": "e44263fa6accdc57fd040d1ac14c928a2ea41b2ca569d4497156b17e147e5370",
+    "Assets/Scripts/Core/RisingCampaign.cs": "da2d17f2de2781d5a7f8360d8280415511d13f63ff2dc9c0858a8d86e694cf23",
+    "Assets/Scripts/Core/RisingRules.cs": "8df277ff223616e22b2247c7ee3323dcbce2477d47b0f33733482bd05d165f67",
+    "Assets/Scripts/Visuals/PortalArt.cs": "89dfabcffc5fcf704992b34260a5a3c6a767266a400c88c193153c914b3a68e5"
+  },
+  "priorEarnedCampaignSource": "8375be601bffb831ee36b0f000e3241b36382918a1f1769e8ceb8ab7dc8f288e",
+  "fullCampaignOnNewSource": false,
+  "comparison": "/Volumes/SSK SSD/Kamilunavo/Artifacts/RisingAtlasComparison-20261014/concept-unity-vergleich.png",
+  "visualAcceptance": "overall failed; no numerical likeness claim",
+  "physicalHardwareOrFPS": false
+}

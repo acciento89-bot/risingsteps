@@ -1,0 +1,24 @@
+{
+  "generator": "built-in image_gen",
+  "assets": [
+    {
+      "path": "Assets/Resources/Art/AtlasHero-v3.png",
+      "prompt": "Use case: compositing. Asset type: production illustration for the Rising Steps Unity menu atlas, no controls or lettering. Edit the reference artwork into a wide 3:2 landscape hero banner. Preserve its high quality stylized 3D fantasy boy (brown swept hair, forest green hoodie, brown hiking shorts and leather rucksack), turquoise waterfalls, pale limestone floating gardens, small daisies, clouds and golden destination arch. Put the full-body adventurer in the RIGHT HALF, looking towards the destination arch upper right, shown from rear three quarters. The LEFT 42 percent must have quiet very light warm ivory parchment mist with a few delicate green leaf sprigs at the bottom left and top left edge, intentionally clear for a separately rendered live Unity wordmark. Softly transition that quiet parchment space into the cliff garden around the boy; no rigid split or border. Golden arch distant behind him upper right, not clipped. Premium warm inviting children's fantasy adventure aesthetic, detailed but crisp at mobile size. No text, no letters, no logo, no UI, no screenshots, no watermarks. This is only menu illustration, not simulated gameplay. Landscape 3:2 aspect.",
+      "editTarget": "Assets/Resources/Art/SkyAtlasHero-v2.png",
+      "role": "Original illustrated menu backdrop only; live lettering/selection/buttons composed in Unity",
+      "original": "/Users/piotrkaminski/.codex/generated_images/01a11788-3eb6-7e32-963e-51b37d78e2ed/exec-c1ff6423-bc02-4ea7-be6a-9183686f2653.png",
+      "sha256": "5e2fae4c1dfcd1d196b4d0170ba2929410c0151b5ad84110698a3a02006b02ea",
+      "npotScale": "None",
+      "maxTextureSize": 1024
+    },
+    {
+      "path": "Assets/Resources/Art/TempleChapter-v2.png",
+      "prompt": "Use case: stylized-concept. Asset type: original rectangular 3:2 chapter selection illustration for Rising Steps Unity menu, Temple Trail. Premium stylized 3D fantasy architecture, not a UI mockup. Dry ochre sandstone floating ruins with square masonry ledges, a winding path of carved gold-inlaid stone steps, thick fluted columns, purple fabric banners with small golden diamonds, bronze braziers and gentle flame, a luminous arched temple doorway farther back. Warm golden sunset with a small setting sun to the right, lavender and peach clouds beneath the islands, amber light on carefully carved stone friezes and rounded eroded cliffs. Composition reads instantly as ancient temple adventure at small mobile thumbnail size. High quality sculpted geometry and rich restrained material detail, no black outlines or cheap low-poly shapes. No trees, no grass, no waterfalls, no lake, no people, no text, no buttons, no logos, no watermark. Wide landscape 3:2.",
+      "role": "Original chapter thumbnail illustration only, not gameplay evidence",
+      "original": "/Users/piotrkaminski/.codex/generated_images/01a11788-3eb6-7e32-963e-51b37d78e2ed/exec-0588034d-3bc9-4f8a-ab92-6186c0c83ce5.png",
+      "sha256": "d18d6288a3db55aa75dd302486a46e918951dc0cd44e5cf5828fb4f0838fa39e",
+      "npotScale": "None",
+      "maxTextureSize": 512
+    }
+  ]
+}
