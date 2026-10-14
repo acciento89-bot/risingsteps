@@ -27,6 +27,7 @@ namespace Kamilunavo.RisingSteps.QA
   }
   private IEnumerator Run(){_out=Arg("-qaOutput",Path.Combine(Application.persistentDataPath,"RisingQA"));Directory.CreateDirectory(_out);yield return new WaitForSecondsRealtime(1);
    Check(_hud.ModalOpen&&_course.Paused,"initial home paused");yield return Capture("home");
+   if(Environment.GetEnvironmentVariable("RISING_QA_COMPLETED_REPLAY")=="1"){yield return CompletedReplay();File.WriteAllText(Path.Combine(_out,"PASS.txt"),"RISING_COMPLETED_REPLAY_PASS "+_checks+" all100 previously earned level-card callbacks launch exact realm/level without losing independent stars; actual earned saved profile, no unlock fixture");yield break;}
    if(Environment.GetEnvironmentVariable("RISING_QA_CHAPTERS")=="1"){yield return OriginalChapters();File.WriteAllText(Path.Combine(_out,"PASS.txt"),"RISING_ORIGINAL_CHAPTERS_PASS "+_checks+" actual DE/EN portrait/landscape scrolling, seven distinct illustrated cards, real selection and parent Back; isolated unlock fixture only");yield break;}
    if(Environment.GetEnvironmentVariable("RISING_QA_TUTORIAL")=="1"){yield return TutorialAndHome();File.WriteAllText(Path.Combine(_out,"PASS.txt"),"RISING_TUTORIAL_PASS "+_checks);Debug.Log("RISING_TUTORIAL_PASS "+_checks);yield break;}
    if(Environment.GetEnvironmentVariable("RISING_QA_RELOAD")=="1"){Check(_course.Height>0,"saved non-origin step restored on fresh native boot");Check(Vector3.Distance(_motor.transform.position,_course.SafePosition)<.12f,"fresh boot puts actual controller at saved island");if(Environment.GetEnvironmentVariable("RISING_QA_ALL_SCORES")=="1"){int scores=0;foreach(int starValue in _course.Profile.LevelStars)if(starValue>0)scores++;Check(scores==100&&_course.Profile.Realm==9&&_course.Profile.Level==9,"fresh process restores all100 earned independent scores and the selected final course");}yield return Capture("restored-checkpoint");File.WriteAllText(Path.Combine(_out,"RELOAD-PASS.txt"),"Fresh native bootstrap restored step="+_course.Height+" realm="+_course.Profile.Realm+" safe="+_course.SafePosition);Debug.Log("RISING_RELOAD_PASS step="+_course.Height);yield break;}
@@ -66,6 +67,15 @@ _hud.Close();_course.StartRun(0,false);yield return new WaitForSeconds(.5f);
    if(Array.Exists(Environment.GetCommandLineArgs(),a=>a=="-qaRisingSoak")||Environment.GetEnvironmentVariable("RISING_QA_SOAK")=="1")yield return Soak();
    File.WriteAllText(Path.Combine(_out,"PASS.txt"),"RISING_QA_PASS checks="+_checks+" actual controller 36 steps and natural fall; isolated save; no FPS claim");Debug.Log("RISING_QA_PASS checks="+_checks);
    if(Array.Exists(Environment.GetCommandLineArgs(),a=>a=="-qaExit"))Application.Quit();
+  }
+  private IEnumerator CompletedReplay(){
+   int wallet=_course.Profile.Crystals,scores=0;foreach(int value in _course.Profile.LevelStars)if(value>0)scores++;Check(scores==100,"actual previously earned100-score profile is loaded before replay; no unlock fixture");
+   for(int realm=0;realm<10;realm++)for(int level=0;level<10;level++){
+    _hud.ShowLevels(realm);yield return null;Canvas.ForceUpdateCanvases();var content=_hud.Joystick.GetComponentInParent<Canvas>().transform.Find("SafeArea/ModalBackdrop/ModalCard/Viewport/Content");var card=content.Find("Level"+level).GetComponent<UnityEngine.UI.Button>();Check(card.interactable,"previously completed level is replayable through its real card "+realm+":"+level);card.onClick.Invoke();yield return null;
+    Check(_course.Profile.Realm==realm&&_course.Profile.Level==level&&_course.Height==0&&!_hud.ModalOpen&&Vector3.Distance(_motor.transform.position,_course.SafePosition)<.12f,"completed-card callback starts exact replay at the first island "+realm+":"+level);
+    if(level==0&&(realm==0||realm==1||realm==9))yield return Capture("earned-replay-realm"+realm+"-level1");
+   }
+   var saved=RisingSave.Load();scores=0;foreach(int stars in saved.LevelStars)if(stars>0)scores++;Check(scores==100&&saved.Crystals==wallet,"replaying previous courses preserves all100 independent earned scores and wallet");
   }
   private IEnumerator OriginalChapters(){
    _course.Profile.UnlockedRealm=9;_course.Profile.TutorialDone=true;int wallet=_course.Profile.Crystals;

@@ -78,6 +78,7 @@ namespace Kamilunavo.RisingSteps.UI
    Vector2 HeroAt(float x,float y)=>new Vector2(x,artBottom+y*(1-artBottom));
    var hero=UiFactory.Panel(_content,"SkyAtlas",Paper,Vector2.zero,Vector2.one);hero.gameObject.AddComponent<LayoutElement>().preferredHeight=heroHeight;RealmIllustration.Add(hero,P.Realm,new Vector2(0,artBottom),Vector2.one,true);
    var wordmark=UiFactory.Label(hero,"Story","RISING\nSTEPS",38,HeroAt(.055f,.38f),HeroAt(.43f,.84f),TextAnchor.MiddleCenter,Ink,FontStyle.Bold);wordmark.font=UiFactory.DisplayFont;
+   var logo=RealmWordmark.Add(hero,HeroAt(.055f,.40f),HeroAt(.43f,.975f));if(logo.texture!=null)wordmark.color=new Color(Ink.r,Ink.g,Ink.b,0);
    var story=UiFactory.Label(hero,"Eyebrow",T("Insel für Insel.\nBis zum Tempel.","Island by island.\nUp to the temple."),17,narrow?new Vector2(.06f,22/heroHeight):HeroAt(.06f,.19f),narrow?new Vector2(.94f,62/heroHeight):HeroAt(.43f,.40f),TextAnchor.MiddleCenter,Ink);story.font=UiFactory.DisplayFont;
    if(!narrow){var captionPaper=UiFactory.Panel(hero,"CampaignPaper",new Color(.97f,.952f,.883f,.90f),HeroAt(.05f,.095f),HeroAt(.44f,.195f));captionPaper.GetComponent<Image>().raycastTarget=false;captionPaper.GetComponent<RoundedPanel>().UseGallery();}
    UiFactory.Label(hero,"Checkpoint",T("10 Reiche · 100 Level","10 realms · 100 levels"),12,narrow?new Vector2(.04f,1/heroHeight):HeroAt(.06f,.095f),narrow?new Vector2(.96f,21/heroHeight):HeroAt(.43f,.195f),TextAnchor.MiddleCenter,Ink);

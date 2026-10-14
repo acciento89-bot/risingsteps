@@ -16,6 +16,8 @@ public static class RunnerArtValidation
   var meshes=new HashSet<Mesh>();var materials=new HashSet<Material>();var textures=new HashSet<Texture>();
   try{
    var runner=RunnerArt.Build(host.transform);
+   var source=UnityEditor.AssetDatabase.LoadAssetAtPath<RisingRunnerModel>("Assets/Resources/Models/RisingAdventurer-v2.asset");
+   Check(source!=null&&source.OcclusionSamples==12&&source.OcclusionMinimum<.99f&&source.OcclusionMaximum>.99f,"original persistent runner has genuinely sampled mesh ambient occlusion");
    // This is the first failing contract against the toy baseline, before new geometry.
    Check(runner.LeftArm.Find("LeftElbow")!=null&&runner.RightArm.Find("RightElbow")!=null,"arms have independent elbow articulation");
    Check(runner.LeftLeg.Find("LeftKnee")!=null&&runner.RightLeg.Find("RightKnee")!=null,"legs have independent knee articulation");
@@ -48,7 +50,7 @@ public static class RunnerArtValidation
 
    int vertices=0,triangles=0,activeRenderers=0;
    foreach(var filter in host.GetComponentsInChildren<MeshFilter>(true)){
-    var mesh=filter.sharedMesh;meshes.Add(mesh);vertices+=mesh.vertexCount;var points=mesh.vertices;var normals=mesh.normals;var indices=mesh.triangles;triangles+=indices.Length/3;
+    var mesh=filter.sharedMesh;meshes.Add(mesh);Check(UnityEditor.AssetDatabase.GetAssetPath(mesh)=="Assets/Resources/Models/RisingAdventurer-v2.asset","actual character uses its immutable authored Unity mesh asset");Check(mesh.colors.Length==mesh.vertexCount,"baked original character has complete vertex-occlusion coverage");vertices+=mesh.vertexCount;var points=mesh.vertices;var normals=mesh.normals;var indices=mesh.triangles;triangles+=indices.Length/3;
     Check(mesh.vertexCount>0&&points.Length==normals.Length,"mesh has vertex/normal coverage");
     foreach(var point in points)Check(float.IsFinite(point.x)&&float.IsFinite(point.y)&&float.IsFinite(point.z),"finite generated coordinates");
     foreach(var normal in normals)Check(float.IsFinite(normal.x)&&float.IsFinite(normal.y)&&float.IsFinite(normal.z)&&normal.sqrMagnitude>.5f,"valid generated lighting normals");
@@ -77,9 +79,9 @@ public static class RunnerArtValidation
    runner.Style(99);Check(runner.Hoodie.color==new Color(.035f,.055f,.14f),"invalid high style clamps to night");
    Debug.Log("RISING_RUNNER_BUDGET vertices="+vertices+" triangles="+triangles+" activeRenderers="+activeRenderers+" materials="+materials.Count+" textures="+textures.Count);
    UnityEngine.Object.DestroyImmediate(host);
-   foreach(var mesh in meshes)Check(mesh==null,"generated meshes are released with avatar");
+   foreach(var mesh in meshes)Check(mesh!=null&&UnityEditor.AssetDatabase.Contains(mesh),"immutable authored mesh survives avatar destruction");
    foreach(var material in materials)Check(material==null,"character materials are released with avatar");
-   foreach(var texture in textures)Check(texture==null,"character detail texture is released with avatar");
+   foreach(var texture in textures)Check(texture!=null&&UnityEditor.AssetDatabase.Contains(texture),"immutable original detail texture survives avatar destruction");
   }finally{if(host!=null)UnityEngine.Object.DestroyImmediate(host);}
   Debug.Log("RISING_RUNNER_ART_PASS checks="+_checks);
  }

@@ -1,0 +1,48 @@
+{
+  "date": "2026-10-14",
+  "purpose": "Original bitmap surfaces and transparent wordmark for genuine authored Unity runner/menu, not gameplay screenshots",
+  "assets": [
+    {
+      "name": "TravelFabric-v1",
+      "source": "/Users/piotrkaminski/.codex/generated_images/01a11788-3eb6-7e32-963e-51b37d78e2ed/exec-6ee80f12-b8b7-4cde-b87a-c23e3c32692c.png",
+      "project": "Assets/Resources/Art/TravelFabric-v1.png",
+      "sha256": "b7fc2c43fd5289a6dd3154557135055e9683872bce05933d1685c3daed0cbf93",
+      "dimensions": [
+        1254,
+        1254
+      ],
+      "fullSourceUnchanged": true,
+      "import": "64max readable/repeat original fabric; immutable mesh-asset texture sub-assets, per-avatar material styles",
+      "prompt": "Use case: original game material texture. Asset: one seamless square neutral woven travel fabric albedo for a genuinely modeled 3D adventurer in Rising Steps. Create a close-up, orthographic, evenly illuminated undyed pale ivory canvas/twill surface with soft diagonal woven fibers, restrained irregular thread thickness, softly worn natural cloth grain, subtle broad fabric variation. Low contrast, no dark lines or printed pattern, no seams or folds, no edge shadows, no vignetting, no perspective, no objects, no text, no logo, no borders. Entire image is tileable cloth only, balanced neutral warm white (not yellow, brown or green), subtle high-quality sculpted animated adventure-game materials. Intended to be multiplied by emerald jacket and warm tan leather/canvas colors inside Unity; keep most values around 0.84–0.94 so it does not blacken the model. Produce one square texture."
+    },
+    {
+      "name": "RisingWordmark-v1",
+      "source": "/Users/piotrkaminski/.codex/generated_images/01a11788-3eb6-7e32-963e-51b37d78e2ed/exec-b5fa39a8-079f-4f14-a9b7-8cc7b7b6a100.png",
+      "project": "Assets/Resources/Art/RisingWordmark-v1.png",
+      "sha256": "60df24964b7fb60e341efbb234a5a8197a50a1e4dc5cea98e6c98df0892efd35",
+      "dimensions": [
+        1535,
+        1025
+      ],
+      "fullSourceUnchanged": true,
+      "realAlphaRange": [
+        0,
+        255
+      ],
+      "visibleAlphaOver10Bounds": [
+        223,
+        38,
+        1310,
+        970
+      ],
+      "displayCropPixels": [
+        219,
+        51,
+        1095,
+        940
+      ],
+      "import": "512max NPOTNone alpha/uncompressed; authored display crop/contain ratio only",
+      "prompt": "Asset type: an original transparent 2D brand wordmark sprite for the real Unity menu of Rising Steps. The referenced image is only style and brand reference, especially its first menu panel; do not recreate its background or UI. Create a single tightly framed forest-green wordmark with a small flat silhouette emblem above it: an ancient arch/temple on an irregular floating island hill with a tiny rising path. Below, exactly two lines of very bold elegant adventure serif letters: RISING on the first line, STEPS on the second. Thick sculpted classic serif stems, dignified warm storybook expedition identity, strong readable letters, softly rounded carved terminal details, closely matching the heavy dark-green logo in the reference. Flat monochrome deep teal-green (#143f39), with only a fine muted antiqued-gold dividing ornament below the words, no painted lighting, no 3D background, no banner, no characters, no flowers, no clouds. Centered composition with tiny transparent margins. All outside pixels transparent with clean alpha edges. Text exactly: RISING STEPS. This is a standalone Unity UI logo asset; not a mockup, screenshot, illustration scene or whole concept board."
+    }
+  ]
+}

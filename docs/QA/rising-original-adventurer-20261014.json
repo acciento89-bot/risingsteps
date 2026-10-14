@@ -1,0 +1,77 @@
+{
+  "sourceSha256": "315d1e87a3db6c30576157eebe738b2c56084cea1ffa2da15972a694e7e30a3f",
+  "editorBuildExit": 0,
+  "buildLog": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/original-adventurer-sculpted-build.log",
+  "nativeChecks": {
+    "OriginalAdventurerUi": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalAdventurerUi/PASS.txt",
+      "result": "RISING_ORIGINAL_CHAPTERS_PASS 170 actual DE/EN portrait/landscape scrolling, seven distinct illustrated cards, real selection and parent Back; isolated unlock fixture only",
+      "sha256": "ed4e9959313067d407d3274c1e7825dbaf79f1d87257a7c4cc61ef57495a03c8"
+    },
+    "OriginalAdventurerRuntime": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalAdventurerRuntime/PASS.txt",
+      "result": "RISING_TEN_WORLD_PREVIEW_PASS checks=81 actual60controllerjumps/tenworlds; isolated fixture unlocks for visual review only;100course acceptance remains pending",
+      "sha256": "4a45a72da83230aceb4e89db6531dd043d12ca0ca5c96a725becab42c134614c"
+    },
+    "OriginalAdventurerCamera": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalAdventurerCamera/PASS.txt",
+      "result": "RISING_CAMERA_PASS 147",
+      "sha256": "ab67a0bd02f7e9ff166b12851d59ae110d3eb69c52632860b16a2b682ed929c6"
+    },
+    "OriginalAdventurerTutorial": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalAdventurerTutorial/PASS.txt",
+      "result": "RISING_TUTORIAL_PASS 11",
+      "sha256": "ed1f0bd50fd903e0ef395710033c6bcb965838e7e7571324a65742ae32c59a25"
+    },
+    "OriginalAdventurerDefault": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalAdventurerDefault/PASS.txt",
+      "result": "RISING_QA_PASS checks=125 actual controller 36 steps and natural fall; isolated save; no FPS claim",
+      "sha256": "b69136eaa657735ceddcab7a111c444b9f496ba9e74d67d55a9bacc41ab0c8c1"
+    },
+    "OriginalAdventurerEarnedReplay": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalAdventurerEarnedReplay/PASS.txt",
+      "result": "RISING_COMPLETED_REPLAY_PASS 203 all100 previously earned level-card callbacks launch exact realm/level without losing independent stars; actual earned saved profile, no unlock fixture",
+      "sha256": "8c1fe87b05d583b5e5085c80e653f977b65dcf2824449eb50bc4d20f288535d9"
+    }
+  },
+  "originalModel": {
+    "prefab": "Assets/Resources/Models/RisingAdventurer-v2.prefab",
+    "meshContainer": "Assets/Resources/Models/RisingAdventurer-v2.asset",
+    "authoringDigest": "00717822ad82bc47fc63f4f6e0c55237b654a71dc340ebd8dbea21c0fc54e7ce",
+    "vertices": 5884,
+    "triangles": 9936,
+    "activeRenderers": 31,
+    "materials": 8,
+    "immutableTextures": 3,
+    "occlusionSamplesPerVertex": 12,
+    "actualVisibilityRange": [
+      0.48000002,
+      1
+    ],
+    "geometry": "Individually modeled curved flattened hair locks, softer shaped pack and existing articulated original garment/limbs. Genuine persistent Unity mesh/prefab assets, never a generated image in place of the player.",
+    "ownership": "Shared immutable mesh/texture sub-assets, owned per-avatar mutable style materials; independent style isolation and cleanup validated; no physics colliders.",
+    "publication": "Stage geometry/occlusion/budget/prefab and verified reload before transactional source replacement; rollback preserves prior good asset pair."
+  },
+  "assetHashes": {
+    "Assets/Resources/Models/RisingAdventurer-v2.prefab": "f20c900d5de81277b5d2ff5653ce5e907f6d17f8939798c15a6e70b681836797",
+    "Assets/Resources/Models/RisingAdventurer-v2.asset": "aa2be8ba67fad659e924676bddc4cbfa5569e000bff736a78903a16c7fe67372",
+    "Assets/Resources/Art/TravelFabric-v1.png": "b7fc2c43fd5289a6dd3154557135055e9683872bce05933d1685c3daed0cbf93",
+    "Assets/Resources/Art/RisingWordmark-v1.png": "60df24964b7fb60e341efbb234a5a8197a50a1e4dc5cea98e6c98df0892efd35"
+  },
+  "gameplayFilesUnchangedSinceEarned100WaterGarden": {
+    "Assets/Scripts/Gameplay/RisingCourse.cs": "6f2361fe24365753f80617bc0410e20379e9f85336baed9d6efe3538e76200bf",
+    "Assets/Scripts/Gameplay/PlayerMotor.cs": "e44263fa6accdc57fd040d1ac14c928a2ea41b2ca569d4497156b17e147e5370",
+    "Assets/Scripts/Core/RisingCampaign.cs": "da2d17f2de2781d5a7f8360d8280415511d13f63ff2dc9c0858a8d86e694cf23",
+    "Assets/Scripts/Core/RisingRules.cs": "8df277ff223616e22b2247c7ee3323dcbce2477d47b0f33733482bd05d165f67",
+    "Assets/Scripts/Visuals/PortalArt.cs": "89dfabcffc5fcf704992b34260a5a3c6a767266a400c88c193153c914b3a68e5",
+    "Assets/Scripts/Visuals/IslandArt.cs": "e9c65d0891b1b20817c2c7fac56f6394a0f778f4a8d00eb38403e33604d2eb54"
+  },
+  "full100Evidence": "1704 real physical campaign checks/1200 landings/100 portals and cold all100 score reload remain bound to prior2b147f, not reassigned; all six core/Island authority files unchanged. New source separately passes203 actual100completed-card replay callbacks using that truly earned saved profile, no unlock fixture.",
+  "readOnlyReview": "No remaining concrete blocker; ownership/staged publication/BVH/menu aspect reviewed.",
+  "retainedFailures": [
+    "original-adventurer-final-build.log: Edit-mode scene API mismatch, fixed with Editor preview scene and mesh-only visibility",
+    "original-adventurer-verified-build.log: hair tip degenerate cap triangles, fixed with finite supported tips; same strict threshold retained"
+  ],
+  "comparison": "/Volumes/SSK SSD/Kamilunavo/Artifacts/RisingOriginalAdventurerComparison-20261014/concept-unity-vergleich.png",
+  "visualAcceptance": "FAILED: stronger original menu brand; actual runner still too regular/simplified and scene landforms/foliage/composition below approved Concept. No90percent claim or TestFlight upload."
+}

@@ -105,6 +105,13 @@ namespace Kamilunavo.RisingSteps.Visuals
    }
    Connect(start,rings,sides);Cap(start,new Vector3(0,.025f,-.035f),sides,false);Cap(start+(rings-1)*(sides+1),new Vector3(0,.315f,-.035f),sides,true);
   }
+  public void HairLock(Vector3 root,Vector3 bend,Vector3 tip,float width,float depth)
+  {
+   var path=new Vector3[5];var widths=new float[5];var depths=new float[5];float[] fullness={.48f,.96f,1,.65f,.08f};
+   for(int ring=0;ring<5;ring++){float t=ring*.25f;path[ring]=(1-t)*(1-t)*root+2*(1-t)*t*bend+t*t*tip;widths[ring]=width*fullness[ring];depths[ring]=depth*fullness[ring];}
+   Sweep(path,widths,depths,7);
+  }
+  public static void RefreshLighting(Mesh mesh){mesh.RecalculateNormals();mesh.RecalculateBounds();JoinUvNormals(mesh);}
   // Shoe outline is asymmetric from heel to toe, with a broad toe box and
   // narrower heel. Rings lie horizontally; upper/sole share the authored last.
   public void Shoe(Vector3 origin,float bottom,float top,float inset)

@@ -6,6 +6,27 @@ namespace Kamilunavo.RisingSteps.Visuals
  {
   public static RunnerAnimator Build(Transform parent)
   {
+   var prefab=Resources.Load<GameObject>("Models/RisingAdventurer-v2");
+   if(prefab==null)throw new System.InvalidOperationException("Original RisingAdventurer-v2 Unity prefab must be authored before building");
+   var root=Object.Instantiate(prefab,parent,false);root.name="HoodieRunner";var runner=root.GetComponent<RunnerAnimator>();var originalHoodie=runner.Hoodie;
+   var materials=new System.Collections.Generic.Dictionary<Material,Material>();
+   foreach(var renderer in root.GetComponentsInChildren<MeshRenderer>(true)){
+    var shared=renderer.sharedMaterials;
+    for(int slot=0;slot<shared.Length;slot++){
+     var source=shared[slot];if(!materials.TryGetValue(source,out var owned)){
+      owned=new Material(source){name=source.name};ArtLifetime.Own(root,owned);materials.Add(source,owned);
+      // Authored textures, like meshes, are immutable shared sub-assets. Only
+      // style materials are mutable; cloning unreadable textures is unnecessary.
+     }shared[slot]=owned;
+    }renderer.sharedMaterials=shared;
+   }
+   // Mesh sub-assets are immutable and shared. Mutable style/material
+   // instances remain owned by this avatar and are released with it.
+   runner.Hoodie=materials[originalHoodie];runner.CaptureRestPose();return runner;
+  }
+#if UNITY_EDITOR
+  public static RunnerAnimator BuildAuthored(Transform parent)
+  {
    var root=new GameObject("HoodieRunner",typeof(RunnerAnimator));root.transform.SetParent(parent,false);
    var animator=root.GetComponent<RunnerAnimator>();
    // All mutable materials and the detail texture belong to this avatar.
@@ -14,14 +35,14 @@ namespace Kamilunavo.RisingSteps.Visuals
    var ivory=Material(root,"RunnerIvoryCanvas",new Color(.94f,.955f,.90f),.14f);
    var dark=Material(root,"RunnerSeamsAndEyes",new Color(.055f,.065f,.05f),.12f);
    var green=Material(root,"RunnerHoodie",new Color(.055f,.32f,.17f),.10f);
-   var hair=Material(root,"RunnerChestnutHair",new Color(.47f,.21f,.075f),.14f);
+   var hair=Material(root,"RunnerChestnutHair",new Color(.34f,.15f,.055f),.20f);
    var gold=Material(root,"RunnerPremiumThread",new Color(1,.88f,.39f),.22f);
-   var canvas=Material(root,"RunnerTravelCanvas",new Color(.54f,.345f,.165f),.12f);canvas.mainTexture=CanvasDetail(root);
+   var canvas=Material(root,"RunnerTravelCanvas",new Color(.48f,.29f,.13f),.16f);canvas.mainTexture=CanvasDetail(root);
    hair.mainTexture=HairDetail(root);var cloth=CanvasDetail(root);cloth.name="RunnerClothWeave";green.mainTexture=cloth;pants.mainTexture=cloth;animator.Hoodie=green;
    animator.Hips=Pivot(root.transform,"Hips",new Vector3(0,.85f,0));
 
    var hoodie=new RunnerMeshBuilder(animator.Hips,"TailoredHoodie",green);
-   hoodie.FabricProfile(Vector3.zero,new[]{.045f,.08f,.13f,.20f,.28f,.36f,.43f,.50f,.545f,.57f},new[]{.205f,.215f,.211f,.204f,.210f,.226f,.237f,.245f,.21f,.155f},new[]{.133f,.142f,.142f,.14f,.147f,.150f,.146f,.135f,.12f,.095f},16,.46f);
+   hoodie.FabricProfile(Vector3.zero,new[]{.045f,.08f,.13f,.20f,.28f,.36f,.43f,.50f,.545f,.57f},new[]{.205f,.215f,.211f,.204f,.210f,.226f,.237f,.245f,.21f,.155f},new[]{.133f,.142f,.142f,.14f,.147f,.150f,.146f,.135f,.12f,.095f},20,.46f);
    // The front pocket has a flat opening and tapered curved lower corners.
    hoodie.Loft(new[]{new Vector3(0,.15f,.145f),new Vector3(0,.19f,.163f),new Vector3(0,.28f,.168f),new Vector3(0,.305f,.156f)},new[]{new Vector2(.11f,.008f),new Vector2(.153f,.018f),new Vector2(.143f,.018f),new Vector2(.10f,.008f)},12,.62f);
    hoodie.Profile(Vector3.zero,new[]{.04f,.075f,.10f},new[]{.207f,.218f,.211f},new[]{.136f,.146f,.141f},16,.72f);hoodie.Finish();
@@ -119,30 +140,26 @@ namespace Kamilunavo.RisingSteps.Visuals
    for(int side=-1;side<=1;side+=2){eyes.Pebble(new Vector3(side*.079f,.021f,.164f),new Vector3(.069f,.080f,.022f),10);expression.Pebble(new Vector3(side*.079f,.018f,.178f),new Vector3(.031f,.049f,.012f),8);expression.Sweep(new[]{new Vector3(side*.043f,.081f,.164f),new Vector3(side*.074f,.089f,.163f),new Vector3(side*.109f,.080f,.153f)},new[]{.008f,.011f,.006f},new[]{.004f,.005f,.003f},6);}
    expression.Sweep(new[]{new Vector3(-.042f,-.128f,.145f),new Vector3(0,-.136f,.153f),new Vector3(.043f,-.128f,.145f)},new[]{.003f,.004f,.003f},new[]{.002f,.002f,.002f},5);eyes.Finish();expression.Finish();
    var crown=new RunnerMeshBuilder(animator.Head,"SweptChestnutHair",hair);crown.HairCrown();
-   // Broad swept ridges grow from one crown; locks rake back rather than
-   // forming a radial collection of identical cone spikes.
-   for(int lockIndex=0;lockIndex<6;lockIndex++){
-    float x=-.17f+lockIndex*.068f,y=.195f+(1-Mathf.Abs(x)/.18f)*.065f;
-    crown.Sweep(new[]{new Vector3(x,y,.044f),new Vector3(x+.022f,y+.075f,-.013f),new Vector3(x+.042f,y+.084f+(lockIndex%3)*.011f,-.092f)},new[]{.061f,.045f,.007f},new[]{.041f,.027f,.005f},7);
+   // Individually curved, flattened leaf-like locks overlap a continuous crown.
+   // Their tips and directions vary; no parallel tube-shaped hair strips.
+   for(int lockIndex=0;lockIndex<5;lockIndex++){
+    float x=-.17f+lockIndex*.080f,y=.19f+(1-Mathf.Abs(x)/.18f)*.07f;
+    crown.HairLock(new Vector3(x-.03f,y,.025f),new Vector3(x+.018f,y+.125f,-.045f),new Vector3(x+.058f,y+.09f+(lockIndex%3)*.018f,-.155f),.064f,.021f);
    }
-   for(int fringe=0;fringe<5;fringe++){
-    float x=-.125f+fringe*.056f;
-    crown.Sweep(new[]{new Vector3(x-.025f,.18f,.108f),new Vector3(x,.145f,.143f),new Vector3(x+.030f,.092f+(fringe%2)*.020f,.159f)},new[]{.042f,.032f,.004f},new[]{.024f,.018f,.003f},7);
+   for(int fringe=0;fringe<4;fringe++){
+    float x=-.128f+fringe*.080f;
+    crown.HairLock(new Vector3(x-.03f,.21f,.08f),new Vector3(x,.18f,.17f),new Vector3(x+.055f,.080f+(fringe%2)*.025f,.165f),.039f,.014f);
    }
    crown.Finish();
-   // Broad overlapping locks wrap over the occiput. Their tapered tips change
-   // the rear contour seen during play, where tiny top ridges were insufficient.
    var rear=new RunnerMeshBuilder(animator.Head,"RearSweptLocks",hair);
-   // Two overlapping rows of short uneven tapered tufts, instead of long
-   // parallel rib-shaped locks. Every tuft stays in the same head mesh/joint.
-   for(int row=0;row<2;row++)for(int lockIndex=0;lockIndex<5;lockIndex++){
-    float x=-.16f+lockIndex*.081f,arch=1-Mathf.Abs(x)/.205f,y=(row==0?.22f:.125f)+arch*.062f+.015f*Mathf.Sin(lockIndex*2.31f+row);
-    float sweep=.026f*Mathf.Sin(lockIndex*1.7f+row*2);
-    rear.Sweep(new[]{new Vector3(x-.022f,y+.016f,-.118f-row*.028f),new Vector3(x+sweep,y+.035f,-.193f-row*.022f),new Vector3(x+.042f+sweep,y-.082f-(lockIndex%2)*.016f,-.231f-row*.025f)},new[]{.075f,.050f,.004f},new[]{.035f,.033f,.003f},7);
+   for(int row=0;row<2;row++)for(int lockIndex=0;lockIndex<(row==0?5:4);lockIndex++){
+    float x=-.166f+lockIndex*(row==0?.083f:.105f),arch=1-Mathf.Abs(x)/.205f,y=(row==0?.225f:.11f)+arch*.06f+.015f*Mathf.Sin(lockIndex*2.31f+row);
+    float sweep=.034f*Mathf.Sin(lockIndex*1.7f+row*2);
+    rear.HairLock(new Vector3(x-.020f,y+.015f,-.118f-row*.03f),new Vector3(x+sweep,y+.040f,-.224f-row*.013f),new Vector3(x+.049f+sweep,y-.085f-(lockIndex%2)*.02f,-.248f-row*.025f),.061f,.017f);
    }
    for(int side=-1;side<=1;side+=2)for(int lockIndex=0;lockIndex<3;lockIndex++){
-    float y=.115f+lockIndex*.048f;
-    rear.Sweep(new[]{new Vector3(side*.158f,y+.072f,.038f),new Vector3(side*.218f,y+.031f,-.048f),new Vector3(side*.235f,y-.018f,-.145f),new Vector3(side*.210f,y-.079f,-.196f)},new[]{.035f,.042f,.031f,.004f},new[]{.024f,.030f,.023f,.003f},6);
+    float y=.10f+lockIndex*.053f;
+    rear.HairLock(new Vector3(side*.155f,y+.067f,.020f),new Vector3(side*.24f,y+.024f,-.07f),new Vector3(side*.221f,y-.081f,-.205f),.033f,.016f);
    }
    rear.Finish();
   }
@@ -151,9 +168,9 @@ namespace Kamilunavo.RisingSteps.Visuals
   {
    var pack=Pivot(animator.Hips,"AdventurerPack",new Vector3(0,.103f,-.150f));
    var body=new RunnerMeshBuilder(pack,"CanvasPackBody",canvas);
-   body.Loft(new[]{new Vector3(0,.04f,-.075f),new Vector3(0,.095f,-.106f),new Vector3(0,.19f,-.120f),new Vector3(0,.31f,-.118f),new Vector3(0,.445f,-.092f),new Vector3(0,.49f,-.068f)},new[]{new Vector2(.13f,.070f),new Vector2(.18f,.090f),new Vector2(.177f,.095f),new Vector2(.18f,.095f),new Vector2(.159f,.077f),new Vector2(.118f,.053f)},14,.82f);
+   body.Loft(new[]{new Vector3(0,.04f,-.075f),new Vector3(0,.095f,-.106f),new Vector3(0,.19f,-.120f),new Vector3(0,.31f,-.118f),new Vector3(0,.445f,-.092f),new Vector3(0,.49f,-.068f)},new[]{new Vector2(.12f,.060f),new Vector2(.174f,.087f),new Vector2(.190f,.104f),new Vector2(.181f,.106f),new Vector2(.151f,.077f),new Vector2(.108f,.048f)},14,.97f);
    // Curved flap, front pouch and two side pockets share a single rigid buffer.
-   body.Loft(new[]{new Vector3(0,.29f,-.204f),new Vector3(0,.325f,-.226f),new Vector3(0,.375f,-.211f),new Vector3(0,.454f,-.170f),new Vector3(0,.485f,-.090f)},new[]{new Vector2(.117f,.018f),new Vector2(.149f,.019f),new Vector2(.172f,.031f),new Vector2(.166f,.040f),new Vector2(.112f,.047f)},12,.86f);
+   body.Loft(new[]{new Vector3(0,.29f,-.204f),new Vector3(0,.325f,-.226f),new Vector3(0,.375f,-.211f),new Vector3(0,.454f,-.170f),new Vector3(0,.485f,-.090f)},new[]{new Vector2(.107f,.018f),new Vector2(.139f,.022f),new Vector2(.166f,.030f),new Vector2(.154f,.037f),new Vector2(.105f,.042f)},12,.99f);
    body.Loft(new[]{new Vector3(0,.07f,-.177f),new Vector3(0,.10f,-.217f),new Vector3(0,.225f,-.222f),new Vector3(0,.26f,-.184f)},new[]{new Vector2(.104f,.027f),new Vector2(.135f,.038f),new Vector2(.129f,.037f),new Vector2(.109f,.018f)},10,.64f);
    for(int side=-1;side<=1;side+=2)body.Loft(new[]{new Vector3(side*.186f,.085f,-.096f),new Vector3(side*.201f,.125f,-.103f),new Vector3(side*.200f,.275f,-.106f),new Vector3(side*.175f,.302f,-.093f)},new[]{new Vector2(.033f,.052f),new Vector2(.045f,.073f),new Vector2(.045f,.071f),new Vector2(.020f,.052f)},10,.68f);
    // Rolled leather flap edge, hand-shaped gussets and twin closure straps
@@ -164,7 +181,9 @@ namespace Kamilunavo.RisingSteps.Visuals
     body.Sweep(new[]{new Vector3(side*.08f,.095f,-.255f),new Vector3(side*.08f,.20f,-.263f),new Vector3(side*.08f,.295f,-.229f),new Vector3(side*.08f,.36f,-.241f)},new[]{.011f,.013f,.012f,.010f},new[]{.004f,.005f,.005f,.004f},6);
     body.Sweep(new[]{new Vector3(side*.206f,.114f,-.153f),new Vector3(side*.223f,.18f,-.164f),new Vector3(side*.206f,.27f,-.15f)},new[]{.005f,.005f,.004f},new[]{.004f,.004f,.003f},5);
    }
-   body.Finish();Pivot(pack,"PackPouches",Vector3.zero);
+   var shaped=body.Finish().GetComponent<MeshFilter>().sharedMesh;var packVertices=shaped.vertices;
+   for(int i=0;i<packVertices.Length;i++){var p=packVertices[i];float fold=Mathf.Sin(p.y*33+p.x*14)*.0035f*Mathf.Sin(Mathf.Clamp01(p.y/.49f)*Mathf.PI);p.x+=fold;p.z+=Mathf.Sin(p.x*23+p.y*17)*.004f;packVertices[i]=p;}
+   shaped.vertices=packVertices;RunnerMeshBuilder.RefreshLighting(shaped);Pivot(pack,"PackPouches",Vector3.zero);
    var straps=new RunnerMeshBuilder(animator.Hips,"PackShoulderStraps",canvas);
    for(int side=-1;side<=1;side+=2){
     straps.Sweep(new[]{new Vector3(side*.16f,.12f,.113f),new Vector3(side*.174f,.34f,.142f),new Vector3(side*.183f,.53f,.101f),new Vector3(side*.177f,.592f,-.008f),new Vector3(side*.172f,.51f,-.162f),new Vector3(side*.152f,.32f,-.256f)},new[]{.017f,.021f,.024f,.025f,.023f,.019f},new[]{.008f,.010f,.011f,.012f,.010f,.008f},8);
@@ -174,18 +193,19 @@ namespace Kamilunavo.RisingSteps.Visuals
    }
    straps.Sweep(new[]{new Vector3(-.065f,.555f,-.243f),new Vector3(-.057f,.635f,-.232f),new Vector3(.057f,.635f,-.232f),new Vector3(.065f,.555f,-.243f)},new[]{.009f,.009f,.009f,.009f},new[]{.009f,.009f,.009f,.009f},7);straps.Finish();
   }
+#endif
   static Texture2D CanvasDetail(GameObject owner)
   {
-   const int size=64;var pixels=new Color[size*size];for(int y=0;y<size;y++)for(int x=0;x<size;x++){float weave=((x+y)%2==0?.045f:-.045f)+Mathf.Sin(x*.61f+y*.31f)*.018f;pixels[y*size+x]=new Color(.88f+weave,.88f+weave,.88f+weave);}
-   var texture=new Texture2D(size,size,TextureFormat.RGB24,true){name="RunnerCanvasWeave",wrapMode=TextureWrapMode.Repeat,filterMode=FilterMode.Bilinear};texture.SetPixels(pixels);texture.Apply(true,true);ArtLifetime.Own(owner,texture);return texture;
+   var original=Resources.Load<Texture2D>("Art/TravelFabric-v1");if(original==null||!original.isReadable||original.width!=64||original.height!=64)throw new System.InvalidOperationException("Missing readable64 original travel fabric");
+   var texture=new Texture2D(64,64,TextureFormat.RGB24,true){name="RunnerCanvasWeave",wrapMode=TextureWrapMode.Repeat,filterMode=FilterMode.Bilinear};texture.SetPixels(original.GetPixels());texture.Apply(true,false);ArtLifetime.Own(owner,texture);return texture;
   }
   static Material Material(GameObject owner,string name,Color color,float gloss)
-  {var material=new Material(Resources.Load<Material>("Materials/Surface")){name=name,color=color};material.SetFloat("_Glossiness",gloss);ArtLifetime.Own(owner,material);return material;}
+  {var material=new Material(Resources.Load<Material>("Materials/CharacterSurface")){name=name,color=color};material.SetFloat("_Glossiness",gloss);ArtLifetime.Own(owner,material);return material;}
   static Texture2D HairDetail(GameObject owner)
   {
    var original=Resources.Load<Texture2D>("Art/HairFlow-v1");
    if(original==null||!original.isReadable)throw new System.InvalidOperationException("Missing readable original hair artwork");
-   var texture=new Texture2D(original.width,original.height,TextureFormat.RGB24,true){name="RunnerHairStrandDetail",wrapMode=TextureWrapMode.Repeat,filterMode=FilterMode.Bilinear};texture.SetPixels(original.GetPixels());texture.Apply(true,true);ArtLifetime.Own(owner,texture);return texture;
+   var texture=new Texture2D(original.width,original.height,TextureFormat.RGB24,true){name="RunnerHairStrandDetail",wrapMode=TextureWrapMode.Repeat,filterMode=FilterMode.Bilinear};texture.SetPixels(original.GetPixels());texture.Apply(true,false);ArtLifetime.Own(owner,texture);return texture;
   }
   static Transform Pivot(Transform parent,string name,Vector3 at)
   {var transform=new GameObject(name).transform;transform.SetParent(parent,false);transform.localPosition=at;return transform;}
