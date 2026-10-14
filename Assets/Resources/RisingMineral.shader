@@ -8,6 +8,7 @@ Shader "Kamilunavo/RisingMineral"
   _BumpScale ("Relief strength", Range(0,1)) = .65
   _Metallic ("Metallic", Range(0,1)) = 0
   _Glossiness ("Smoothness", Range(0,1)) = .1
+  _OcclusionStrength ("Original model visibility", Range(0,1)) = .85
   _EmissionColor ("Emission", Color) = (0,0,0,1)
  }
  SubShader
@@ -18,8 +19,8 @@ Shader "Kamilunavo/RisingMineral"
   #pragma target 3.0
   sampler2D _MainTex, _BumpMap;
   fixed4 _Color, _EmissionColor;
-  half _BumpScale, _Metallic, _Glossiness;
-  struct Input { float2 uv_MainTex; float2 uv_BumpMap; };
+  half _BumpScale, _Metallic, _Glossiness, _OcclusionStrength;
+  struct Input { float2 uv_MainTex; float2 uv_BumpMap; float4 color:COLOR; };
   void surf(Input i, inout SurfaceOutputStandard o)
   {
    fixed4 color=tex2D(_MainTex,i.uv_MainTex)*_Color;
@@ -30,6 +31,9 @@ Shader "Kamilunavo/RisingMineral"
    n.xy*=_BumpScale;
    o.Normal=normalize(half3(n.xy,sqrt(max(.0001,1-saturate(dot(n.xy,n.xy))))));
    o.Metallic=_Metallic; o.Smoothness=_Glossiness; o.Emission=_EmissionColor.rgb;
+   // Old generated surfaces have no visibility channel (zero or white). New
+   // original model sub-assets contain real positive baked mesh visibility.
+   o.Occlusion=lerp(1,i.color.a>0?saturate(i.color.a):1,_OcclusionStrength);
   }
   ENDCG
  }

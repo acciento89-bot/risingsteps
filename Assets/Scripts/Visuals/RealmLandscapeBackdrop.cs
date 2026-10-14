@@ -46,7 +46,7 @@ namespace Kamilunavo.RisingSteps.Visuals
      for(int i=0;i<7;i++){
       var p=Point(i,-17);LandscapeGeometry.Rock(root.transform,"JungleKarst",p,new Vector3(20,20+i%3*3,19),stone,i);
       LandscapeBotany.Branch(root.transform,"AncientCanopyTrunk",new[]{p,p+new Vector3(-1,12,0),p+new Vector3(3,23,1)},new[]{1.6f,1.0f,.50f},accent,12);
-      for(int j=0;j<3;j++)LandscapeBotany.LeafMass(root.transform,p+new Vector3((j-1)*5,22+j%2*2,j*3),new Vector3(17,10,15),LandscapePalette.Surface(parent,realm,3),i*9+j);
+      for(int j=0;j<3;j++)LandscapeBotany.LeafCluster(root.transform,"CanopyHorizonLeafSprays",p+new Vector3((j-1)*5,22+j%2*2,j*3),new Vector3(17,10,15),LandscapePalette.Surface(parent,realm,3),i*9+j,32);
      }break;
     case RisingRealmTheme.Crystal:
      for(int i=0;i<5;i++){
@@ -116,7 +116,7 @@ namespace Kamilunavo.RisingSteps.Visuals
     ledge.transform.localRotation=Quaternion.Euler(2,Mathf.Sin(seed+bed)*7,Mathf.Cos(seed+bed*1.6f)*3);LandscapeGeometry.StoneUv(ledge,.13f);
    }
   }
-  static Vector3 Point(int i,float height)=>new Vector3((i%2==0?-1:1)*(37+i%3*10),height+i%3*3,24+i*18);
+  static Vector3 Point(int i,float height)=>new Vector3((i%2==0?-1:1)*(24+i%3*8),height+i%3*3,24+i*18);
   static void Peak(Transform p,string name,Vector3 pos,Vector3 size,Material material,int sides,int seed)
   {
    var v=new System.Collections.Generic.List<Vector3>();var t=new System.Collections.Generic.List<int>();

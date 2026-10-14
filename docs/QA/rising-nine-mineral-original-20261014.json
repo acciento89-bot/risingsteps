@@ -1,0 +1,20 @@
+{
+  "generator": "Built-in image_gen, original raster generation; no API fallback",
+  "rawOutput": "/Users/piotrkaminski/.codex/generated_images/01a11788-3eb6-7e32-963e-51b37d78e2ed/exec-62c69548-031a-42be-9bed-2c22f0230b5b.png",
+  "projectAsset": "Assets/Resources/Art/RealmMinerals-v1.png",
+  "preservation": "Byte-for-byte original1254square PNG; no scripted raster editing. Actual Unity importer preserves exact3x3cell alignment. Owned runtime256square per-realm samples and explicit linear XYZ normal textures.",
+  "realmCells": [
+    0,
+    1,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "prompt": "Use case: stylized-concept. Asset type: one original 3-by-3 seamless mineral surface atlas for actual 3D Unity mobile fantasy game Rising Steps, matching the hand-authored softly beveled realistic stylized sandstone of our accepted temple realm. Create ONE square bitmap divided into EXACTLY THREE equal columns and THREE equal rows, nine precisely square edge-to-edge texture cells with no gutters, no margins, no frames, no text or labels. Every cell is a flat orthographic close-up diffuse/albedo material sample under neutral perfectly even studio illumination, no perspective, no scene objects, no cast shadows, no ambient occlusion, no dramatic light gradients. Top row left to right: (1) bright warm ivory meadow limestone with fine bedding and gently worn small mineral grains, (2) cool white waterfall calcite with pale very subtle aqua mineral traces and eroded fine layers, (3) muted light gray jungle shale with sparse restrained olive moss in hairline fissures. Middle row left to right: (4) soft slate lilac geode host rock with tiny embedded dull quartz veins, no giant crystals, (5) pale blue-gray frost stone with finely fractured icy mineral traces, opaque rather than transparent, (6) warm light beige desert sandstone with delicate sedimentary ripple striations. Bottom row left to right: (7) medium neutral charcoal volcanic basalt with tiny pores and very narrow muted rusty seams, no bright lava, (8) pale warm chalk coastal stone with softened sea-worn subtle horizontal strata, (9) cool silver blue-gray moonstone with fine silver mineral threads, no stars painted on top. Fine but restrained premium hand-painted/PBR game albedo; all nine samples with similar gently varied small surface feature scale, readable yet quiet at256px; avoid large block seams, avoid brick walls, avoid high-contrast black cracks, avoid speckled television noise, no highlight glare, no ornament or symbols. Each cell must internally tile in both directions. Full square atlas3x3completely fills image.",
+  "rawSha256": "bba914cdb81fc163b344da777468c7e6749d428234f76a360b6645b2599cd6f6",
+  "projectSha256": "bba914cdb81fc163b344da777468c7e6749d428234f76a360b6645b2599cd6f6"
+}

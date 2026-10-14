@@ -30,6 +30,6 @@ namespace Kamilunavo.RisingSteps.Visuals
     var fillObject=new GameObject("TempleSoftFill",typeof(Light));fillObject.transform.SetParent(parent,false);fillObject.transform.localRotation=Quaternion.Euler(32,-28,0);
     var fill=fillObject.GetComponent<Light>();fill.type=LightType.Directional;fill.color=new Color(.77f,.85f,1);fill.intensity=.52f;fill.shadows=LightShadows.None;fill.cullingMask=~(1<<31);
    }
-   RealmArt.BuildBackdrop(parent,realm);if(realm==1)RisingWaterGarden.Build(parent);}
+   RealmArt.BuildBackdrop(parent,realm);if(realm==1)RisingWaterGarden.Build(parent);else if(realm!=2)NaturalRealmLandscape.Build(parent,realm);}
  }
 }

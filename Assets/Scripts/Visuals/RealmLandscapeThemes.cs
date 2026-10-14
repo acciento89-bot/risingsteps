@@ -34,7 +34,7 @@ namespace Kamilunavo.RisingSteps.Visuals
    for(int j=0;j<3;j++){
     float a=j*2.094f;var branch=new Vector3(Mathf.Cos(a)*.62f,h-.16f+j*.14f,Mathf.Sin(a)*.6f);
     LandscapeBotany.Branch(tree.transform,"CanopyBough",new[]{Vector3.up*h*.62f,branch},new[]{.09f,.025f},bark,7);
-    LandscapeBotany.LeafMass(tree.transform,branch,new Vector3(1.20f,.80f,1.09f),j==0?sun:leaf,seed+j);
+    LandscapeBotany.LeafCluster(tree.transform,"JungleLayeredLeafSprays",branch,new Vector3(1.20f,.80f,1.09f),j==0?sun:leaf,seed+j,48);
     BroadLeaves(tree.transform,"JungleBroadLeaf",branch,1.20f,j+seed,leaf,7);
     var vine=branch+Vector3.right*.30f;LandscapeBotany.Branch(tree.transform,"HangingLiana",new[]{vine,vine+new Vector3(.12f,-.9f,.10f),vine+new Vector3(-.12f,-1.65f,.09f)},new[]{.018f,.015f,.008f},bark,5);
    }
@@ -68,12 +68,8 @@ namespace Kamilunavo.RisingSteps.Visuals
     LandscapeGeometry.Rock(p,"SnowOverhang",point,new Vector3(.60f,.17f,.42f),snow,seed+i);
     var icicle=Spire(p,"FrostIcicle",point-Vector3.up*.06f,.085f,.48f+(i%3)*.27f,5,ice,seed+i);icicle.transform.localRotation=Quaternion.Euler(180,0,0);
    }
-   var tree=Root(p,"FrostFir",new Vector3(-size*.88f,.62f,-size*.37f));float h=scenic?3.4f:2.1f;
-   LandscapeBotany.Branch(tree.transform,"FirTrunk",new[]{Vector3.zero,Vector3.up*h},new[]{.10f,.025f},trunk,7);
-   for(int i=0;i<4;i++){
-    float r=(.70f-i*.13f)*(scenic?1.3f:1);var layer=Spire(tree.transform,"FirBough",Vector3.up*(.37f+i*h*.16f),r,h*.37f,10,pine,seed+i);
-    Spire(layer.transform,"FirSnow",Vector3.up*h*.08f,r*.88f,h*.30f,10,snow,seed+i);
-   }
+   if(scenic){var fir=NaturalRealmArt.Instance(p,realm);fir.name="FrostFir";fir.transform.localPosition=new Vector3(-size*.88f,.62f,-size*.37f);fir.transform.localScale=Vector3.one*1.3f;}
+
   }
   static void Desert(Transform p,int seed,int realm,float size)
   {

@@ -9,6 +9,7 @@ public static class RisingArtImports
   ImportOriginal("Assets/Resources/Art/AuthoredLimestoneAlbedo-v2.png",256,true,true);
   ImportOriginal("Assets/Resources/Art/StratifiedLimestone-v3.png",256,true,true);
   ImportOriginal("Assets/Resources/Art/TempleSandstone-v1.png",256,true,true);
+  ImportOriginal("Assets/Resources/Art/RealmMinerals-v1.png",2048,true,false);var realmAtlas=AssetImporter.GetAtPath("Assets/Resources/Art/RealmMinerals-v1.png") as TextureImporter;realmAtlas.npotScale=TextureImporterNPOTScale.None;realmAtlas.SaveAndReimport();
   ImportOriginal("Assets/Resources/Art/SkyAtlasHero-v2.png",1024,false,false);
   ImportOriginal("Assets/Resources/Art/AtlasHero-v3.png",1024,false,false);
   ImportOriginal("Assets/Resources/Art/TempleChapter-v2.png",512,false,false);
@@ -28,7 +29,7 @@ public static class RisingArtImports
   var leaves=AssetImporter.GetAtPath("Assets/Resources/Art/CanopyLeaves-v1.png") as TextureImporter;leaves.alphaIsTransparency=true;leaves.SaveAndReimport();Create("CanopySurface","Kamilunavo/RisingCanopy");
   Create("PortalLight","Kamilunavo/RisingPortal");
   Create("SolarSurface","Kamilunavo/RisingSolar");
-  var icon=AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Resources/Art/RisingStepsIcon.png");if(icon!=null)PlayerSettings.SetIconsForTargetGroup(BuildTargetGroup.Unknown,new[]{icon});AssetDatabase.SaveAssets();TemplePlatformAssetBake.Ensure();RisingRunnerAssetBake.Ensure();}
+  var icon=AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Resources/Art/RisingStepsIcon.png");if(icon!=null)PlayerSettings.SetIconsForTargetGroup(BuildTargetGroup.Unknown,new[]{icon});AssetDatabase.SaveAssets();TemplePlatformAssetBake.Ensure();NaturalRealmAssetBake.Ensure();RisingRunnerAssetBake.Ensure();}
  private static void ImportOriginal(string path,int max,bool readable,bool repeat){var t=AssetImporter.GetAtPath(path) as TextureImporter;if(t==null)throw new System.Exception("Missing original artwork "+path);t.maxTextureSize=max;t.textureType=TextureImporterType.Default;t.sRGBTexture=true;t.isReadable=readable;t.mipmapEnabled=true;t.wrapMode=repeat?TextureWrapMode.Repeat:TextureWrapMode.Clamp;t.anisoLevel=2;if(path.Contains("Chapter-")||path.Contains("ChapterAtlas-")||path.Contains("AtlasHero-"))t.npotScale=TextureImporterNPOTScale.None;t.textureCompression=readable?TextureImporterCompression.Uncompressed:TextureImporterCompression.Compressed;t.SaveAndReimport();}
  private static void Create(string name,string shader){string path="Assets/Resources/Materials/"+name+".mat";var existing=AssetDatabase.LoadAssetAtPath<Material>(path);var found=Shader.Find(shader);if(found==null)throw new System.Exception("Missing required shader "+shader);if(existing!=null){if(existing.shader!=found){existing.shader=found;EditorUtility.SetDirty(existing);}return;}AssetDatabase.CreateAsset(new Material(found),path);}
 }

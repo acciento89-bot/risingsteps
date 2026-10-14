@@ -1,15 +1,20 @@
 {
   "game": "Rising Steps",
-  "status": "failed",
-  "sourceSha256": "bca059a37e902a75c2ffef5f8373cc287b2d703bd9f33eb1ab9bc8b8b607c58c",
-  "reviewer": "Codex actual Unity Mac player framebuffer; unchanged approved Oct10 Concept",
-  "reviewedAt": "2026-10-14",
-  "reason": "Whole Concept likeness still FAILED: actor fidelity, botanical/material richness and cinematic Temple atmosphere/composition remain below target; menu identity pending. No numerical90percent claim, physical-device FPS/thermal/ad/paid transaction assertion, version bump or TestFlight upload. Actual broad square models now have verified open gaps of at least1.239166m; bridging foundation removed. Finer own hair and original-texture relief/Temple sunset pass integrated.",
+  "status": "passed",
+  "sourceSha256": "0c38d1dc862ba07751b6b78f866d23b78ceda9bd62d03cc0eab9dd5254ecc436",
+  "reviewer": "Codex actual current Unity native frame inspection against the user-accepted practical Temple baseline, original Concept as direction",
+  "reviewedAt": "2026-10-14T19:31:51.613922+00:00",
+  "reason": "The user accepts the current Temple quality and asks that the other nine realms receive comparable authored detail. Current original per-realm mineral/normal/model/vegetation work, real supporting landforms and distinct native views meet that revised practical target. The requested Concept mountain/live height/bar is integrated and checked on compact portrait and small landscape. Main menu has its own Rising wordmark/cream-green atlas with rectangular original realm cards, visible Shop/wallet and actual parent Back. This is not cinematic or numerical90percent equivalence to the original generated Concept. Native behavior and bounds/ownership budgets pass; device/platform release checks still apply.",
+  "targetAdjustment": {
+    "userStatement": "Die Grafik ist auch so schon okay; diese Grafik wie wir im Tempel haben benötigen wir als Qualität für die anderen Zonen. Höhenfortschritt wie im Concept mit dem Berg daneben.",
+    "acceptedTempleBaselineSource": "bca059a37e902a75c2ffef5f8373cc287b2d703bd9f33eb1ab9bc8b8b607c58c",
+    "scope": "Comparable authored detail in the nine natural realms, their own identities, mountain/live height/bar HUD. This practical target supersedes insisting on cinematic equivalence for this slice; no numerical90-95percent claim."
+  },
   "criteria": {
-    "concept_similarity": "failed",
-    "character_or_tower": "failed",
+    "concept_similarity": "passed",
+    "character_or_tower": "passed",
     "world_variants": "passed",
-    "menu_identity": "pending",
+    "menu_identity": "passed",
     "submenu_navigation": "passed",
     "readability": "passed"
   },
@@ -19,100 +24,151 @@
         "path": "/Volumes/SSK SSD/Kamilunavo/Artifacts/KamilunavoDelivery-20261009/concepts-20261010/rising-steps-3-ansichten.png",
         "sha256": "af95191bb081597bc0652516bc244bd7b922149ca87ce3913b486da7c138c627",
         "origin": "approved-concept"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-2-mid.png",
+        "sha256": "6899e272d99d3124d464ac6dfc19360a7e933d0e90b1049b08bc7cc1d6a812d1",
+        "origin": "user-accepted-Unity-baseline"
       }
     ],
     "menu": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-0-menu.png",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-0-menu.png",
         "sha256": "1f13eef406a08dacb11ba9385aac21febbd39fe27610e28fdab36dd33c2051ec",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-9-menu.png",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-9-menu.png",
         "sha256": "b70180c1d4f5618f5c24c998bcaf73b3ec6de0dc2adc1ec5506063a5b85f6dbc",
         "origin": "Unity-render"
       }
     ],
     "gameplay": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-1-stride.png",
-        "sha256": "b5ae1a292d648e80ccde15379cff3384ad21f0288226d7efb589c70259a20f7a",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-0-mid.png",
+        "sha256": "d99f717b2e96156ad8a1187d04e99dd0ad574bff90719761909c7a5bf896ac7b",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-2-approach.png",
-        "sha256": "233b9bfcb9fdeae011710779ac3b24fb2ae4f7db8755afad370f9596f79176f0",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-1-mid.png",
+        "sha256": "ab388bb49b8cecf0de14bba97bf72be33823c48bd6f95a50013b2ca315ec9b30",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-2-mid.png",
-        "sha256": "6899e272d99d3124d464ac6dfc19360a7e933d0e90b1049b08bc7cc1d6a812d1",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-2-mid.png",
+        "sha256": "99e0f17f7dbf510a7d86dcf7f3e492d3a4de17f3c600f6bff0255b0b87d986c6",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-3-mid.png",
+        "sha256": "f47486a367e09297b60827586e5725e1c871f5d0f6f30292b02bc31dbfc6ea1a",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-4-mid.png",
+        "sha256": "30fdd53108161da9bb8b22acb2a01afe2486544371488607fa56614067250c77",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-5-mid.png",
+        "sha256": "d60a5ab05ede275dc0b3ccca26a250ed0ae42dcbef0aeda0d943f5fdf0d812fc",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-6-mid.png",
+        "sha256": "c289fa5bcb646d1512d12e03a09e53ce15c53a1abe0f5671e71258d45a6bb242",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-7-mid.png",
+        "sha256": "c217964b06896d29be3c60e23947269e75073690c76fd217e6aed784e9f7dbb6",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-8-mid.png",
+        "sha256": "ac5f4a82df2788151c2e2ca2de6c244d847d42124146d7adabc38450f48a9cd7",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-9-mid.png",
+        "sha256": "68a756600bcd54e29a9fa9ed981fe8e53c264324503d35b325f6285b64dd168d",
         "origin": "Unity-render"
       }
     ],
     "submenus": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-0-levels.png",
-        "sha256": "5e08c35ee4f54b00d609d7fe6046bb63a3649e832470a8ed289279642e28c045",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckDefault/settings.png",
+        "sha256": "caef751874a8aae67334cacd1d38715b5042d24aa0c7eaa81170ec17f954d0ac",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-2-levels.png",
-        "sha256": "876faeed5b540f7394ac9b2efa9a44350ab373765ee0210ffc0a4be6d619235a",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckDefault/shop.png",
+        "sha256": "959cd5336b01da1bb0ef439b83c79ad8818e913c653d62d04df21afa1cdd1b10",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-0-levels.png",
+        "sha256": "5e08c35ee4f54b00d609d7fe6046bb63a3649e832470a8ed289279642e28c045",
         "origin": "Unity-render"
       }
     ],
     "variants": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-0-mid.png",
-        "sha256": "22fc455350237287c176f0dbdf86ab7fd2823dae018c98110a08e6fa776c86ed",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-0-mid.png",
+        "sha256": "d99f717b2e96156ad8a1187d04e99dd0ad574bff90719761909c7a5bf896ac7b",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-1-mid.png",
-        "sha256": "99555cadd7218dce5501dc478f1a04a20242785d20c242e5c48501322a41cbc7",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-1-mid.png",
+        "sha256": "ab388bb49b8cecf0de14bba97bf72be33823c48bd6f95a50013b2ca315ec9b30",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-2-mid.png",
-        "sha256": "6899e272d99d3124d464ac6dfc19360a7e933d0e90b1049b08bc7cc1d6a812d1",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-2-mid.png",
+        "sha256": "99e0f17f7dbf510a7d86dcf7f3e492d3a4de17f3c600f6bff0255b0b87d986c6",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-3-mid.png",
-        "sha256": "d7ae8c0903ff7e05e6e0f62af44ba159854a2ad97e58e2aca1365b37ddd91421",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-3-mid.png",
+        "sha256": "f47486a367e09297b60827586e5725e1c871f5d0f6f30292b02bc31dbfc6ea1a",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-4-mid.png",
-        "sha256": "c8f0e13498d2bd421d86c13e92b7098af96680f39706efcb81834a6a749afc66",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-4-mid.png",
+        "sha256": "30fdd53108161da9bb8b22acb2a01afe2486544371488607fa56614067250c77",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-5-mid.png",
-        "sha256": "63e580e221c03a7aab10c18b86e9173d47ccfbb82e0d553fc7e34c33ce178a5e",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-5-mid.png",
+        "sha256": "d60a5ab05ede275dc0b3ccca26a250ed0ae42dcbef0aeda0d943f5fdf0d812fc",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-6-mid.png",
-        "sha256": "459bc4171a652de7ea020c61378f025d6d385222d1657e11518d5c9820c3197c",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-6-mid.png",
+        "sha256": "c289fa5bcb646d1512d12e03a09e53ce15c53a1abe0f5671e71258d45a6bb242",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-7-mid.png",
-        "sha256": "e8b060a6bd9f5aa32f502e7b9559359abf8e4d09a94883a46c05435ea925cdfc",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-7-mid.png",
+        "sha256": "c217964b06896d29be3c60e23947269e75073690c76fd217e6aed784e9f7dbb6",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-8-mid.png",
-        "sha256": "bb1b56a7fab87745fcb5362b6c6f5ada02195036930102eeb6acf16254c73b0d",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-8-mid.png",
+        "sha256": "ac5f4a82df2788151c2e2ca2de6c244d847d42124146d7adabc38450f48a9cd7",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OpenTempleGapsRuntime/world-9-mid.png",
-        "sha256": "cc4bfa2fd580484395a7fcc95588d3638f5f5159becb87318cdacc87e490165e",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/world-9-mid.png",
+        "sha256": "68a756600bcd54e29a9fa9ed981fe8e53c264324503d35b325f6285b64dd168d",
         "origin": "Unity-render"
       }
     ]
-  }
+  },
+  "qaReceipt": "docs/QA/rising-nine-realm-parity-mountain-20261014.json",
+  "comparisonSources": {
+    "path": "/Volumes/SSK SSD/Kamilunavo/Artifacts/RisingRealmParity-20261014/sources.json",
+    "sha256": "6d29d7363e48e76da53b24fc51cc5f49a376a7fa937dd7454ae23cbbc2b16ac5"
+  },
+  "limits": "Native macOS Unity proof and Editor UI/build validation only. No physical-device FPS/thermal, real-ad delivery, paid transaction, new full100-course climb, TestFlight upload or Apple review submission claimed."
 }

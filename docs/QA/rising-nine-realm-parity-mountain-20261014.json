@@ -1,0 +1,174 @@
+{
+  "sourceSha256": "0c38d1dc862ba07751b6b78f866d23b78ceda9bd62d03cc0eab9dd5254ecc436",
+  "editorBuildExit": 0,
+  "build": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheck.app",
+  "buildLog": {
+    "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/nine-realm-parity-release-check-build.log",
+    "sha256": "bc7382121c975fef94ac85657456c82deec21842f4d10ac0aabdc3bc7a44595c"
+  },
+  "requestedTarget": {
+    "userStatement": "Die Grafik ist auch so schon okay; diese Grafik wie wir im Tempel haben benötigen wir als Qualität für die anderen Zonen. Höhenfortschritt wie im Concept mit dem Berg daneben.",
+    "acceptedTempleBaselineSource": "bca059a37e902a75c2ffef5f8373cc287b2d703bd9f33eb1ab9bc8b8b607c58c",
+    "scope": "Comparable authored detail in the nine natural realms, their own identities, mountain/live height/bar HUD. This practical target supersedes insisting on cinematic equivalence for this slice; no numerical90-95percent claim."
+  },
+  "originalAssetProvenance": "docs/QA/rising-nine-mineral-original-20261014.json",
+  "naturalModels": {
+    "library": "Assets/Resources/Models/NaturalRealms-v1.asset",
+    "digest": "6adaed9add24fb9c06508065c199c61fb532a996be607b9638e528305577810b",
+    "genuineMeshSubAssets": 127,
+    "verticesByRealm": {
+      "0": 474,
+      "1": 270,
+      "3": 402,
+      "4": 588,
+      "5": 3300,
+      "6": 418,
+      "7": 1121,
+      "8": 374,
+      "9": 337
+    },
+    "bakedVisibilityRays": 8,
+    "editablePrefabs": 9,
+    "realConnectedSupport": "Eroded stone outrigger with flat0.6m upper surface and shallow Cascade lily basin; no new collider. Entire model bounds supported; existing cliff core overlap measured.",
+    "ownedRuntimeTextures": "256square per-realm diffuse and explicit linear XYZ normals from retained original3x3mineral atlas; role palette cached/owned by root; borrowed immutable meshes protected before registration."
+  },
+  "worldChanges": [
+    "Layered folded jungle canopies and orchids",
+    "Branched snow spruces with20boughs and180modeled folded needle blades",
+    "Ribbed flowering desert cactus",
+    "Carved quartz shrine",
+    "Basalt vent with emissive molten bowl",
+    "Modeled coastal beacon and lantern",
+    "Moonstone obelisk with three orbital inlays",
+    "Meadow garden flowers and Cascade lilies",
+    "Distinct near-field terraced bank compositions outside protected x±4.8m corridor"
+  ],
+  "retainedBudgets": {
+    "maxIslandVertices": 29752,
+    "islandCeiling": 30000,
+    "maxBackdropVertices": 65482,
+    "backdropCeiling": 70000,
+    "originalPaletteMaterialCeiling": 12,
+    "originalPaletteActualAlbedoAndNormalTextureCeiling": 5,
+    "noDecorativeColliders": true
+  },
+  "heightHud": {
+    "originalVectorMountain": true,
+    "font": "Existing licensed Cinzel resource, fixed14canvasunits; compact12units",
+    "progress": "Actual earned Step/12; mountain next to localized HÖHE/HEIGHT; bar underneath",
+    "actualTextGenerationFixtures": {
+      "panes": [
+        [
+          375,
+          627
+        ],
+        [
+          734,
+          343
+        ],
+        [
+          667,
+          375
+        ],
+        [
+          600,
+          343
+        ],
+        [
+          190,
+          627
+        ]
+      ],
+      "languages": [
+        "de",
+        "en"
+      ],
+      "heights": [
+        0,
+        4,
+        12
+      ],
+      "fullTextMetricsAndIconDisjointAndAllGroupsDisjointAndSafeAreaAnd48PointControls": true
+    },
+    "nativeComparison": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Artifacts/RisingRealmParity-20261014/hoehenanzeige-concept-unity.png",
+      "sha256": "3f0b8c2b9ff496b313f78aba65a53285950b136f7a85bd97a8fed4dc2b3cc80e"
+    },
+    "nativeCaptureHeights": [
+      0,
+      4,
+      11
+    ],
+    "completionNote": "Native step12 screenshot correctly shows completion overlay and was not mislabeled as a height12 HUD. Full12/12 height text/bar separately tested by actual Editor UI fixture."
+  },
+  "nativeChecks": {
+    "Worlds": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckRuntime/PASS.txt",
+      "sha256": "21960c19369e09e440747b873d74506366a160443bdb074addff535eb7c5ebf1",
+      "result": "RISING_TEN_WORLD_PREVIEW_PASS checks=205 actual60controllerjumps/tenworlds; isolated fixture unlocks for visual review only;100course acceptance remains pending"
+    },
+    "Menu": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckUi/PASS.txt",
+      "sha256": "eaae7f7dcc00a0affe9879d91621887aac3b98a799f4e498aca2c230b21974bb",
+      "result": "RISING_ORIGINAL_CHAPTERS_PASS 194 actual DE/EN portrait/landscape scrolling, seven distinct illustrated cards, real selection and parent Back; isolated unlock fixture only"
+    },
+    "Camera": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckCamera/PASS.txt",
+      "sha256": "ab67a0bd02f7e9ff166b12851d59ae110d3eb69c52632860b16a2b682ed929c6",
+      "result": "RISING_CAMERA_PASS 147"
+    },
+    "Tutorial": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckTutorial/PASS.txt",
+      "sha256": "0a9c3b718e88d750460458b871c134505045784e4315a804ba71b47d5e5ca04e",
+      "result": "RISING_TUTORIAL_PASS 13"
+    },
+    "Default": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckDefault/PASS.txt",
+      "sha256": "6406029038a0987c96fd782cc2174e39d6fd971769aee15f1a2730fefee07e18",
+      "result": "RISING_QA_PASS checks=199 actual controller 36 steps and natural fall; isolated save; no FPS claim"
+    },
+    "ColdTemple": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckColdTemple/RELOAD-PASS.txt",
+      "sha256": "c32fc4c4a9817686052f0370172d4422ce7467e87687cc385fabcde624955f8c",
+      "result": "Fresh native bootstrap restored step=12 realm=2 safe=(2.23, 12.57, 74.11)"
+    },
+    "PreviouslyEarned100Replay": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/NineRealmParityReleaseCheckCompletedReplay/PASS.txt",
+      "sha256": "8c1fe87b05d583b5e5085c80e653f977b65dcf2824449eb50bc4d20f288535d9",
+      "result": "RISING_COMPLETED_REPLAY_PASS 203 all100 previously earned level-card callbacks launch exact realm/level without losing independent stars; actual earned saved profile, no unlock fixture"
+    }
+  },
+  "exactCurrentTraversal": {
+    "worldPreviewJumps": 60,
+    "normalScenarioJumps": 36,
+    "all100CardReplay": 203,
+    "priorEarnedSaveUsedForReplay": true,
+    "currentFresh100CourseTraversalClaimed": false,
+    "coldTemple": "realm2/level9/step12 safe(2.23,12.57,74.11)"
+  },
+  "templeGeometryRegression": {
+    "completeModelPairs": 480,
+    "minimumGapMetres": 1.239166,
+    "naturalLayoutsAndCourseSeedsAndCollisionAndControllerUnchanged": true,
+    "campaignCourses": 10,
+    "additionalDailySeeds": 30
+  },
+  "authorityFiles": {
+    "Assets/Scripts/Gameplay/PlayerMotor.cs": "e44263fa6accdc57fd040d1ac14c928a2ea41b2ca569d4497156b17e147e5370",
+    "Assets/Scripts/Gameplay/RisingCourse.cs": "199ebff76c76427974c0e3d46ae8a13cb66060cb73e2a79e147695bcf3b05b0d",
+    "Assets/Scripts/Gameplay/CoursePatterns.cs": "645ccbdeeefe551577dde302a7486b74c34f6918e32be6e701497642a828ed27",
+    "Assets/Scripts/Core/RisingCampaign.cs": "da2d17f2de2781d5a7f8360d8280415511d13f63ff2dc9c0858a8d86e694cf23",
+    "Assets/Scripts/Core/RisingRules.cs": "8df277ff223616e22b2247c7ee3323dcbce2477d47b0f33733482bd05d165f67",
+    "Assets/Scripts/Visuals/PortalArt.cs": "89dfabcffc5fcf704992b34260a5a3c6a767266a400c88c193153c914b3a68e5",
+    "Assets/Scripts/Visuals/IslandArt.cs": "6de3bf6094d8eae9d9efd65befa666f593d2a7de27fb7f678e4e238f734202ba",
+    "Assets/Scripts/Visuals/TempleRouteArt.cs": "78111c448a4c98a3a1754d0a200b7034d4314510b4ca881567c282c0fee0508c"
+  },
+  "historicalAffectedTemplePhysics": "docs/QA/rising-open-temple-gaps-adventurer-20261014.json records120physically witnessed jumps/10Templeportals; not re-assigned as new traversal.",
+  "review": "Read-only reviewer found unsupported props, clipped narrow height label and smaller-landscape header overlap. All corrected; final review has no important findings. Native image inspection replaced rectangular support boards with real eroded outcrops and filled out spruce needles. Retained intermediate build/font-measure failures and passing earlier candidates are not final proof.",
+  "comparison": {
+    "path": "/Volumes/SSK SSD/Kamilunavo/Artifacts/RisingRealmParity-20261014/sources.json",
+    "sha256": "6d29d7363e48e76da53b24fc51cc5f49a376a7fa937dd7454ae23cbbc2b16ac5"
+  },
+  "visualPackAssessment": "Passed against user-accepted practical Temple baseline after actual current all-ten-native frame inspection, distinct materials/models/realm views and mountain HUD. Original cinematic Concept still visibly differs and no numeric equivalence is claimed.",
+  "limits": "Native macOS Unity proof and Editor UI/build validation only. No physical-device FPS/thermal, real-ad delivery, paid transaction, new full100-course climb, TestFlight upload or Apple review submission claimed."
+}

@@ -16,7 +16,7 @@ namespace Kamilunavo.RisingSteps.Visuals
    var ground=MeshArt.Mesh(parent,realm==2?"TempleSurface":realm==1?"CascadeSurface":realm==0?"MeadowSurface":RisingRealmCatalog.Theme(realm)+"Surface",gv,gt,guv,realm==0?MeshArt.Mat("Realm0Ground",RealmArt.Ground(0),0):MeshArt.Stone("Realm"+realm+"Ground",RealmArt.Ground(realm)),!scenic);StepMarker marker=null;if(!scenic){marker=ground.AddComponent<StepMarker>();marker.Index=index;
     var rim=MeshArt.Ring(parent,"GoldenLandingRim",size*(realm==2?1.10f:.74f),.032f,Surface+.018f,MeshArt.Mat("RouteGold",new Color(.91f,.63f,.15f),-1,true,.60f),realm==2?4:64);var contrast=MeshArt.Ring(parent,"RouteContrastRim",size*(realm==2?1.12f:.76f),.025f,Surface+.017f,MeshArt.Mat("RouteContrast",new Color(.025f,.07f,.10f)),realm==2?4:64);contrast.SetActive(false);
     var inner=MeshArt.Ring(parent,"InnerRouteRim",size*(realm==2?1.06f:.70f),.006f,Surface+.02f,MeshArt.Mat("RouteLight",new Color(.95f,.77f,.36f),-1,true,.30f),realm==2?4:64);if(realm==2){rim.transform.localRotation=contrast.transform.localRotation=inner.transform.localRotation=Quaternion.Euler(0,45,0);}}
-   SurfaceFinish(parent,ground,gv,gt,guv,realm);Vegetation(parent,radius,size,random,realm,index);RealmArt.Dress(parent,index,realm,size,scenic);
+   SurfaceFinish(parent,ground,gv,gt,guv,realm);Vegetation(parent,radius,size,random,realm,index);RealmArt.Dress(parent,index,realm,size,scenic);if(!scenic)NaturalRealmArt.Dress(parent,realm,index,size);
    return marker;
   }
   // Both rendered lips follow the same newly authored collision contour.

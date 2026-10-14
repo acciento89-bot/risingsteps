@@ -11,13 +11,14 @@ namespace Kamilunavo.RisingSteps.Visuals
  {
   private readonly Dictionary<int,Material> _materials=new();
   private Texture2D _mineral,_turf,_water,_sand,_ice,_pool,_mineralNormal,_cascadeFlow,_temple,_templeNormal;
+  readonly Texture2D[] _realmMinerals=new Texture2D[10],_realmNormals=new Texture2D[10];
   public static Material Pool(Transform parent)=>Owner(parent).Special(100);
   public static Material Moss(Transform parent)=>Owner(parent).Special(101);
   public static Material Canopy(Transform parent)=>Owner(parent).Special(102);
   public static Material TempleMasonry(Transform parent,int kind)=>Owner(parent).Masonry(kind);
   public static Material Surface(Transform parent,int realm,int kind=0)
   {
-   realm=(int)RisingRealmCatalog.Theme(realm);kind=Mathf.Clamp(kind,0,7);
+   realm=(int)RisingRealmCatalog.Theme(realm);kind=Mathf.Clamp(kind,0,8);
    return Owner(parent).Get(realm,kind);
   }
   public static Material Foliage(Transform parent,bool sunlit)=>Owner(parent).Get(0,sunlit?4:3);
@@ -84,21 +85,25 @@ namespace Kamilunavo.RisingSteps.Visuals
   // dark lines. Our shader explicitly decodes uncompressed linear XYZ/1,
   // avoiding target-specific imported normal packing (RGB, RG/AG or ASTC).
   private static float MineralRelief(Texture2D asset,float u,float v)=>asset.GetPixelBilinear(u,v).grayscale;
+  static Color RealmSample(Texture2D atlas,int realm,float u,float v){int tile=realm<2?realm:realm-1,col=tile%3,row=2-tile/3;float cell=atlas.width/3f;return atlas.GetPixelBilinear((col+(1+Mathf.Repeat(u,1)*(cell-2))/cell)/3f,(row+(1+Mathf.Repeat(v,1)*(cell-2))/cell)/3f);}
+  Texture2D RealmMineral(int realm){
+   if(_realmMinerals[realm]!=null)return _realmMinerals[realm];var original=Resources.Load<Texture2D>("Art/RealmMinerals-v1");if(original==null||!original.isReadable)throw new System.InvalidOperationException("Original nine-realm mineral atlas must be imported readable");
+   var pixels=new Color[256*256];for(int y=0;y<256;y++)for(int x=0;x<256;x++)pixels[y*256+x]=RealmSample(original,realm,x/256f,y/256f);
+   var texture=new Texture2D(256,256,TextureFormat.RGB24,true){name="LandscapeMineralAtlas",wrapMode=TextureWrapMode.Repeat,filterMode=FilterMode.Bilinear,anisoLevel=2};texture.SetPixels(pixels);texture.Apply(true,true);ArtLifetime.Own(gameObject,texture);return _realmMinerals[realm]=texture;
+  }
   private void MineralLighting(Material material,int realm)
   {
-   bool temple=realm==2;var normalTexture=temple?_templeNormal:_mineralNormal;
+   bool temple=realm==2;var normalTexture=temple?_templeNormal:_realmNormals[realm];
    if(normalTexture==null){
-   const int size=256;const float delta=1f/size;var pixels=new Color[size*size];var asset=Resources.Load<Texture2D>(temple?"Art/TempleSandstone-v1":"Art/StratifiedLimestone-v3");
+    const int size=256;const float delta=1f/size;var pixels=new Color[size*size];var asset=Resources.Load<Texture2D>(temple?"Art/TempleSandstone-v1":"Art/RealmMinerals-v1");
+    float Height(float u,float v)=>temple?MineralRelief(asset,u,v):RealmSample(asset,realm,u,v).grayscale;
     for(int y=0;y<size;y++)for(int x=0;x<size;x++){
-     float u=x*delta,v=y*delta;
-     float dx=(MineralRelief(asset,u+delta,v)-MineralRelief(asset,u-delta,v))*size*.012f;
-     float dy=(MineralRelief(asset,u,v+delta)-MineralRelief(asset,u,v-delta))*size*.012f;
+     float u=x*delta,v=y*delta;float dx=(Height(u+delta,v)-Height(u-delta,v))*size*.012f,dy=(Height(u,v+delta)-Height(u,v-delta))*size*.012f;
      var normal=new Vector3(-dx,-dy,1).normalized;pixels[y*size+x]=new Color(normal.x*.5f+.5f,normal.y*.5f+.5f,normal.z*.5f+.5f,1);
     }
-    normalTexture=new Texture2D(size,size,TextureFormat.RGBA32,true,true){name=temple?"TempleSandstoneNormal":"LandscapeMineralNormal",wrapMode=TextureWrapMode.Repeat,filterMode=FilterMode.Bilinear,anisoLevel=2};
-    normalTexture.SetPixels(pixels);normalTexture.Apply(true,true);ArtLifetime.Own(gameObject,normalTexture);if(temple)_templeNormal=normalTexture;else _mineralNormal=normalTexture;
+    normalTexture=new Texture2D(size,size,TextureFormat.RGBA32,true,true){name=temple?"TempleSandstoneNormal":"LandscapeMineralNormal",wrapMode=TextureWrapMode.Repeat,filterMode=FilterMode.Bilinear,anisoLevel=2};normalTexture.SetPixels(pixels);normalTexture.Apply(true,true);ArtLifetime.Own(gameObject,normalTexture);if(temple)_templeNormal=normalTexture;else _realmNormals[realm]=normalTexture;
    }
-   material.SetTexture("_BumpMap",normalTexture);material.SetFloat("_BumpScale",.65f);
+   material.SetTexture("_BumpMap",normalTexture);material.SetFloat("_BumpScale",realm==5?.32f:.65f);
   }
   private Material Special(int key)
   {
@@ -120,25 +125,26 @@ namespace Kamilunavo.RisingSteps.Visuals
   }
   private Material Get(int realm,int kind)
   {
-   int key=realm*8+kind;if(_materials.TryGetValue(key,out var existing))return existing;
-   bool mineralLighting=realm<3&&(kind==0||kind==1&&realm!=0);
+   int key=realm*9+kind;if(_materials.TryGetValue(key,out var existing))return existing;
+   bool mineralLighting=kind==0||kind==6||kind==1&&realm!=0&&realm!=3&&realm!=6&&realm!=8;
    // The serialized resource retains our explicit linear RGB normal shader.
-   var material=new Material(Resources.Load<Material>(mineralLighting?"Materials/MineralSurface":"Materials/Surface")){name="Landscape"+realm+"Surface"+kind};
-   if(kind==0){if(realm==2){if(_temple==null)_temple=Texture(8);material.mainTexture=_temple;}else{if(_mineral==null)_mineral=Texture(0);material.mainTexture=_mineral;}material.color=Mineral[realm];}
+   var material=new Material(Resources.Load<Material>("Materials/MineralSurface")){name="Landscape"+realm+"Surface"+kind};
+   if(kind==0){if(realm==2){if(_temple==null)_temple=Texture(8);material.mainTexture=_temple;}else material.mainTexture=RealmMineral(realm);material.color=realm>=3?Color.Lerp(Mineral[realm],Color.white,.55f):Mineral[realm];}
    else if(kind==1){
     material.color=Ground[realm];
     if(realm==0||realm==3){if(_turf==null)_turf=Texture(1);material.mainTexture=_turf;}
     else if(realm==6||realm==8){if(_sand==null)_sand=Texture(3);material.mainTexture=_sand;}
-    else{if(realm==2){if(_temple==null)_temple=Texture(8);material.mainTexture=_temple;}else{if(_mineral==null)_mineral=Texture(0);material.mainTexture=_mineral;}}
+    else{if(realm==2){if(_temple==null)_temple=Texture(8);material.mainTexture=_temple;}else material.mainTexture=realm==5?null:RealmMineral(realm);}
    }
    else if(kind==2){if(realm==1){if(_cascadeFlow==null)_cascadeFlow=Texture(7);material.mainTexture=_cascadeFlow;}else{if(_water==null)_water=Texture(2);material.mainTexture=_water;}material.color=realm==8?new Color(.75f,1,.94f):Color.white;}
    else if(kind==3)material.color=Leaves[realm];
    else if(kind==4)material.color=realm==0?new Color(.46f,.61f,.24f):realm==8?new Color(.93f,.99f,.95f):realm==9?new Color(.86f,.89f,.96f):Color.Lerp(Leaves[realm],new Color(.66f,.80f,.45f),.36f);
    else if(kind==5){material.color=Accent[realm];if(realm==5){if(_ice==null)_ice=Texture(4);material.mainTexture=_ice;}}
-   else if(kind==6)material.color=realm==7?new Color(.13f,.12f,.15f):Color.Lerp(Mineral[realm],Color.black,.48f);
+   else if(kind==6){material.color=realm==7?new Color(.30f,.29f,.32f):Color.Lerp(Mineral[realm],Color.black,.35f);material.mainTexture=realm==2?(_temple??=Texture(8)):RealmMineral(realm);}
+   else if(kind==8)material.color=realm==3?new Color(.94f,.37f,.60f):realm==1?new Color(.91f,.74f,.94f):realm==6?new Color(.96f,.51f,.37f):new Color(1,.97f,.84f);
    else{
     material.color=realm==7?new Color(1,.31f,.035f):realm==9?new Color(.69f,.83f,1):new Color(.41f,.85f,.96f);
-    material.EnableKeyword("_EMISSION");material.SetColor("_EmissionColor",material.color*(realm==7?.85f:.36f));
+    material.EnableKeyword("_EMISSION");material.SetColor("_EmissionColor",material.color*(realm==7?1.50f:realm==9?.85f:.36f));
    }
    material.SetFloat("_Glossiness",kind==2?.44f:realm==4&&kind>=5?.42f:realm==5&&kind==5?.57f:.07f);
    if(mineralLighting)MineralLighting(material,realm);
