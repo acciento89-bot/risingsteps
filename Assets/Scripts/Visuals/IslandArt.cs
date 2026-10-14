@@ -145,6 +145,7 @@ namespace Kamilunavo.RisingSteps.Visuals
   }
 
  }
- public sealed class WaterfallFlow:MonoBehaviour{private RisingCourse _course;private Renderer[] _r;private MaterialPropertyBlock _b;private void Awake(){_course=GetComponentInParent<RisingCourse>();var ribbons=new List<Renderer>();foreach(var renderer in GetComponentsInChildren<Renderer>())if(renderer.name=="WaterRibbon")ribbons.Add(renderer);_r=ribbons.ToArray();_b=new MaterialPropertyBlock();}private void Update(){
-   float light=_course!=null&&_course.Profile!=null&&_course.Profile.ReducedMotion?1:.96f+.04f*Mathf.Sin(Time.time*1.8f+transform.localPosition.x);_b.SetColor("_Color",new Color(light,light,light));foreach(var renderer in _r)renderer.SetPropertyBlock(_b);}}
+ public sealed class WaterfallFlow:MonoBehaviour{private RisingCourse _course;private Renderer[] _r;private MaterialPropertyBlock _b;private float _flowTime;private void Awake(){_course=GetComponentInParent<RisingCourse>();var ribbons=new List<Renderer>();foreach(var renderer in GetComponentsInChildren<Renderer>())if(renderer.name=="WaterRibbon")ribbons.Add(renderer);_r=ribbons.ToArray();_b=new MaterialPropertyBlock();}private void Update(){
+   bool reduced=_course!=null&&_course.Profile!=null&&_course.Profile.ReducedMotion;if(!reduced&&(_course==null||!_course.Paused))_flowTime+=Time.deltaTime;_b.SetVector("_MainTex_ST",new Vector4(1,1,0,_flowTime*.18f));
+   float light=reduced?1:.96f+.04f*Mathf.Sin(Time.time*1.8f+transform.localPosition.x);_b.SetColor("_Color",new Color(light,light,light));foreach(var renderer in _r)renderer.SetPropertyBlock(_b);}}
 }

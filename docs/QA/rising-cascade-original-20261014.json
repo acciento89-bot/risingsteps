@@ -1,0 +1,8 @@
+{
+  "generator": "built-in image_gen",
+  "path": "Assets/Resources/Art/CascadeFlow-v1.png",
+  "original": "/Users/piotrkaminski/.codex/generated_images/01a11788-3eb6-7e32-963e-51b37d78e2ed/exec-7c5d3fa0-6f3b-4652-b8be-a3171874221f.png",
+  "prompt": "Use case: ORIGINAL seamless material albedo for a real 3D flowing waterfall mesh in the Unity fantasy adventure Rising Steps. Texture only, full square image, flat orthographic front view, no scene, objects, horizon, rocks or UI. Luminous clear turquoise and pale aqua falling water with many irregular vertical foamy ivory-white streams, soft broken translucent threads, varied streak widths and gently curling surface ripples. A full, natural substantial curtain of cascading water, not evenly spaced cyan lines. Stylized premium storybook 3D fantasy materials matching pale limestone gardens and clear blue pools. Moderate contrast, subtle cool depth between threads, avoid blown-out pure white and black, no high-frequency noisy glitter or thick graphic stripe pattern. Neutral albedo illumination, no directional shadow or perspective. All four edges tile seamlessly so the waterfall shader can repeat and scroll this source. No text, logos, borders or watermarks. Square composition.",
+  "sha256": "2c97ccc3026721d60191f6f57d221cb79156eb3ccef93eb767f781b2adbfc004",
+  "role": "Unmodified original waterfall film albedo imported256/readable/repeat. Replaces the Waterfall realm's existing flowing-water texture slot; CloudCoast keeps its existing ocean texture. Original3D meshes use this asset; no generated gameplay background."
+}

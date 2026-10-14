@@ -19,7 +19,7 @@ namespace Kamilunavo.RisingSteps.Visuals
       for(int tree=0;tree<3;tree++)LandscapeBotany.Tree(root.transform,p+new Vector3((tree-1)*3.3f,8.05f,tree%2*2),i*4+tree,2.3f+(i+tree)%3*.45f,true);
      }break;
     case RisingRealmTheme.Waterfall:
-     for(int i=0;i<7;i++){
+     for(int i=0;i<3;i++){
       var p=GardenPoint(i);if(i==0)p.x-=5;Highland(root.transform,p,realm,i,stone);
       MeshArt.Oval(root.transform,"HighlandLake",p+Vector3.up*7.94f,new Vector3(10,.13f,8.8f),LandscapePalette.Pool(parent),24);
       var fall=new Vector3((i%2==0?1:-1)*2.8f,8,-5.3f);
@@ -33,13 +33,13 @@ namespace Kamilunavo.RisingSteps.Visuals
        MeshArt.Oval(root.transform,"TerraceLake",ledge+Vector3.up*1.23f,new Vector3(4.4f,.09f,3.5f),LandscapePalette.Pool(parent),18);
        IslandArt.Waterfall(root.transform,ledge+new Vector3(0,1.3f,-2),1,1.15f,5.5f);
       }
-      // Spend the same mobile kit on a visible foreground bank rather than
-      // three tiny shrubs on the farthest mesa behind the destination.
-      for(int shrub=0;shrub<(i==6?0:3);shrub++)LandscapeBotany.LeafCluster(root.transform,"CascadeRidgeLeafClusters",p+new Vector3((shrub-1)*3.7f,8.15f,3.1f+Mathf.Sin(shrub)*.5f),new Vector3(3.0f,1.0f,2.5f),LandscapePalette.Moss(parent),i*13+shrub,16);
-      for(int tree=0;tree<(i%2==0?2:1);tree++)LandscapeBotany.CascadeWillow(root.transform,i==0&&tree==0?new Vector3(-11.3f,5.6f,47):p+new Vector3((tree==0?-1:1)*3.4f,7.95f,2.8f+tree*.5f),i*7+tree,2.3f+(i+tree)%2*.35f,true);
+      // Foreground banks are authored by RisingWaterGarden; these trees
+      // remain grounded on their own distant highlands.
+      for(int shrub=0;shrub<3;shrub++)LandscapeBotany.LeafCluster(root.transform,"CascadeRidgeLeafClusters",p+new Vector3((shrub-1)*3.7f,8.15f,3.1f+Mathf.Sin(shrub)*.5f),new Vector3(3.0f,1.0f,2.5f),LandscapePalette.Moss(parent),i*13+shrub,16);
+      for(int tree=0;tree<(i%2==0?2:1);tree++)LandscapeBotany.CascadeWillow(root.transform,p+new Vector3((tree==0?-1:1)*3.4f,7.95f,2.8f+tree*.5f),i*7+tree,2.3f+(i+tree)%2*.35f,true);
       LandscapeBotany.Branch(root.transform,"CascadeCliffVine",new[]{p+new Vector3(4.6f,7.8f,-5.1f),p+new Vector3(4.9f,3,-5.7f),p+new Vector3(4.2f,-1.5f,-5.2f)},new[]{.16f,.12f,.035f},LandscapePalette.Moss(parent),6);
      }
-     CascadeForegroundBank(root.transform,stone,parent);break;
+     break;
     case RisingRealmTheme.Temple:
      for(int i=0;i<6;i++){
       var p=GardenPoint(i);Highland(root.transform,p,realm,i,stone);
@@ -112,13 +112,6 @@ namespace Kamilunavo.RisingSteps.Visuals
   // Route x remains inside +/-3; the nearest stone edge stays beyond +/-10.
   // Height rises with depth so a finished course still has scenery above its horizon.
   static Vector3 GardenPoint(int i)=>new Vector3((i%2==0?-1:1)*(18+i%3*4),1+i*2.2f,42+i*14);
-  static void CascadeForegroundBank(Transform root,Material stone,Transform paletteOwner)
-  {
-   var bank=LandscapeGeometry.Rock(root,"CascadeForegroundBank",new Vector3(-13,.7f,47),new Vector3(5.8f,10,7),stone,73);
-   var mesh=bank.GetComponent<MeshFilter>().sharedMesh;var points=mesh.vertices;for(int i=0;i<points.Length;i++)if(points[i].y>2)points[i].y=4.9f;mesh.vertices=points;mesh.RecalculateNormals();mesh.RecalculateBounds();LandscapeGeometry.JoinNormals(mesh);
-   MeshArt.Oval(root,"CascadeForegroundPool",new Vector3(-13,5.62f,47),new Vector3(4.6f,.09f,5.2f),LandscapePalette.Pool(paletteOwner),18);
-   IslandArt.Waterfall(root,new Vector3(-13,5.67f,43.6f),1,1.7f,9.4f);
-  }
   static void Highland(Transform parent,Vector3 position,int realm,int seed,Material stone)
   {
    var mesa=LandscapeGeometry.Rock(parent,realm==1?"CascadeMesa":realm==2?"TempleAcropolis":"MeadowHighland",position,new Vector3(15,17,14),stone,seed*19);

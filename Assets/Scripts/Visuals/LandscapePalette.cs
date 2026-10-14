@@ -10,7 +10,7 @@ namespace Kamilunavo.RisingSteps.Visuals
  [ExecuteAlways] public sealed class LandscapePalette:MonoBehaviour
  {
   private readonly Dictionary<int,Material> _materials=new();
-  private Texture2D _mineral,_turf,_water,_sand,_ice,_pool,_mineralNormal;
+  private Texture2D _mineral,_turf,_water,_sand,_ice,_pool,_mineralNormal,_cascadeFlow;
   public static Material Pool(Transform parent)=>Owner(parent).Special(100);
   public static Material Moss(Transform parent)=>Owner(parent).Special(101);
   public static Material Canopy(Transform parent)=>Owner(parent).Special(102);
@@ -40,9 +40,9 @@ namespace Kamilunavo.RisingSteps.Visuals
     var authored=new Texture2D(256,256,TextureFormat.RGB24,true){name="LandscapeMineralAtlas",wrapMode=TextureWrapMode.Repeat,filterMode=FilterMode.Bilinear,anisoLevel=2};
     authored.SetPixels(asset.GetPixels());authored.Apply(true,true);ArtLifetime.Own(gameObject,authored);return authored;
    }
-   if(kind==5){
-    var asset=Resources.Load<Texture2D>("Art/PoolCaustics-v1");if(asset==null||!asset.isReadable)throw new System.InvalidOperationException("Missing readable original pool albedo");
-    var authored=new Texture2D(asset.width,asset.height,TextureFormat.RGB24,true){name="LandscapePoolCaustics",wrapMode=TextureWrapMode.Repeat,filterMode=FilterMode.Bilinear,anisoLevel=2};authored.SetPixels(asset.GetPixels());authored.Apply(true,true);ArtLifetime.Own(gameObject,authored);return authored;
+   if(kind==5||kind==7){
+    var asset=Resources.Load<Texture2D>(kind==5?"Art/PoolCaustics-v1":"Art/CascadeFlow-v1");if(asset==null||!asset.isReadable)throw new System.InvalidOperationException("Missing readable original water albedo");
+    var authored=new Texture2D(asset.width,asset.height,TextureFormat.RGB24,true){name=kind==5?"LandscapePoolCaustics":"LandscapeCascadeFlow",wrapMode=TextureWrapMode.Repeat,filterMode=FilterMode.Bilinear,anisoLevel=2};authored.SetPixels(asset.GetPixels());authored.Apply(true,true);ArtLifetime.Own(gameObject,authored);return authored;
    }
    int width=kind==0?256:128,height=kind==2?256:width;var pixels=new Color[width*height];
    for(int y=0;y<height;y++)for(int x=0;x<width;x++){
@@ -102,7 +102,7 @@ namespace Kamilunavo.RisingSteps.Visuals
   {
    if(_materials.TryGetValue(key,out var existing))return existing;
    if(key==102){var canopy=new Material(Resources.Load<Material>("Materials/CanopySurface")){name="LandscapeCanopyCutout"};var leaves=Object.Instantiate(Resources.Load<Texture2D>("Art/CanopyLeaves-v1"));leaves.name="LandscapeCanopyLeaves";canopy.mainTexture=leaves;ArtLifetime.Own(gameObject,leaves);ArtLifetime.Own(gameObject,canopy);_materials.Add(key,canopy);return canopy;}
-   var material=new Material(Resources.Load<Material>("Materials/Surface")){name=key==100?"Landscape1PoolSurface":"Landscape1MossSurface",color=Color.white};
+   var material=new Material(Resources.Load<Material>(key==100?"Materials/WaterSurface":"Materials/Surface")){name=key==100?"Landscape1PoolSurface":"Landscape1MossSurface",color=Color.white};
    if(key==100){if(_pool==null)_pool=Texture(5);material.mainTexture=_pool;material.SetFloat("_Glossiness",.52f);}
    // Modeled moss/fronds use a restrained solid finish. The original cutout
    // replaces the former noise texture within the unchanged five-texture budget.
@@ -122,7 +122,7 @@ namespace Kamilunavo.RisingSteps.Visuals
     else if(realm==6||realm==8){if(_sand==null)_sand=Texture(3);material.mainTexture=_sand;}
     else{if(_mineral==null)_mineral=Texture(0);material.mainTexture=_mineral;}
    }
-   else if(kind==2){if(_water==null)_water=Texture(2);material.mainTexture=_water;material.color=realm==8?new Color(.75f,1,.94f):Color.white;}
+   else if(kind==2){if(realm==1){if(_cascadeFlow==null)_cascadeFlow=Texture(7);material.mainTexture=_cascadeFlow;}else{if(_water==null)_water=Texture(2);material.mainTexture=_water;}material.color=realm==8?new Color(.75f,1,.94f):Color.white;}
    else if(kind==3)material.color=Leaves[realm];
    else if(kind==4)material.color=realm==0?new Color(.46f,.61f,.24f):realm==8?new Color(.93f,.99f,.95f):realm==9?new Color(.86f,.89f,.96f):Color.Lerp(Leaves[realm],new Color(.66f,.80f,.45f),.36f);
    else if(kind==5){material.color=Accent[realm];if(realm==5){if(_ice==null)_ice=Texture(4);material.mainTexture=_ice;}}

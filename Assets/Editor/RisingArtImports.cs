@@ -17,6 +17,8 @@ public static class RisingArtImports
   ImportOriginal("Assets/Resources/Art/CanopyLeaves-v1.png",256,true,false);
   ImportOriginal("Assets/Resources/Art/HairFlow-v1.png",64,true,true);
   ImportOriginal("Assets/Resources/Art/PoolCaustics-v1.png",256,true,true);
+  ImportOriginal("Assets/Resources/Art/CascadeFlow-v1.png",256,true,true);
+  Create("WaterSurface","Kamilunavo/RisingWater");var water=AssetDatabase.LoadAssetAtPath<Material>("Assets/Resources/Materials/WaterSurface.mat");water.EnableKeyword("_NORMALMAP");EditorUtility.SetDirty(water);
   var leaves=AssetImporter.GetAtPath("Assets/Resources/Art/CanopyLeaves-v1.png") as TextureImporter;leaves.alphaIsTransparency=true;leaves.SaveAndReimport();Create("CanopySurface","Kamilunavo/RisingCanopy");
   Create("PortalLight","Kamilunavo/RisingPortal");
   Create("SolarSurface","Kamilunavo/RisingSolar");

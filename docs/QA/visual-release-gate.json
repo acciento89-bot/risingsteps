@@ -1,10 +1,10 @@
 {
   "game": "Rising Steps",
   "status": "failed",
-  "sourceSha256": "25a852d1ef4d4a81717c311bea1998ec7c12b3a2d48cfbcd82b3de4668fe3a51",
+  "sourceSha256": "2b147fa578218cbf4b60115ef7e8a85d34179d065d277299357eb6056bf88311",
   "reviewer": "Codex actual Unity Mac framebuffer review, unchanged Oct10 approved Concept",
   "reviewedAt": "2026-10-14",
-  "reason": "All10realm cards now have their own original illustrations, with verified real DE/EN portrait/landscape selection/Back. Actual world and character still below approved Concept target; no90\u201395percent claim and no upload.",
+  "reason": "All10original chapter illustrations and actual broad Waterfall garden are integrated. Same frozen source passes all100 earned courses/1200 controller landings/100 portals via exact real UI level-card callbacks plus cold all100 score reload. Actual architecture/plant density and character quality remain below approved Concept. Visual release FAILED; no upload.",
   "criteria": {
     "concept_similarity": "failed",
     "character_or_tower": "failed",
@@ -23,89 +23,89 @@
     ],
     "menu": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersRuntime/world-0-menu.png",
-        "sha256": "bfba2212a6675dd7a32236841a5912574147fcdc528aac52827e69cea91382c9",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/WaterGardenRuntime/world-0-menu.png",
+        "sha256": "135113bf0c0fcbab96bffe39376d87a0953372a330251edc0e994af24a581d15",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersUi/chapter-9-de-portrait.png",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/WaterGardenUi/chapter-9-de-portrait.png",
         "sha256": "ef28edcb88df837be3987e44cd42ae51287ab7f339b3f1f7727bc8c401defccb",
         "origin": "Unity-render"
       }
     ],
     "gameplay": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersRuntime/world-1-approach.png",
-        "sha256": "da76486919b75b9c6389d008aa4518295fa91888626901af4af88e22d854edda",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/WaterGardenRuntime/world-1-stride.png",
+        "sha256": "f2a2a5b95c00031912e0c889fad3ec0da6ee83ee05836a2618ef99e8a40c45e7",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersRuntime/world-2-approach.png",
-        "sha256": "0d9d9b8bfb3d7dac8dd939703688d25600d1af2426fdbd7bd1b5fc1bd17fa320",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/WaterGardenRuntime/world-2-stride.png",
+        "sha256": "4d1aadb29c7d8beae7539996a203423b43ed0a557c550b26917ffe1b8e075029",
         "origin": "Unity-render"
       }
     ],
     "submenus": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersRuntime/world-0-levels.png",
-        "sha256": "6dc1b0e7a958135adb3966d57e54ecc9305ba2332782003902ffa1b0e14feb07",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/WaterGardenRuntime/world-0-levels.png",
+        "sha256": "45d1869db838d5c9368c6437da9995086d47044d2952a8d8592cd6cc7c4bfd72",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersUi/chapter-7-en-wide.png",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/WaterGardenUi/chapter-7-en-wide.png",
         "sha256": "74f0ef889288d7719cd0c1836166ee4a0dc750a67f8258712abf810ea3cbddb8",
         "origin": "Unity-render"
       }
     ],
     "variants": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersRuntime/world-0-mid.png",
-        "sha256": "87555be3ef66261423d47e77a6a33eafd894636dd6872ef99a226eb9f0d1a2dd",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/WaterGardenRuntime/world-0-mid.png",
+        "sha256": "8d5b9e6a3d913d4a214fc731c841998b9a49758501707fc65449991cb4d27fd5",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersRuntime/world-1-mid.png",
-        "sha256": "2ced97bfbc800f3c83cffbccdaaef4c60aa44d163480ab6f168200c55b580ab6",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/WaterGardenRuntime/world-1-mid.png",
+        "sha256": "323434f063ca92c90f795864a33d37d4348790b6242dc1317b4c44f63cde7320",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersRuntime/world-2-mid.png",
-        "sha256": "eb7f798db1b4a70edfe60adce97b5f020b4feda38144e56ab4a1843d89a0a565",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/WaterGardenRuntime/world-2-mid.png",
+        "sha256": "d5867b98d03289a52f124787e84085033139807c08c16f4d0d8d51b6eb3d2d5e",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersRuntime/world-3-mid.png",
-        "sha256": "d671502146519bd99c3b0cb8f89880d519bbfe2428897ccfa4ebff32ccd47fe6",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/WaterGardenRuntime/world-3-mid.png",
+        "sha256": "495ae031625c8336947b927b0150b380a10dba4441da1534d90df211fb506dae",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersRuntime/world-4-mid.png",
-        "sha256": "2904eace893548268d5f9b510ac3a2b920bd4d99099a3af7b2bb59aac20ac62e",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/WaterGardenRuntime/world-4-mid.png",
+        "sha256": "4bd295ce54aff15979e196fb1750c8438eb1c2e3df46182b86c76ea628131802",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersRuntime/world-5-mid.png",
-        "sha256": "293cef6cc1973d32acb22a2c19c1d7f3452ec2f5e87b2d5b204b8f11f2227af4",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/WaterGardenRuntime/world-5-mid.png",
+        "sha256": "2a24300280604fd3b5457316a20b55e7239175954556bb2917d04e663b8f14eb",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersRuntime/world-6-mid.png",
-        "sha256": "e33cb58110997a0de7f3fcf9e665cfaa71283bf0f9849531713cb8c3d670ccc5",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/WaterGardenRuntime/world-6-mid.png",
+        "sha256": "081eec1ac68424d1209ded36918d98f45f6276a634613a7b0ab7579ea9c34159",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersRuntime/world-7-mid.png",
-        "sha256": "f431f27656ee749251d302e47554fa4c506246b32f9cd423ef465c5d1e30d86c",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/WaterGardenRuntime/world-7-mid.png",
+        "sha256": "ac8c076d4ff4ffd82d06bcb600fb1435e1c29bc20274a3862787b401c0d7536f",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersRuntime/world-8-mid.png",
-        "sha256": "4a01b21d8ba0296a1bc28ddcecb3b9902d175225eac21b780114c30146afdbda",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/WaterGardenRuntime/world-8-mid.png",
+        "sha256": "25afda182a591aa0b6def3ad9152d4ca1b397d042b26076914117b031d7435dd",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/OriginalChaptersRuntime/world-9-mid.png",
-        "sha256": "42a21c5e5cbef77482a5e51823db366366e5af8580968143e43a2053432a4b79",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingConcept-20261014/WaterGardenRuntime/world-9-mid.png",
+        "sha256": "87a40b637d3fcc08f0165a47199ca4193d342b9a27c8cfa4bdb3e548b0684010",
         "origin": "Unity-render"
       }
     ]
