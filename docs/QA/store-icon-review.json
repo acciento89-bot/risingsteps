@@ -1,0 +1,77 @@
+{
+  "game": "RisingSteps",
+  "status": "pending",
+  "sourceSha256": "f4d49e21b957003f5af1ff2312eff0a8c4b5358a3f5ab364da262a7d5e59707a",
+  "reviewer": "Codex direct source-icon and actual native-frame comparison",
+  "reviewedAt": "2026-10-15",
+  "reason": "The icon depicts a brown-haired green-clothed runner jumping between planted sky platforms toward a gold temple gate. Current native gameplay has that activity and those motifs; native exported small/large/store variants still need the explicit new binding check.",
+  "decision": "No new upload approval. Complete accurate native icon and variant review before setting passed.",
+  "variantConsistencyChecked": false,
+  "evidence": {
+    "sourceIcon": {
+      "path": "Assets/Resources/Art/RisingStepsIcon.png",
+      "sha256": "5b01a5be1f249c7771b6c0b0655c45393f3b215ed7887d994c997ee9ee15aec3",
+      "origin": "project-icon"
+    },
+    "nativeIcon": null,
+    "gameplay": [
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-0-mid.png",
+        "sha256": "0ea623a09c434daf0b50dfd46c2aa16b9f4647e4ff15e3d3447db0fffd964ad5",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-1-mid.png",
+        "sha256": "26ca2dc3ddec72014b0560a41175fe3e8931d80f5f39f0b4236515144b2cef0a",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-2-mid.png",
+        "sha256": "6c3d58a5f0f4faeade7fff2c19177e0b3a090bb8cc0c6422d7efc62dce38a4ec",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-3-mid.png",
+        "sha256": "2b040d26da84cffd2b9943c981eec800a59f889f6c6d45e2efb3e4107e1e6776",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-4-mid.png",
+        "sha256": "95d3d8739aa447792a9e8d817dcdf711716078107f82653e18628d9720adcba6",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-5-mid.png",
+        "sha256": "de31747aeff1f524976684ebd9a64b07d4c0d6f2cf5cc1c9558e7ecf825ce569",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-6-mid.png",
+        "sha256": "385b2159919104ca66e141ffeff884c4329aeecc86907b3b7b688ba2aa6e2661",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-7-mid.png",
+        "sha256": "2c1515074b8883b78d583819aa4e14c65c58cd0af039fc983732a8fe0643a832",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-8-mid.png",
+        "sha256": "7b1ac19284735568eee286c14a8031432e38518b0b142563bf778fc69cc56606",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-9-mid.png",
+        "sha256": "9f8db6afba42ca26990e58fbd9792853f007b7c54a4d0539407eb974fa976dc4",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-iPad-worlds/world-2-mid.png",
+        "sha256": "c74ca0f61aa378e0097dd7e651aaaa2d0690e557c89cf924d45f6063fe204abe",
+        "origin": "Unity-render"
+      }
+    ]
+  },
+  "policy": "https://developer.apple.com/app-store/review/guidelines/#accurate-metadata",
+  "limits": "Source-art motif review is not Apple approval, and does not establish the appearance of every exported native icon. Existing submitted builds are not withdrawn or altered."
+}

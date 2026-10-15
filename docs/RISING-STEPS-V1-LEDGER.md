@@ -475,3 +475,8 @@ iOS archive succeeded; distribution re-signing sets get-task-allow0. Existing Xc
 **Actually submitted** app plus all three IAP versions in submission401b5ec7-127e-4879-92c3-143f4e29b9a3 at2026-10-14T20:50:19.635Z. Persisted Apple state WAITING_FOR_REVIEW. Release typeMANUAL; no automatic public launch. Receipt QA/rising-app-review-release6-20261014.json. AdMob actual serving awaits public listing/readiness review; no live-ad impression claim. No physical-device FPS/thermal or new full100course proof. User-deleted primary Concept remains unstaged.
 
 Latest user steering: after this submission, inspect and resolve the new **One More Floor Apple rejection** before returning to RepairEmpire and withdrawn PerfectDrop issues. Read Apple's original rejection first; do not speculate or send an unsolicited reviewer message.
+
+
+## 2026-10-15 — user-required accurate icon gate
+
+Following the subsequent One More Floor Apple2.3 Icon notice, future uploads for every app now require source/native icon and actual gameplay comparison, effective iOS assignment and small/large variant review in `docs/QA/store-icon-review.json`. This project’s observed icon motif matches its central activity, but the new explicit native variant evidence is still pending; no artwork/Apple approval is inferred from format or tests. The guard checks full PNG integrity, source hashes and iOS overrides; 21 synthetic protocol cases pass per project (84 across the four identical guards). Evidence: `docs/QA/store-icon-guard-validation.json`. No Unity source, native binary, submitted public metadata, existing submission or distribution group was changed. Historical Concept deletion remains unstaged.
