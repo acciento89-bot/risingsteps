@@ -1,77 +1,192 @@
 {
-  "game": "RisingSteps",
-  "status": "pending",
-  "sourceSha256": "f4d49e21b957003f5af1ff2312eff0a8c4b5358a3f5ab364da262a7d5e59707a",
-  "reviewer": "Codex direct source-icon and actual native-frame comparison",
-  "reviewedAt": "2026-10-15",
-  "reason": "The icon depicts a brown-haired green-clothed runner jumping between planted sky platforms toward a gold temple gate. Current native gameplay has that activity and those motifs; native exported small/large/store variants still need the explicit new binding check.",
-  "decision": "No new upload approval. Complete accurate native icon and variant review before setting passed.",
-  "variantConsistencyChecked": false,
+  "game": "Rising Steps",
+  "status": "passed",
+  "sourceSha256": "033e62f36b06fdd656e23746363d9f7fb1990e99e219b810bf4c5828e9a216af",
+  "reviewer": "Codex direct new source artwork / current actual native-game frames / all19exported native-size review",
+  "reviewedAt": "2026-10-15T05:58:41.091806+00:00",
+  "reason": "New icon accurately depicts the implemented brown-haired green-jacketed boy with tan backpack, shorts and boots jumping across separate planted limestone sky landings toward the stone portal. Actual current-source native frames show those subjects and the same central activity. All19actual iOS renditions retain the same intended design, including small/large/store; no typography, alternate ring/elevator mechanic or alpha border. Icon is an illustration, never presented as a gameplay screenshot.",
+  "decision": "Passed content accuracy and source/native rendition consistency for this exact candidate; Apple approval is separate.",
+  "variantConsistencyChecked": true,
   "evidence": {
     "sourceIcon": {
-      "path": "Assets/Resources/Art/RisingStepsIcon.png",
-      "sha256": "5b01a5be1f249c7771b6c0b0655c45393f3b215ed7887d994c997ee9ee15aec3",
+      "path": "/Volumes/SSK SSD/Kamilunavo/Projects/RisingSteps/Assets/Resources/Art/RisingStepsIcon.png",
+      "sha256": "d34a325901f5d6f924cdd215db307e562a1e9da8784bfc9d9408655f79964a8a",
       "origin": "project-icon"
     },
-    "nativeIcon": null,
+    "nativeIcon": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/iOS/Unity-iPhone/Images.xcassets/AppIcon.appiconset/Icon-Store-1024.png",
+      "sha256": "5c349b0d5f097c2f1e8986776df0524b11337b2177c8e61dc95d3849884f8aee",
+      "origin": "native-build-icon",
+      "sourceSha256": "033e62f36b06fdd656e23746363d9f7fb1990e99e219b810bf4c5828e9a216af"
+    },
     "gameplay": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-0-mid.png",
-        "sha256": "0ea623a09c434daf0b50dfd46c2aa16b9f4647e4ff15e3d3447db0fffd964ad5",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/Native-Worlds/world-0-stride.png",
+        "sha256": "f6f2f02ab19a58206d00ecbcf133ef492fa0a77095be211d30c967db8e78c0f2",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-1-mid.png",
-        "sha256": "26ca2dc3ddec72014b0560a41175fe3e8931d80f5f39f0b4236515144b2cef0a",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/Native-Worlds/world-0-mid.png",
+        "sha256": "3e558f9ebd987a1386b2def7f2ae979fbd3f302bb2d36557801dfb34213379b9",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-2-mid.png",
-        "sha256": "6c3d58a5f0f4faeade7fff2c19177e0b3a090bb8cc0c6422d7efc62dce38a4ec",
-        "origin": "Unity-render"
-      },
-      {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-3-mid.png",
-        "sha256": "2b040d26da84cffd2b9943c981eec800a59f889f6c6d45e2efb3e4107e1e6776",
-        "origin": "Unity-render"
-      },
-      {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-4-mid.png",
-        "sha256": "95d3d8739aa447792a9e8d817dcdf711716078107f82653e18628d9720adcba6",
-        "origin": "Unity-render"
-      },
-      {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-5-mid.png",
-        "sha256": "de31747aeff1f524976684ebd9a64b07d4c0d6f2cf5cc1c9558e7ecf825ce569",
-        "origin": "Unity-render"
-      },
-      {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-6-mid.png",
-        "sha256": "385b2159919104ca66e141ffeff884c4329aeecc86907b3b7b688ba2aa6e2661",
-        "origin": "Unity-render"
-      },
-      {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-7-mid.png",
-        "sha256": "2c1515074b8883b78d583819aa4e14c65c58cd0af039fc983732a8fe0643a832",
-        "origin": "Unity-render"
-      },
-      {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-8-mid.png",
-        "sha256": "7b1ac19284735568eee286c14a8031432e38518b0b142563bf778fc69cc56606",
-        "origin": "Unity-render"
-      },
-      {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-ProMax-worlds/world-9-mid.png",
-        "sha256": "9f8db6afba42ca26990e58fbd9792853f007b7c54a4d0539407eb974fa976dc4",
-        "origin": "Unity-render"
-      },
-      {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/RisingRelease-20261014/Native-iPad-worlds/world-2-mid.png",
-        "sha256": "c74ca0f61aa378e0097dd7e651aaaa2d0690e557c89cf924d45f6063fe204abe",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/Native-Worlds/world-2-mid.png",
+        "sha256": "9e7549a1131a24ca381b475e34d477b8a0ec63c649e4027608d43e462b8663bc",
         "origin": "Unity-render"
       }
-    ]
+    ],
+    "nativeVariants": [
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/iOS/Unity-iPhone/Images.xcassets/AppIcon.appiconset/Icon-iPhone-120.png",
+        "sha256": "2fdb45392a764ec0fc909d87b5edfe3dabe4313da7733d0ffc2ab29eae270010",
+        "pixels": 120,
+        "idiom": "iphone",
+        "sourceRmse": 0.01998226391159192
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/iOS/Unity-iPhone/Images.xcassets/AppIcon.appiconset/Icon-iPhone-180.png",
+        "sha256": "72c88da95e937884da5347c37940c1174293e7ce9f8440474ea1800e18fa52ac",
+        "pixels": 180,
+        "idiom": "iphone",
+        "sourceRmse": 0.017445317523919205
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/iOS/Unity-iPhone/Images.xcassets/AppIcon.appiconset/Icon-iPhone-Settings-29.png",
+        "sha256": "740ecf6a5fd1e3fe09d11e3c6d9ef0c3dd6f75d6501b4b3730b930d39bf04782",
+        "pixels": 29,
+        "idiom": "iphone",
+        "sourceRmse": 0.030776138312071207
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/iOS/Unity-iPhone/Images.xcassets/AppIcon.appiconset/Icon-iPhone-Settings-58.png",
+        "sha256": "694985dfc51fbd6ab819a2ca12d4c162bf3cd59735ae48d0e92c6365fdb8a3c6",
+        "pixels": 58,
+        "idiom": "iphone",
+        "sourceRmse": 0.024663117367326078
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/iOS/Unity-iPhone/Images.xcassets/AppIcon.appiconset/Icon-iPhone-Settings-87.png",
+        "sha256": "37554b159d6c671594797bd897569623138b25b4067e7697b88b04bd700e0d86",
+        "pixels": 87,
+        "idiom": "iphone",
+        "sourceRmse": 0.02202790456152063
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/iOS/Unity-iPhone/Images.xcassets/AppIcon.appiconset/Icon-iPhone-Spotlight-80.png",
+        "sha256": "b199d7150f03d6ec24233f0c25aee28e0037b823a20918474bf7106558bf44f9",
+        "pixels": 80,
+        "idiom": "iphone",
+        "sourceRmse": 0.022539586688517525
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/iOS/Unity-iPhone/Images.xcassets/AppIcon.appiconset/Icon-iPhone-Spotlight-120.png",
+        "sha256": "2fdb45392a764ec0fc909d87b5edfe3dabe4313da7733d0ffc2ab29eae270010",
+        "pixels": 120,
+        "idiom": "iphone",
+        "sourceRmse": 0.01998226391159192
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/iOS/Unity-iPhone/Images.xcassets/AppIcon.appiconset/Icon-iPhone-Notification-40.png",
+        "sha256": "840b20de50cd45d2fa6d1c22758fa634d003ce77231650948879228a0f30a985",
+        "pixels": 40,
+        "idiom": "iphone",
+        "sourceRmse": 0.02765655981002408
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/iOS/Unity-iPhone/Images.xcassets/AppIcon.appiconset/Icon-iPhone-Notification-60.png",
+        "sha256": "6c4e5c81278b20e29434d6d3a2595737cd884d5a87ea66c01da70eab387c45f6",
+        "pixels": 60,
+        "idiom": "iphone",
+        "sourceRmse": 0.024363221809883446
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/iOS/Unity-iPhone/Images.xcassets/AppIcon.appiconset/Icon-iPad-Settings-29.png",
+        "sha256": "740ecf6a5fd1e3fe09d11e3c6d9ef0c3dd6f75d6501b4b3730b930d39bf04782",
+        "pixels": 29,
+        "idiom": "ipad",
+        "sourceRmse": 0.030776138312071207
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/iOS/Unity-iPhone/Images.xcassets/AppIcon.appiconset/Icon-iPad-Settings-58.png",
+        "sha256": "694985dfc51fbd6ab819a2ca12d4c162bf3cd59735ae48d0e92c6365fdb8a3c6",
+        "pixels": 58,
+        "idiom": "ipad",
+        "sourceRmse": 0.024663117367326078
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/iOS/Unity-iPhone/Images.xcassets/AppIcon.appiconset/Icon-iPad-Spotlight-40.png",
+        "sha256": "840b20de50cd45d2fa6d1c22758fa634d003ce77231650948879228a0f30a985",
+        "pixels": 40,
+        "idiom": "ipad",
+        "sourceRmse": 0.02765655981002408
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/iOS/Unity-iPhone/Images.xcassets/AppIcon.appiconset/Icon-iPad-Spotlight-80.png",
+        "sha256": "b199d7150f03d6ec24233f0c25aee28e0037b823a20918474bf7106558bf44f9",
+        "pixels": 80,
+        "idiom": "ipad",
+        "sourceRmse": 0.022539586688517525
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/iOS/Unity-iPhone/Images.xcassets/AppIcon.appiconset/Icon-iPad-76.png",
+        "sha256": "93b22c61bd894cbd8cac76047bdea3a1956f6f1f27af21fa40068d7f1067736a",
+        "pixels": 76,
+        "idiom": "ipad",
+        "sourceRmse": 0.02289109132071851
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/iOS/Unity-iPhone/Images.xcassets/AppIcon.appiconset/Icon-iPad-152.png",
+        "sha256": "b025b8ac10c8559f05de74cb833d860ce2191a00dedb0deaccd14200dfb49911",
+        "pixels": 152,
+        "idiom": "ipad",
+        "sourceRmse": 0.01846793726930163
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/iOS/Unity-iPhone/Images.xcassets/AppIcon.appiconset/Icon-iPad-Notification-20.png",
+        "sha256": "d8c69bb99b5cf01931fe64a47bf6f8856e5e027c13b0c8a93910a06f3879834f",
+        "pixels": 20,
+        "idiom": "ipad",
+        "sourceRmse": 0.03417281993709186
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/iOS/Unity-iPhone/Images.xcassets/AppIcon.appiconset/Icon-iPad-Notification-40.png",
+        "sha256": "840b20de50cd45d2fa6d1c22758fa634d003ce77231650948879228a0f30a985",
+        "pixels": 40,
+        "idiom": "ipad",
+        "sourceRmse": 0.02765655981002408
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/iOS/Unity-iPhone/Images.xcassets/AppIcon.appiconset/Icon-iPad-167.png",
+        "sha256": "fdeda716f7c42275cd3c624c76663fa34770c9cd33543569b12b07aa3a2fc582",
+        "pixels": 167,
+        "idiom": "ipad",
+        "sourceRmse": 0.017934338629124486
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/iOS/Unity-iPhone/Images.xcassets/AppIcon.appiconset/Icon-Store-1024.png",
+        "sha256": "5c349b0d5f097c2f1e8986776df0524b11337b2177c8e61dc95d3849884f8aee",
+        "pixels": 1024,
+        "idiom": "ios-marketing",
+        "sourceRmse": 0.0
+      }
+    ],
+    "nativeExportProof": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/native-icon-export-proof.json",
+      "sha256": "c993992abad86d3ef4382fbff3e465053b0add99ab28cd6b6c7b9ae0e739f867",
+      "origin": "actual-iOS-export-icon-integrity"
+    },
+    "compiledNativeIconProof": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/signed-ipa-proof.json",
+      "sha256": "f0a49ccf818ac454233ea47c2eb2e1c23a8ec73b56d37dd809c743f1e3fd05e4",
+      "origin": "actual-compiled-native-app-icon-check"
+    },
+    "appleProcessedStoreIcon": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/apple-processed-icon-proof.json",
+      "sha256": "fec5a40736fb761bc1d43a20e7f1a1a5be4f435806670e8c949f6b4e3d2400bd",
+      "origin": "actual-Apple-processed-app-icon-check"
+    }
   },
   "policy": "https://developer.apple.com/app-store/review/guidelines/#accurate-metadata",
-  "limits": "Source-art motif review is not Apple approval, and does not establish the appearance of every exported native icon. Existing submitted builds are not withdrawn or altered."
+  "limits": "Icon content/export/compiled/Apple-processed-image verification passed locally. Apple App Review acceptance, new physical-device performance and paid/live-ad tests are separate. New review submission awaits the owner browser login."
 }

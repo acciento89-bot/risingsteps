@@ -1,5 +1,10 @@
 # Rising Steps
 
+## Icon correction — 2026-10-15
+
+Original accurate icon is integrated, all native icon sizes checked and signed iOS1.0(7) uploaded. Apple processing is VALID; the Apple-processed store icon matches the new artwork exactly. **App Review resubmission still awaits the owner Safari login** because the existing upload key cannot withdraw/submit reviews. Previous review has not been replaced. [Current proof and limits](docs/QA/rising-icon-release7-20261015.json). Gameplay and monetization are unchanged.
+
+
 Native iOS + Android fantasy sky-platform game by Kamilunavo.
 
 ## Product

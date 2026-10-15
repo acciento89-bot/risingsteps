@@ -1,0 +1,136 @@
+{
+  "game": "Rising Steps",
+  "version": "1.0(7)",
+  "sourceSha256": "033e62f36b06fdd656e23746363d9f7fb1990e99e219b810bf4c5828e9a216af",
+  "createdAt": "2026-10-15T05:58:41.128376+00:00",
+  "status": "Native icon correction uploaded and Apple VALID; requested App Review resubmission blocked by owner-browser authentication",
+  "baseCommit": "09a3dd2",
+  "changes": [
+    "Replace assigned icon with original built-in imagegen art from actual current native-game references.",
+    "Disable lossy compression for this icon only; native1024RGB now retains source pixels.",
+    "Increment iOS/Android build6to7, preserve1.0 and current gameplay/ads/IAP behavior."
+  ],
+  "sourceIcon": {
+    "path": "/Volumes/SSK SSD/Kamilunavo/Projects/RisingSteps/Assets/Resources/Art/RisingStepsIcon.png",
+    "sha256": "d34a325901f5d6f924cdd215db307e562a1e9da8784bfc9d9408655f79964a8a",
+    "origin": "project-icon"
+  },
+  "nativeIcon": {
+    "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/iOS/Unity-iPhone/Images.xcassets/AppIcon.appiconset/Icon-Store-1024.png",
+    "sha256": "5c349b0d5f097c2f1e8986776df0524b11337b2177c8e61dc95d3849884f8aee",
+    "origin": "native-build-icon",
+    "sourceSha256": "033e62f36b06fdd656e23746363d9f7fb1990e99e219b810bf4c5828e9a216af"
+  },
+  "nativeExportProof": {
+    "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/native-icon-export-proof.json",
+    "sha256": "c993992abad86d3ef4382fbff3e465053b0add99ab28cd6b6c7b9ae0e739f867",
+    "origin": "actual-iOS-export-icon-integrity"
+  },
+  "nativeRuns": [
+    {
+      "case": "Worlds",
+      "proof": {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/Native-Worlds/PROVENANCE.json",
+        "sha256": "8c1f2ef0912009fc9c0bf995ecfb992cbb7bdaea01a741c97fbc4f436ce9dfbd",
+        "origin": "native-process-receipt"
+      },
+      "pass": {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/Native-Worlds/PASS.txt",
+        "sha256": "21960c19369e09e440747b873d74506366a160443bdb074addff535eb7c5ebf1",
+        "origin": "native-process-proof"
+      }
+    },
+    {
+      "case": "Default",
+      "proof": {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/Native-Default/PROVENANCE.json",
+        "sha256": "f30b89083f35a527c8a43d71801b9427d5b9099ea25ac4dcb851661b826fb639",
+        "origin": "native-process-receipt"
+      },
+      "pass": {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/Native-Default/PASS.txt",
+        "sha256": "6406029038a0987c96fd782cc2174e39d6fd971769aee15f1a2730fefee07e18",
+        "origin": "native-process-proof"
+      }
+    }
+  ],
+  "imagegen": {
+    "mode": "built-in image_gen, actual screenshot-to-icon edit",
+    "prompt": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/final-imagegen-prompt.txt",
+      "sha256": "908367d4a2d2f5c284ad99e0351570153564333f09c9427854e92a7e6c045a88",
+      "origin": "exact-imagegen-prompt"
+    },
+    "generatedOriginal": {
+      "path": "/Users/piotrkaminski/.codex/generated_images/01a11788-3eb6-7e32-963e-51b37d78e2ed/exec-35c25980-75fd-43ce-bac3-8b997764b3f9.png",
+      "sha256": "147c6e6968e2e2e25d4525c2ce9c5f69b5e5f4910cec3d048fb94adb8427b336",
+      "origin": "original-imagegen-output"
+    },
+    "normalization": "sips high-quality downscale1254to1024; opaque RGB; no paintover or content edits",
+    "combinedPromptSet": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/imagegen-prompts.txt",
+      "sha256": "e33788cd4464bf226b4e3afd2e05ee1aa2ca2ca22909aedec7331fd1e42c8ae1",
+      "origin": "both-exact-built-in-imagegen-prompts"
+    }
+  },
+  "regression": {
+    "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/lossless-export-red.json",
+    "sha256": "2d6302ed16a40871e3e404e123c76f3bb8dec07f0c776f39908c7b06b7f2330a",
+    "origin": "observed-compressed-native-icon-red"
+  },
+  "storeAssets": {
+    "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/metadata-preservation-check.json",
+    "sha256": "9fdb245027a586d60a0e84b8bdf483d7676dd2999ab1e92a09b1aec49fa04108",
+    "origin": "official-API-complete-screenshots-and-IAP-review-images"
+  },
+  "limits": [
+    "Actual Mac Metal runtime checks; no new physical-device performance or paid/ad-delivery proof.",
+    "Existing store images are genuine prior iOS frames with unchanged runtime artwork, not the new Mac QA frames.",
+    "No change to acceptance target, privacy, monetization pacing, product entitlements or published pricing."
+  ],
+  "preservedUserChange": "Historical docs/concepts/PRIMARY-CONCEPT.png deletion remains unstaged.",
+  "validationStatus": "Ready with limitations for icon/build; App Review delivery Blocked",
+  "delivery": {
+    "buildId": "562057dc-6ff3-431b-a621-b0b8426ac530",
+    "buildVersion": "7",
+    "processingState": "VALID",
+    "buildAudienceType": "APP_STORE_ELIGIBLE",
+    "usesNonExemptEncryption": null,
+    "appReviewSubmittedThisBuild": false,
+    "previousSubmissionId": "401b5ec7-127e-4879-92c3-143f4e29b9a3",
+    "previousSubmissionState": "WAITING_FOR_REVIEW",
+    "previousSubmissionWithdrawn": false,
+    "blocker": "Existing API key can read/upload but returns403 for cancel/compliance mutations; Safari session401. User requested to sign in directly in Safari. This is missing account authentication/capability, not missing human approval.",
+    "signedPackage": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/signed-ipa-proof.json",
+      "sha256": "f0a49ccf818ac454233ea47c2eb2e1c23a8ec73b56d37dd809c743f1e3fd05e4",
+      "origin": "actual-native-signature-and-compiled-icons"
+    },
+    "upload": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/upload-response.json",
+      "sha256": "e394e599ec8fa8b1cc79c97d299469b27a5eb6f593cf7a33fb1e663bbddd777c",
+      "origin": "actual-successful-native-upload-receipt"
+    },
+    "appleBuild": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/apple-build7-delivery-snapshot1.json",
+      "sha256": "db0861bbb8012d5190d909e4ba6ce53401bc0f0c5c465e338a24571299f19b20",
+      "origin": "independent-Apple-VALID-build-read"
+    },
+    "appleProcessedIcon": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/apple-processed-icon-proof.json",
+      "sha256": "fec5a40736fb761bc1d43a20e7f1a1a5be4f435806670e8c949f6b4e3d2400bd",
+      "origin": "actual-Apple-processed-icon-pixel-comparison"
+    },
+    "previousReview": {
+      "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/previous-submission-delivery-snapshot1.json",
+      "sha256": "6333a2e381ab3a869580e3b76768beda32d33666a51e3e577b2914ce564836ef",
+      "origin": "independent-current-previous-review-read"
+    }
+  },
+  "nativePreviewMetadata": {
+    "platform": "Mac Metal development preview, not shipping iOS app",
+    "CFBundleVersion": "0",
+    "CFBundleShortVersionString": "1.0",
+    "receiptBuildLabel": "1.0(7) identifies the target iOS candidate; actual iOS shipping metadata is verified separately."
+  }
+}
