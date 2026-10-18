@@ -9,6 +9,15 @@ namespace Kamilunavo.RisingSteps.Editor
     {
         public static void Configure()
         {
+#if UNITY_ANDROID
+            // Batch builds do not reliably execute the package's delayed default-store setup.
+            // Persist the actual store selector before resources are collected for the player.
+            UnityEditor.Purchasing.UnityPurchasingEditor.TargetAndroidStore(UnityEngine.Purchasing.AppStore.GooglePlay);
+            var billing=Resources.Load<TextAsset>("BillingMode");
+            if(billing==null||!billing.text.Contains("\"androidStore\":\"GooglePlay\""))
+                throw new InvalidOperationException("Android release requires a serialized Google Play BillingMode resource");
+            Debug.Log("ANDROID_REAL_STORE_PASS GooglePlay selected; no fake-store fallback");
+#endif
             var type=Type.GetType("GoogleMobileAds.Editor.GoogleMobileAdsSettings, GoogleMobileAds.Editor",true);
             var asset=(ScriptableObject)type.GetMethod("LoadInstance",BindingFlags.Static|BindingFlags.NonPublic).Invoke(null,null);
             var settings=new SerializedObject(asset);

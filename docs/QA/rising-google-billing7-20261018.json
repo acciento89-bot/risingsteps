@@ -1,0 +1,225 @@
+{
+  "date": "2026-10-18",
+  "problem": "Actual Android shop used Unity fake-store prices because batch build omitted BillingMode resource",
+  "evidence": "/Volumes/SSK SSD/Kamilunavo/Artifacts/GooglePlayAudit-20261018/RisingSteps/android-shop-before-catalog.png",
+  "rootCause": "Unity IAP default-store setup runs in EditorApplication.delayCall, not reliably before a batch build. Runtime absent BillingMode resolves FakeAppStore.",
+  "change": "Explicit official UnityPurchasingEditor.TargetAndroidStore(GooglePlay) during Android build configuration; require imported serialized resource",
+  "artifact": {
+    "package": "com.kamilunavo.risingsteps",
+    "versionName": "1.0",
+    "versionCode": 7,
+    "baseCommitBeforeLocalBuildChanges": "4d0911df3495efbbb39b614e101543c4f475a9bd",
+    "sourceSha256": "0ccc8fc9b5de302e8a86a76d47859d6912c644eaa6eebf23750e42642972ae81",
+    "payloadEntries": 656,
+    "payloadUnchangedBySignatureRemoval": true,
+    "unsigned": "/Volumes/SSK SSD/Kamilunavo/Artifacts/GooglePlayAudit-20261018/RisingSteps/billing/RisingSteps-1.0-7-upload-unsigned.aab",
+    "sha256": "b715489353afa1a2481f947bf2f35107c80194066c59690b4c50b453a8028477",
+    "billingVersion": "9.0.0",
+    "elf16KB": [
+      {
+        "entry": "base/lib/arm64-v8a/libc++_shared.so",
+        "loadAlignments": [
+          16384,
+          16384,
+          16384,
+          16384
+        ]
+      },
+      {
+        "entry": "base/lib/arm64-v8a/libgame.so",
+        "loadAlignments": [
+          16384,
+          16384,
+          16384
+        ]
+      },
+      {
+        "entry": "base/lib/arm64-v8a/libil2cpp.so",
+        "loadAlignments": [
+          16384,
+          16384,
+          16384,
+          16384
+        ]
+      },
+      {
+        "entry": "base/lib/arm64-v8a/libmain.so",
+        "loadAlignments": [
+          16384,
+          16384,
+          16384,
+          16384
+        ]
+      },
+      {
+        "entry": "base/lib/arm64-v8a/libswappywrapper.so",
+        "loadAlignments": [
+          16384,
+          16384,
+          16384
+        ]
+      },
+      {
+        "entry": "base/lib/arm64-v8a/libunity.so",
+        "loadAlignments": [
+          16384,
+          16384,
+          16384,
+          16384
+        ]
+      }
+    ],
+    "icons": [
+      {
+        "entry": "base/res/drawable-hdpi-v4/common_google_signin_btn_icon_dark_normal_background.9.png",
+        "file": "/Volumes/SSK SSD/Kamilunavo/Artifacts/GooglePlayAudit-20261018/RisingSteps/billing/native-icons/base/res/drawable-hdpi-v4/common_google_signin_btn_icon_dark_normal_background.9.png",
+        "sha256": "9865619196624a3cba32a36b0111357afea3148f123221ba8c7265bc681ab8a9"
+      },
+      {
+        "entry": "base/res/drawable-hdpi-v4/common_google_signin_btn_icon_light_normal_background.9.png",
+        "file": "/Volumes/SSK SSD/Kamilunavo/Artifacts/GooglePlayAudit-20261018/RisingSteps/billing/native-icons/base/res/drawable-hdpi-v4/common_google_signin_btn_icon_light_normal_background.9.png",
+        "sha256": "94a0b6363a09d466a3dc3722379ab367d9ff73a21ba0ff2c5bab6c30aa5f8b38"
+      },
+      {
+        "entry": "base/res/drawable-hdpi-v4/notification_oversize_large_icon_bg.png",
+        "file": "/Volumes/SSK SSD/Kamilunavo/Artifacts/GooglePlayAudit-20261018/RisingSteps/billing/native-icons/base/res/drawable-hdpi-v4/notification_oversize_large_icon_bg.png",
+        "sha256": "aa00088d0d9fd97bd92ed9ffd29b54bb69a48a984aa73448ce553fb9d812be41"
+      },
+      {
+        "entry": "base/res/drawable-hdpi-v4/notify_panel_notification_icon_bg.png",
+        "file": "/Volumes/SSK SSD/Kamilunavo/Artifacts/GooglePlayAudit-20261018/RisingSteps/billing/native-icons/base/res/drawable-hdpi-v4/notify_panel_notification_icon_bg.png",
+        "sha256": "8430ec003e003f3f2ba2f78d48fd150e25407667e530e82e87a7d4841c0fd676"
+      },
+      {
+        "entry": "base/res/drawable-mdpi-v4/common_google_signin_btn_icon_dark_normal_background.9.png",
+        "file": "/Volumes/SSK SSD/Kamilunavo/Artifacts/GooglePlayAudit-20261018/RisingSteps/billing/native-icons/base/res/drawable-mdpi-v4/common_google_signin_btn_icon_dark_normal_background.9.png",
+        "sha256": "71bfd776b21b1102f26e31a0f6dc65d40de2cbae650c7528241d5cdc17eac991"
+      },
+      {
+        "entry": "base/res/drawable-mdpi-v4/common_google_signin_btn_icon_light_normal_background.9.png",
+        "file": "/Volumes/SSK SSD/Kamilunavo/Artifacts/GooglePlayAudit-20261018/RisingSteps/billing/native-icons/base/res/drawable-mdpi-v4/common_google_signin_btn_icon_light_normal_background.9.png",
+        "sha256": "77d8cc5447360efba3b3f1659bea9680eccbe47e2aaa07424d562f0e5c8af829"
+      },
+      {
+        "entry": "base/res/drawable-mdpi-v4/notify_panel_notification_icon_bg.png",
+        "file": "/Volumes/SSK SSD/Kamilunavo/Artifacts/GooglePlayAudit-20261018/RisingSteps/billing/native-icons/base/res/drawable-mdpi-v4/notify_panel_notification_icon_bg.png",
+        "sha256": "0d773e62c756422313262846c787e58f67e0ee87e45e1ae9942002e816c4cb9e"
+      },
+      {
+        "entry": "base/res/drawable-xhdpi-v4/common_google_signin_btn_icon_dark_normal_background.9.png",
+        "file": "/Volumes/SSK SSD/Kamilunavo/Artifacts/GooglePlayAudit-20261018/RisingSteps/billing/native-icons/base/res/drawable-xhdpi-v4/common_google_signin_btn_icon_dark_normal_background.9.png",
+        "sha256": "9d62d3eabefaf89e6018d3902cc8c4bb888a8891d9639deda8fb58ba60fe1822"
+      },
+      {
+        "entry": "base/res/drawable-xhdpi-v4/common_google_signin_btn_icon_light_normal_background.9.png",
+        "file": "/Volumes/SSK SSD/Kamilunavo/Artifacts/GooglePlayAudit-20261018/RisingSteps/billing/native-icons/base/res/drawable-xhdpi-v4/common_google_signin_btn_icon_light_normal_background.9.png",
+        "sha256": "f62bf21d152a276ae8d9a0d62997f12c60d64ec812fd973ff60e3295deee34b4"
+      },
+      {
+        "entry": "base/res/drawable-xhdpi-v4/notify_panel_notification_icon_bg.png",
+        "file": "/Volumes/SSK SSD/Kamilunavo/Artifacts/GooglePlayAudit-20261018/RisingSteps/billing/native-icons/base/res/drawable-xhdpi-v4/notify_panel_notification_icon_bg.png",
+        "sha256": "b44eeda34d7a529c2fe55719eb098fa29707caa91d18de06a7a775d6e6bcf973"
+      },
+      {
+        "entry": "base/res/drawable-xxhdpi-v4/common_google_signin_btn_icon_dark_normal_background.9.png",
+        "file": "/Volumes/SSK SSD/Kamilunavo/Artifacts/GooglePlayAudit-20261018/RisingSteps/billing/native-icons/base/res/drawable-xxhdpi-v4/common_google_signin_btn_icon_dark_normal_background.9.png",
+        "sha256": "be03693c47d3c4d4466f14a695eaccd210b61e91d808c0c4a46d6f021b598278"
+      },
+      {
+        "entry": "base/res/drawable-xxhdpi-v4/common_google_signin_btn_icon_light_normal_background.9.png",
+        "file": "/Volumes/SSK SSD/Kamilunavo/Artifacts/GooglePlayAudit-20261018/RisingSteps/billing/native-icons/base/res/drawable-xxhdpi-v4/common_google_signin_btn_icon_light_normal_background.9.png",
+        "sha256": "71f14a18275f8678fd9f0c1c0affc400a975a0b815b82eca7345b6aaecf978ee"
+      },
+      {
+        "entry": "base/res/mipmap-hdpi-v4/ic_launcher_background.png",
+        "file": "/Volumes/SSK SSD/Kamilunavo/Artifacts/GooglePlayAudit-20261018/RisingSteps/billing/native-icons/base/res/mipmap-hdpi-v4/ic_launcher_background.png",
+        "sha256": "0b4ce9d44d1f9dc0156e9441b804db547c60ceca80ec93d627ac573448039be6"
+      },
+      {
+        "entry": "base/res/mipmap-hdpi-v4/ic_launcher_foreground.png",
+        "file": "/Volumes/SSK SSD/Kamilunavo/Artifacts/GooglePlayAudit-20261018/RisingSteps/billing/native-icons/base/res/mipmap-hdpi-v4/ic_launcher_foreground.png",
+        "sha256": "0b4ce9d44d1f9dc0156e9441b804db547c60ceca80ec93d627ac573448039be6"
+      },
+      {
+        "entry": "base/res/mipmap-ldpi-v4/ic_launcher_background.png",
+        "file": "/Volumes/SSK SSD/Kamilunavo/Artifacts/GooglePlayAudit-20261018/RisingSteps/billing/native-icons/base/res/mipmap-ldpi-v4/ic_launcher_background.png",
+        "sha256": "05a463bec4d8fdef25248222ada555ad792c4129ddc8d3f69fa9945d95ccdd61"
+      },
+      {
+        "entry": "base/res/mipmap-ldpi-v4/ic_launcher_foreground.png",
+        "file": "/Volumes/SSK SSD/Kamilunavo/Artifacts/GooglePlayAudit-20261018/RisingSteps/billing/native-icons/base/res/mipmap-ldpi-v4/ic_launcher_foreground.png",
+        "sha256": "05a463bec4d8fdef25248222ada555ad792c4129ddc8d3f69fa9945d95ccdd61"
+      },
+      {
+        "entry": "base/res/mipmap-mdpi-v4/app_icon.png",
+        "file": "/Volumes/SSK SSD/Kamilunavo/Artifacts/GooglePlayAudit-20261018/RisingSteps/billing/native-icons/base/res/mipmap-mdpi-v4/app_icon.png",
+        "sha256": "3039d021f9c758299e18f5de86b8bce9963139d7520c0ae56ccbb4467d5db606"
+      },
+      {
+        "entry": "base/res/mipmap-mdpi-v4/ic_launcher_background.png",
+        "file": "/Volumes/SSK SSD/Kamilunavo/Artifacts/GooglePlayAudit-20261018/RisingSteps/billing/native-icons/base/res/mipmap-mdpi-v4/ic_launcher_background.png",
+        "sha256": "eb352dae9fe5336d346eec4abf44d0b676677b59c45530c665bd96ced5522def"
+      },
+      {
+        "entry": "base/res/mipmap-mdpi-v4/ic_launcher_foreground.png",
+        "file": "/Volumes/SSK SSD/Kamilunavo/Artifacts/GooglePlayAudit-20261018/RisingSteps/billing/native-icons/base/res/mipmap-mdpi-v4/ic_launcher_foreground.png",
+        "sha256": "eb352dae9fe5336d346eec4abf44d0b676677b59c45530c665bd96ced5522def"
+      },
+      {
+        "entry": "base/res/mipmap-xhdpi-v4/ic_launcher_background.png",
+        "file": "/Volumes/SSK SSD/Kamilunavo/Artifacts/GooglePlayAudit-20261018/RisingSteps/billing/native-icons/base/res/mipmap-xhdpi-v4/ic_launcher_background.png",
+        "sha256": "4a3ce84b37ff6cbff0c624c02d070beb7d7c3550e8415a48a04c827e4bb86540"
+      },
+      {
+        "entry": "base/res/mipmap-xhdpi-v4/ic_launcher_foreground.png",
+        "file": "/Volumes/SSK SSD/Kamilunavo/Artifacts/GooglePlayAudit-20261018/RisingSteps/billing/native-icons/base/res/mipmap-xhdpi-v4/ic_launcher_foreground.png",
+        "sha256": "4a3ce84b37ff6cbff0c624c02d070beb7d7c3550e8415a48a04c827e4bb86540"
+      },
+      {
+        "entry": "base/res/mipmap-xxhdpi-v4/ic_launcher_background.png",
+        "file": "/Volumes/SSK SSD/Kamilunavo/Artifacts/GooglePlayAudit-20261018/RisingSteps/billing/native-icons/base/res/mipmap-xxhdpi-v4/ic_launcher_background.png",
+        "sha256": "db470ac214dd8518d347bbcab43f9e6b77fb0595fc4a5c2d09991fb5a5fbfb67"
+      },
+      {
+        "entry": "base/res/mipmap-xxhdpi-v4/ic_launcher_foreground.png",
+        "file": "/Volumes/SSK SSD/Kamilunavo/Artifacts/GooglePlayAudit-20261018/RisingSteps/billing/native-icons/base/res/mipmap-xxhdpi-v4/ic_launcher_foreground.png",
+        "sha256": "db470ac214dd8518d347bbcab43f9e6b77fb0595fc4a5c2d09991fb5a5fbfb67"
+      },
+      {
+        "entry": "base/res/mipmap-xxxhdpi-v4/ic_launcher_background.png",
+        "file": "/Volumes/SSK SSD/Kamilunavo/Artifacts/GooglePlayAudit-20261018/RisingSteps/billing/native-icons/base/res/mipmap-xxxhdpi-v4/ic_launcher_background.png",
+        "sha256": "273393f22eeee6ecee730374256dccb25aad85bee6b85e8c7cdc95ee09c8b055"
+      },
+      {
+        "entry": "base/res/mipmap-xxxhdpi-v4/ic_launcher_foreground.png",
+        "file": "/Volumes/SSK SSD/Kamilunavo/Artifacts/GooglePlayAudit-20261018/RisingSteps/billing/native-icons/base/res/mipmap-xxxhdpi-v4/ic_launcher_foreground.png",
+        "sha256": "273393f22eeee6ecee730374256dccb25aad85bee6b85e8c7cdc95ee09c8b055"
+      }
+    ],
+    "runtimeAndroid": "Not yet exercised; no device connected",
+    "realPurchases": "Not yet transacted",
+    "status": "Unsigned artifact validation passed; signing, Play upload and target-runtime checks remain"
+  },
+  "regressionRED": {
+    "bundle": "/Volumes/SSK SSD/Kamilunavo/Artifacts/GooglePlayAudit-20261018/RisingSteps/iconfinal/RisingSteps-1.0-7-upload-unsigned.aab",
+    "selectionAssets": [],
+    "passed": false
+  },
+  "regressionGREEN": {
+    "bundle": "/Volumes/SSK SSD/Kamilunavo/Artifacts/GooglePlayAudit-20261018/RisingSteps/billing/RisingSteps-1.0-7-upload-unsigned.aab",
+    "selectionAssets": [
+      {
+        "asset": "base/assets/bin/Data/16f7235a53147432685967e86f89e9d9",
+        "androidStore": "GooglePlay",
+        "assetSHA256": "6a9e7e1f1a0557285ae82cdb3e86456d9362340879a5bce9c717f9e7ddc417eb"
+      }
+    ],
+    "passed": true
+  },
+  "gameplayAndArtChanged": false,
+  "iosBehaviorChanged": false,
+  "runtimeRetest": "Pending; earlier fake-store candidate must never be uploaded",
+  "paidTransactions": "Not transacted",
+  "supersedes": "iconfinal signed Android candidate; retained as evidence, not releasable",
+  "validationEnvironment": "Null-graphics run failed existing GPU ReadPixels check. Unchanged validation rerun with native Metal; full build succeeded."
+}
