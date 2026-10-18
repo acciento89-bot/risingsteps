@@ -29,8 +29,34 @@ public static class RisingArtImports
   var leaves=AssetImporter.GetAtPath("Assets/Resources/Art/CanopyLeaves-v1.png") as TextureImporter;leaves.alphaIsTransparency=true;leaves.SaveAndReimport();Create("CanopySurface","Kamilunavo/RisingCanopy");
   Create("PortalLight","Kamilunavo/RisingPortal");
   Create("SolarSurface","Kamilunavo/RisingSolar");
-  var icon=AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Resources/Art/RisingStepsIcon.png");if(icon!=null)PlayerSettings.SetIconsForTargetGroup(BuildTargetGroup.Unknown,new[]{icon});AssetDatabase.SaveAssets();TemplePlatformAssetBake.Ensure();NaturalRealmAssetBake.Ensure();RisingRunnerAssetBake.Ensure();}
+  var icon=AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/Resources/Art/RisingStepsIcon.png");if(icon==null)throw new System.InvalidOperationException("Missing approved Rising Steps store icon");PlayerSettings.SetIconsForTargetGroup(BuildTargetGroup.Unknown,new[]{icon});ConfigureAndroidIcons(icon);AssetDatabase.SaveAssets();TemplePlatformAssetBake.Ensure();NaturalRealmAssetBake.Ensure();RisingRunnerAssetBake.Ensure();}
+ private static void ConfigureAndroidIcons(Texture2D artwork)
+ {
+#if UNITY_ANDROID
+  // Empty Android override slots export Unity's logo instead of the default icon.
+  // Use the same approved artwork for every launcher shape and density.
+  var kind=UnityEditor.Android.AndroidPlatformIconKind.Adaptive;
+  var icons=PlayerSettings.GetPlatformIcons(UnityEditor.Build.NamedBuildTarget.Android,kind);
+  if(icons.Length==0)throw new System.InvalidOperationException("Android launcher icon slots are unavailable");
+  foreach(var slot in icons)slot.SetTextures(new[]{artwork,artwork});
+  PlayerSettings.SetPlatformIcons(UnityEditor.Build.NamedBuildTarget.Android,kind,icons);
+#endif
+ }
  private static void ImportOriginal(string path,int max,bool readable,bool repeat){var t=AssetImporter.GetAtPath(path) as TextureImporter;if(t==null)throw new System.Exception("Missing original artwork "+path);t.maxTextureSize=max;t.textureType=TextureImporterType.Default;t.sRGBTexture=true;t.isReadable=readable;t.mipmapEnabled=true;t.wrapMode=repeat?TextureWrapMode.Repeat:TextureWrapMode.Clamp;t.anisoLevel=2;if(path.Contains("Chapter-")||path.Contains("ChapterAtlas-")||path.Contains("AtlasHero-"))t.npotScale=TextureImporterNPOTScale.None;t.textureCompression=readable?TextureImporterCompression.Uncompressed:TextureImporterCompression.Compressed;t.SaveAndReimport();}
  private static void Create(string name,string shader){string path="Assets/Resources/Materials/"+name+".mat";var existing=AssetDatabase.LoadAssetAtPath<Material>(path);var found=Shader.Find(shader);if(found==null)throw new System.Exception("Missing required shader "+shader);if(existing!=null){if(existing.shader!=found){existing.shader=found;EditorUtility.SetDirty(existing);}return;}AssetDatabase.CreateAsset(new Material(found),path);}
 }
+#if UNITY_ANDROID
+public sealed class RisingAndroidStoreIconFallback : UnityEditor.Android.IPostGenerateGradleAndroidProject
+{
+ public int callbackOrder=>1000;
+ public void OnPostGenerateGradleAndroidProject(string path)
+ {
+  // Unity 6.6 only exposes adaptive slots, but still emits a legacy fallback PNG.
+  // Keep that fallback accurate too, for store tooling and non-adaptive consumers.
+  var target=Path.GetFullPath(Path.Combine(path,"..","launcher","src","main","res","mipmap-mdpi","app_icon.png"));
+  if(!File.Exists(target))throw new UnityEditor.Build.BuildFailedException("Expected Android launcher fallback icon was not generated");
+  File.Copy("Assets/Resources/Art/RisingStepsIcon.png",target,true);
+ }
+}
+#endif
 #endif

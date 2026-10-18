@@ -1,0 +1,173 @@
+{
+  "checkedUTC": "2026-10-18T12:49:55.690815+00:00",
+  "scope": "Android export of the accepted iOS gameplay/art; explicit accurate Android launcher assignment and fallback",
+  "baseCommit": "4d0911df3495efbbb39b614e101543c4f475a9bd",
+  "sourceSha256": "4990e7e295055b5afc0bdf45e95dbc0e6b8fffd5a7521391a7d72e258f8c38bf",
+  "package": "com.kamilunavo.risingsteps",
+  "build": "1.0(7)",
+  "unsignedSha256": "e01bea93f75ddfd0a71d2eb1225a9b0f39a3363a7aed10d56d8a8f6c8f36a187",
+  "iconChecks": {
+    "bundle": "/Volumes/SSK SSD/Kamilunavo/Artifacts/GooglePlayAudit-20261018/RisingSteps/RisingSteps-1.0-7-iconfinal-unity.aab",
+    "source": "/Volumes/SSK SSD/Kamilunavo/Projects/RisingSteps/Assets/Resources/Art/RisingStepsIcon.png",
+    "sourceSha256": "d34a325901f5d6f924cdd215db307e562a1e9da8784bfc9d9408655f79964a8a",
+    "foregroundSource": "/Volumes/SSK SSD/Kamilunavo/Projects/RisingSteps/Assets/Resources/Art/RisingStepsIcon.png",
+    "checks": [
+      {
+        "entry": "base/res/mipmap-hdpi-v4/ic_launcher_foreground.png",
+        "size": [
+          162,
+          162
+        ],
+        "sourceColorError": 0.010618001201395052,
+        "alphaError": 0.0,
+        "passed": true,
+        "sha256": "c3783aab04eaf190fed87d16c8cfe311853483c350b0b9bd22411ca27c1e0e94"
+      },
+      {
+        "entry": "base/res/mipmap-ldpi-v4/ic_launcher_foreground.png",
+        "size": [
+          81,
+          81
+        ],
+        "sourceColorError": 0.01456975413241047,
+        "alphaError": 0.0,
+        "passed": true,
+        "sha256": "05a463bec4d8fdef25248222ada555ad792c4129ddc8d3f69fa9945d95ccdd61"
+      },
+      {
+        "entry": "base/res/mipmap-mdpi-v4/app_icon.png",
+        "size": [
+          1024,
+          1024
+        ],
+        "sourceColorError": 0.0,
+        "alphaError": 0.0,
+        "passed": true,
+        "sha256": "3039d021f9c758299e18f5de86b8bce9963139d7520c0ae56ccbb4467d5db606"
+      },
+      {
+        "entry": "base/res/mipmap-mdpi-v4/ic_launcher_foreground.png",
+        "size": [
+          108,
+          108
+        ],
+        "sourceColorError": 0.012924971085828022,
+        "alphaError": 0.0,
+        "passed": true,
+        "sha256": "4d46f1b7a9240d0618eb1058a3bbe0df91d0669ae2469cc73896501910bd6f96"
+      },
+      {
+        "entry": "base/res/mipmap-xhdpi-v4/ic_launcher_foreground.png",
+        "size": [
+          216,
+          216
+        ],
+        "sourceColorError": 0.009252226839524104,
+        "alphaError": 0.0,
+        "passed": true,
+        "sha256": "53341361cf30b971b49aaa701852f9ec86c79e63f1a1ba2963de3d40cf546365"
+      },
+      {
+        "entry": "base/res/mipmap-xxhdpi-v4/ic_launcher_foreground.png",
+        "size": [
+          324,
+          324
+        ],
+        "sourceColorError": 0.007615609369287521,
+        "alphaError": 0.0,
+        "passed": true,
+        "sha256": "ebf3352f1083dd0d83b59782d0f14c73bc8c91ddf6eff6e34fb3fe54ed245593"
+      },
+      {
+        "entry": "base/res/mipmap-xxxhdpi-v4/ic_launcher_foreground.png",
+        "size": [
+          432,
+          432
+        ],
+        "sourceColorError": 0.006550397794005577,
+        "alphaError": 0.0,
+        "passed": true,
+        "sha256": "0d677561dacdb909743ed04f1ba38028bbbed874b8ce3a00b7040aeaadd11bbe"
+      }
+    ],
+    "passed": true,
+    "meaning": "Actual compiled launcher images resemble the exact assigned artwork; not a gameplay or overall graphic-quality claim."
+  },
+  "targetSdk": 36,
+  "billingVersion": "9.0.0",
+  "nativeLibraries16KB": [
+    {
+      "entry": "base/lib/arm64-v8a/libc++_shared.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384,
+        16384
+      ]
+    },
+    {
+      "entry": "base/lib/arm64-v8a/libgame.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384
+      ]
+    },
+    {
+      "entry": "base/lib/arm64-v8a/libil2cpp.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384,
+        16384
+      ]
+    },
+    {
+      "entry": "base/lib/arm64-v8a/libmain.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384,
+        16384
+      ]
+    },
+    {
+      "entry": "base/lib/arm64-v8a/libswappywrapper.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384
+      ]
+    },
+    {
+      "entry": "base/lib/arm64-v8a/libunity.so",
+      "loadAlignments": [
+        16384,
+        16384,
+        16384,
+        16384
+      ]
+    }
+  ],
+  "bundlePageAlignment": "PAGE_ALIGNMENT_16K",
+  "nativeEditorBuild": "Exit0; full RisingValidation aggregate ran",
+  "runtimeGameCodeChanged": false,
+  "iOSArtworkChanged": false,
+  "failedEvidenceRetained": [
+    "icon-red-before.json",
+    "unity-android-iconfix.log",
+    "icon-after-supported-api.json"
+  ],
+  "failuresExplained": [
+    "Empty adaptive slots exported Unity logos",
+    "Unity6.6 rejects obsolete Legacy/Round setters; supported adaptive assignment plus native fallback build hook used"
+  ],
+  "notValidated": [
+    "Android runtime rendering and input",
+    "Google license-tester purchases, restores and refunds",
+    "Physical-device performance and ad serving"
+  ],
+  "distribution": "Not yet uploaded to Google Play",
+  "evidenceDirectory": "/Volumes/SSK SSD/Kamilunavo/Artifacts/GooglePlayAudit-20261018/RisingSteps",
+  "userDeletedPrimaryConcept": "Preserved outside this change"
+}
