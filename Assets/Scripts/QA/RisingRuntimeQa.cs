@@ -12,9 +12,33 @@ namespace Kamilunavo.RisingSteps.QA
 {
  public sealed class RisingRuntimeQa:MonoBehaviour
  {
-  private RisingCourse _course;private RisingHud _hud;private PlayerMotor _motor;private string _out;private int _checks;private static bool Enabled=>Array.Exists(Environment.GetCommandLineArgs(),a=>a=="-qaRising")||Environment.GetEnvironmentVariable("RISING_QA")=="1";
-  public static void Configure(){if(Enabled)RisingSave.QaKey="kamilunavo.risingsteps.qa."+(Environment.GetEnvironmentVariable("RISING_QA_ID")??"local");}
-  public static void MaybeStart(RisingCourse course,RisingHud hud,PlayerMotor motor){if(!Enabled)return;var qa=new GameObject("RisingRuntimeQa").AddComponent<RisingRuntimeQa>();qa._course=course;qa._hud=hud;qa._motor=motor;qa.StartCoroutine(qa.Run());}
+  private RisingCourse _course;private RisingHud _hud;private PlayerMotor _motor;private string _out;private int _checks;
+  // Explicit manual QA keeps native providers off without invoking legacy autoplay.
+  // Android forwards the opt-in through its real Activity intent; release players omit this class.
+  private static string RequestedMode
+  {
+   get
+   {
+    var configured=Environment.GetEnvironmentVariable("RISING_QA_MODE");if(!string.IsNullOrEmpty(configured))return configured;
+    var args=Environment.GetCommandLineArgs();
+    if(Array.IndexOf(args,"-qaRisingManual")>=0)return "manual";
+    if(Array.IndexOf(args,"-qaRisingMastery")>=0)return "mastery";
+    if(Array.IndexOf(args,"-qaRisingMasteryReload")>=0)return "mastery-reload";
+#if UNITY_ANDROID && !UNITY_EDITOR
+    using(var player=new AndroidJavaClass("com.unity3d.player.UnityPlayer"))
+    using(var activity=player.GetStatic<AndroidJavaObject>("currentActivity"))
+    using(var intent=activity.Call<AndroidJavaObject>("getIntent"))
+     return intent.Call<string>("getStringExtra","portfolioQaMode")??"";
+#else
+    return "";
+#endif
+   }
+  }
+  private static bool ManualRequested=>RequestedMode=="manual";
+  private static bool MasteryRequested=>RequestedMode=="mastery"||RequestedMode=="mastery-reload";
+  private static bool Enabled=>ManualRequested||MasteryRequested||Array.Exists(Environment.GetCommandLineArgs(),a=>a=="-qaRising")||Environment.GetEnvironmentVariable("RISING_QA")=="1";
+  public static void Configure(){if(Enabled)RisingSave.QaKey="kamilunavo.risingsteps.qa."+(Environment.GetEnvironmentVariable("RISING_QA_ID")??(MasteryRequested?"portfolio-mastery":ManualRequested?"portfolio-manual":"local"));}
+  public static void MaybeStart(RisingCourse course,RisingHud hud,PlayerMotor motor){if(!Enabled)return;if(ManualRequested){Debug.Log("RISING_MANUAL_QA_READY: native providers disabled; manual UI; isolated stable profile");return;}var qa=new GameObject("RisingRuntimeQa").AddComponent<RisingRuntimeQa>();qa._course=course;qa._hud=hud;qa._motor=motor;qa.StartCoroutine(qa.Run());}
   private static string Arg(string name,string fallback){var args=Environment.GetCommandLineArgs();int i=Array.IndexOf(args,name);return i>=0&&i+1<args.Length?args[i+1]:fallback;}
   private void Check(bool value,string name){_checks++;if(value){Debug.Log("QA_PASS "+name);return;}File.WriteAllText(Path.Combine(_out,"FAIL.txt"),name);Debug.LogError("RISING_QA_FAIL "+name);throw new Exception(name);}
   // Pixels are captured from the actual rendered frame before suspending simulation.
@@ -25,8 +49,9 @@ namespace Kamilunavo.RisingSteps.QA
    try{File.WriteAllBytes(Path.Combine(_out,name+".png"),image.EncodeToPNG());yield return null;if(suspended)yield return new WaitForEndOfFrame();}
    finally{Destroy(image);if(suspended)_course.Paused=false;}
   }
-  private IEnumerator Run(){_out=Arg("-qaOutput",Path.Combine(Application.persistentDataPath,"RisingQA"));Directory.CreateDirectory(_out);yield return new WaitForSecondsRealtime(1);
+  private IEnumerator Run(){_out=Arg("-qaOutput",Path.Combine(Application.persistentDataPath,MasteryRequested?"RisingQA/"+RequestedMode:"RisingQA"));Directory.CreateDirectory(_out);yield return new WaitForSecondsRealtime(1);
    Check(_hud.ModalOpen&&_course.Paused,"initial home paused");yield return Capture("home");
+   if(MasteryRequested){yield return MasteryNativeFlow(RequestedMode=="mastery-reload");yield break;}
    if(Environment.GetEnvironmentVariable("RISING_QA_COMPLETED_REPLAY")=="1"){yield return CompletedReplay();File.WriteAllText(Path.Combine(_out,"PASS.txt"),"RISING_COMPLETED_REPLAY_PASS "+_checks+" all100 previously earned level-card callbacks launch exact realm/level without losing independent stars; actual earned saved profile, no unlock fixture");yield break;}
    if(Environment.GetEnvironmentVariable("RISING_QA_CHAPTERS")=="1"){yield return OriginalChapters();File.WriteAllText(Path.Combine(_out,"PASS.txt"),"RISING_ORIGINAL_CHAPTERS_PASS "+_checks+" actual DE/EN portrait/landscape scrolling, seven distinct illustrated cards, real selection and parent Back; isolated unlock fixture only");yield break;}
    if(Environment.GetEnvironmentVariable("RISING_QA_TUTORIAL")=="1"){yield return TutorialAndHome();File.WriteAllText(Path.Combine(_out,"PASS.txt"),"RISING_TUTORIAL_PASS "+_checks);Debug.Log("RISING_TUTORIAL_PASS "+_checks);yield break;}
@@ -175,6 +200,99 @@ _hud.Close();_course.StartRun(0,false);yield return new WaitForSeconds(.5f);
    ExecuteEvents.ExecuteHierarchy(lookTarget,foreign,ExecuteEvents.pointerUpHandler);deliberate.position+=Vector2.right*20*UiMetrics.PointScale;ExecuteEvents.ExecuteHierarchy(lookTarget,deliberate,ExecuteEvents.dragHandler);Check(orbit.Yaw>requested,"jump finger release cannot release View owner");
    _hud.ShowSettings();requested=orbit.Yaw;_hud.Close();deliberate.position+=Vector2.right*40*UiMetrics.PointScale;ExecuteEvents.ExecuteHierarchy(lookTarget,deliberate,ExecuteEvents.dragHandler);Check(orbit.Yaw==requested,"modal invalidates View ownership after resume");_motor.ResetInput();_course.StartRun(0,false);yield return new WaitForSeconds(.4f);Check(orbit.Yaw==0,"new route faces forward again");yield return Capture("deliberate-camera-ownership");
   }
+  private void NativeButton(string name)
+  {
+   var buttons=FindObjectsByType<UnityEngine.UI.Button>(FindObjectsInactive.Exclude,FindObjectsSortMode.None);
+   var button=Array.Find(buttons,item=>item.name==name&&item.gameObject.activeInHierarchy);
+   Check(button!=null&&button.interactable,"actual native button ready: "+name);
+   button.onClick.Invoke();
+  }
+  private IEnumerator MasteryNativeFlow(bool reload)
+  {
+   var journal=_course.GetComponent<Kamilunavo.RisingSteps.Gameplay.RisingMastery>();
+   Check(journal!=null&&journal.Error==null,"native journal initialized without storage error");
+   Check(Kamilunavo.RisingSteps.Monetization.MonetizationConfig.QaNetworkDisabled&&!_course.Store.Ready,"native journal QA disables commerce providers before connection");
+   if(reload)
+   {
+    Check(_course.Profile.TutorialDone,"actual tutorial persists after cold native process");
+    Check(journal.Book.Entries.Length==1&&journal.Book.Entries[0].TotalAttempts==3&&journal.Book.Entries[0].History.Length==3,"three actual attempts restored from native journal");
+    Check(journal.Book.Entries[0].Best!=null&&journal.Book.Entries[0].Best.Falls==0&&journal.Book.Entries[0].ImprovementCount>=1,"clean improved personal best survives cold boot");
+    Check(journal.Book.GuideEnabled&&journal.Book.Entries[0].Best.Samples.Length>0,"optional compatible personal guide survives cold boot");
+    _hud.ShowTrialCourse(0,0);yield return Capture("cold-journal-history");
+   }
+   else
+   {
+    Check(journal.Book.Entries.Length==0,"fresh isolated native journal, no fabricated earned records");
+    Check(!_course.Profile.TutorialDone,"fresh profile still requires actual tutorial");
+    yield return TutorialAndHome();
+    double initialSeconds=0;string initialBest=null;
+    for(int attempt=0;attempt<3;attempt++)
+    {
+     _hud.ShowTrialAlbum(0);yield return null;NativeButton("TrialCourse0");yield return null;
+     if(attempt==0)yield return Capture("journal-before-first-recording");
+     NativeButton("StartRecordedClimb");yield return new WaitForSecondsRealtime(.5f);
+     Check(journal.Recording&&_course.Height==0&&!_course.Profile.Challenge,"native full-climb UI starts real unlocked step-zero route");
+     if(attempt==0)yield return new WaitForSecondsRealtime(15); // Real active idle time makes a deliberately slower first PB.
+     if(attempt==2)
+     {
+      yield return new WaitForEndOfFrame();var marker=_course.transform.Find("PersonalPaceMarker");
+      Check(marker!=null&&marker.GetComponent<Renderer>().enabled&&marker.GetComponentsInChildren<Collider>(true).Length==0,"native personal guide renders without a collider");
+      _course.Profile.ReducedMotion=true;yield return new WaitForEndOfFrame();
+      Check(!marker.GetComponent<Renderer>().enabled,"Reduced Motion hides native guide");
+      _course.Profile.ReducedMotion=false;
+     }
+     for(int step=1;step<=12;step++)
+     {
+      yield return Climb(step);
+      if(attempt==0&&step==3)
+      {
+       _motor.ResetInput();_hud.ShowSettings();double before=journal.Elapsed;yield return new WaitForSecondsRealtime(1);
+       Check(Math.Abs(journal.Elapsed-before)<.01,"real native settings pause excludes inactive trial time");
+       _hud.Close();yield return null;
+      }
+      if(attempt==1&&step==1)
+      {
+       int falls=_course.Profile.Falls;float began=Time.realtimeSinceStartup;Drive(Vector3.right,true);
+       while(_course.Profile.Falls==falls&&Time.realtimeSinceStartup-began<8){Drive(Vector3.right);yield return null;}
+       _motor.ResetInput();yield return new WaitForSecondsRealtime(.2f);
+       Check(_course.Profile.Falls==falls+1&&_course.Height==1,"genuine native fall returns to previous checkpoint");
+      }
+     }
+     yield return WalkTo(_course.Steps[12].transform.position+Vector3.forward*.5f,2);
+     yield return new WaitForSecondsRealtime(.3f);
+     var result=journal.LastCompleted;
+     Check(_course.Profile.Completed&&result!=null&&result.Splits.Length==12&&!journal.HasPending&&journal.Error==null,"actual native portal stores one completed twelve-split journal entry");
+     var entry=Kamilunavo.RisingSteps.Core.Mastery.MasteryBookRules.Find(journal.Book,result.Key);
+     Check(entry!=null&&entry.TotalAttempts==attempt+1&&entry.History.Length==attempt+1,"native journal records each actual attempt exactly once");
+     if(attempt==0)
+     {
+      Check(result.Falls==0&&entry.Best!=null&&entry.Best.ID==result.ID,"first genuinely clean native climb becomes PB");
+      initialSeconds=result.Seconds;initialBest=result.ID;Check(initialSeconds>15,"deliberate first-run active idle is included in trial time");
+      Check(journal.SetGuide(true),"guide preference saved to real native journal");
+     }
+     else if(attempt==1)Check(result.Falls==1&&entry.Best.ID==initialBest,"native fall recorded in history without replacing clean PB");
+     else Check(result.Falls==0&&result.Seconds<initialSeconds&&entry.Best.ID==result.ID&&entry.ImprovementCount>=1,"faster genuinely clean native climb improves compatible personal best");
+     yield return Capture("completed-recording-"+(attempt+1));_hud.Close();
+    }
+    _hud.ShowTrialCourse(0,0);yield return Capture("journal-three-attempts");
+   }
+   foreach(bool landscape in new[]{false,true})
+   {
+    Screen.orientation=landscape?ScreenOrientation.LandscapeLeft:ScreenOrientation.Portrait;yield return WaitOrientation(landscape);
+    Check((Screen.width>Screen.height)==landscape,"actual Android journal orientation settled "+Screen.width+"x"+Screen.height);
+    for(int language=0;language<2;language++)
+    {
+     _hud.ShowSettings();NativeButton("Language");yield return null;_hud.ShowTrialCourse(0,0);yield return null;
+     CheckModalTargets("native journal "+_course.Profile.Language+" landscape="+landscape);
+     yield return Capture("journal-"+_course.Profile.Language+"-"+(landscape?"landscape":"portrait"));
+    }
+   }
+   Screen.orientation=ScreenOrientation.Portrait;yield return WaitOrientation(false);_hud.ShowTrialCourse(0,0);
+   Check(Screen.height>Screen.width,"actual native portrait restored before journal PASS");
+   File.WriteAllText(Path.Combine(_out,"PASS.txt"),"RISING_MASTERY_NATIVE_PASS checks="+_checks+" reload="+reload+"; actual tutorial/controller jumps/portal, three native records, clean PB/fall/improvement, settings pause, compatible noncolliding reduced-motion guide and DE/EN orientations; no real commerce or device FPS claim");
+   Debug.Log("RISING_MASTERY_NATIVE_PASS checks="+_checks+" reload="+reload);
+  }
+
   private IEnumerator TutorialAndHome(){
    var canvas=_hud.Joystick.GetComponentInParent<Canvas>();var primary=canvas.transform.Find("SafeArea/ModalBackdrop/ModalCard/Close").GetComponent<UnityEngine.UI.Button>();Check(primary.GetComponentInChildren<UnityEngine.UI.Text>().text.Length>0,"home has a concrete primary play action");
    var content=canvas.transform.Find("SafeArea/ModalBackdrop/ModalCard/Viewport/Content");Check(content.Find("SkyAtlas")!=null&&content.Find("Realm0/RealmArt")!=null&&content.Find("Realm1/RealmArt")!=null&&content.Find("Realm2/RealmArt")!=null,"home has hero atlas and three illustrated realm previews");
