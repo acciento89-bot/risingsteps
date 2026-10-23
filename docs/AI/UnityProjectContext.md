@@ -19,3 +19,7 @@ Root validation required: pure managed RED/GREEN before product behavior; actual
 
 Evidence: AGENTS/README/MASTER-PLAN/ART-DIRECTION/full V1 ledger; ProjectVersion/EditorBuildSettings/Graphics/Player settings; manifest/lock; actual RisingProfile/Save/Campaign/Rules/Course/PlayerMotor/GameBootstrap/Hud/SafeAreaFitter/ReservedRegionProvider and representative Editor validators. Only this context document updated during onboarding; no Unity asset modified.
 <!-- unity-onboarding:generated:end -->
+
+
+## 2026-10-23 iOS update preparation
+Fresh Apple live1.0(7)/draft1.1.0/max7; target1.1.0(8). Only iPhone build7→8, Android8 unchanged. Current Android-accepted source2bdc377 supplies genuine climb journal/splits/clean PB/history and personal optional pace light. Google original7 was freshly confirmed public, so prepared update8 was actually submitted once without restarting/withdrawing the original review; see portfolio receipt. Unity6000.6.4f1, Built-in, legacy/custom UGUI, IAP5.4.4/Google11.5 unchanged. Existing development-only RISING_QA_MODE=manual/mastery environments isolate saves/providers before startup and work on iOS; shipping excludes QA. No MCP or new runtime dependency added. Prepare one native export/build serially; actual Duo, exact-source visual/icon review and runtime remain open while shared retained device is shut down and Mac restart response pending.
