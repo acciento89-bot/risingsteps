@@ -495,3 +495,8 @@ Source `033e62f36b06fdd656e23746363d9f7fb1990e99e219b810bf4c5828e9a216af`: full 
 - Candidate1.1.0(8): native164 actual full-climb checks +22 cold process checks passed; exact owned AVD removed. See docs/QA/android-mastery-native-20261023.md for scope and prior harness/renderer failures.
 - QA-only Android Intent modes disable providers before initialization, use stable isolated storage, and assert actual orientations. No production motor, clock, economy or gameplay artwork changed.
 - Existing Google1.0(7) first review preserved; no duplicate/withdrawal. Final release AAB/signature/startup and later iOS/Duo remain pending.
+
+
+## 2026-10-24 — iOS8 delivery preparation, native gate open
+
+Current iPhone candidate1.1.0(8) preserves the delivered Android8 identity and already integrated journal gameplay. Existing SDK27.1 archive metadata was read back; actual current-source native feature/OS input/fold/visual/icon/gallery acceptance remains pending. No iOS8 upload or review is claimed. See docs/QA/ios-climb-journal-delivery-20261024.md.
