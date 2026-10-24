@@ -1,12 +1,12 @@
 {
   "game": "Rising Steps",
   "status": "passed",
-  "sourceSha256": "033e62f36b06fdd656e23746363d9f7fb1990e99e219b810bf4c5828e9a216af",
-  "reviewer": "Codex current source-bound Mac Metal frames, unchanged accepted game artwork and user-approved practical target",
-  "reviewedAt": "2026-10-15T05:58:41.115631+00:00",
-  "reason": "Icon-only replacement, lossless icon import and build6→7. Runtime code, all models/world textures/menu art/scenes/packages and commerce/ad behavior byte-match the accepted previous build. Fresh current-source actual60jumps/tenworld previews and36-step/default settings/shop/landscape/fall checks pass. Actual new frames retain the previously accepted Temple/nine-realm practical art baseline; this is not cinematic or numerical similarity to the original illustration. Existing genuine iOS store screenshots remain relevant because runtime artwork is unchanged.",
+  "sourceSha256": "9973bbb9d1becf5620cdaf688dc7dc90ed482d9c38dfc37940ea051fd675942f",
+  "reviewer": "Codex direct concept/practical accepted temple comparison with current native iOS renders, ten realm images and current journal UI",
+  "reviewedAt": "2026-10-24T11:57:49.435037+00:00",
+  "reason": "The exact existing Debug8 player rendered all ten distinct authored realms. Direct inspection confirms grass/limestone, turquoise falls, dry columned temple, jungle, crystals, frost, dunes, lava, coast and star realms; green-jacketed backpack runner, separate landing surfaces and portal activity remain consistent with the accepted practical temple baseline. Current cream/green atlas and journal retain the same identity; center route remains clear. This is practical accepted mobile art, not cinematic equivalence to the illustration.",
   "targetAdjustment": {
-    "userStatement": "Die Grafik ist auch so schon okay; diese Grafik wie wir im Tempel haben benötigen wir als Qualität für die anderen Zonen. Höhenfortschritt wie im Concept mit dem Berg daneben.",
+    "userStatement": "Die Grafik ist auch so schon okay; diese Grafik wie wir im Tempel haben ben\u00f6tigen wir als Qualit\u00e4t f\u00fcr die anderen Zonen. H\u00f6henfortschritt wie im Concept mit dem Berg daneben.",
     "acceptedTempleBaselineSource": "bca059a37e902a75c2ffef5f8373cc287b2d703bd9f33eb1ab9bc8b8b607c58c",
     "scope": "Comparable authored detail in the nine natural realms, their own identities, mountain/live height/bar HUD. This practical target supersedes insisting on cinematic equivalence for this slice; no numerical90-95percent claim."
   },
@@ -33,110 +33,109 @@
     ],
     "menu": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/Native-Worlds/home.png",
-        "sha256": "43d16d3ee71106ff02b6e4ec145f83e23f5d2cd561c4f54be04ed94f1fbc4b40",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Artifacts/StoreOptimization-20261020/PrivateDiagnostics/RisingStepsDuo-20261023/native-warm-worlds-20261024/home.png",
+        "sha256": "ac54011f8405aef3612886e894fcb28bff87851ed3455dc53454f125a9b90e4a",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Artifacts/StoreOptimization-20261020/PrivateDiagnostics/RisingStepsDuo-20261023/native-ios-mastery-actual-20261024/home-actions.png",
+        "sha256": "f81e4267cc9e6f07fecfbf4e16f5b8d328d2e8a8bf357115de89c81457a9b096",
         "origin": "Unity-render"
       }
     ],
     "gameplay": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/Native-Worlds/world-0-stride.png",
-        "sha256": "f6f2f02ab19a58206d00ecbcf133ef492fa0a77095be211d30c967db8e78c0f2",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Artifacts/StoreOptimization-20261020/PrivateDiagnostics/RisingStepsDuo-20261023/native-warm-worlds-20261024/world-0-mid.png",
+        "sha256": "0a76c6e5619a47483d23166752cea00e6c53b6d80fd999136df08abfb87a13f2",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/Native-Worlds/world-0-mid.png",
-        "sha256": "3e558f9ebd987a1386b2def7f2ae979fbd3f302bb2d36557801dfb34213379b9",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Artifacts/StoreOptimization-20261020/PrivateDiagnostics/RisingStepsDuo-20261023/native-warm-worlds-20261024/world-1-mid.png",
+        "sha256": "660da75719ca49ad97c676b22792681899c5186492e04295f15dbfb5a9a9d3d8",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/Native-Worlds/world-2-mid.png",
-        "sha256": "9e7549a1131a24ca381b475e34d477b8a0ec63c649e4027608d43e462b8663bc",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Artifacts/StoreOptimization-20261020/PrivateDiagnostics/RisingStepsDuo-20261023/native-warm-worlds-20261024/world-2-stride.png",
+        "sha256": "ef69dd9551e208a8b4143d5440ff93387143b8b442a6093f179c8ec78ec5d217",
         "origin": "Unity-render"
       }
     ],
     "submenus": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/Native-Default/settings.png",
-        "sha256": "db072ca9e4b812ec09e30f85ed21ed6eb62b8331fe6d32486aab3b79a617a8fc",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Artifacts/StoreOptimization-20261020/PrivateDiagnostics/RisingStepsDuo-20261023/native-ios-mastery-actual-20261024/journal-de-portrait.png",
+        "sha256": "9918605a53b74b607205e327ef0aec5ba54fe955534028849d7fece0fe27833a",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/Native-Default/shop.png",
-        "sha256": "4ca6b88525dee72c0a1bcaff5f637b587ef03cc044986afc1b668982f9ec5d71",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Artifacts/StoreOptimization-20261020/PrivateDiagnostics/RisingStepsDuo-20261023/native-ios-mastery-actual-20261024/journal-en-landscape.png",
+        "sha256": "e15bf61f4bf88798ba96fb0a063e901ff6901ee04d9d00b6125ef5ab3316d058",
+        "origin": "Unity-render"
+      },
+      {
+        "path": "/Volumes/SSK SSD/Kamilunavo/Artifacts/StoreOptimization-20261020/PrivateDiagnostics/RisingStepsDuo-20261023/native-ios-mastery-actual-20261024/style-refreshed.png",
+        "sha256": "ff76610d0c4e4aca92509b9bf70aa6dbe7e2dc5074fd7ef56eac31fbdb698eba",
         "origin": "Unity-render"
       }
     ],
     "variants": [
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/Native-Worlds/world-0-mid.png",
-        "sha256": "3e558f9ebd987a1386b2def7f2ae979fbd3f302bb2d36557801dfb34213379b9",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Artifacts/StoreOptimization-20261020/PrivateDiagnostics/RisingStepsDuo-20261023/native-warm-worlds-20261024/world-0-mid.png",
+        "sha256": "0a76c6e5619a47483d23166752cea00e6c53b6d80fd999136df08abfb87a13f2",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/Native-Worlds/world-1-mid.png",
-        "sha256": "aede24d12dae541d2fbaa6686213b6b793860d75714928656bc6af453ce1a26b",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Artifacts/StoreOptimization-20261020/PrivateDiagnostics/RisingStepsDuo-20261023/native-warm-worlds-20261024/world-1-mid.png",
+        "sha256": "660da75719ca49ad97c676b22792681899c5186492e04295f15dbfb5a9a9d3d8",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/Native-Worlds/world-2-mid.png",
-        "sha256": "9e7549a1131a24ca381b475e34d477b8a0ec63c649e4027608d43e462b8663bc",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Artifacts/StoreOptimization-20261020/PrivateDiagnostics/RisingStepsDuo-20261023/native-warm-worlds-20261024/world-2-mid.png",
+        "sha256": "b795c8ace845d1af4838c3db9b99fb947ccc21efc60c76107b521419043d3f0a",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/Native-Worlds/world-3-mid.png",
-        "sha256": "941e87cfafee3c30c3b1eb26a6adbf3a6a7ac1451dc5a5e1f225ac784fd7dd73",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Artifacts/StoreOptimization-20261020/PrivateDiagnostics/RisingStepsDuo-20261023/native-warm-worlds-20261024/world-3-mid.png",
+        "sha256": "cd0ec4d09e0f949a9539f96591c2c9854317cc560dbbdecd90a15691a35471c3",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/Native-Worlds/world-4-mid.png",
-        "sha256": "f1448cccaed44777756e7e8e654cb81c97b40c3d7dd51b155323e7b2d8f326cf",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Artifacts/StoreOptimization-20261020/PrivateDiagnostics/RisingStepsDuo-20261023/native-warm-worlds-20261024/world-4-mid.png",
+        "sha256": "e1d41f17f585fc5d0e3b2116a6b84d71054af04d4d7da2ef68432c0cf0516c78",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/Native-Worlds/world-5-mid.png",
-        "sha256": "941002054f7dbe403380d936ef88afe9590917125f3e58b6da3761f1ea81f576",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Artifacts/StoreOptimization-20261020/PrivateDiagnostics/RisingStepsDuo-20261023/native-warm-worlds-20261024/world-5-mid.png",
+        "sha256": "31524dee8746a38ae85789fadfefa6a9fe4ab6baf4575d2f9a8feb8ad643a2b7",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/Native-Worlds/world-6-mid.png",
-        "sha256": "d6de2d47c23c3b18a8504761374fe36147d09b2976a477c783bb49e02225d2cf",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Artifacts/StoreOptimization-20261020/PrivateDiagnostics/RisingStepsDuo-20261023/native-warm-worlds-20261024/world-6-mid.png",
+        "sha256": "5816144f95f14b925b66564fbdfe12bbe1105794790b4341074ed94db27f0924",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/Native-Worlds/world-7-mid.png",
-        "sha256": "8e6c5f9d3bb49b6f4b9928a7d53788aa707bf5e4d2d8849c871ed53131ed9685",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Artifacts/StoreOptimization-20261020/PrivateDiagnostics/RisingStepsDuo-20261023/native-warm-worlds-20261024/world-7-mid.png",
+        "sha256": "c8b50a861a0f24bde178b298d2ecaa684ac5fb4ab925a35f11810ec1f6d9f4a9",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/Native-Worlds/world-8-mid.png",
-        "sha256": "4057f00d5329e7ddc69d04a2209d5f141073a6757a07dac134fb6b8ac289cfd8",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Artifacts/StoreOptimization-20261020/PrivateDiagnostics/RisingStepsDuo-20261023/native-warm-worlds-20261024/world-8-mid.png",
+        "sha256": "f03984d04421129da7d47cd5431b97d7a6e251cf1a5b5b6772e68bb2daab0187",
         "origin": "Unity-render"
       },
       {
-        "path": "/Volumes/SSK SSD/Kamilunavo/Builds/IconRelease-20261015/Rising/Lossless/Native-Worlds/world-9-mid.png",
-        "sha256": "3af0a4eaf34cbcca41dda4a41e0e05bc22a135dc1c4250cba2c4cb7b514b42a0",
+        "path": "/Volumes/SSK SSD/Kamilunavo/Artifacts/StoreOptimization-20261020/PrivateDiagnostics/RisingStepsDuo-20261023/native-warm-worlds-20261024/world-9-mid.png",
+        "sha256": "2e0e1078b2a69ca077a0aa7745163d0c85bda226b2e0f5c149869fcf6aa59067",
         "origin": "Unity-render"
       }
     ]
   },
-  "qaReceipt": "docs/QA/rising-nine-realm-parity-mountain-20261014.json",
-  "comparisonSources": {
-    "path": "/Volumes/SSK SSD/Kamilunavo/Artifacts/RisingRealmParity-20261014/sources.json",
-    "sha256": "6d29d7363e48e76da53b24fc51cc5f49a376a7fa937dd7454ae23cbbc2b16ac5"
+  "nativeRun": {
+    "checks": 205,
+    "actualControllerJumps": 60,
+    "worlds": 10,
+    "fixtureUnlocksNotEarnedProgress": true,
+    "receipt": "/Volumes/SSK SSD/Kamilunavo/Artifacts/StoreOptimization-20261020/PrivateDiagnostics/RisingStepsDuo-20261023/native-warm-worlds-20261024.json"
   },
-  "limits": "Actual iOS Simulator IL2CPP/Metal frames and controller/UI validation; visual fixtures unlock ten realms, not earned campaign proof. No physical-device FPS/thermal or real paid purchase/ad impression is claimed. Archive, SDK signing, App Store processing and persisted App Review status are separate release checks.",
-  "previousAcceptedSourceSha256": "0c38d1dc862ba07751b6b78f866d23b78ceda9bd62d03cc0eab9dd5254ecc436",
-  "releaseAcceptance": {
-    "userStatement": "perfekt das reicht!! nun können wir es auch zur Prüfung schicken, denk an die Werbung und In-App-Käufe, alles in App Store Connect mit Screenshots",
-    "scope": "User accepts current graphics and authorizes App Review. Source delta is production commerce IDs, nonpersonalized G-rated ad request, visible privacy-policy row and build6; no world/model/controller changes.",
-    "priorAcceptedSourceSha256": "0c38d1dc862ba07751b6b78f866d23b78ceda9bd62d03cc0eab9dd5254ecc436"
-  },
-  "nativeIosVerification": {
-    "Native-ProMax-worlds": "RISING_TEN_WORLD_PREVIEW_PASS checks=205 actual60controllerjumps/tenworlds; isolated fixture unlocks for visual review only;100course acceptance remains pending",
-    "Native-ProMax-chapters": "RISING_ORIGINAL_CHAPTERS_PASS 196 actual DE/EN portrait/landscape scrolling, seven distinct illustrated cards, real selection and parent Back; isolated unlock fixture only",
-    "Native-SE3-default": "RISING_QA_PASS checks=201 actual controller 36 steps and natural fall; isolated save; no FPS claim",
-    "Native-iPad-worlds": "RISING_TEN_WORLD_PREVIEW_PASS checks=205 actual60controllerjumps/tenworlds; isolated fixture unlocks for visual review only;100course acceptance remains pending"
-  },
-  "candidateReport": "docs/QA/rising-icon-release7-20261015.json"
+  "limits": "Engine screenshots include QA render-size padding and are NOT Duo store screenshots. One preceding cold-start legacy auto-jump run failed at step4; unchanged player passes complete warm-boot comparison, root timing cause unconfirmed and first failure retained. Physical OS input/fold/storage fault/store-gallery/Apple release checks remain separate. No physical-device FPS/thermal, real purchase/restore/ad impression or full100-course acceptance claimed."
 }
